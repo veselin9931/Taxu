@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taxu", "WebApplication1\Taxu.csproj", "{8A4EFCF0-A71E-4167-8230-81EE5A524C4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelApp", "TravelApp\TravelApp.csproj", "{20559AF1-49C7-4FC1-876F-1C15EF42E93B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8A4EFCF0-A71E-4167-8230-81EE5A524C4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A4EFCF0-A71E-4167-8230-81EE5A524C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A4EFCF0-A71E-4167-8230-81EE5A524C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A4EFCF0-A71E-4167-8230-81EE5A524C4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20559AF1-49C7-4FC1-876F-1C15EF42E93B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20559AF1-49C7-4FC1-876F-1C15EF42E93B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20559AF1-49C7-4FC1-876F-1C15EF42E93B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20559AF1-49C7-4FC1-876F-1C15EF42E93B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6477437E-2A41-4200-B8AA-D052C9F509C2}
+		SolutionGuid = {D2F1ED25-0C4A-44D2-AEA7-54BA5A5C83F8}
 	EndGlobalSection
 EndGlobal
