@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 
 @Component({
@@ -15,11 +15,17 @@ export class Tab1Page{
   getweatherFromService(): void {
     this.getWeather()
       .subscribe(success => {
-        console.log(this.data);
+        console.log(success);
       })
   }
 
  public getWeather() {
+  // const req = new HttpRequest("GET", 'https://localhost:44329/weatherforecast', {
+  //   reportProgress: true,
+  //   responseType: 'json'
+  // })
+  
+  // return this.http.request(req);
    return this.http.get(`https://localhost:44329/weatherforecast`)
       .pipe(map((data: any[]) => {
         console.log(data)
