@@ -1,0 +1,72 @@
+<ion-content padding class="background">
+  <div class="row">
+    <div class="col">
+      <div class="row mt-2">
+        <div class="col-1">
+          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
+
+        </div>
+        <div class="col-9">
+          <h5 (click)=goBack() class="back">Back</h5>
+        </div>
+
+      </div>
+      <ion-text class="text-center" color="warning">
+        <div class="col-md-5 mt-3">
+          <h2 class="text"> 
+            USE FOR
+          </h2>
+        </div>
+
+      </ion-text>
+    </div>
+  </div>
+  <div class="row text-center">
+    <div class="col-md-12 mt-3">
+      <ion-button (click)="loginPage()" color="warning">Travel</ion-button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <ion-text class="text-center" color="warning">
+        <div class="col mt-3">
+          <h2 class="text">OR</h2>
+        </div>
+
+      </ion-text>
+    </div>
+  </div>
+
+  <div class="row text-center">
+    <div class="col-md-12 mt-3">
+      <ion-button (click)="loginPage()" color="warning">Drive</ion-button>
+    </div>
+  </div>
+    
+  <div class="row">
+    <div class="col">
+      <div class="support">
+        <ion-text class="text-center" color="warning">
+          <h1 class="text">Support us by</h1>
+          <h2 class="text">following on</h2>
+        </ion-text>
+
+        <div class="col mt-5 text-center">
+          <div class="row">
+            <div class="col">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </div>
+            <div class="col">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </div>
+            <div class="col">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>
