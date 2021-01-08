@@ -16,4 +16,12 @@ export class RegisterPage implements OnInit {
     this.route.navigate(['/home']);
   }
 
+  registerPassenger(){
+    this.route.navigate(['account/register/passenger-register']);
+  }
+
+  registerDriver(){
+    this.route.navigate(['account/register/driver-register']);
+  }
+
 }

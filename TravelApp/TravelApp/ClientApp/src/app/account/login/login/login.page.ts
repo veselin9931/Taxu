@@ -16,5 +16,13 @@ export class LoginPage implements OnInit {
   goBack(){
     this.route.navigate(['/home']);
   }
+
+  loginPassenger(){
+    this.route.navigate(['account/login/passenger-login']);
+  }
+
+  loginDriver(){
+    this.route.navigate(['account/login/driver-login']);
+  }
   
 }
