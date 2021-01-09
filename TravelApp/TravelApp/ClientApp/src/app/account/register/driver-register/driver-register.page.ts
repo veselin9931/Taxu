@@ -9,20 +9,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./driver-register.page.scss'],
 })
 export class DriverRegisterPage implements OnInit {
+  isSubmitted = false;
+  form: FormGroup;
 
-  loginPayload: FormGroup;
   constructor(private route: Router,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.loginPayload = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       email: [''],
       password: ['']
     })
   }
 
-  driverLogin(){
-    console.log(this.loginPayload.value);
+  onSubmit(){
+    this.isSubmitted = true;
+    if (!this.form.valid) {
+      console.log('Please provide all the required values!')
+      return false;
+    } else {
+      console.log(this.form.value)
+    }
+    this.clearForm();
   }
 
   signIn(){
@@ -31,5 +39,12 @@ export class DriverRegisterPage implements OnInit {
 
   goBack(){
     this.route.navigate(['account/register']);
+  }
+
+  clearForm(){
+    this.form.reset({
+      'email': '',
+      'password' : ''
+    })
   }
 }

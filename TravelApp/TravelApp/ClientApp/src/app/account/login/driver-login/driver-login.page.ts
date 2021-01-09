@@ -8,27 +8,47 @@ import { Router } from '@angular/router';
   styleUrls: ['./driver-login.page.scss'],
 })
 export class DriverLoginPage implements OnInit {
-  
-  loginPayload: FormGroup;
+  isSubmitted = false;
+  form: FormGroup;
+
   constructor(private route: Router,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.loginPayload = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       email: [''],
       password: ['']
     })
   }
 
-  driverLogin(){
-    console.log(this.loginPayload.value);
+  onSubmit() {
+   this.isSubmitted = true;
+    if (!this.form.valid) {
+      console.log('Please provide all the required values!')
+      return false;
+    } else {
+      console.log(this.form.value)
+    }
+
+    this.clearForm();
   }
 
-  signUp(){
+  signUp() {
     this.route.navigate(['account/register/driver-register']);
   }
 
-  goBack(){
+  get errorControl() {
+    return this.form.controls;
+  }
+
+  goBack() {
     this.route.navigate(['account/login']);
+  }
+
+  clearForm(){
+    this.form.reset({
+      'email': '',
+      'password' : ''
+    })
   }
 }

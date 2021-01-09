@@ -4,5 +4,17 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TravelApp.Mappings\TravelApp.Mappings.csproj" />
+    <ProjectReference Include="..\TravelApp.Services\TravelApp.Services.csproj" />
+  </ItemGroup>
+
 
 </Project>
