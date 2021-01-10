@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TravelApp.Common.BaseModels;
 
 namespace TravelApp.Models
 {
-    class Driiver
+    public class Driiver : BaseDeletableModel<string>, IAuditInfo
     {
     }
 }

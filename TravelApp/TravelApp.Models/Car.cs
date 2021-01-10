@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TravelApp.Common.BaseModels;
 
 namespace TravelApp.Models
 {
-    class Car
+    public class Car : BaseDeletableModel<string>, IAuditInfo
     {
     }
 }

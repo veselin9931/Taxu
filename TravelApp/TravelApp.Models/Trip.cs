@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using TravelApp.Common.BaseModels;
 
 namespace TravelApp.Models
 {
-    class Trip
+    public class Trip : BaseDeletableModel<string>, IAuditInfo
     {
+
     }
 }
