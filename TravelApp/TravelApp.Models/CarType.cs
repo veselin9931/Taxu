@@ -5,7 +5,7 @@ using TravelApp.Common.BaseModels;
 
 namespace TravelApp.Models
 {
-    class CarType : BaseDeletableModel<int>
+    public class CarType : BaseDeletableModel<int>
     {
     }
 }
