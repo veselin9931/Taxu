@@ -7,5 +7,8 @@ namespace TravelApp.Models
 {
     public class CarType : BaseDeletableModel<int>
     {
+        public string Name { get; set; }
+
+        public decimal PriceCoeficentPerKilometer { get; set; }
     }
 }

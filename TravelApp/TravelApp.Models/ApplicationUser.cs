@@ -15,7 +15,7 @@ namespace TravelApp.Models
 
         public string LastLcation { get; set; }
 
-        public Driiver Driver { get; set; }
+        public Driver Driver { get; set; }
 
         public string DriverId { get; set; }
 

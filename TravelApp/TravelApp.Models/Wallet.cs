@@ -7,5 +7,8 @@ namespace TravelApp.Models
 {
     public class Wallet : BaseDeletableModel<string>, IAuditInfo
     {
+        public decimal Ammount { get; set; }
+
+        public bool Confirmation { get; set; }
     }
 }
