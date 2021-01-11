@@ -2,6 +2,7 @@
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.Extensions.Options;
+using TravelApp.Models;
 
 namespace TravelApp.Data
 {
@@ -14,8 +15,21 @@ namespace TravelApp.Data
 
         }
 
+        public DbSet<Car> Cars { get; set; }
 
-        
+        public DbSet<CarType> CarTypes { get; set; }
+
+        public DbSet<Driver> Drivers { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<Rating> Ratings { get; set; }
+
+        public DbSet<Reservation> Reservations { get; set; }
+
+        public DbSet<Trip> Trips { get; set; }
+
+        public DbSet<Wallet> Wallets { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
