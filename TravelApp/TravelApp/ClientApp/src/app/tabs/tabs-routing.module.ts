@@ -12,16 +12,24 @@ const routes: Routes = [
         loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
       },
       {
-        path: 'tab1',
-        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+        path: 'home-logged',
+        loadChildren: () => import('../home-logged/home-logged.module').then(m => m.HomeLoggedPageModule)
       },
       {
-        path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+        path: 'account/login',
+        loadChildren: () => import('../account/login/login.module').then(m => m.LoginPageModule)
       },
       {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        path: 'account/register',
+        loadChildren: () => import('../account/register/register.module').then(m => m.RegisterPageModule)
+      },
+      {
+        path: 'travelling',
+        loadChildren: () => import('../travelling/travelling.module').then(m => m.TravellingPageModule)
+      },
+      {
+        path: 'driving',
+        loadChildren: () => import('../driving/driving.module').then(m => m.DrivingPageModule)
       },
       {
         path: '',
