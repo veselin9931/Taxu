@@ -15,6 +15,13 @@ export class DriverRegisterPage implements OnInit {
   constructor(private route: Router,
     private formBuilder: FormBuilder) { }
 
+//normal user register
+//FirstName
+//LastName
+//Email
+//Password
+
+
   ngOnInit() {
     this.form = this.formBuilder.group({
       email: [''],
