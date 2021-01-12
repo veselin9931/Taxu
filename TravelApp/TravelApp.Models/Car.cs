@@ -8,6 +8,11 @@ namespace TravelApp.Models
 {
     public class Car : BaseDeletableModel<string>, IAuditInfo
     {
+        public Car()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         [Required]
         public string Model { get; set; }
 
@@ -15,7 +20,7 @@ namespace TravelApp.Models
         public string TehnicalReview { get; set; }
 
         [Required]
-        public string RegisterNumber { get; set; }
+        public string RegistrationNumber { get; set; }
 
         [Required]
         public string Color { get; set; }

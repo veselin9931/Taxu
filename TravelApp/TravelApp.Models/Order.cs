@@ -8,6 +8,11 @@ namespace TravelApp.Models
 {
     public class Order : BaseDeletableModel<string>, IAuditInfo
     {
+        public Order()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         [Required]
         public string ReservationId { get; set; }
 

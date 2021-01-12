@@ -1,11 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using TravelApp.Common.BaseModels;
-using TravelApp.Data;
 
 namespace TravelApp.Models
 {
     public class Rating : BaseDeletableModel<string>
     {
+        public Rating()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         [Required]
         public string DriverId { get; set; }
 

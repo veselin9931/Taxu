@@ -1,10 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using TravelApp.Common.BaseModels;
 
 namespace TravelApp.Models
 {
     public class Trip : BaseDeletableModel<string>, IAuditInfo
     {
+        public Trip()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         [Required]
         public string CurrentLocation { get; set; }
 

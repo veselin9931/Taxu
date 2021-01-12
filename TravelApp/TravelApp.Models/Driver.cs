@@ -8,6 +8,11 @@ namespace TravelApp.Models
 {
     public class Driver : BaseDeletableModel<string>, IAuditInfo
     {
+        public Driver()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         [Required]
         public string DriverLicanse { get; set; }
 

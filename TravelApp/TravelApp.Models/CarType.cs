@@ -6,11 +6,16 @@ using TravelApp.Common.BaseModels;
 
 namespace TravelApp.Models
 {
-    public class CarType : BaseDeletableModel<int>
+    public class CarType : BaseDeletableModel<string>
     {
+        public CarType()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         [Required]
         public string Name { get; set; }
-
+         
         [Required]
         public decimal PriceCoeficentPerKilometer { get; set; }
     }
