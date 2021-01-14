@@ -1,22 +1,21 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace TravelApp.Models
-{
+using global::TravelApp.Common.BaseModels;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using TravelApp.Common.BaseModels;
 
 namespace TravelApp.Models
 {
-    public class ApplicationRole : BaseDeletableModel<string>
+    namespace TravelApp.Models
     {
-        public ApplicationRole()
+        public class ApplicationRole : BaseDeletableModel<string>
         {
-            this.Id = Guid.NewGuid().ToString();
+            public ApplicationRole()
+            {
+                this.Id = Guid.NewGuid().ToString();
+            }
+
+            public string RoleName { get; set; }
+
+            public DateTime? DeletedOn { get; set; }
         }
-
-        public string RoleName { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
     }
 }

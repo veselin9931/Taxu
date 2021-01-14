@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using IdentityServer4.EntityFramework.Options;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.Extensions.Options;
 using TravelApp.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace TravelApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Models.ApplicationRole, string>
+    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
         public ApplicationDbContext(
             DbContextOptions options,
-            IOptions<OperationalStoreOptions> operationalStoreOptions)
+            IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
 
         }
