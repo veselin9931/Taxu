@@ -13,10 +13,10 @@ export class HomePage implements OnInit {
   }
 
   loginPage(){
-    this.route.navigate(['account/login']);
+    this.route.navigate(['tabs/account/login']);
   }
 
   registerPage(){
-    this.route.navigate(['account/register']);
+    this.route.navigate(['tabs/account/register']);
   }
 }

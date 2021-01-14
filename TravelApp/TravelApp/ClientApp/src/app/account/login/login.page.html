@@ -1,0 +1,48 @@
+<ion-content padding class="background">
+  <div class="row">
+    <div class="col">
+      <div class="row mt-2">
+        <div class="col-1">
+          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
+
+        </div>
+        <div class="col-9">
+          <h5 (click)=goBack() class="back">Back</h5>
+        </div>
+
+      </div>
+      <ion-text class="text-center" color="warning">
+        <div class="col-md-5 mt-3">
+          <h2 class="text">
+            LOGIN
+          </h2>
+        </div>
+
+        <div class="row text-center">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="col-md-6">
+            <div class="form-group col mt-5">
+                <ion-input formControlName="email" type="text" class="form-control" placeholder="Email"></ion-input>
+            </div>
+            
+            <div class="form-group col mt-3">
+              <ion-input formControlName="password" type="password" class="form-control" placeholder="Password"></ion-input>
+            </div>
+
+            <div class="col-md-12 mt-3">
+              <ion-button type="submit" color="warning">Login</ion-button>
+            </div>
+          </form>
+
+          <div class="col-md-6 mt-3">
+            <p>Dont have an account?</p>
+            <ion-button (click)="signUp()" type="submit" color="danger">Sign up</ion-button>
+
+          </div>
+        </div>
+
+      </ion-text>
+    </div>
+  </div>
+
+
+</ion-content>

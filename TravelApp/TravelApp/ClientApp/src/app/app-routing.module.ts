@@ -12,28 +12,28 @@ const routes: Routes = [
   },
   {
     path: 'account/login',
-    loadChildren: () => import('./account/login/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./account/login/login.module').then( m => m.LoginPageModule)
   },
   {
     path: 'account/register',
-    loadChildren: () => import('./account/register/register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./account/register/register.module').then( m => m.RegisterPageModule)
+  },  {
+    path: 'home-logged',
+    loadChildren: () => import('./home-logged/home-logged.module').then( m => m.HomeLoggedPageModule)
   },
   {
-    path: 'account/login/passenger-login',
-    loadChildren: () => import('./account/login/passenger-login/passenger-login.module').then( m => m.PassengerLoginPageModule)
+    path: 'travelling',
+    loadChildren: () => import('./travelling/travelling.module').then( m => m.TravellingPageModule)
   },
   {
-    path: 'account/login/driver-login',
-    loadChildren: () => import('./account/login/driver-login/driver-login.module').then( m => m.DriverLoginPageModule)
+    path: 'driving',
+    loadChildren: () => import('./driving/driving.module').then( m => m.DrivingPageModule)
   },
   {
-    path: 'account/register/passenger-register',
-    loadChildren: () => import('./account/register/passenger-register/passenger-register.module').then( m => m.PassengerRegisterPageModule)
+    path: 'account-verifying',
+    loadChildren: () => import('./account-verifying/account-verifying.module').then( m => m.AccountVerifyingPageModule)
   },
-  {
-    path: 'account/register/driver-register',
-    loadChildren: () => import('./account/register/driver-register/driver-register.module').then( m => m.DriverRegisterPageModule)
-  }
+
 ];
 @NgModule({
   imports: [
