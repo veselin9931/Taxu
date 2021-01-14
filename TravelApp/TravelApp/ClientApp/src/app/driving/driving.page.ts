@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./driving.page.scss'],
 })
 export class DrivingPage implements OnInit {
-  verifiedAccount = false;
+  verifiedAccount = true;
   isSubmitted = false;
   form: FormGroup;
   loading = false;
