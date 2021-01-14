@@ -50,7 +50,8 @@ export class TravellingPage implements OnInit {
   clearForm(){
     this.form.reset({
       'location': '',
-      'destination' : ''
+      'destination' : '',
+      'increaseAmount': ''
     })
   }
 

@@ -1,9 +1,63 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>driving</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content padding class="background">
+  <div class="row">
+    <div class="col">
+      <div class="row mt-2">
+        <div class="col-1">
+          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
+        </div>
+        <div class="col-9">
+          <h5 (click)=goBack() class="back">Back</h5>
+        </div>
+      </div>
 
-<ion-content>
+      <div *ngIf="verifiedAccount == false" class="row">
+        <div class="col text-center">
+          <ion-text class="centered" color="warning">
+            <h2 class="text">Become a driver</h2>
+            <hr>
+            <h5>Please fill the form below, so we can verify your account</h5>
+          </ion-text>
+
+          <form [formGroup]="form"  novalidate class="col-md-6">
+            <div class="form-group col mt-5">
+              <ion-button color="warning" expand="block" (click)="uploadLicense()">
+                <span class="ion-text-left">Upload driving license</span></ion-button>
+            </div>
+
+            <div class="form-group col mt-5">
+              <ion-button color="warning" expand="block" (click)="uploadCarTicket()">
+                <span class="ion-text-left">Upload car ticket</span></ion-button>
+            </div>
+
+            <div class="form-group col mt-5">
+              <ion-button color="warning" expand="block" (click)="uploadCarPic()">
+                <span class="ion-text-left">Upload car picture</span></ion-button>
+            </div>
+            
+
+            <div class="col-md-12 mt-3">
+              <ion-button (click)="onSubmit()" type="submit" color="warning">Submit</ion-button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div *ngIf="verifiedAccount == true" class="row">
+        <div class="col text-center">
+          <ion-text class="centered" color="warning">
+            <h2 class="text">Driving</h2>
+            <hr>
+            <h5>Coming soon...</h5>
+          </ion-text>
+
+          
+
+        </div>
+        
+      </div>
+
+    </div>
+  </div>
+
 
 </ion-content>

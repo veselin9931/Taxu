@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterPage implements OnInit {
   isSubmitted = false;
+  loading = false;
   form: FormGroup;
 
   constructor(private route: Router,

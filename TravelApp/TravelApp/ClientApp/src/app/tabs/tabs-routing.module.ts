@@ -32,6 +32,10 @@ const routes: Routes = [
         loadChildren: () => import('../driving/driving.module').then(m => m.DrivingPageModule)
       },
       {
+        path: 'verifying',
+        loadChildren: () => import('../account-verifying/account-verifying.module').then(m => m.AccountVerifyingPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

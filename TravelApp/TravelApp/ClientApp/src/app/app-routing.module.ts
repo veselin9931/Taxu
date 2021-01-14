@@ -29,6 +29,10 @@ const routes: Routes = [
     path: 'driving',
     loadChildren: () => import('./driving/driving.module').then( m => m.DrivingPageModule)
   },
+  {
+    path: 'account-verifying',
+    loadChildren: () => import('./account-verifying/account-verifying.module').then( m => m.AccountVerifyingPageModule)
+  },
 
 ];
 @NgModule({
