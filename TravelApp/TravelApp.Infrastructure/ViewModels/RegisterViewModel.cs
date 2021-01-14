@@ -9,10 +9,14 @@ namespace TravelApp.Infrastructure.ViewModels
         public string LastName { get; set; }
 
         [Required]
+        [Phone]
+        public string Phone { get; set; }
+
+        [Required]
         [EmailAddress]
         public string Username { get; set; }
 
         [Required]
         public string Password { get; set; }
     }
-}
+} 

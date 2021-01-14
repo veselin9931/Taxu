@@ -24,7 +24,6 @@ namespace TravelApp.Models
         [Phone]
         public string Phone { get; set; }
 
-        [Required]
         public string CurrentLocation { get; set; }
 
         public string LastLocation { get; set; }

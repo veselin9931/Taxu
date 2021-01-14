@@ -60,7 +60,10 @@ namespace TravelApp.Controllers
 
             var user = new ApplicationUser()
             {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
                 Email = model.Username,
+                Phone = model.Phone,
                 UserName = model.Username,
             };
 
