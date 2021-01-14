@@ -1,14 +1,12 @@
-﻿
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
 using TravelApp.Common.BaseModels;
-using TravelApp.Models;
 
 namespace TravelApp.Models
 {
     public class ApplicationUser : IdentityUser, IDeletableEntity
-    { 
+    {
 
         public string PasswordSalt { get; set; }
 
@@ -35,9 +33,5 @@ namespace TravelApp.Models
 
         public string DriverId { get; set; }
         
-        public ApplicationRole ApplicationRole { get; set; }
-
-        public string ApplicationRoleName { get; set; }
-
     }
 }
