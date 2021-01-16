@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AccountService, AlertService } from 'src/_services';
@@ -21,8 +21,8 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      username: [''],
-      password: ['']
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     })
   }
 

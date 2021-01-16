@@ -29,6 +29,8 @@ export class RegisterPage implements OnInit {
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
       phone: ['', Validators.required]
+    },{
+      validators: this.ConfirmedValidator('password', 'confirmPassword')
     })
   }
 
@@ -38,9 +40,9 @@ export class RegisterPage implements OnInit {
     this.submitted = true;
 
     if (!this.form.valid) {
-      console.log('Please provide all the required values!')
       return;
     } 
+    
 
     this.loading = true;
 
@@ -65,5 +67,20 @@ export class RegisterPage implements OnInit {
 
   goBack(){
     this.route.navigate(['tabs/home']);
+  }
+
+  ConfirmedValidator(controlName: string, matchingControlName: string){
+    return (formGroup: FormGroup) => {
+        const control = formGroup.controls[controlName];
+        const matchingControl = formGroup.controls[matchingControlName];
+        if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+            return;
+        }
+        if (control.value !== matchingControl.value) {
+            matchingControl.setErrors({ confirmedValidator: true });
+        } else {
+            matchingControl.setErrors(null);
+        }
+    }
   }
 }
