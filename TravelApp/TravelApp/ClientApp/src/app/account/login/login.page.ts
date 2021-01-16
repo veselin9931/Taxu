@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { AccountService, AlertService } from 'src/_services';
 
 @Component({
   selector: 'app-login',
@@ -8,44 +10,70 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  isSubmitted = false;
+  submitted = false;
   form: FormGroup;
+  loading = false;
 
   constructor(private route: Router,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private alertService: AlertService,
+    private accountService: AccountService) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      email: [''],
+      username: [''],
       password: ['']
     })
   }
 
-  onSubmit(){
-    this.isSubmitted = true;
-    if (!this.form.valid) {
-      console.log('Please provide all the required values!')
-      return false;
-    } else {
-      console.log(this.form.value)
-      this.route.navigate(['tabs/home-logged']);
+  get f() { return this.form.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // reset alerts on submit
+    this.alertService.clear();
+
+    // stop here if form is invalid
+    if (this.form.invalid) {
+      return;
     }
-    this.clearForm();
+
+    this.loading = true;
+
+    this.accountService.login(this.f.username.value, this.f.password.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.clearForm();
+          console.log(data);
+          this.route.navigate(['tabs/home']);
+
+        },
+        error => {
+          this.alertService.error(error);
+          this.loading = false;
+        });
+
   }
 
-  signUp(){
+  signUp() {
     this.route.navigate(['tabs/account/register']);
   }
-  
 
-  goBack(){
+
+  goBack() {
     this.route.navigate(['tabs/home']);
   }
 
-  clearForm(){
+  ionViewDidLeave() {
+      window.location.reload();
+  }
+
+  clearForm() {
     this.form.reset({
-      'email': '',
-      'password' : ''
+      'username': '',
+      'password': ''
     })
   }
 }

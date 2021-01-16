@@ -44,7 +44,7 @@ export class TravellingPage implements OnInit {
   }
 
   goBack(){
-    this.route.navigate(['tabs/home-logged']);
+    this.route.navigate(['tabs/home']);
   }
 
   clearForm(){

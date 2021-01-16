@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./driving.page.scss'],
 })
 export class DrivingPage implements OnInit {
-  verifiedAccount = true;
+  verifiedAccount = false;
   isSubmitted = false;
   form: FormGroup;
   loading = false;
@@ -24,7 +24,7 @@ export class DrivingPage implements OnInit {
   }
 
   goBack(){
-    this.route.navigate(['tabs/home-logged']);
+    this.route.navigate(['tabs/home']);
   }
 
   onSubmit(){
