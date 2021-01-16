@@ -18,8 +18,4 @@
     <ProjectReference Include="..\TravelApp.Models\TravelApp.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="InputModels\" />
-  </ItemGroup>
-
 </Project>

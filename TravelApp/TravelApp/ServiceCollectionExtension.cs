@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TravelApp.Common.Repositories;
 using TravelApp.Data.Repositories;
 using TravelApp.Services.Account;
+using TravelApp.Services.OrderService;
 
 namespace TravelApp
 {
@@ -15,6 +16,8 @@ namespace TravelApp
         public static IServiceCollection RegisterCustomServices(this IServiceCollection services)
         {
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IOrderService, OrderService>();
+
             services.AddSingleton<IHttpContextAccessor,
             HttpContextAccessor>();
 
