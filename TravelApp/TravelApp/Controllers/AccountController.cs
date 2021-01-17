@@ -105,6 +105,9 @@ namespace TravelApp.Controllers
             return Ok(new
             {
                 Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Phone = user.Phone,
                 Username = user.UserName,
                 Token = tokenString
             });

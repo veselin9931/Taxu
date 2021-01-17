@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TravelApp.Infrastructure.InputModels.OrderInput;
+using TravelApp.Models;
+using TravelApp.Services.Account;
 using TravelApp.Services.OrderService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,10 +19,12 @@ namespace TravelApp.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService orderService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, UserManager<ApplicationUser> userManager)
         {
             this.orderService = orderService;
+            this.userManager = userManager;
         }
 
         // GET: api/<OrderController>
@@ -70,5 +76,6 @@ namespace TravelApp.Controllers
         public void Delete(int id)
         {
         }
+
     }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AccountService, AlertService } from 'src/_services';
+import { OrderService } from 'src/_services/order/order.service';
 
 @Component({
   selector: 'app-travelling',
@@ -9,35 +11,44 @@ import { Router } from '@angular/router';
 })
 export class TravellingPage implements OnInit {
   isSubmitted = false;
+  isCompleted = false;
   form: FormGroup;
-  
   constructor(private formBuilder: FormBuilder,
-            private route: Router) { }
+            private route: Router,
+            private orderService: OrderService,
+            private alertService: AlertService,
+            private accountService: AccountService) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      location: [''],
-      destination: [''],
-      increaseAmount: ['']
+      applicationUserId : [''],
+      location: ['', Validators.required],
+      destination: ['', Validators.required],
+      increasePrice: [0]
     })
   }
 
-
+  get f() { return this.form.controls; }
 
   onSubmit(){
+    this.form.value.increasePrice = (+this.form.value.increasePrice);
+    let userId = this.accountService.userValue.id;
+    this.form.value.applicationUserId = userId;
+
     this.isSubmitted = true;
     if (!this.form.valid) {
-      console.log('Please provide all the required values!')
       return false;
     } else {
-      console.log(this.form.value)
+      this.orderService.createOrder(this.form.value)
+      .subscribe(() => {
+        this.alertService.success('You have created an order.', { autoClose: true });
+        this.isCompleted = true;
+      })
     }
-    this.clearForm();
   }
 
   cancelOrder(){
-    this.isSubmitted = false;
-
+    this.isCompleted = false;
     console.log('Canceled order');
 
     this.clearForm();

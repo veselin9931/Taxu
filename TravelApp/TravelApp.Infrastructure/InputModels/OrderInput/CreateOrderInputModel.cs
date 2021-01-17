@@ -9,6 +9,8 @@ namespace TravelApp.Infrastructure.InputModels.OrderInput
 {
     public class CreateOrderInputModel : IMapFrom<Order>
     {
+        public string ApplicationUserId { get; set; }
+
         [Required]
         public string Location { get; set; }
 

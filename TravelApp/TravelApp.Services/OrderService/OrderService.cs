@@ -23,13 +23,12 @@ namespace TravelApp.Services.OrderService
 
         public async Task<string> CreateOrderAsync(CreateOrderInputModel input)
         {
-            var userId = this.httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (input != null)
             {
                 var order = new Order()
                 {
-                    ApplicationUserId = userId,
+                    ApplicationUserId = input.ApplicationUserId,
                     Location = input.Location,
                     Destination = input.Destination,
                     IncreasePrice = input.IncreasePrice,
