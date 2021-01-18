@@ -232,31 +232,6 @@ namespace TravelApp.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("TravelApp.Models.ApplicationRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RoleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ApplicationRole");
-                });
-
             modelBuilder.Entity("TravelApp.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -265,18 +240,11 @@ namespace TravelApp.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("ApplicationRoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ApplicationRoleName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CurrentLocation")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedOn")
@@ -347,8 +315,6 @@ namespace TravelApp.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationRoleId");
 
                     b.HasIndex("DriverId");
 
@@ -449,10 +415,7 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CarId1")
+                    b.Property<string>("CarId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("Comission")
@@ -487,10 +450,6 @@ namespace TravelApp.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Referal")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -499,12 +458,11 @@ namespace TravelApp.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("WalletId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarId1");
+                    b.HasIndex("CarId");
 
                     b.HasIndex("WalletId");
 
@@ -516,8 +474,8 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<decimal>("Comission")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -525,22 +483,32 @@ namespace TravelApp.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Destination")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("IncreasePrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("ReservationId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReservationId");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Orders");
                 });
@@ -734,15 +702,9 @@ namespace TravelApp.Data.Migrations
 
             modelBuilder.Entity("TravelApp.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("TravelApp.Models.ApplicationRole", "ApplicationRole")
-                        .WithMany()
-                        .HasForeignKey("ApplicationRoleId");
-
                     b.HasOne("TravelApp.Models.Driver", "Driver")
                         .WithMany()
                         .HasForeignKey("DriverId");
-
-                    b.Navigation("ApplicationRole");
 
                     b.Navigation("Driver");
                 });
@@ -760,13 +722,11 @@ namespace TravelApp.Data.Migrations
                 {
                     b.HasOne("TravelApp.Models.Car", "Car")
                         .WithMany()
-                        .HasForeignKey("CarId1");
+                        .HasForeignKey("CarId");
 
                     b.HasOne("TravelApp.Models.Wallet", "Wallet")
                         .WithMany()
-                        .HasForeignKey("WalletId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WalletId");
 
                     b.Navigation("Car");
 
@@ -775,13 +735,11 @@ namespace TravelApp.Data.Migrations
 
             modelBuilder.Entity("TravelApp.Models.Order", b =>
                 {
-                    b.HasOne("TravelApp.Models.Reservation", "Reservation")
+                    b.HasOne("TravelApp.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationUserId");
 
-                    b.Navigation("Reservation");
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("TravelApp.Models.Rating", b =>

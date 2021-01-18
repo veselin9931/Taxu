@@ -43,17 +43,43 @@
       </div>
 
       <div *ngIf="verifiedAccount == true" class="row">
-        <div class="col text-center">
+        <div class="col-md-12 text-center">
           <ion-text class="centered" color="warning">
             <h2 class="text">Driving</h2>
             <hr>
-            <h5>Coming soon...</h5>
           </ion-text>
-
-          
-
         </div>
         
+        <div class="col-md-10">
+            <div *ngFor="let order of (orders$ | async)" class="list-group mt-2">
+              <a class="text list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">Order</h5>
+                  <small>{{order.createdOn}}</small>
+                </div>
+                <p class="mb-1">Location: {{order.location}}</p>
+                <p class="mb-1">Destination: {{order.destination}}</p>
+                
+                <div class="row">
+                  <div class="col">
+                    <div class="d-flex w-100 justify-content-between">
+                      <small>Distance: 25 km (coming soon...)</small>
+                      <ion-button (click)="acceptOrder()" type="submit" color="warning">Accept</ion-button>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <small>Total cost: {{order.totalPrice}}$</small>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+              <ion-infinite-scroll-content
+                loadingSpinner="bubbles"
+                loadingText="Loading more data...">
+              </ion-infinite-scroll-content>
+            </ion-infinite-scroll> -->
+          </div>
       </div>
 
     </div>

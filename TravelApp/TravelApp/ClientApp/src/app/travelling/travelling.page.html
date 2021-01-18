@@ -11,22 +11,27 @@
         </div>
       </div>
       <ion-text>
-
         <div class="row">
           <form [formGroup]="form" novalidate class="col">
             <div class="form-group col mt-5">
               <ion-label><i>Choose your starting point.</i></ion-label>
-              <ion-input formControlName="location" type="text" class="form-control" placeholder=" From"></ion-input>
+              <ion-input formControlName="location" type="text" class="form-control" placeholder=" From" [ngClass]="{ 'is-invalid': isSubmitted && f.location.errors }"></ion-input>
+              <div *ngIf="isSubmitted && f.location.errors" class="invalid-feedback">
+                <div *ngIf="f.location.errors.required">The field is required!</div>
+              </div>
             </div>
 
             <div class="form-group col mt-3">
               <ion-label><i>Choose your endpoint.</i></ion-label>
-              <ion-input formControlName="destination" type="text" class="form-control" placeholder=" To"></ion-input>
+              <ion-input formControlName="destination" type="text" class="form-control" placeholder=" To" [ngClass]="{ 'is-invalid': isSubmitted && f.destination.errors }"></ion-input>
+              <div *ngIf="isSubmitted && f.destination.errors" class="invalid-feedback">
+                <div *ngIf="f.destination.errors.required">The field is required!</div>
+              </div>
             </div>
 
             <div class="form-group col mt-3">
               <ion-label><i>Increase amount</i></ion-label>
-              <ion-select formControlName="increaseAmount" placeholder="Select amount you want to increase">
+              <ion-select formControlName="increasePrice" placeholder="Select amount you want to increase">
                 <ion-select-option value="1">1</ion-select-option>
                 <ion-select-option value="2">2</ion-select-option>
                 <ion-select-option value="3">3</ion-select-option>
@@ -44,16 +49,16 @@
             <div class="col-md-12">
               <div class="row">
                 <div class="col mt-3">
-                  <ion-button [disabled]="isSubmitted == true" (click)="onSubmit()" type="submit" color="warning">Find
+                  <ion-button [disabled]="isCompleted == true" type="submit" (click)="onSubmit()" color="warning">Find
                   </ion-button>
                 </div>
 
                 <div class="col ml-2 mt-3">
-                  <ion-button hidden (click)="onSubmit()" type="submit" color="warning">Find</ion-button>
+                  <ion-button hidden color="warning">Find</ion-button>
                 </div>
 
                 <div class="col mt-3 ml-2">
-                  <ion-button [disabled]="isSubmitted == false" (click)="cancelOrder()" type="submit" color="danger">
+                  <ion-button [disabled]="isCompleted == false" (click)="cancelOrder()" type="submit" color="danger">
                     Cancel</ion-button>
                 </div>
               </div>
@@ -61,7 +66,7 @@
             </div>
 
           </form>
-          <div *ngIf="isSubmitted == true" class="blink_me col-md-12 mt-3 text-center">
+          <div *ngIf="isCompleted == true" class="blink_me col-md-12 mt-3 text-center">
             <ion-button type="submit" color="warning">Looking for a driver</ion-button>
           </div>
 

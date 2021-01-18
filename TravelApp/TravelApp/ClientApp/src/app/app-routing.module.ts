@@ -17,9 +17,6 @@ const routes: Routes = [
   {
     path: 'account/register',
     loadChildren: () => import('./account/register/register.module').then( m => m.RegisterPageModule)
-  },  {
-    path: 'home-logged',
-    loadChildren: () => import('./home-logged/home-logged.module').then( m => m.HomeLoggedPageModule)
   },
   {
     path: 'travelling',

@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TravelApp.Data;
 using TravelApp.Models;
+using TravelApp.Services.Account;
 
 namespace TravelApp
 {
@@ -64,9 +65,16 @@ namespace TravelApp
 
             });
 
+
             services.AddCors();
 
             services.AddControllers();
+
+            services.RegisterRepositoryServices();
+
+            services.RegisterCustomServices();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

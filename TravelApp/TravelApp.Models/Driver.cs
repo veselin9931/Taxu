@@ -22,21 +22,11 @@ namespace TravelApp.Models
         [Required]
         public bool DocumentConfirmatiom { get; set; }
 
-        [Required]
-        [Phone]
-        public string Phone { get; set; }
-
-        [Required]
-        public int CarId { get; set; }
-
         public Car Car { get; set; }
 
         public string LastAdress { get; set; }
 
         public string CurrentLocation { get; set; }
-        
-        [Required]
-        public string WalletId { get; set; }
 
         public Wallet Wallet { get; set; }
 

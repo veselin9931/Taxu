@@ -1,0 +1,58 @@
+io/ionic/keyboard/CDVIonicKeyboard.java
+ io.ionic.keyboard.CDVIonicKeyboard
+ io.ionic.keyboard.CDVIonicKeyboard$1
+ io.ionic.keyboard.CDVIonicKeyboard$2
+ io.ionic.keyboard.CDVIonicKeyboard$3
+ io.ionic.keyboard.CDVIonicKeyboard$3$1
+org/apache/cordova/device/Device.java
+ org.apache.cordova.device.Device
+org/apache/cordova/whitelist/WhitelistPlugin.java
+ org.apache.cordova.whitelist.WhitelistPlugin
+ org.apache.cordova.whitelist.WhitelistPlugin$1
+ org.apache.cordova.whitelist.WhitelistPlugin$CustomConfigXmlParser
+com/ionicframework/cordova/webview/AndroidProtocolHandler.java
+ com.ionicframework.cordova.webview.AndroidProtocolHandler
+org/apache/cordova/splashscreen/SplashScreen.java
+ org.apache.cordova.splashscreen.SplashScreen
+ org.apache.cordova.splashscreen.SplashScreen$1
+ org.apache.cordova.splashscreen.SplashScreen$2
+ org.apache.cordova.splashscreen.SplashScreen$3
+ org.apache.cordova.splashscreen.SplashScreen$4
+ org.apache.cordova.splashscreen.SplashScreen$4$1
+ org.apache.cordova.splashscreen.SplashScreen$5
+ org.apache.cordova.splashscreen.SplashScreen$5$1
+ org.apache.cordova.splashscreen.SplashScreen$6
+ org.apache.cordova.splashscreen.SplashScreen$6$1
+ org.apache.cordova.splashscreen.SplashScreen$7
+org/apache/cordova/statusbar/StatusBar.java
+ org.apache.cordova.statusbar.StatusBar
+ org.apache.cordova.statusbar.StatusBar$1
+ org.apache.cordova.statusbar.StatusBar$2
+ org.apache.cordova.statusbar.StatusBar$3
+ org.apache.cordova.statusbar.StatusBar$4
+ org.apache.cordova.statusbar.StatusBar$5
+ org.apache.cordova.statusbar.StatusBar$6
+ org.apache.cordova.statusbar.StatusBar$7
+ org.apache.cordova.statusbar.StatusBar$8
+ org.apache.cordova.statusbar.StatusBar$9
+io/ionic/starter/BuildConfig.java
+ io.ionic.starter.BuildConfig
+io/ionic/starter/MainActivity.java
+ io.ionic.starter.MainActivity
+com/ionicframework/cordova/webview/WebViewLocalServer.java
+ com.ionicframework.cordova.webview.WebViewLocalServer
+ com.ionicframework.cordova.webview.WebViewLocalServer$1
+ com.ionicframework.cordova.webview.WebViewLocalServer$2
+ com.ionicframework.cordova.webview.WebViewLocalServer$AssetHostingDetails
+ com.ionicframework.cordova.webview.WebViewLocalServer$LazyInputStream
+ com.ionicframework.cordova.webview.WebViewLocalServer$LollipopLazyInputStream
+ com.ionicframework.cordova.webview.WebViewLocalServer$PathHandler
+com/ionicframework/cordova/webview/UriMatcher.java
+ com.ionicframework.cordova.webview.UriMatcher
+com/ionicframework/cordova/webview/IonicWebView.java
+ com.ionicframework.cordova.webview.IonicWebView
+ com.ionicframework.cordova.webview.IonicWebView$1
+com/ionicframework/cordova/webview/IonicWebViewEngine.java
+ com.ionicframework.cordova.webview.IonicWebViewEngine
+ com.ionicframework.cordova.webview.IonicWebViewEngine$1
+ com.ionicframework.cordova.webview.IonicWebViewEngine$ServerClient

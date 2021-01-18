@@ -60,7 +60,10 @@ namespace TravelApp.Controllers
 
             var user = new ApplicationUser()
             {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
                 Email = model.Username,
+                Phone = model.Phone,
                 UserName = model.Username,
             };
 
@@ -102,6 +105,9 @@ namespace TravelApp.Controllers
             return Ok(new
             {
                 Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Phone = user.Phone,
                 Username = user.UserName,
                 Token = tokenString
             });

@@ -6,23 +6,41 @@ using TravelApp.Common.BaseModels;
 
 namespace TravelApp.Models
 {
-    public class Order : BaseDeletableModel<string>, IAuditInfo
+    public class Order : BaseDeletableModel<string>
     {
         public Order()
         {
             this.Id = Guid.NewGuid().ToString();
         }
 
-        [Required]
-        public string ReservationId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
-        public Reservation Reservation { get; set; }
+        public string ApplicationUserId { get; set; }
 
         [Required]
-        public decimal Comission { get; set; }
+        public string Location { get; set; }
+
+        [Required]
+        public string Destination { get; set; }
+
+        public decimal IncreasePrice { get; set; }
+
 
         [Required]
         [Range(typeof(decimal), "0", "999999999999999999")]
         public decimal TotalPrice { get; set; }
+
+
+        public bool IsAccepted { get; set; }
+
+
+        //[Required]
+        //public string ReservationId { get; set; }
+
+        //public Reservation Reservation { get; set; }
+
+        //[Required]
+        //public decimal Comission { get; set; }
+
     }
 }
