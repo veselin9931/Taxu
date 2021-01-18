@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using TravelApp.Common.Repositories;
 using TravelApp.Infrastructure.InputModels.OrderInput;
+using TravelApp.Infrastructure.ViewModels;
 using TravelApp.Models;
 using TravelApp.Services.Account;
 using TravelApp.Services.OrderService;
@@ -19,19 +21,27 @@ namespace TravelApp.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService orderService;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IDeletableEntityRepository<Order> orderRepository;
 
-        public OrderController(IOrderService orderService, UserManager<ApplicationUser> userManager)
+        public OrderController(IOrderService orderService, IDeletableEntityRepository<Order> orderRepository)
         {
             this.orderService = orderService;
-            this.userManager = userManager;
+            this.orderRepository = orderRepository;
         }
 
         // GET: api/<OrderController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+
+            //var orders = this.orderRepository.All();
+            var orders = await this.orderService.GetAllOrdersAsync();
+            if (orders == null)
+            {
+                return this.NoContent();
+            }
+
+            return this.Ok(orders);
         }
 
         // GET api/<OrderController>/5

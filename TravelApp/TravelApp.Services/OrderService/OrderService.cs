@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using TravelApp.Common.Repositories;
 using TravelApp.Infrastructure.InputModels.OrderInput;
+using TravelApp.Mappings;
 using TravelApp.Models;
 
 namespace TravelApp.Services.OrderService
@@ -13,12 +14,10 @@ namespace TravelApp.Services.OrderService
     public class OrderService : IOrderService
     {
         private readonly IDeletableEntityRepository<Order> orderRepository;
-        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public OrderService(IDeletableEntityRepository<Order> orderRepository, IHttpContextAccessor httpContextAccessor)
+        public OrderService(IDeletableEntityRepository<Order> orderRepository)
         {
             this.orderRepository = orderRepository;
-            this.httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<string> CreateOrderAsync(CreateOrderInputModel input)
@@ -46,5 +45,20 @@ namespace TravelApp.Services.OrderService
 
             throw new InvalidOperationException("Creating order failed!");
         }
+
+        //public async Task<IEnumerable<TViewModel>> GetAllOrdersAsync<TViewModel>()
+        //    => await this.orderRepository
+        //    .All()
+        //    .Where(x => x.IsAccepted == false && x.IsDeleted == false)
+        //    .OrderBy(x => x.CreatedOn)
+        //    .To<TViewModel>()
+        //    .ToListAsync();
+
+        public async Task<IList<Order>> GetAllOrdersAsync()
+         => await this.orderRepository
+            .All()
+            .Where(x => x.IsAccepted == false && x.IsDeleted == false)
+            .OrderBy(x => x.CreatedOn)
+            .ToListAsync();
     }
 }
