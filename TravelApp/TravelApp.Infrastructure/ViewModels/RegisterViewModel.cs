@@ -18,5 +18,8 @@ namespace TravelApp.Infrastructure.ViewModels
 
         [Required]
         public string Password { get; set; }
+
+        public bool IsDrivingNow { get; set; }
+
     }
 } 

@@ -111,5 +111,23 @@ namespace TravelApp.Services.Account
 
             return true;
         }
+
+        public async Task<bool> UpdateUserAsync(string id, bool driving)
+        {
+            var currentUser = this.GetById(id);
+
+            currentUser.IsDrivingNow = driving;
+
+            this.repository.Update(currentUser);
+
+            var result = await this.repository.SaveChangesAsync();
+
+            if (result != 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

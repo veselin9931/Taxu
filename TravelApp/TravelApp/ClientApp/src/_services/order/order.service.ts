@@ -31,6 +31,15 @@ export class OrderService {
       )
   }
 
+  acceptOrder(orderId, driverId): Observable<Order> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}/${driverId}`, { headers, responseType: 'json' },)
+      .pipe(
+        tap(data => console.log('accepted order: ', JSON.stringify(data)))
+      );
+
+  }
+
   private handleError(err) {
     let errorMessage: string;
     if (err.error instanceof ErrorEvent) {

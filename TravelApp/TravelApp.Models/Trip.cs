@@ -11,18 +11,27 @@ namespace TravelApp.Models
             this.Id = Guid.NewGuid().ToString();
         }
 
-        [Required]
         public string CurrentLocation { get; set; }
 
-        [Required]
-        public string Location { get; set; }
+        public Order Order { get; set; }
 
-        [Required]
-        public string Destination { get; set; }
+        public string OrderId { get; set; }
 
-        [Required]
-        public string CarId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
-        public Car Car { get; set; }
+        public string ApplicationUserId { get; set; }
+
+
+
+        //[Required]
+        //public string Location { get; set; }
+
+        //[Required]
+        //public string Destination { get; set; }
+
+        //[Required]
+        //public string CarId { get; set; }
+
+        //public Car Car { get; set; }
     }
 }

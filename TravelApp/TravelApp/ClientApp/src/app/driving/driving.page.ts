@@ -5,7 +5,9 @@ import { IonInfiniteScroll } from '@ionic/angular';
 import { interval, Subject } from 'rxjs';
 import { concatMap, startWith } from 'rxjs/operators';
 import { Order } from 'src/_models';
+import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
+import { TripService } from 'src/_services/trip/trip.service';
 
 @Component({
   selector: 'app-driving',
@@ -16,6 +18,7 @@ export class DrivingPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   private readonly getOrdersAction$ = new Subject();
 
+  isDrivingNow = this.accountService.userValue.isDrivingNow;
   verifiedAccount = true;
   isSubmitted = false;
   form: FormGroup;
@@ -25,22 +28,57 @@ export class DrivingPage implements OnInit {
 
   constructor(private route: Router,
     private formBuilder: FormBuilder,
-    private orderService: OrderService) { }
+    private orderService: OrderService,
+    private accountService: AccountService,
+    private tripService: TripService) { }
 
   ngOnInit() {
 
+    if(this.isDrivingNow == true){
+      this.route.navigate(['tabs/accepted-order']);
+    }
+    
     this.form = this.formBuilder.group({
       firstName: [''],
     })
 
   }
 
-  orders$ = interval(300).pipe(
+  orders$ = interval(50).pipe(
     startWith(''),
     concatMap(() => {
+     
       return this.orderService.getAllOrders(); // this will be your http get request
     }),
   )
+
+  acceptOrder(order){
+    let applicationUserId = this.accountService.userValue.id;
+    let value = this.accountService.userValue.isDrivingNow = true;
+
+    this.accountService.updateDriving(applicationUserId, value)
+    .subscribe(data => {
+      console.log(data)
+    });
+
+    this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+    order.acceptedBy = applicationUserId;
+
+    this.orderService.acceptOrder(order.id, applicationUserId)
+    .subscribe(data => {
+      console.log(data);
+    })
+
+    let orderId = order.id;
+
+    let data = {orderId, applicationUserId, order};
+
+    this.tripService.createTrip(data)
+    .subscribe(data => {
+      this.route.navigate(['tabs/accepted-order']);
+      console.log(data);
+    })
+  }
 
   goBack() {
     this.route.navigate(['tabs/home']);

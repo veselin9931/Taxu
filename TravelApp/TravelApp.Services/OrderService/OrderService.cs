@@ -20,6 +20,26 @@ namespace TravelApp.Services.OrderService
             this.orderRepository = orderRepository;
         }
 
+        public async Task<bool> AcceptOrderAsync(string id, string driverId)
+        {
+            var currentOrder = this.GetOrderById(id);
+
+            if (currentOrder != null)
+            {
+                currentOrder.IsAccepted = true;
+                currentOrder.AcceptedBy = driverId;
+
+                this.orderRepository.Update(currentOrder);
+
+                await this.orderRepository.SaveChangesAsync();
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Accepting a order failed!");
+
+        }
+
         public async Task<string> CreateOrderAsync(CreateOrderInputModel input)
         {
 
@@ -46,19 +66,15 @@ namespace TravelApp.Services.OrderService
             throw new InvalidOperationException("Creating order failed!");
         }
 
-        //public async Task<IEnumerable<TViewModel>> GetAllOrdersAsync<TViewModel>()
-        //    => await this.orderRepository
-        //    .All()
-        //    .Where(x => x.IsAccepted == false && x.IsDeleted == false)
-        //    .OrderBy(x => x.CreatedOn)
-        //    .To<TViewModel>()
-        //    .ToListAsync();
-
         public async Task<IList<Order>> GetAllOrdersAsync()
          => await this.orderRepository
             .All()
             .Where(x => x.IsAccepted == false && x.IsDeleted == false)
             .OrderBy(x => x.CreatedOn)
             .ToListAsync();
+
+        public Order GetOrderById(string id)
+        => this.orderRepository.All()?.FirstOrDefault(x => x.Id == id);
+
     }
 }

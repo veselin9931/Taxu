@@ -65,6 +65,7 @@ namespace TravelApp.Controllers
                 Email = model.Username,
                 Phone = model.Phone,
                 UserName = model.Username,
+                IsDrivingNow = model.IsDrivingNow,
             };
 
             var result = await userService.Create(user, model.Password);
@@ -109,14 +110,23 @@ namespace TravelApp.Controllers
                 LastName = user.LastName,
                 Phone = user.Phone,
                 Username = user.UserName,
-                Token = tokenString
+                Token = tokenString,
+                IsDrivingNow = user.IsDrivingNow
             });
         }
 
-        // PUT api/<AccountController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT api/<AccountController>/5/true,false
+        [HttpPut("{id}/{value}")]
+        public async Task<IActionResult> Put(string id, bool value)
         {
+            var result = await this.userService.UpdateUserAsync(id, value);
+
+            if (result)
+            {
+                return this.Ok();
+            }
+
+            return this.BadRequest();
         }
 
         // DELETE api/<AccountController>/5

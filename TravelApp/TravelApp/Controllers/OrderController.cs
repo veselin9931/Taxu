@@ -75,10 +75,18 @@ namespace TravelApp.Controllers
             return this.BadRequest("Failed to create order");
         }
 
-        // PUT api/<OrderController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT api/<OrderController>/orderId/driverId
+        [HttpPut("{orderId}/{driverId}")]
+        public async Task<IActionResult> Put(string orderId, string driverId)
         {
+            var accepted = await this.orderService.AcceptOrderAsync(orderId, driverId);
+
+            if (accepted)
+            {
+                return this.Ok();
+            }
+
+            return this.BadRequest();
         }
 
         // DELETE api/<OrderController>/5
