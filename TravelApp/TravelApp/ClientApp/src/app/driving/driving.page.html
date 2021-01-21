@@ -51,7 +51,7 @@
         </div>
         
         <div class="col-md-10">
-            <div *ngFor="let order of (orders$ | async)" class="list-group mt-2">
+            <div *ngFor="let order of signalOrder" class="list-group mt-2">
               <a class="text list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">Order</h5>

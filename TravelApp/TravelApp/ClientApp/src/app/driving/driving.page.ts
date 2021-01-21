@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -7,6 +8,7 @@ import { concatMap, startWith } from 'rxjs/operators';
 import { Order } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
+import { SignalRService } from 'src/_services/signal-r.service';
 import { TripService } from 'src/_services/trip/trip.service';
 
 @Component({
@@ -17,6 +19,8 @@ import { TripService } from 'src/_services/trip/trip.service';
 export class DrivingPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   private readonly getOrdersAction$ = new Subject();
+
+  signalOrder: Order[] = [];
 
   isDrivingNow = this.accountService.userValue.isDrivingNow;
   verifiedAccount = true;
@@ -30,7 +34,9 @@ export class DrivingPage implements OnInit {
     private formBuilder: FormBuilder,
     private orderService: OrderService,
     private accountService: AccountService,
-    private tripService: TripService) { }
+    private tripService: TripService,
+    public signalRService: SignalRService,
+    private http: HttpClient) { }
 
   ngOnInit() {
 
@@ -38,19 +44,19 @@ export class DrivingPage implements OnInit {
       this.route.navigate(['tabs/accepted-order']);
     }
     
-    this.form = this.formBuilder.group({
-      firstName: [''],
+    this.signalRService.signalReceived.subscribe((signal: Order) => {
+      this.signalOrder.push(signal)
+      console.log(signal)
     })
-
   }
 
-  orders$ = interval(50).pipe(
-    startWith(''),
-    concatMap(() => {
+  //  orders$ = interval(50).pipe(
+  //    startWith(''),
+  //    concatMap(() => {
      
-      return this.orderService.getAllOrders(); // this will be your http get request
-    }),
-  )
+  //      return this.orderService.getAllOrders(); // this will be your http get request
+  //    }),
+  //  )
 
   acceptOrder(order){
     let applicationUserId = this.accountService.userValue.id;
@@ -83,25 +89,6 @@ export class DrivingPage implements OnInit {
   goBack() {
     this.route.navigate(['tabs/home']);
   }
-
-  // loadData(event) {
-  //   setTimeout(() => {
-  //     console.log('Done');
-  //     event.target.complete();
-
-  //     this.orderService.getAllOrders().subscribe(
-  //       orders => {
-  //         this.orders = orders;
-  //       }
-  //     )
-
-  //     // App logic to determine if all data is loaded
-  //     // and disable the infinite scroll
-  //     if (this.orders.length == 1000) {
-  //       event.target.disabled = true;
-  //     }
-  //   }, 500);
-  // }
 
   onSubmit() {
     this.isSubmitted = true;

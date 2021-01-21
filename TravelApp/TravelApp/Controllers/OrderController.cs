@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using TravelApp.Common.Repositories;
+using TravelApp.Infrastructure.HubConfig;
 using TravelApp.Infrastructure.InputModels.OrderInput;
+using TravelApp.Infrastructure.TimerFeatures;
 using TravelApp.Infrastructure.ViewModels;
 using TravelApp.Models;
 using TravelApp.Services.Account;
@@ -22,18 +25,20 @@ namespace TravelApp.Controllers
     {
         private readonly IOrderService orderService;
         private readonly IDeletableEntityRepository<Order> orderRepository;
+        private readonly IHubContext<OrderHub> hub;
 
-        public OrderController(IOrderService orderService, IDeletableEntityRepository<Order> orderRepository)
+        public OrderController(IOrderService orderService, IDeletableEntityRepository<Order> orderRepository, IHubContext<OrderHub> hub)
         {
             this.orderService = orderService;
             this.orderRepository = orderRepository;
+            this.hub = hub;
         }
 
         // GET: api/<OrderController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-
+            //var orders = new TimerManager(() => hub.Clients.All.SendAsync("transferorderdata", this.orderService.GetAllOrdersAsync()));
             //var orders = this.orderRepository.All();
             var orders = await this.orderService.GetAllOrdersAsync();
             if (orders == null)
@@ -59,11 +64,14 @@ namespace TravelApp.Controllers
             {
                 try
                 {
+
                     var result = await this.orderService.CreateOrderAsync(input);
 
                     if (result != null)
                     {
+                        await this.hub.Clients.All.SendAsync("Order Received", input);
                         return this.Ok(result);
+                        //return this.Ok(result);
                     }
                 }
                 catch (Exception e)

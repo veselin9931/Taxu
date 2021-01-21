@@ -12,6 +12,8 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertComponent } from './alert/alert.component';
 
+import { ChartsModule } from 'ng2-charts';
+
 @NgModule({
   declarations: [AppComponent, AlertComponent],
   entryComponents: [],
@@ -19,6 +21,7 @@ import { AlertComponent } from './alert/alert.component';
     IonicModule.forRoot(), 
     AppRoutingModule, 
     HttpClientModule,
+    ChartsModule,
     FormsModule, 
     ReactiveFormsModule],
   providers: [
