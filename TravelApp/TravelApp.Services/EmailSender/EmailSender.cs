@@ -3,6 +3,7 @@ using MimeKit;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace TravelApp.Services.EmailSender
@@ -30,6 +31,7 @@ namespace TravelApp.Services.EmailSender
             await SendAsync(mailMessage);
         }
 
+        [Obsolete]
         private MimeMessage CreateEmailMessage(Message message)
         {
             var emailMessage = new MimeMessage();
@@ -50,7 +52,7 @@ namespace TravelApp.Services.EmailSender
                         fileBytes = ms.ToArray();
                     }
 
-                    bodyBuilder.Attachments.Add(attachment.FileName, fileBytes, ContentType.Parse(attachment.ContentType));
+                    bodyBuilder.Attachments.Add(attachment.FileName, fileBytes);
                 }
             }
 

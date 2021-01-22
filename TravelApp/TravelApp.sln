@@ -5,17 +5,22 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelApp", "TravelApp\TravelApp.csproj", "{20559AF1-49C7-4FC1-876F-1C15EF42E93B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelApp.Data", "TravelApp.Data\TravelApp.Data.csproj", "{3B2273CB-DC5C-46FE-A24B-BCAA683D29BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelApp.Data", "TravelApp.Data\TravelApp.Data.csproj", "{3B2273CB-DC5C-46FE-A24B-BCAA683D29BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelApp.Models", "TravelApp.Models\TravelApp.Models.csproj", "{CF26900B-F2C4-4D78-AB6B-0D8AF5A7A2F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelApp.Models", "TravelApp.Models\TravelApp.Models.csproj", "{CF26900B-F2C4-4D78-AB6B-0D8AF5A7A2F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelApp.Services", "TravelApp.Services\TravelApp.Services.csproj", "{A528F55C-4EA5-43DD-A41F-0B908718FC03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelApp.Services", "TravelApp.Services\TravelApp.Services.csproj", "{A528F55C-4EA5-43DD-A41F-0B908718FC03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelApp.Mappings", "TravelApp.Mappings\TravelApp.Mappings.csproj", "{242F9798-2229-468E-BAAD-3CC5FA3C49FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelApp.Mappings", "TravelApp.Mappings\TravelApp.Mappings.csproj", "{242F9798-2229-468E-BAAD-3CC5FA3C49FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelApp.Infrastructure", "TravelApp.Infrastructure\TravelApp.Infrastructure.csproj", "{FDFC1DD5-B118-4213-A593-4D6142095FD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelApp.Infrastructure", "TravelApp.Infrastructure\TravelApp.Infrastructure.csproj", "{FDFC1DD5-B118-4213-A593-4D6142095FD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelApp.Common", "TravelApp.Common\TravelApp.Common.csproj", "{71CFB8E9-C22B-4E9E-86D2-FB9E9C5C11B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelApp.Common", "TravelApp.Common\TravelApp.Common.csproj", "{71CFB8E9-C22B-4E9E-86D2-FB9E9C5C11B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{59F77343-BD16-4993-AFF9-9ED5491C3C55}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
