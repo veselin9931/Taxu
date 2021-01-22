@@ -20,6 +20,8 @@ namespace TravelApp.Models
         [Required]
         public string LastName { get; set; }
 
+        public bool IsDrivingNow { get; set; }
+
         [Required]
         [Phone]
         public string Phone { get; set; }

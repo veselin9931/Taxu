@@ -14,6 +14,8 @@ namespace TravelApp.Services.Account
         IEnumerable<ApplicationUser> GetAll();
 
         public ApplicationUser GetById(string id);
+        
+        public Task<bool> UpdateUserAsync(string id, bool driving);
 
         Task<ApplicationUser> Create(ApplicationUser user, string password);
 

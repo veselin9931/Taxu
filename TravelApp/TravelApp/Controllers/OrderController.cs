@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using TravelApp.Common.Repositories;
+using TravelApp.Infrastructure.HubConfig;
 using TravelApp.Infrastructure.InputModels.OrderInput;
+using TravelApp.Infrastructure.TimerFeatures;
 using TravelApp.Infrastructure.ViewModels;
 using TravelApp.Models;
 using TravelApp.Services.Account;
@@ -22,18 +25,20 @@ namespace TravelApp.Controllers
     {
         private readonly IOrderService orderService;
         private readonly IDeletableEntityRepository<Order> orderRepository;
+        private readonly IHubContext<OrderHub, IHubClient> hub;
 
-        public OrderController(IOrderService orderService, IDeletableEntityRepository<Order> orderRepository)
+        public OrderController(IOrderService orderService, IDeletableEntityRepository<Order> orderRepository, IHubContext<OrderHub, IHubClient> hub)
         {
             this.orderService = orderService;
             this.orderRepository = orderRepository;
+            this.hub = hub;
         }
 
         // GET: api/<OrderController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-
+            //var orders = new TimerManager(() => hub.Clients.All.SendAsync("transferorderdata", this.orderService.GetAllOrdersAsync()));
             //var orders = this.orderRepository.All();
             var orders = await this.orderService.GetAllOrdersAsync();
             if (orders == null)
@@ -59,11 +64,14 @@ namespace TravelApp.Controllers
             {
                 try
                 {
+
                     var result = await this.orderService.CreateOrderAsync(input);
 
                     if (result != null)
                     {
+                        await this.hub.Clients.All.BroadcastMessage();
                         return this.Ok(result);
+                        //return this.Ok(result);
                     }
                 }
                 catch (Exception e)
@@ -75,10 +83,19 @@ namespace TravelApp.Controllers
             return this.BadRequest("Failed to create order");
         }
 
-        // PUT api/<OrderController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT api/<OrderController>/orderId/driverId
+        [HttpPut("{orderId}/{driverId}")]
+        public async Task<IActionResult> Put(string orderId, string driverId)
         {
+            var accepted = await this.orderService.AcceptOrderAsync(orderId, driverId);
+
+            if (accepted)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
         }
 
         // DELETE api/<OrderController>/5

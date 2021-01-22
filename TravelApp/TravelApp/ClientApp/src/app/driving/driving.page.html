@@ -51,7 +51,9 @@
         </div>
         
         <div class="col-md-10">
-            <div *ngFor="let order of (orders$ | async)" class="list-group mt-2">
+          
+
+            <!-- <div *ngFor="let order of signalOrder" class="list-group mt-2">
               <a class="text list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">Order</h5>
@@ -64,7 +66,7 @@
                   <div class="col">
                     <div class="d-flex w-100 justify-content-between">
                       <small>Distance: 25 km (coming soon...)</small>
-                      <ion-button (click)="acceptOrder()" type="submit" color="warning">Accept</ion-button>
+                      <ion-button (click)="acceptOrder(order)" type="submit" color="warning">Accept</ion-button>
                     </div>
                   </div>
                   <div class="col-md-12">
@@ -72,7 +74,32 @@
                   </div>
                 </div>
               </a>
+            </div> -->
+
+            <div *ngFor="let oldOrder of orders" class="list-group mt-2">
+              <a class="text list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">Order</h5>
+                  <small>{{oldOrder.createdOn}}</small>
+                </div>
+                <p class="mb-1">Location: {{oldOrder.location}}</p>
+                <p class="mb-1">Destination: {{oldOrder.destination}}</p>
+                
+                <div class="row">
+                  <div class="col">
+                    <div class="d-flex w-100 justify-content-between">
+                      <small>Distance: 25 km (coming soon...)</small>
+                      <ion-button (click)="acceptOrder(oldOrder)" type="submit" color="warning">Accept</ion-button>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <small>Total cost: {{oldOrder.totalPrice}}$</small>
+                  </div>
+                </div>
+              </a>
             </div>
+
+            
             <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
               <ion-infinite-scroll-content
                 loadingSpinner="bubbles"
@@ -81,9 +108,10 @@
             </ion-infinite-scroll> -->
           </div>
       </div>
-
     </div>
   </div>
 
 
 </ion-content>
+
+

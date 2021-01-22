@@ -8,6 +8,7 @@ using TravelApp.Common.Repositories;
 using TravelApp.Data.Repositories;
 using TravelApp.Services.Account;
 using TravelApp.Services.OrderService;
+using TravelApp.Services.TripService;
 
 namespace TravelApp
 {
@@ -17,6 +18,7 @@ namespace TravelApp
         {
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<ITripService, TripService>();
 
             services.AddSingleton<IHttpContextAccessor,
             HttpContextAccessor>();
