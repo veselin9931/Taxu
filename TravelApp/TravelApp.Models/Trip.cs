@@ -21,6 +21,9 @@ namespace TravelApp.Models
 
         public string ApplicationUserId { get; set; }
 
+        public bool IsCompleted { get; set; }
+
+
 
 
         //[Required]

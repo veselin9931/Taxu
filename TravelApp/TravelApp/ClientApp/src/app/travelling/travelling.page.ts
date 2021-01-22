@@ -25,7 +25,7 @@ export class TravellingPage implements OnInit {
       location: ['', Validators.required],
       destination: ['', Validators.required],
       increasePrice: [0]
-    })
+    }) 
   }
 
   get f() { return this.form.controls; }

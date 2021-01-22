@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Order, Trip } from 'src/_models';
+import { AccountService } from '../account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,13 @@ import { Order, Trip } from 'src/_models';
 export class TripService {
   public trips = [];
   public currentTripOrderId: string;
-  public currentTripDriverId: string;
-  public currentOrder: Order;
+  public currentTripDriverId = this.accountService.userValue.id;
+  public currentOrder = "";
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private accountService: AccountService) { }
 
   public createTrip(data) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    this.currentTripDriverId = data.applicationUserId;
     this.currentTripOrderId = data.orderId;
     this.currentOrder = data.order;
 
@@ -28,8 +28,8 @@ export class TripService {
       );
   }
 
-  getTrip(orderId: string, applicationUserId: string): Observable<Trip> {
-    return this.http.get<Trip>(`${environment.apiUrl}/api/trip/${orderId}/${applicationUserId}`)
+  getTrip(applicationUserId: string): Observable<Trip> {
+    return this.http.get<Trip>(`${environment.apiUrl}/api/trip/${applicationUserId}`)
       .pipe(
         catchError(this.handleError)
       )

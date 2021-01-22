@@ -28,11 +28,11 @@ namespace TravelApp.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<TripController>/orderid, driverid
-        [HttpGet("{orderId}/{applicationUserId}")]
-        public async Task<IActionResult> Get(string orderId, string applicationUserId)
+        // GET api/<TripController>/driverid
+        [HttpGet("{applicationUserId}")]
+        public async Task<IActionResult> Get(string applicationUserId)
         {
-            var trip = this.tripService.GetTripByOrderAndUserId(orderId, applicationUserId);
+            var trip = this.tripService.GetTripByUserId(applicationUserId);
 
             if (trip != null)
             {

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as signalR from '@aspnet/signalr';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { interval, Subject } from 'rxjs';
 import { concatMap, startWith } from 'rxjs/operators';
@@ -20,15 +21,12 @@ export class DrivingPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   private readonly getOrdersAction$ = new Subject();
 
-  signalOrder: Order[] = [];
-
   isDrivingNow = this.accountService.userValue.isDrivingNow;
   verifiedAccount = true;
   isSubmitted = false;
   form: FormGroup;
   loading = false;
-  //orders: Order[] = [];
-  hours: [];
+  orders: Order[] = [];
 
   constructor(private route: Router,
     private formBuilder: FormBuilder,
@@ -38,25 +36,39 @@ export class DrivingPage implements OnInit {
     public signalRService: SignalRService,
     private http: HttpClient) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getData();
 
     if(this.isDrivingNow == true){
       this.route.navigate(['tabs/accepted-order']);
     }
-    
-    this.signalRService.signalReceived.subscribe((signal: Order) => {
-      this.signalOrder.push(signal)
-      console.log(signal)
-    })
+
+    //SignalR data logic:
+    const connection = new signalR.HubConnectionBuilder()
+    .configureLogging(signalR.LogLevel.Information)
+    .withUrl('https://localhost:44329/orderHub', {
+          skipNegotiation: true,
+          transport: signalR.HttpTransportType.WebSockets
+        })
+    .build();
+
+    connection.start().then(function() {
+      console.log('signalR Connected');
+    }).catch(function(err){
+      return console.log(err.toString());
+    });
+
+    connection.on('BroadcastMessage', () => {
+      this.getData();
+    });
   }
 
-  //  orders$ = interval(50).pipe(
-  //    startWith(''),
-  //    concatMap(() => {
-     
-  //      return this.orderService.getAllOrders(); // this will be your http get request
-  //    }),
-  //  )
+  getData(){
+    this.orderService.getAllOrders().subscribe(data => {
+      this.orders = data;
+      console.log(this.orders)
+    })
+  }
 
   acceptOrder(order){
     let applicationUserId = this.accountService.userValue.id;

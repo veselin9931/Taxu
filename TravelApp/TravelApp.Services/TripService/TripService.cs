@@ -26,7 +26,8 @@ namespace TravelApp.Services.TripService
                 {
                     ApplicationUserId = model.ApplicationUserId,
                     OrderId = model.OrderId,
-                    CreatedOn = DateTime.UtcNow
+                    CreatedOn = DateTime.UtcNow,
+                    IsCompleted = false
                 };
 
                 this.tripRepository.Add(trip);
@@ -39,7 +40,7 @@ namespace TravelApp.Services.TripService
             return false;
         }
 
-        public Trip GetTripByOrderAndUserId(string orderId, string applicationUserId)
-         => this.tripRepository.All()?.FirstOrDefault(x => x.OrderId == orderId && x.ApplicationUserId == applicationUserId);
+        public Trip GetTripByUserId(string applicationUserId)
+         => this.tripRepository.All()?.FirstOrDefault(x => x.ApplicationUserId == applicationUserId && x.IsCompleted == false);
     }
 }

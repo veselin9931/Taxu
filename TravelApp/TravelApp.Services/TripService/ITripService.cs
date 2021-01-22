@@ -11,6 +11,6 @@ namespace TravelApp.Services.TripService
     {
         public Task<bool> CreateTrip(CreateTripInputModel model);
 
-        public Trip GetTripByOrderAndUserId(string orderId, string applicationUserId);
+        public Trip GetTripByUserId(string applicationUserId);
     }
 }

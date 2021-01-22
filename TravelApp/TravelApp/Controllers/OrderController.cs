@@ -25,9 +25,9 @@ namespace TravelApp.Controllers
     {
         private readonly IOrderService orderService;
         private readonly IDeletableEntityRepository<Order> orderRepository;
-        private readonly IHubContext<OrderHub> hub;
+        private readonly IHubContext<OrderHub, IHubClient> hub;
 
-        public OrderController(IOrderService orderService, IDeletableEntityRepository<Order> orderRepository, IHubContext<OrderHub> hub)
+        public OrderController(IOrderService orderService, IDeletableEntityRepository<Order> orderRepository, IHubContext<OrderHub, IHubClient> hub)
         {
             this.orderService = orderService;
             this.orderRepository = orderRepository;
@@ -69,7 +69,7 @@ namespace TravelApp.Controllers
 
                     if (result != null)
                     {
-                        await this.hub.Clients.All.SendAsync("Order Received", input);
+                        await this.hub.Clients.All.BroadcastMessage();
                         return this.Ok(result);
                         //return this.Ok(result);
                     }
@@ -91,6 +91,7 @@ namespace TravelApp.Controllers
 
             if (accepted)
             {
+                await this.hub.Clients.All.BroadcastMessage();
                 return this.Ok();
             }
 
