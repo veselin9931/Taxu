@@ -8,6 +8,7 @@ using TravelApp.Common.Repositories;
 using TravelApp.Infrastructure.InputModels.OrderInput;
 using TravelApp.Mappings;
 using TravelApp.Models;
+using TravelApp.Services.EmailSender;
 
 namespace TravelApp.Services.OrderService
 {
@@ -59,6 +60,8 @@ namespace TravelApp.Services.OrderService
                 this.orderRepository.Add(order);
 
                 await this.orderRepository.SaveChangesAsync();
+
+                
 
                 return order.ToString();
             }

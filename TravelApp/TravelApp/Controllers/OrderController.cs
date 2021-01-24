@@ -14,6 +14,7 @@ using TravelApp.Infrastructure.TimerFeatures;
 using TravelApp.Infrastructure.ViewModels;
 using TravelApp.Models;
 using TravelApp.Services.Account;
+using TravelApp.Services.EmailSender;
 using TravelApp.Services.OrderService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -27,12 +28,17 @@ namespace TravelApp.Controllers
         private readonly IOrderService orderService;
         private readonly IDeletableEntityRepository<Order> orderRepository;
         private readonly IHubContext<OrderHub, IHubClient> hub;
+        private readonly IEmailSender emailSender;
 
-        public OrderController(IOrderService orderService, IDeletableEntityRepository<Order> orderRepository, IHubContext<OrderHub, IHubClient> hub)
+        public OrderController(IOrderService orderService, 
+            IDeletableEntityRepository<Order> orderRepository, 
+            IHubContext<OrderHub, IHubClient> hub,
+            IEmailSender emailSender)
         {
             this.orderService = orderService;
             this.orderRepository = orderRepository;
             this.hub = hub;
+            this.emailSender = emailSender;
         }
 
         // GET: api/<OrderController>
@@ -74,6 +80,9 @@ namespace TravelApp.Controllers
                         return this.Ok(result);
                         //return this.Ok(result);
                     }
+
+                    await emailSender.SendEmailAsync(new Message(new List<string>() { "veselin@gmail.com" }, "aaaaaadsfaf", "asasassasas", null));
+
                 }
                 catch (Exception e)
                 {
