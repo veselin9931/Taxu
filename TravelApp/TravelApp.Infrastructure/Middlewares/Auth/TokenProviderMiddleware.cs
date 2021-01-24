@@ -79,6 +79,10 @@
                 new Claim(JwtRegisteredClaimNames.Sub, principal.Identity.Name),
                 new Claim(JwtRegisteredClaimNames.Jti, await this.options.NonceGenerator()),
                 new Claim(JwtRegisteredClaimNames.Iat, unixTimeSeconds.ToString(), ClaimValueTypes.Integer64),
+                 new Claim (ClaimTypes.Role, GlobalConstants.UserRoleName),
+                 new Claim (ClaimTypes.Role, GlobalConstants.AdministratorRoleName),
+                 new Claim (ClaimTypes.Role, GlobalConstants.DriverRoleName)
+
             };
 
             foreach (var systemClaim in systemClaims)

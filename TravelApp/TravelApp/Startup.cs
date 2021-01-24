@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,7 @@ using TravelApp.Data;
 using TravelApp.Models;
 using TravelApp.Services;
 using TravelApp.Services.OrderService;
+using TravelApp.Infrastructure;
 
 namespace TravelApp
 {
@@ -24,7 +26,7 @@ namespace TravelApp
         public IConfiguration Configuration { get; }    
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -36,10 +38,15 @@ namespace TravelApp
             })
                .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddAuthentication()
-               .AddCookie()
-               .AddJwtBearer(cfg =>
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddJwtBearer(cfg =>
                {
+                  
                    cfg.TokenValidationParameters = new TokenValidationParameters()
                    {
                        ValidIssuer = this.Configuration["Tokens:Issuer"],
@@ -48,6 +55,7 @@ namespace TravelApp
                    };
                });
 
+           
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequiredLength = 3;

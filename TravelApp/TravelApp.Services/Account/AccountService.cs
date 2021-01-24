@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using TravelApp.Common;
 using TravelApp.Common.Repositories;
 using TravelApp.Models;
 
@@ -56,6 +57,8 @@ namespace TravelApp.Services.Account
             user.PasswordSalt = Convert.ToBase64String(passwordSalt);
 
             user.EmailConfirmed = true;
+
+         
 
             var result = await this.userRepository.CreateAsync(user);
 
