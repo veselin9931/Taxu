@@ -35,7 +35,7 @@ namespace TravelApp.Models
 
         public string AcceptedBy { get; set; }
 
-
+        public bool IsCompleted { get; set; }
 
         //[Required]
         //public string ReservationId { get; set; }

@@ -26,5 +26,8 @@ namespace TravelApp.Infrastructure.ViewModels
         public DateTime CreatedOn { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public bool IsCompleted { get; set; }
+
     }
 }

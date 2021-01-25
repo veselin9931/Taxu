@@ -9,6 +9,7 @@ import { Order } from 'src/_models';
   providedIn: 'root'
 })
 export class OrderService {
+  public order: Order;
   public orders = [];
   private readonly getOrdersAction$ = new Subject();
   
@@ -19,8 +20,16 @@ export class OrderService {
 
     return this.http.post(`${environment.apiUrl}/api/order`, data, { headers, responseType: 'text' })
       .pipe(
-        tap(data => console.log('created order: ', JSON.stringify(data)))
+        catchError(this.handleError),
       );
+  }
+
+  getMyOrder(userId: string): Observable<Order> {
+    return this.http.get<Order>(`${environment.apiUrl}/api/order/${userId}`)
+    .pipe(
+      tap(data => this.order = data),
+      catchError(this.handleError)
+    );
   }
 
   getAllOrders(): Observable<Order[]> {
@@ -31,11 +40,20 @@ export class OrderService {
       )
   }
 
-  acceptOrder(orderId, driverId): Observable<Order> {
+  acceptOrder(orderId: string, driverId: string): Observable<Order> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}/${driverId}`, { headers, responseType: 'json' },)
       .pipe(
-        tap(data => console.log('accepted order: ', JSON.stringify(data)))
+        catchError(this.handleError),
+      );
+
+  }
+
+  completeOrder(orderId: string): Observable<Order> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}`, { headers, responseType: 'json' },)
+      .pipe(
+        catchError(this.handleError),
       );
 
   }

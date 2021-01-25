@@ -1,7 +1,6 @@
 ion-content.background{
-    --background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+    --background: url(../../assets/TaxiMi-homeback1.jpg) 0 0/100% 100% no-repeat;
 }
-
 .centered{
     text-align: center;
 }
@@ -12,17 +11,33 @@ ion-content.background{
     font-size: 2.4em;
 }
 
+.subtitle{
+    font-family: cursive;
+}
+
 .login{
     margin-top: 150px;
 }
+
+
+
+ion-item {
+    --background: none;
+    opacity:1;
+    --border-width: 0;
+    --inner-border-width: 0;
+  }
 
 .reg{
     margin-top: 20px;
 }
 
-.support{
-    margin-top: 50px;
+.iconsText{
+    color: rgb(255, 174, 0);
+    font-family: cursive;
+    font-size: 1.2em;
 }
+
 ion-icon {
     color: rgb(255, 174, 0);
     font-size: 350%;

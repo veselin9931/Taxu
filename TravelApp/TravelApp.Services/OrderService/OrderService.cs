@@ -41,6 +41,24 @@ namespace TravelApp.Services.OrderService
 
         }
 
+        public async Task<bool> CompleteOrderAsync(string id)
+        {
+            var currentOrder = this.GetOrderById(id);
+
+            if (currentOrder != null)
+            {
+                currentOrder.IsCompleted = true;
+
+                this.orderRepository.Update(currentOrder);
+
+                await this.orderRepository.SaveChangesAsync();
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Completing a order failed!");
+        }
+
         public async Task<string> CreateOrderAsync(CreateOrderInputModel input)
         {
 
@@ -54,7 +72,8 @@ namespace TravelApp.Services.OrderService
                     IncreasePrice = input.IncreasePrice,
                     TotalPrice = input.TotalPrice + input.IncreasePrice,
                     CreatedOn = DateTime.UtcNow,
-                    IsAccepted = false
+                    IsAccepted = false,
+                    IsCompleted = false,
                 };
 
                 this.orderRepository.Add(order);
@@ -79,5 +98,7 @@ namespace TravelApp.Services.OrderService
         public Order GetOrderById(string id)
         => this.orderRepository.All()?.FirstOrDefault(x => x.Id == id);
 
+        public Order GetOrderByUserId(string userId)
+        => this.orderRepository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.ApplicationUserId == userId && x.IsCompleted == false);
     }
 }
