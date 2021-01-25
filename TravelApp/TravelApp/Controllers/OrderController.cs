@@ -28,17 +28,17 @@ namespace TravelApp.Controllers
         private readonly IOrderService orderService;
         private readonly IDeletableEntityRepository<Order> orderRepository;
         private readonly IHubContext<OrderHub, IHubClient> hub;
-        private readonly IEmailSender emailSender;
+        //private readonly IEmailSender emailSender;
 
         public OrderController(IOrderService orderService, 
-            IDeletableEntityRepository<Order> orderRepository, 
-            IHubContext<OrderHub, IHubClient> hub,
-            IEmailSender emailSender)
+            IDeletableEntityRepository<Order> orderRepository,
+            IHubContext<OrderHub, IHubClient> hub)
+            //IEmailSender emailSender)
         {
             this.orderService = orderService;
             this.orderRepository = orderRepository;
             this.hub = hub;
-            this.emailSender = emailSender;
+            //this.emailSender = emailSender;
         }
 
         // GET: api/<OrderController>
@@ -56,11 +56,19 @@ namespace TravelApp.Controllers
             return this.Ok(orders);
         }
 
-        // GET api/<OrderController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        //GET ORDER BY USER ID
+        // GET api/<OrderController>/{userId}
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> Get(string userId)
         {
-            return "value";
+            var order = this.orderService.GetOrderByUserId(userId);
+
+            if (order != null)
+            {
+                return this.Ok(order);
+            }
+
+            return this.NoContent();
         }
 
         // POST api/<OrderController>
@@ -81,7 +89,7 @@ namespace TravelApp.Controllers
                         //return this.Ok(result);
                     }
 
-                    await emailSender.SendEmailAsync(new Message(new List<string>() { "veselin@gmail.com" }, "aaaaaadsfaf", "asasassasas", null));
+                    //await emailSender.SendEmailAsync(new Message(new List<string>() { "veselin@gmail.com" }, "aaaaaadsfaf", "asasassasas", null));
 
                 }
                 catch (Exception e)
@@ -98,6 +106,21 @@ namespace TravelApp.Controllers
         public async Task<IActionResult> Put(string orderId, string driverId)
         {
             var accepted = await this.orderService.AcceptOrderAsync(orderId, driverId);
+
+            if (accepted)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
+        // PUT api/<OrderController>/orderId
+        [HttpPut("{orderId}")]
+        public async Task<IActionResult> Put(string orderId)
+        {
+            var accepted = await this.orderService.CompleteOrderAsync(orderId);
 
             if (accepted)
             {

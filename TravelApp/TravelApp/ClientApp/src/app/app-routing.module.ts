@@ -33,6 +33,14 @@ const routes: Routes = [
     path: 'accepted-order',
     loadChildren: () => import('./accepted-order/accepted-order.module').then( m => m.AcceptedOrderPageModule)
   },
+  {
+    path: 'waiting-driver',
+    loadChildren: () => import('./waiting-driver/waiting-driver.module').then( m => m.WaitingDriverPageModule)
+  },
+  {
+    path: 'home-logged',
+    loadChildren: () => import('./home-logged/home-logged.module').then( m => m.HomeLoggedPageModule)
+  },
 
 
 ];

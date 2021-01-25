@@ -1,4 +1,151 @@
-<ion-content padding class="background">
+<ion-content padding class="background" *ngIf="!isLoggedIn" >
+  <div class="row">
+    <div class="col text-center">
+      <ion-text class="centered" color="warning">
+        <div class="col mt-3">
+          <h1 class="text">TAXI MI</h1>
+          <h4 class="subtitle">Siempre a precio fijo</h4>
+        </div>
+
+      </ion-text>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="row">
+        <form [formGroup]="form" novalidate class="col-md-6">
+          <div class="form-group col mt-5 text-center">
+              <ion-input formControlName="username" type="text" class="form-control" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"></ion-input>
+              <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                <div *ngIf="f.username.errors.required">The field is required!</div>
+              </div>
+          </div>
+
+          
+          
+          <div class="form-group col mt-3 text-center">
+            <ion-input formControlName="password" type="password" class="form-control" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"></ion-input>
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">The field is required!</div>
+            </div>
+          </div>
+
+         
+
+          <div class="d-flex w-100 justify-content-between">
+            <div class="form-group col mt-1 mr-2">
+              <p class="subtitle">Forgot your password?</p>
+            </div>
+            <div class="col- mr-3">
+              <img (click)="onSubmit()" src="../../../assets/start-stop.png" width="90" height="90">
+              <!-- <ion-button type="submit" color="warning">Login</ion-button> -->
+            </div>
+          </div>
+
+         
+
+          <div class="form-group col mr-2">
+            <p class="subtitle">Dont have an account?</p>
+            <ion-button class="small" (click)="signUp()" type="submit" color="danger">Register</ion-button>
+          </div>
+        </form>
+
+        <!-- <div class="col-md-6 mt-3">
+          <p>Dont have an account?</p>
+          <ion-button (click)="signUp()" type="submit" color="danger">Sign up</ion-button>
+
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="text-center">
+
+        <div class="col text-center">
+          <div class="row text-center">
+            <div class="col-md-12">
+              <ion-item>
+                <ion-icon name="logo-instagram" item-start></ion-icon>
+                <h3 class="iconsText" item-end>@Instagram</h3>
+              </ion-item>
+            </div>
+            <div class="col-md-12 mt-1">
+              <ion-item>
+                <ion-icon name="logo-facebook" item-start></ion-icon>
+                <h3 class="iconsText" item-end>@Facebook</h3>
+              </ion-item>
+            </div>
+            <div class="col-md-12 mt-1">
+              <ion-item>
+                <ion-icon name="logo-twitter" item-start></ion-icon>
+                <h3 class="iconsText" item-end>@Twitter</h3>
+              </ion-item>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</ion-content>
+
+<ion-content padding class="background" *ngIf="isLoggedIn">
+  <div class="row">
+    <div class="col">
+      <div class="row mt-2">
+        <div class="col-1">
+          <ion-icon (click)=logout() class="backIcon ml-2" name="log-out-outline"></ion-icon>
+        </div>
+        <div class="col-9">
+          <h5 (click)=logout() class="back">Logout</h5>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="support">
+            <ion-text class="centered" color="warning">
+              <h1 class="text">Use app for</h1>
+              <div class="col-md-5 mt-5">
+                <ion-button (click)="travelPage()" expand="block" color="warning">Traveling</ion-button>
+              </div>
+              <div class="col-md-5 mt-2">
+                <ion-button (click)="drivePage()" expand="block" color="warning">Money earning</ion-button>
+              </div>
+
+              <h1 class="text mt-5">Follow us on</h1>
+            </ion-text>
+    
+            <div class="col mt-3 text-center">
+              <div class="row">
+                <div class="col">
+                  <ion-icon name="logo-instagram"></ion-icon>
+                </div>
+                <div class="col">
+                  <ion-icon name="logo-twitter"></ion-icon>
+                </div>
+                <div class="col">
+                  <ion-icon name="logo-facebook"></ion-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+</ion-content>
+
+<!-- <ion-content padding class="background">
   <div class="row">
     <div class="col">
       <div class="row mt-2">
@@ -11,13 +158,19 @@
         </div>
 
       </div>
-      <ion-text class="text-center" color="warning">
-        <div class="col-md-5 mt-3">
-          <h2 class="text">
-            LOGIN
-          </h2>
-        </div>
 
+      <div class="col text-center">
+        <ion-text class="centered" color="warning">
+          <div class="col mt-2">
+            <h1 class="text">TAXI MI</h1>
+            <h4 class="subtitle">Siempre a precio fijo</h4>
+          </div>
+  
+        </ion-text>
+      </div>
+      
+      <ion-text class="text-center" color="warning">
+        
         <div class="row text-center">
           <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="col-md-6">
             <div class="form-group col mt-5">
@@ -55,4 +208,4 @@
   </div>
 
 
-</ion-content>
+</ion-content> -->

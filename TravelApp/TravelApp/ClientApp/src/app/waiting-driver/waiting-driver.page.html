@@ -1,0 +1,51 @@
+<ion-content padding class="background" >
+  <div class="row">
+    <div class="col">
+      <div class="row mt-2">
+        <div class="col-1">
+          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
+        </div>
+        <div class="col-9">
+          <h5 (click)=goBack() class="back">Back</h5>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col text-center">
+          <ion-text class="centered" color="warning">
+            <h2 class="text">Processing</h2>
+            <hr>
+            <h5>Your order is accepted</h5>
+          </ion-text>
+
+          <div class="row text-center">
+            <div class="col text-center">
+              <div class="d-flex w-100 justify-content-between">
+                <ion-text class="centered" color="warning">
+                  <h4 class="text">Your driver with id:</h4>
+
+                  <h3 class="text">{{currentOrder.acceptedBy}}</h3>
+                  <h2 class="text">will arrive in 10 minutes.</h2>
+                  <hr>
+
+                  <h3 class="text">Location: {{currentOrder.location}}</h3>
+                  <h3 class="text">Destination: {{currentOrder.destination}}</h3>
+                  <hr>
+                  <h2 class="text">Cost of the trip: {{currentOrder.totalPrice}}$</h2>
+
+                </ion-text>
+                
+
+              </div>
+              <ion-button (click)="completeOrder()" type="submit" color="warning">Complete order</ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+    </div>
+  </div>
+
+
+</ion-content>

@@ -64,8 +64,13 @@ export class DrivingPage implements OnInit {
   }
 
   getData(){
+    // if(this.isDrivingNow == true){
+    //   this.route.navigate(['tabs/accepted-order']);
+    // }
+
     this.orderService.getAllOrders().subscribe(data => {
       this.orders = data;
+      console.log("Driving page orders")
       console.log(this.orders)
     })
   }

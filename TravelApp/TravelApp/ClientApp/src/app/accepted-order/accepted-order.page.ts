@@ -22,6 +22,8 @@ export class AcceptedOrderPage implements OnInit {
     private tripService: TripService) { 
       this.orderId = this.tripService.currentTripOrderId; 
       this.order = this.tripService.currentOrder;
+      console.log('thepage  ')
+      this.ngOnInit();
     }
 
   ngOnInit() {
@@ -30,6 +32,7 @@ export class AcceptedOrderPage implements OnInit {
 
     this.tripService.getTrip(this.driverId)
     .subscribe(x => {
+      console.log("Trip data")
       console.log(x);
     });
   }
@@ -47,6 +50,6 @@ export class AcceptedOrderPage implements OnInit {
   }
 
   goBack() {
-    this.route.navigate(['tabs/home']);
+    this.route.navigate(['tabs/driving']);
   }
 }

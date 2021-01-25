@@ -13,9 +13,14 @@ namespace TravelApp.Services.OrderService
 
 
         public Task<IList<Order>> GetAllOrdersAsync();
+        
+        public Order GetOrderByUserId(string userId);
 
         public Order GetOrderById(string id);
 
         public Task<bool> AcceptOrderAsync(string id, string driverId);
+
+        public Task<bool> CompleteOrderAsync(string id);
+
     }
 }
