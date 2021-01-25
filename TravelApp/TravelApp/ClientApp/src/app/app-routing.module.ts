@@ -37,6 +37,10 @@ const routes: Routes = [
     path: 'waiting-driver',
     loadChildren: () => import('./waiting-driver/waiting-driver.module').then( m => m.WaitingDriverPageModule)
   },
+  {
+    path: 'home-logged',
+    loadChildren: () => import('./home-logged/home-logged.module').then( m => m.HomeLoggedPageModule)
+  },
 
 
 ];

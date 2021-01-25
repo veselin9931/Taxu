@@ -13,11 +13,13 @@ export class LoginPage implements OnInit {
   submitted = false;
   form: FormGroup;
   loading = false;
-
+  isLoggedIn;
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private accountService: AccountService) { }
+    private accountService: AccountService) {
+      this.isLoggedIn = localStorage.getItem("user");
+     }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -47,7 +49,7 @@ export class LoginPage implements OnInit {
         data => {
           this.clearForm();
           console.log(data);
-          this.route.navigate(['tabs/home']);
+          this.route.navigate(['tabs/home-logged']);
 
         },
         error => {
@@ -61,13 +63,28 @@ export class LoginPage implements OnInit {
     this.route.navigate(['tabs/account/register']);
   }
 
+  travelPage() {
+    this.route.navigate(['tabs/travelling']);
+  } 
 
-  goBack() {
+  drivePage() { 
+    this.route.navigate(['tabs/driving']);
+  }
+
+  logout() { 
+    this.accountService.logout();
+    this.isLoggedIn = ""; 
     this.route.navigate(['tabs/home']);
+
+    window.location.reload();
   }
 
   ionViewDidLeave() {
+    if(this.isLoggedIn == null)
+    {
       window.location.reload();
+
+    }
   }
 
   clearForm() {
