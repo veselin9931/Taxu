@@ -49,7 +49,7 @@ export class AccountService {
   }
 
   getAll() {
-    return this.http.get<User[]>(`${environment.apiUrl}/users`);
+    return this.http.get<User>(`${environment.apiUrl}/api/account`);
   }
 
   getById(id: string) {

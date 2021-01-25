@@ -12,15 +12,24 @@ import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { LoginComponent } from './login/login.component';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    LoginComponent
   ],
-  imports: [
+  imports: [ 
+    BrowserModule /* or CommonModule */, 
+      FormsModule,
+       ReactiveFormsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     RouterModule.forRoot(AppRoutes,{
       useHash: true
     }),

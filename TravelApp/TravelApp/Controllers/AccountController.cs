@@ -37,9 +37,9 @@ namespace TravelApp.Controllers
         }
         // GET: api/<AccountController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return this.Ok(this.userService.GetAll());
         }
 
         // GET api/<AccountController>/5
