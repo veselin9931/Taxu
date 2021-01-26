@@ -76,7 +76,7 @@ namespace TravelApp.Services.Account
 
         public IEnumerable<ApplicationUser> GetAll()
         {
-            return userRepository.Users;
+            return userRepository.Users.ToArray();
         }
 
         public ApplicationUser GetById(string id)

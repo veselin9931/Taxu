@@ -12,9 +12,13 @@ export class UserComponent implements OnInit{
         private alertService: AlertService,
         private accountService: AccountService) { }
 
-        private userTestStatus: {}[] 
+        private userStatus;
     ngOnInit(){
-       let a= this.accountService.getAll();
-       console.log(a.forEach(x => x));
+        this.accountService.getAll().subscribe(data => {
+           this.userStatus = data
+
+           console.log(data);
+          });
+      
     }
 }

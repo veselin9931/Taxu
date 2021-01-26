@@ -37,16 +37,9 @@ namespace TravelApp.Controllers
         }
         // GET: api/<AccountController>
         [HttpGet]
-        public IActionResult Get()
+        public IEnumerable<ApplicationUser> GetAllDrivers ()
         {
-            return this.Ok(this.userService.GetAll());
-        }
-
-        // GET api/<AccountController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+            return this.userService.GetAll().Where(a => a.DriverId != null).AsEnumerable();
         }
 
         // POST api/<AccountController>

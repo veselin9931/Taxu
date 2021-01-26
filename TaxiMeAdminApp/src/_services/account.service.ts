@@ -49,7 +49,8 @@ export class AccountService {
   }
 
   getAll() {
-    return this.http.get<User>(`${environment.apiUrl}/api/account`);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get<User>(`${environment.apiUrl}/api/account`, { headers, responseType: 'json' });
   }
 
   getById(id: string) {

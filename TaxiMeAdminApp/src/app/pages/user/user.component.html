@@ -8,13 +8,10 @@
               Name
             </th>
             <th>
-              Country
+              Phone
             </th>
             <th>
-              City
-            </th>
-            <th>
-              Profit
+              Email
             </th>
             <th>
               Driving license
@@ -31,18 +28,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr *ngFor="let user of userStatus" >
             <td>
-              Minerva Hooper
+              {{user.firstName}}  {{user.lastName}}
             </td>
             <td>
-              Curaçao
-            </td>
-            <td>
-              Sinaai-Waas
+              {{user.phone}}
             </td>
             <td class="text-right">
-              $23,789
+              {{user.userName}}
             </td>
             <td>
               Sinaai-Waas
@@ -57,32 +51,7 @@
               Sinaai-Waas
             </td>
           </tr>
-          <tr>
-            <td>
-              Minerva Hooper
-            </td>
-            <td>
-              Curaçao
-            </td>
-            <td>
-              Sinaai-Waas
-            </td>
-            <td class="text-right">
-              $23,789
-            </td>
-            <td>
-              Sinaai-Waas
-            </td>
-            <td>
-              Sinaai-Waas
-            </td>
-            <td>
-              Sinaai-Waas
-            </td>
-            <td>
-              Sinaai-Waas
-            </td>
-          </tr>
+          
         </tbody>
     </table>
   </div>
