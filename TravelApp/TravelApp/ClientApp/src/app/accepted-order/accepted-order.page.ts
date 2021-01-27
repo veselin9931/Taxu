@@ -23,9 +23,15 @@ export class AcceptedOrderPage implements OnInit {
   constructor(private accountService: AccountService,
     private route: Router,
     private tripService: TripService,
-    private orderService: OrderService) { }
+    private orderService: OrderService) {
+      this.getAcceptedTrip();
+     }
 
   ngOnInit() {
+    this.getAcceptedTrip();
+  }
+
+  getAcceptedTrip(){
     this.tripService.getTrip(this.driverId)
     .subscribe(x => {
       console.log("Trip data")

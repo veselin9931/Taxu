@@ -29,7 +29,7 @@ export class TravellingPage implements OnInit {
             }
 
   ngOnInit() {
-    this.checkorder();
+    // this.checkorder();
 
     this.form = this.formBuilder.group({
       applicationUserId : [''],
@@ -81,7 +81,8 @@ export class TravellingPage implements OnInit {
     this.orderService.getMyOrder(this.userId)
     .subscribe(data => {
       console.log(`Travelling page data`)
-
+      //get accepted by user id
+      
       console.log(data)
       this.isAccepted = data.isAccepted;
 
@@ -89,7 +90,9 @@ export class TravellingPage implements OnInit {
         this.isCompleted = false;
         this.isSubmitted = false;
         this.clearForm();
+        let driverId = data.acceptedBy;
 
+        
         console.log('your order is accepted')
         // this.orderData = data;
         this.orderService.order = data;

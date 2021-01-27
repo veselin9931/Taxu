@@ -52,7 +52,7 @@ export class AccountService {
   }
 
   getById(id: string) {
-    return this.http.get<User>(`${environment.apiUrl}/api/account/get/${id}`);
+    return this.http.get<User>(`${environment.apiUrl}/api/account/${id}`);
   }
 
   updateDriving(id, value): Observable<User>{

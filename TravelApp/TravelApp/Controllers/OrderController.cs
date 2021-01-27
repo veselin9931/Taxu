@@ -133,6 +133,7 @@ namespace TravelApp.Controllers
         {
             var accepted = await this.orderService.AcceptOrderAsync(orderId, driverId);
 
+
             if (accepted)
             {
                 await this.hub.Clients.All.BroadcastMessage();

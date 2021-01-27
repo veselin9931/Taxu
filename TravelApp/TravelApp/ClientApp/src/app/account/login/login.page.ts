@@ -18,8 +18,8 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder,
     private alertService: AlertService,
     private accountService: AccountService) {
-      this.isLoggedIn = localStorage.getItem("user");
-     }
+    this.isLoggedIn = localStorage.getItem("user");
+  }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -49,6 +49,10 @@ export class LoginPage implements OnInit {
         data => {
           this.clearForm();
           console.log(data);
+          this.accountService.updateDriving(this.accountService.userValue.id, false)
+            .subscribe(data => {
+              console.log('success')
+            });
           this.route.navigate(['tabs/home-logged']);
 
         },
@@ -65,23 +69,22 @@ export class LoginPage implements OnInit {
 
   travelPage() {
     this.route.navigate(['tabs/travelling']);
-  } 
+  }
 
-  drivePage() { 
+  drivePage() {
     this.route.navigate(['tabs/driving']);
   }
 
-  logout() { 
+  logout() {
     this.accountService.logout();
-    this.isLoggedIn = ""; 
+    this.isLoggedIn = "";
     this.route.navigate(['tabs/home']);
 
     window.location.reload();
   }
 
   ionViewDidLeave() {
-    if(this.isLoggedIn == null)
-    {
+    if (this.isLoggedIn == null) {
       window.location.reload();
 
     }

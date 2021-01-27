@@ -51,7 +51,7 @@ export class RegisterPage implements OnInit {
     .subscribe(
       data => {
         this.alertService.success('Successful registration', { keepAfterRouteChange: true });
-        this.route.navigate(['tabs/account/login']);
+        this.route.navigate(['tabs/home']);
         console.log(data)
       },
       error => {
@@ -62,7 +62,7 @@ export class RegisterPage implements OnInit {
   }
 
   signIn(){
-    this.route.navigate(['tabs/account/login']);
+    this.route.navigate(['tabs/home']);
   }
 
   goBack(){
