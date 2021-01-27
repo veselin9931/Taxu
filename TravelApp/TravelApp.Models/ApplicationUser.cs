@@ -22,6 +22,8 @@ namespace TravelApp.Models
 
         public bool IsDrivingNow { get; set; }
 
+        public bool IsDriver { get; set; }
+
         [Required]
         [Phone]
         public string Phone { get; set; }

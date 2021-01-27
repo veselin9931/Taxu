@@ -22,14 +22,16 @@ namespace TravelApp.Models
         [Required]
         public bool DocumentConfirmatiom { get; set; }
 
+        public string CarId { get; set; }
         public Car Car { get; set; }
 
         public string LastAdress { get; set; }
 
         public string CurrentLocation { get; set; }
 
+        public string WalletId { get; set; }
         public Wallet Wallet { get; set; }
-
+            
         [Required]
         public double Comission { get; set; }
 

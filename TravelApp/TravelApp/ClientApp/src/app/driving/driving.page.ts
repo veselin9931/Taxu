@@ -22,7 +22,7 @@ export class DrivingPage implements OnInit {
   private readonly getOrdersAction$ = new Subject();
 
   isDrivingNow = this.accountService.userValue.isDrivingNow;
-  verifiedAccount = true;
+  verifiedAccount = false;
   isSubmitted = false;
   form: FormGroup;
   loading = false;
