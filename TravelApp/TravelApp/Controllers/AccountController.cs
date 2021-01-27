@@ -35,6 +35,14 @@ namespace TravelApp.Controllers
             this.configuration = configuration;
             this.userService = userService;
         }
+
+        // GET: api/<AccountController>
+        [HttpGet("{driverId}")]
+        public async Task<ApplicationUser> GetDriver(string driverId)
+        {
+            return this.userService.GetById(driverId);
+        }
+
         // GET: api/<AccountController>
         [HttpGet]
         public IEnumerable<ApplicationUser> GetAllDrivers ()

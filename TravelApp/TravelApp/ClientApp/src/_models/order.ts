@@ -9,4 +9,5 @@ export class Order {
     createdOn: Date;
     user: User;
     totalPrice: number;
+    acceptedBy: string;
 }

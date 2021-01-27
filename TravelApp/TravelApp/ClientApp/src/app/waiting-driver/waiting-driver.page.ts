@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Order } from 'src/_models';
+import { Order, User } from 'src/_models';
+import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
 
 @Component({
@@ -10,12 +11,20 @@ import { OrderService } from 'src/_services/order/order.service';
 })
 export class WaitingDriverPage implements OnInit {
   private currentOrder: Order;
-
+  private driverData: User;
   constructor(private orderService: OrderService,
-    private route: Router) { }
+    private route: Router,
+    private accountService: AccountService) { }
 
   ngOnInit() {
     this.currentOrder = this.orderService.order;
+
+    this.accountService.getById(this.currentOrder.acceptedBy)
+        .subscribe(userData => {
+          this.driverData = userData;
+          console.log(userData)
+        })
+
   }
   
   completeOrder(){

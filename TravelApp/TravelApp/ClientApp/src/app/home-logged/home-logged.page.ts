@@ -24,6 +24,7 @@ isLoggedIn;
   }
 
   logout() { 
+    
     this.accountService.logout();
     this.isLoggedIn = ""; 
     this.route.navigate(['tabs/home']);

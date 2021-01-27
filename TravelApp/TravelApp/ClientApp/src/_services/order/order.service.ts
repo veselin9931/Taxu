@@ -11,6 +11,7 @@ import { Order } from 'src/_models';
 export class OrderService {
   public order: Order;
   public orders = [];
+  public driverId: string;
   private readonly getOrdersAction$ = new Subject();
   
   constructor(private http: HttpClient) { }
@@ -51,6 +52,7 @@ export class OrderService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}/${driverId}`, { headers, responseType: 'json' },)
       .pipe(
+        tap(data => this.driverId = driverId),
         catchError(this.handleError),
       );
 
