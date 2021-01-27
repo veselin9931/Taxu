@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using TravelApp.Common.Repositories;
 using TravelApp.Data.Repositories;
 using TravelApp.Services.Account;
+using TravelApp.Services.CarService;
 using TravelApp.Services.DriverService;
 using TravelApp.Services.EmailSender;
 using TravelApp.Services.OrderService;
 using TravelApp.Services.TripService;
+using TravelApp.Services.WalletService;
 
 namespace TravelApp
 {
@@ -21,6 +23,8 @@ namespace TravelApp
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<ITripService, TripService>();
+            services.AddTransient<IWalletService, WalletService>();
+            services.AddTransient<ICarService, CarService>();
             services.AddTransient<IDriverService, DriverService>();
             //services.AddTransient<IEmailSender, EmailSender>();
 
