@@ -89,8 +89,10 @@ export class TravellingPage implements OnInit {
         this.isCompleted = false;
         this.isSubmitted = false;
         this.clearForm();
+
         console.log('your order is accepted')
-        this.orderData = this.orderService.order;
+        // this.orderData = data;
+        this.orderService.order = data;
         this.route.navigate(['tabs/waiting-driver'])
       }
     })

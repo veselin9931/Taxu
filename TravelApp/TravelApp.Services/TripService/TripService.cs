@@ -40,7 +40,28 @@ namespace TravelApp.Services.TripService
             return false;
         }
 
+        public async Task<bool> FinishTripAsync(string tripId)
+        {
+            var trip = this.GetTripById(tripId);
+
+            if (trip != null)
+            {
+                trip.IsCompleted = true;
+
+                this.tripRepository.Update(trip);
+
+                await this.tripRepository.SaveChangesAsync();
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Completing a trip failed!");
+        }
+
+        public Trip GetTripById(string id)
+       => this.tripRepository.All()?.FirstOrDefault(x => x.Id == id);
+
         public Trip GetTripByUserId(string applicationUserId)
-         => this.tripRepository.All()?.FirstOrDefault(x => x.ApplicationUserId == applicationUserId && x.IsCompleted == false);
+         => this.tripRepository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.ApplicationUserId == applicationUserId && x.IsCompleted == false);
     }
 }

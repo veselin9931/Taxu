@@ -35,13 +35,45 @@ ion-item {
 .iconsText{
     color: rgb(255, 174, 0);
     font-family: cursive;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
-ion-icon {
-    color: rgb(255, 174, 0);
-    font-size: 350%;
+.ig {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    border-radius: 80px;
+    color: #fff;
+    font-size: 220px;
+    line-height: 250px;
+    vertical-align: middle;
+    background: #d6249f;
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+    box-shadow: 0px 3px 10px rgba(0,0,0,.25);
 }
+
+.fb {
+    color: #3b5998;
+    font-size: 200%;
+}
+
+
+.tw {
+    color: rgb(18, 184, 250);
+    font-size: 200%;
+}
+
+// .iconsText{
+//     color: rgb(255, 174, 0);
+//     font-family: cursive;
+//     font-size: 1.2em;
+// }
+
+// ion-icon {
+//     color: rgb(255, 174, 0);
+//     font-size: 350%;
+// }
 .backIcon {
     color: rgb(255, 174, 0);
     font-size: 150%;

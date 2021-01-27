@@ -17,6 +17,7 @@ export class WaitingDriverPage implements OnInit {
   ngOnInit() {
     this.currentOrder = this.orderService.order;
   }
+  
   completeOrder(){
 
     this.orderService.completeOrder(this.currentOrder.id)

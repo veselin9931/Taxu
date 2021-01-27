@@ -28,6 +28,5 @@ isLoggedIn;
     this.isLoggedIn = ""; 
     this.route.navigate(['tabs/home']);
 
-    window.location.reload();
   }
 }

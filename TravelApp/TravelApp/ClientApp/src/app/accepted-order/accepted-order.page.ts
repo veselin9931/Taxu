@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Order } from 'src/_models';
+import { Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
+import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
 
 @Component({
@@ -10,43 +11,52 @@ import { TripService } from 'src/_services/trip/trip.service';
   styleUrls: ['./accepted-order.page.scss'],
 })
 export class AcceptedOrderPage implements OnInit {
+  public currentTrip: Trip;
+  orderId: string;
+  location: string;
+  destination: string;
+  totalPrice: number;
   isDrivingNow = this.accountService.userValue.isDrivingNow;
-  
-  order = "";
-  orderId = "";
   driverId = this.tripService.currentTripDriverId;
   
 
   constructor(private accountService: AccountService,
     private route: Router,
-    private tripService: TripService) { 
-      this.orderId = this.tripService.currentTripOrderId; 
-      this.order = this.tripService.currentOrder;
-      console.log('thepage  ')
-      this.ngOnInit();
-    }
+    private tripService: TripService,
+    private orderService: OrderService) { }
 
   ngOnInit() {
-    this.order = this.tripService.currentOrder;
-    this.orderId = this.tripService.currentTripOrderId;
-
     this.tripService.getTrip(this.driverId)
     .subscribe(x => {
       console.log("Trip data")
       console.log(x);
+      this.currentTrip = x;
+      this.orderId = x.orderId;
+
+      this.orderService.getOrderById(x.orderId).subscribe(order => {
+        x.order = order;
+        this.location = order.location;
+        this.destination = order.destination;
+        this.totalPrice = order.totalPrice;
+      })
     });
   }
 
   finishTrip(){
+    this.tripService.completeTrip(this.currentTrip.id)
+    .subscribe(data => {
+      console.log('Completed trip')
+    })
+    
     //trigger the driver's driving now property to false
-
     let driverId = this.accountService.userValue.id;
     let value = this.accountService.userValue.isDrivingNow = false;
+
     this.accountService.updateDriving(driverId, value)
     .subscribe(data => {
       this.route.navigate(['tabs/driving']);
-      console.log(data)
     });
+
   }
 
   goBack() {

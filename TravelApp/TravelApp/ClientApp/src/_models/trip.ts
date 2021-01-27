@@ -1,7 +1,7 @@
 import { Order } from "./order";
 
 export class Trip {
-    tripId: string;
+    id: string;
     orderId: string;
     driverId: string;
     createdOn: Date;

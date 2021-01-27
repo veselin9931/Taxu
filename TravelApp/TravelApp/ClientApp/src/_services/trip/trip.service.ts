@@ -10,6 +10,7 @@ import { AccountService } from '../account.service';
   providedIn: 'root'
 })
 export class TripService {
+  public trip: Trip;
   public trips = [];
   public currentTripOrderId: string;
   public currentTripDriverId = this.accountService.userValue.id;
@@ -31,9 +32,20 @@ export class TripService {
   getTrip(applicationUserId: string): Observable<Trip> {
     return this.http.get<Trip>(`${environment.apiUrl}/api/trip/${applicationUserId}`)
       .pipe(
+        tap(data => this.trip = data),
         catchError(this.handleError)
       )
   }
+
+  completeTrip(tripId: string): Observable<Trip> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/${tripId}`, { headers, responseType: 'json' },)
+      .pipe(
+        catchError(this.handleError),
+      );
+
+  }
+
 
   private handleError(err) {
     let errorMessage: string;

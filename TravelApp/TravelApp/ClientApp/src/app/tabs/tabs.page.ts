@@ -9,7 +9,10 @@ import { Router } from '@angular/router';
 export class TabsPage implements OnInit {
   isLoggedIn;
   
-  constructor() { this.isLoggedIn = localStorage.getItem("user"); }
+  constructor() { 
+    this.isLoggedIn = localStorage.getItem("user"); 
+
+  }
   ngOnInit(): void {
     this.isLoggedIn = localStorage.getItem("user");
   }

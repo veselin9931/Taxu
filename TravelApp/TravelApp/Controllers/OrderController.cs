@@ -28,16 +28,20 @@ namespace TravelApp.Controllers
         private readonly IOrderService orderService;
         private readonly IDeletableEntityRepository<Order> orderRepository;
         private readonly IHubContext<OrderHub, IHubClient> hub;
+        private readonly IAccountService accountService;
+
         //private readonly IEmailSender emailSender;
 
         public OrderController(IOrderService orderService, 
             IDeletableEntityRepository<Order> orderRepository,
-            IHubContext<OrderHub, IHubClient> hub)
+            IHubContext<OrderHub, IHubClient> hub,
+            IAccountService accountService)
             //IEmailSender emailSender)
         {
             this.orderService = orderService;
             this.orderRepository = orderRepository;
             this.hub = hub;
+            this.accountService = accountService;
             //this.emailSender = emailSender;
         }
 
@@ -56,12 +60,30 @@ namespace TravelApp.Controllers
             return this.Ok(orders);
         }
 
+        //GET ORDER BY ID
+        // GET api/<OrderController>/id/{orderId}
+        [HttpGet("id/{orderId}")]
+        public async Task<IActionResult> GetById(string orderId)
+        {
+            var order = this.orderService.GetOrderById(orderId);
+
+            if (order != null)
+            {
+                return this.Ok(order);
+            }
+
+            return this.NoContent();
+        }
+
         //GET ORDER BY USER ID
         // GET api/<OrderController>/{userId}
         [HttpGet("{userId}")]
         public async Task<IActionResult> Get(string userId)
         {
             var order = this.orderService.GetOrderByUserId(userId);
+            var user = this.accountService.GetById(userId);
+
+            order.ApplicationUser = user;
 
             if (order != null)
             {
@@ -79,8 +101,12 @@ namespace TravelApp.Controllers
             {
                 try
                 {
+                    var user = this.accountService.GetById(input.ApplicationUserId);
 
+                    input.ApplicationUser = user;
                     var result = await this.orderService.CreateOrderAsync(input);
+
+                    
 
                     if (result != null)
                     {

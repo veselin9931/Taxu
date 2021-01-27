@@ -34,7 +34,11 @@ export class DrivingPage implements OnInit {
     private accountService: AccountService,
     private tripService: TripService,
     public signalRService: SignalRService,
-    private http: HttpClient) { }
+    private http: HttpClient) { 
+      if(this.isDrivingNow == true){
+        this.route.navigate(['tabs/accepted-order']);
+      }
+    }
 
   ngOnInit(): void {
     this.getData();
