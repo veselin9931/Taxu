@@ -90,7 +90,7 @@ export class TravellingPage implements OnInit {
         this.isCompleted = false;
         this.isSubmitted = false;
         this.clearForm();
-        let driverId = data.acceptedBy;
+        let driverId = data.isAccepted;
 
         
         console.log('your order is accepted')

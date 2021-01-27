@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TravelApp.Common.Repositories;
+using TravelApp.Infrastructure.InputModels.DriverInput;
 using TravelApp.Infrastructure.ViewModels;
 using TravelApp.Models;
 
@@ -15,6 +16,11 @@ namespace TravelApp.Services.DriverService
         public DriverService(IRepository<Driver> repository)
         {
             this.repository = repository;
+        }
+
+        public IEnumerable<DriverViewModel> CreateDriver(DriverInputModel driverInputModel)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<DriverViewModel> GetAllDrivers()
