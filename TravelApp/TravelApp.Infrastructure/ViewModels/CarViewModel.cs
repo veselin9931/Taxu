@@ -7,6 +7,8 @@ namespace TravelApp.Infrastructure.ViewModels
 {
     public class CarViewModel
     {
+        public string Id { get; set; }
+
         [Required]
         public string Model { get; set; }
 
