@@ -1,12 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { IonInfiniteScroll } from '@ionic/angular';
-import { interval, Subject } from 'rxjs';
-import { concatMap, startWith } from 'rxjs/operators';
-import { Order } from 'src/_models';
+import { Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
 import { SignalRService } from 'src/_services/signal-r.service';
@@ -18,25 +14,29 @@ import { TripService } from 'src/_services/trip/trip.service';
   styleUrls: ['./driving.page.scss'],
 })
 export class DrivingPage implements OnInit {
-  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-  private readonly getOrdersAction$ = new Subject();
+  public currentTrip: Trip;
 
-  isDrivingNow = this.accountService.userValue.isDrivingNow;
-  verifiedAccount = false;
-  isSubmitted = false;
   form: FormGroup;
-  loading = false;
   orders: Order[] = [];
+  orderId: string;
+  location: string;
+  totalPrice: number;
+  destination: string;
+  
+  loading = false;
+  isSubmitted = false;
+  verifiedAccount = true;
+  driverId = this.tripService.currentTripDriverId;
+  isDrivingNow = this.accountService.userValue.isDrivingNow;
 
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private orderService: OrderService,
     private accountService: AccountService,
     private tripService: TripService,
-    public signalRService: SignalRService,
-    private http: HttpClient) { 
+    public signalRService: SignalRService) { 
       if(this.isDrivingNow == true){
-        this.route.navigate(['tabs/accepted-order']);
+        this.getAcceptedTrip()
       }
     }
 
@@ -44,7 +44,7 @@ export class DrivingPage implements OnInit {
     this.getData();
 
     if(this.isDrivingNow == true){
-      this.route.navigate(['tabs/accepted-order']);
+      this.getAcceptedTrip()
     }
 
     //SignalR data logic:
@@ -64,14 +64,11 @@ export class DrivingPage implements OnInit {
 
     connection.on('BroadcastMessage', () => {
       this.getData();
+      this.getAcceptedTrip();
     });
   }
 
   getData(){
-    // if(this.isDrivingNow == true){
-    //   this.route.navigate(['tabs/accepted-order']);
-    // }
-
     this.orderService.getAllOrders().subscribe(data => {
       this.orders = data;
       console.log("Driving page orders")
@@ -102,9 +99,43 @@ export class DrivingPage implements OnInit {
 
     this.tripService.createTrip(data)
     .subscribe(data => {
-      this.route.navigate(['tabs/accepted-order']);
+      //this.route.navigate(['tabs/accepted-order']);
       console.log(data);
     })
+  }
+
+  getAcceptedTrip(){
+    this.tripService.getTrip(this.driverId)
+    .subscribe(x => {
+      console.log("Trip data")
+      console.log(x);
+      this.currentTrip = x;
+      this.orderId = x.orderId;
+
+      this.orderService.getOrderById(x.orderId).subscribe(order => {
+        x.order = order;
+        this.location = order.location;
+        this.destination = order.destination;
+        this.totalPrice = order.totalPrice;
+      })
+    });
+  }
+
+  finishTrip(){
+    this.tripService.completeTrip(this.currentTrip.id)
+    .subscribe(data => {
+      console.log('Completed trip')
+    })
+    
+    //trigger the driver's driving now property to false
+    let driverId = this.accountService.userValue.id;
+    let value = this.accountService.userValue.isDrivingNow = false;
+
+    this.accountService.updateDriving(driverId, value)
+    .subscribe(data => {
+      window.location.reload();
+    });
+
   }
 
   goBack() {
@@ -123,6 +154,7 @@ export class DrivingPage implements OnInit {
 
     this.clearForm();
   }
+  
 
 
   uploadLicense() {

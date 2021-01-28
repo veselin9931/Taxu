@@ -21,7 +21,7 @@ export class OrderService {
 
     return this.http.post(`${environment.apiUrl}/api/order`, data, { headers, responseType: 'text' })
       .pipe(
-        catchError(this.handleError),
+        catchError(this.handleError)
       );
   }
 
@@ -53,7 +53,7 @@ export class OrderService {
     return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}/${driverId}`, { headers, responseType: 'json' },)
       .pipe(
         tap(data => this.driverId = driverId),
-        catchError(this.handleError),
+        catchError(this.handleError)
       );
 
   }
@@ -62,19 +62,21 @@ export class OrderService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}`, { headers, responseType: 'json' },)
       .pipe(
-        catchError(this.handleError),
+        catchError(this.handleError)
       );
 
   }
 
-  private handleError(err) {
-    let errorMessage: string;
-    if (err.error instanceof ErrorEvent) {
-      errorMessage = `An error occurred: ${err.error.message}`;
+  handleError(error) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+        // client-side error
+        errorMessage = `Error: ${error.error.message}`;
     } else {
-      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
+        // server-side error
+        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.error(err);
+    console.log(errorMessage);
     return throwError(errorMessage);
-  }
+}
 }

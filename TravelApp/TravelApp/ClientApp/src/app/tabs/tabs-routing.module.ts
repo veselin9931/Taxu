@@ -28,14 +28,6 @@ const routes: Routes = [
         loadChildren: () => import('../driving/driving.module').then(m => m.DrivingPageModule)
       },
       {
-        path: 'accepted-order',
-        loadChildren: () => import('../accepted-order/accepted-order.module').then(m => m.AcceptedOrderPageModule)
-      },
-      {
-        path: 'waiting-driver',
-        loadChildren: () => import('../waiting-driver/waiting-driver.module').then(m => m.WaitingDriverPageModule)
-      },
-      {
         path: 'verifying',
         loadChildren: () => import('../account-verifying/account-verifying.module').then(m => m.AccountVerifyingPageModule)
       },
