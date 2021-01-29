@@ -19,7 +19,7 @@ namespace TravelApp.Services.CarService
             this.repository = repository;
         }
 
-        public async Task<CarViewModel> CreateDriver(CreateCarInputModel carInputModel)
+        public async Task<CarViewModel> CreateCar(CreateCarInputModel carInputModel)
         {
             var car = new Car()
             {
@@ -29,7 +29,7 @@ namespace TravelApp.Services.CarService
                 Model = carInputModel.Model,
                 RegistrationNumber = carInputModel.RegistrationNumber,
                 TehnicalReview = carInputModel.TehnicalReview,
-                TypeId = 1
+                TypeId = carInputModel.Type
             };
 
             this.repository.Add(car);

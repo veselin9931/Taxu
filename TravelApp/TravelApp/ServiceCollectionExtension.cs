@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelApp.Common.Repositories;
 using TravelApp.Data.Repositories;
+using TravelApp.Data.Seeding;
 using TravelApp.Services.Account;
 using TravelApp.Services.CarService;
 using TravelApp.Services.DriverService;
@@ -20,6 +22,8 @@ namespace TravelApp
     {
         public static IServiceCollection RegisterCustomServices(this IServiceCollection services)
         {
+
+            services.AddTransient<ISeeder, RolesSeeder>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<ITripService, TripService>();

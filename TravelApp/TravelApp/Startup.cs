@@ -13,6 +13,7 @@ using TravelApp.Models;
 using TravelApp.Services;
 using TravelApp.Services.OrderService;
 using TravelApp.Infrastructure;
+using TravelApp.Data.Seeding;
 
 namespace TravelApp
 {
@@ -37,6 +38,8 @@ namespace TravelApp
                 cfg.User.RequireUniqueEmail = true;
             })
                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
 
             services.AddAuthentication(options =>
             {
@@ -84,6 +87,21 @@ namespace TravelApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                if (env.IsDevelopment() || env.IsProduction())
+                {
+                    dbContext.Database.Migrate();
+                }
+
+                new ApplicationDbContextSeeder()
+                    .SeedAsync(dbContext, serviceScope.ServiceProvider)
+                    .GetAwaiter()
+                    .GetResult();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
