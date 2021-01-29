@@ -13,16 +13,21 @@
 
     public class RolesSeeder : ISeeder
     {
+
+        public RolesSeeder()
+        {
+        }
+
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             await SeedRoleAsync(roleManager, GlobalConstants.AdministratorRoleName);
             await SeedRoleAsync(roleManager, GlobalConstants.DriverRoleName);
             await SeedRoleAsync(roleManager, GlobalConstants.UserRoleName);
         }
 
-        private static async Task SeedRoleAsync(RoleManager<ApplicationRole> roleManager, string roleName)
+        private static async Task SeedRoleAsync(RoleManager<IdentityRole> roleManager, string roleName)
         {
             var role = await roleManager.FindByNameAsync(roleName);
             if (role == null)

@@ -19,7 +19,7 @@ namespace TravelApp.Services.CarService
             this.repository = repository;
         }
 
-        public async Task<CarViewModel> CreateDriver(CreateCarInputModel carInputModel)
+        public async Task<CarViewModel> CreateCar(CreateCarInputModel carInputModel)
         {
             var car = new Car()
             {

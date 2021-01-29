@@ -9,7 +9,7 @@ namespace TravelApp.Services.CarService
 {
     public interface ICarService
     {
-        Task<CarViewModel> CreateDriver(CreateCarInputModel car);
+        Task<CarViewModel> CreateCar(CreateCarInputModel car);
 
         CarViewModel GetCar(string carId);
     }
