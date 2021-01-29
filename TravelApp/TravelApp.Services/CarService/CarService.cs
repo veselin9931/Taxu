@@ -29,7 +29,7 @@ namespace TravelApp.Services.CarService
                 Model = carInputModel.Model,
                 RegistrationNumber = carInputModel.RegistrationNumber,
                 TehnicalReview = carInputModel.TehnicalReview,
-                TypeId = 1
+                TypeId = carInputModel.Type
             };
 
             this.repository.Add(car);
