@@ -27,6 +27,7 @@
             var seeders = new List<ISeeder>
                           {
                               new RolesSeeder(),
+                              new CarTypesSeeder()
                           };
 
             foreach (var seeder in seeders)
