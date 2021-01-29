@@ -142,7 +142,7 @@ export class TravellingPage implements OnInit {
 
     this.accountService.updateDriving(this.order.acceptedBy, false)
       .subscribe(data => {
-        window.location.reload();
+        console.log('Successfull updated driver data!')
       });
   }
 

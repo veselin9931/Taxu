@@ -102,6 +102,9 @@ export class DrivingPage implements OnInit {
       //this.route.navigate(['tabs/accepted-order']);
       console.log(data);
     })
+
+    this.route.navigateByUrl('tabs/driving', { skipLocationChange: true });
+  
   }
 
   getAcceptedTrip(){
@@ -135,7 +138,7 @@ export class DrivingPage implements OnInit {
     .subscribe(data => {
       window.location.reload();
     });
-
+     
   }
 
   goBack() {
