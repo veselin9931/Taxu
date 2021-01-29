@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TravelApp.Common.Repositories;
 using TravelApp.Infrastructure.InputModels.CarInput;
 using TravelApp.Infrastructure.ViewModels;
+using TravelApp.Mappings;
 using TravelApp.Models;
 
 namespace TravelApp.Services.CarService
@@ -47,6 +48,17 @@ namespace TravelApp.Services.CarService
             //TODO: Refactor
         }
 
+        public async Task<bool> DeleteCar(string carId)
+        {
+            var car = await this.repository.GetByIdAsync(carId);
+
+            this.repository.Delete(car);
+
+            var result = await this.repository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
         public CarViewModel GetCar(string carId)
         {
             var car = this.repository.All()
@@ -58,6 +70,11 @@ namespace TravelApp.Services.CarService
             }
 
             return new CarViewModel() { Id = carId , Color = car.Color , Capacity = car.Capacity, Model = car.Model, RegistrationNumber = car.RegistrationNumber};
+        }
+
+        public IEnumerable<CarViewModel> GetCars()
+        {
+           return this.repository.All().To<CarViewModel>();
         }
     }
 }

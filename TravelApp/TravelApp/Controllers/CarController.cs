@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelApp.Infrastructure.InputModels.CarInput;
+using TravelApp.Infrastructure.ViewModels;
 using TravelApp.Services.CarService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,16 +25,25 @@ namespace TravelApp.Controllers
 
         // GET: api/<CarController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<CarViewModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            var cars = service.GetCars();
+
+            return cars;
         }
 
         // GET api/<CarController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(string id)
         {
-            return "value";
+            var car = this.service.GetCar(id);
+
+            if (car == null)
+            {
+                return this.StatusCode(204);
+            }
+
+            return this.Ok(car);
         }
 
         // POST api/<CarController>
@@ -58,12 +69,21 @@ namespace TravelApp.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+
         }
 
         // DELETE api/<CarController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
+            var r = await this.service.DeleteCar(id);
+
+            if (!r)
+            {
+                return this.NotFound(id);
+            }
+
+            return this.Ok(id);
         }
 
     }

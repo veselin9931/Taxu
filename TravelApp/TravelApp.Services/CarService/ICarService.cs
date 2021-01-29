@@ -12,5 +12,10 @@ namespace TravelApp.Services.CarService
         Task<CarViewModel> CreateCar(CreateCarInputModel car);
 
         CarViewModel GetCar(string carId);
+
+        IEnumerable<CarViewModel> GetCars();
+
+        Task<bool> DeleteCar(string carId);
+
     }
 }

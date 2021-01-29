@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using TravelApp.Mappings;
+using TravelApp.Models;
 
 namespace TravelApp.Infrastructure.ViewModels
 {
-    public class CarViewModel
+    public class CarViewModel : IMapFrom<Car>
     {
         public string Id { get; set; }
 
