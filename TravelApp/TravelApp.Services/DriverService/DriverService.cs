@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TravelApp.Common.Repositories;
 using TravelApp.Infrastructure.InputModels.DriverInput;
 using TravelApp.Infrastructure.ViewModels;
+using TravelApp.Mappings;
 using TravelApp.Models;
 using TravelApp.Services.WalletService;
 
@@ -59,6 +60,21 @@ namespace TravelApp.Services.DriverService
             });
 
             return drivers;
+        }
+
+        public DriverViewModel GetDriver(string id)
+        {
+            var driver =  this.repository.All()
+                .Where(d => d.Id == id)
+                .To<DriverViewModel>()
+                .First();
+
+            if (driver == null)
+            {
+                return null;
+            }
+
+            return driver;
         }
     }
 }

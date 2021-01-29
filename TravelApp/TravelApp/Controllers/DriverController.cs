@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TravelApp.Infrastructure.InputModels.DriverInput;
 using TravelApp.Infrastructure.ViewModels;
 using TravelApp.Services.DriverService;
 
@@ -45,8 +46,21 @@ namespace TravelApp.Controllers
 
         // POST api/<DriverController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] DriverInputModel input)
         {
+            if (!this.ModelState.IsValid || input == null)
+            {
+                return this.ValidationProblem();
+            }
+
+            var driver = await this.driverService.CreateDriver(input);
+
+            if (driver == null)
+            {
+                return this.BadRequest();
+            }
+
+            return this.Content(driver.Id);
         }
 
         // PUT api/<DriverController>/5

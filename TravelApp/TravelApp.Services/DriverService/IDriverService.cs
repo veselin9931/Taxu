@@ -12,5 +12,7 @@ namespace TravelApp.Services.DriverService
         Task<DriverViewModel> CreateDriver(DriverInputModel driverInputModel);
 
         IEnumerable<DriverViewModel> GetAllDrivers();
+
+        DriverViewModel GetDriver(string id);
     }
 }
