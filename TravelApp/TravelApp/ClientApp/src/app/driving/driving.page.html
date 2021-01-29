@@ -1,4 +1,4 @@
-<ion-content padding class="background">
+<ion-content padding class="background" *ngIf="isDrivingNow == false">
   <div class="row">
     <div class="col">
       <div class="row mt-2">
@@ -18,22 +18,25 @@
             <h5>Please upload your documents, so we can verify your account</h5>
           </ion-text>
 
-          <form [formGroup]="form"  novalidate class="col-md-6">
+          <form [formGroup]="form" novalidate class="col-md-6">
             <div class="form-group col mt-5">
               <ion-button color="warning" expand="block" (click)="uploadLicense()">
-                <span class="ion-text-left">Upload driving license</span></ion-button>
+                <span class="ion-text-left">Upload driving license</span>
+              </ion-button>
             </div>
 
             <div class="form-group col mt-5">
               <ion-button color="warning" expand="block" (click)="uploadCarTicket()">
-                <span class="ion-text-left">Upload car ticket</span></ion-button>
+                <span class="ion-text-left">Upload car ticket</span>
+              </ion-button>
             </div>
 
             <div class="form-group col mt-5">
               <ion-button color="warning" expand="block" (click)="uploadCarPic()">
-                <span class="ion-text-left">Upload car picture</span></ion-button>
+                <span class="ion-text-left">Upload car picture</span>
+              </ion-button>
             </div>
-            
+
 
             <div class="col-md-12 mt-3">
               <ion-button (click)="onSubmit()" type="submit" color="warning">Submit</ion-button>
@@ -55,40 +58,40 @@
             </ion-text>
           </div>
         </div>
-        
-        <div class="col-md-10">
-            <div *ngFor="let oldOrder of orders" class="list-group mt-2">
-              
-              <a class="text list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">Order</h5>
-                  <small>{{oldOrder.createdOn}}</small>
-                </div>
-                <p class="mb-1">Location: {{oldOrder.location}}</p>
-                <p class="mb-1">Destination: {{oldOrder.destination}}</p>
-                
-                <div class="row">
-                  <div class="col">
-                    <div class="d-flex w-100 justify-content-between">
-                      <small>Distance: 25 km (coming soon...)</small>
-                      <ion-button (click)="acceptOrder(oldOrder)" type="submit" color="warning">Accept</ion-button>
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <small>Total cost: {{oldOrder.totalPrice}}$</small>
-                  </div>
-                </div>
-              </a>
-            </div>
 
-            
-            <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <div class="col-md-10">
+          <div *ngFor="let oldOrder of orders" class="list-group mt-2">
+
+            <a class="text list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Order</h5>
+                <small>{{oldOrder.createdOn}}</small>
+              </div>
+              <p class="mb-1">Location: {{oldOrder.location}}</p>
+              <p class="mb-1">Destination: {{oldOrder.destination}}</p>
+
+              <div class="row">
+                <div class="col">
+                  <div class="d-flex w-100 justify-content-between">
+                    <small>Distance: 25 km (coming soon...)</small>
+                    <ion-button (click)="acceptOrder(oldOrder)" type="submit" color="warning">Accept</ion-button>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <small>Total cost: {{oldOrder.totalPrice}}$</small>
+                </div>
+              </div>
+            </a>
+          </div>
+
+
+          <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
               <ion-infinite-scroll-content
                 loadingSpinner="bubbles"
                 loadingText="Loading more data...">
               </ion-infinite-scroll-content>
             </ion-infinite-scroll> -->
-          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -97,3 +100,48 @@
 </ion-content>
 
 
+<ion-content padding class="background" *ngIf="isDrivingNow == true">
+  <div class="row">
+    <div class="col">
+      <div class="row mt-2">
+        <div class="col-1">
+          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
+        </div>
+        <div class="col-9">
+          <h5 (click)=goBack() class="back">Back</h5>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col text-center">
+          <ion-text class="centered" color="warning">
+            <h2 class="text">Driving</h2>
+            <hr>
+            <h5>Accepted order</h5>
+          </ion-text>
+
+          <div class="row">
+            <div class="col">
+              <div class="d-flex w-100 justify-content-between">
+                <ion-text class="centered" color="warning">
+                  <small class="text">Order ID: {{orderId}}</small>
+                  <small class="text">Driver ID: {{driverId}}</small>
+                  <h2 class="text">Location: {{this.location}}</h2>
+                  <h2 class="text">Destination: {{this.destination}}</h2>
+                  <h3 class="text">Total price: {{this.totalPrice}}$</h3>
+
+                </ion-text>
+                
+
+                <ion-button (click)="finishTrip()" type="submit" color="warning">Finish</ion-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+    </div>
+  </div>
+
+</ion-content>

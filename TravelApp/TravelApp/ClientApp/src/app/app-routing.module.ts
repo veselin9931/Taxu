@@ -29,13 +29,6 @@ const routes: Routes = [
   {
     path: 'account-verifying',
     loadChildren: () => import('./account-verifying/account-verifying.module').then( m => m.AccountVerifyingPageModule)
-  },  {
-    path: 'accepted-order',
-    loadChildren: () => import('./accepted-order/accepted-order.module').then( m => m.AcceptedOrderPageModule)
-  },
-  {
-    path: 'waiting-driver',
-    loadChildren: () => import('./waiting-driver/waiting-driver.module').then( m => m.WaitingDriverPageModule)
   },
   {
     path: 'home-logged',
