@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelApp.Infrastructure.InputModels.DriverInput;
 using TravelApp.Infrastructure.ViewModels;
+using TravelApp.Services.Account;
 using TravelApp.Services.DriverService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,10 +17,12 @@ namespace TravelApp.Controllers
     public class DriverController : ControllerBase
     {
         private readonly IDriverService driverService;
+        private readonly IAccountService accountService;
 
-        public DriverController(IDriverService driverService)
+        public DriverController(IDriverService driverService, IAccountService accountService)
         {
             this.driverService = driverService;
+            this.accountService = accountService;
         }
 
         // GET: api/<AccountController>
@@ -46,7 +49,7 @@ namespace TravelApp.Controllers
 
         // POST api/<DriverController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] DriverInputModel input)
+        public async Task<IActionResult> Post([FromBody] DriverInputModel input, [FromQuery] string userId)
         {
             if (!this.ModelState.IsValid || input == null)
             {
@@ -60,7 +63,14 @@ namespace TravelApp.Controllers
                 return this.BadRequest();
             }
 
-            return this.Content(driver.Id);
+            var r = await this.accountService.AddDriverSettings(userId, driver.Id);
+
+            if (r)
+            {
+                return this.Content(driver.Id);
+            }
+
+            return this.BadRequest();
         }
 
         // PUT api/<DriverController>/5

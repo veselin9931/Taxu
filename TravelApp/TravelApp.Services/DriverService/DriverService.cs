@@ -37,7 +37,6 @@ namespace TravelApp.Services.DriverService
                 Referal = new Guid().ToString(),
                 ReferalUsedTimes = 0,
                 WalletId = walletId,
-                ApplicationUserId = driverInputModel.ApplicationUserId,
                 CreatedOn = DateTime.UtcNow
             };
 

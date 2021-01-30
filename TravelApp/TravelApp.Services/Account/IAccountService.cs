@@ -14,6 +14,8 @@ namespace TravelApp.Services.Account
         IEnumerable<ApplicationUser> GetAll();
 
         public ApplicationUser GetById(string id);
+
+        public Task<bool> AddDriverSettings(string userId, string driverId);
         
         public Task<bool> UpdateUserAsync(string id, bool driving);
 

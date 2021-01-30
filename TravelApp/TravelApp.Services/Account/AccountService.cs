@@ -132,5 +132,18 @@ namespace TravelApp.Services.Account
 
             return false;
         }
+
+        public async Task<bool> AddDriverSettings(string userId, string driverId)
+        {
+            var user = this.GetById(userId);
+
+            user.IsDriver = true;
+
+            user.DriverId = driverId;
+
+            var result = await this.userRepository.UpdateAsync(user);
+
+            return result.Succeeded;
+        }
     }
 }
