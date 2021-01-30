@@ -18,10 +18,11 @@ namespace TravelApp.Services.WalletService
             this.repository = repository;
         }
 
-        public async Task<string> CreateWallet()
+        public async Task<string> CreateWallet(string applicationUserId)
         {
             var wallet = new Wallet() 
             { 
+              ApplicationUserId = applicationUserId,
               Ammount = 0, 
               Confirmation = false, 
               CreatedOn = DateTime.Now

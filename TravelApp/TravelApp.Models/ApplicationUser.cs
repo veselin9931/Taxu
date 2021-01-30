@@ -32,9 +32,9 @@ namespace TravelApp.Models
 
         public string LastLocation { get; set; }
 
-        public Driver Driver { get; set; }
+        //public Driver Driver { get; set; }
 
-        public string DriverId { get; set; }
+        //public string DriverId { get; set; }
         
     }
 }

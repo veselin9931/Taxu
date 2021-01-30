@@ -31,7 +31,7 @@ namespace TravelApp.Models
         [Required]
         public bool Confirmation { get; set; }
 
-        [Required]
+        
         public int TypeId { get; set; }
 
         public CarType Type { get; set; }

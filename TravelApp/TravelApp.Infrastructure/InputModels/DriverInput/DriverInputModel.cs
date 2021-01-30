@@ -7,8 +7,11 @@ namespace TravelApp.Infrastructure.InputModels.DriverInput
 {
     public class DriverInputModel
     {
+        public string ApplicationUserId { get; set; }
+
+
         [Required]
-        public string DriverLicanse { get; set; }
+        public string DriverLicense { get; set; }
 
         [Required]
         public string IDCardNumber { get; set; }

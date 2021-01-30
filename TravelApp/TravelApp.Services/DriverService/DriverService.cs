@@ -25,18 +25,20 @@ namespace TravelApp.Services.DriverService
 
         public async Task<DriverViewModel> CreateDriver(DriverInputModel driverInputModel)
         {
-            var walletId =  await this.walletService.CreateWallet();
+            var walletId =  await this.walletService.CreateWallet(driverInputModel.ApplicationUserId);
 
             var driver = new Driver()
             {
                 Comission = 20,
-                DocumentConfirmatiom = false,
-                DriverLicanse = driverInputModel.DriverLicanse,
+                DocumentConfirmation = false,
+                DriverLicense = driverInputModel.DriverLicense,
                 IDCardNumber = driverInputModel.IDCardNumber,
                 CurrentLocation = driverInputModel.CurrentLocation,
                 Referal = new Guid().ToString(),
                 ReferalUsedTimes = 0,
-                WalletId = walletId
+                WalletId = walletId,
+                ApplicationUserId = driverInputModel.ApplicationUserId,
+                CreatedOn = DateTime.UtcNow
             };
 
             //TODO: rEF
@@ -45,7 +47,7 @@ namespace TravelApp.Services.DriverService
 
             var result =  await this.repository.SaveChangesAsync();
 
-            return result > 0 ? new DriverViewModel() { Comission = driver.Comission, DocumentConfirmatiom = driver.DocumentConfirmatiom, Id = driver.Id, DriverLicanse = driver.DriverLicanse, IDCardNumber = driver.IDCardNumber } : null; 
+            return result > 0 ? new DriverViewModel() { Comission = driver.Comission, DocumentConfirmatiom = driver.DocumentConfirmation, Id = driver.Id, DriverLicanse = driver.DriverLicense, IDCardNumber = driver.IDCardNumber } : null; 
         }
 
         public IEnumerable<DriverViewModel> GetAllDrivers()
@@ -54,8 +56,8 @@ namespace TravelApp.Services.DriverService
             new DriverViewModel()
             { 
                 Comission = a.Comission, 
-                DriverLicanse = a.DriverLicanse, IDCardNumber = a.IDCardNumber,
-                DocumentConfirmatiom = a.DocumentConfirmatiom,
+                DriverLicanse = a.DriverLicense, IDCardNumber = a.IDCardNumber,
+                DocumentConfirmatiom = a.DocumentConfirmation,
                 Id = a.Id
             });
 

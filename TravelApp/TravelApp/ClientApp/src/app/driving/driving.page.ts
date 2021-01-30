@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
+import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
 import { SignalRService } from 'src/_services/signal-r.service';
 import { TripService } from 'src/_services/trip/trip.service';
@@ -25,22 +26,31 @@ export class DrivingPage implements OnInit {
   
   loading = false;
   isSubmitted = false;
-  verifiedAccount = true;
+  verifiedAccount = false;
   driverId = this.tripService.currentTripDriverId;
   isDrivingNow = this.accountService.userValue.isDrivingNow;
+  applicationUserId = this.accountService.userValue.id;
 
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private orderService: OrderService,
     private accountService: AccountService,
     private tripService: TripService,
-    public signalRService: SignalRService) { 
+    public signalRService: SignalRService,
+    private driverService: DriverService) { 
       if(this.isDrivingNow == true){
         this.getAcceptedTrip()
       }
     }
 
   ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      driverLicense: ['', Validators.required],
+      idCardNumber: ['', Validators.required],
+      applicationUserId: [''],
+
+    })
+
     this.getData();
 
     if(this.isDrivingNow == true){
@@ -67,6 +77,8 @@ export class DrivingPage implements OnInit {
       this.getAcceptedTrip();
     });
   }
+
+  get f() { return this.form.controls; }
 
   getData(){
     this.orderService.getAllOrders().subscribe(data => {
@@ -151,11 +163,17 @@ export class DrivingPage implements OnInit {
       console.log('Please provide all the required values!')
       return false;
     } else {
-      console.log('Successfully uploaded your data.')
-      this.route.navigate(['tabs/verifying']);
+      this.form.value.applicationUserId = this.applicationUserId;
+      this.driverService.createDriver(this.form.value)
+      .subscribe(data => {
+        this.clearForm();
+        console.log(data);
+        console.log('Successfully uploaded your data.')
+        this.route.navigate(['tabs/register-car']);
+
+      })
     }
 
-    this.clearForm();
   }
   
 
@@ -174,7 +192,8 @@ export class DrivingPage implements OnInit {
 
   clearForm() {
     this.form.reset({
-      'firstName': ''
+      'driverLicense': '',
+      'idCardNumber': ''
     })
   }
 

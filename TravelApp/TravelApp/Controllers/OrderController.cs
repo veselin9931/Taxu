@@ -83,10 +83,10 @@ namespace TravelApp.Controllers
             var order = this.orderService.GetOrderByUserId(userId);
             var user = this.accountService.GetById(userId);
 
-            order.ApplicationUser = user;
 
             if (order != null)
             {
+                order.ApplicationUser = user;
                 return this.Ok(order);
             }
 

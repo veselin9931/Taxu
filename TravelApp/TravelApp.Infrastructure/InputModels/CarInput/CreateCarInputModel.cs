@@ -22,7 +22,6 @@ namespace TravelApp.Infrastructure.InputModels.CarInput
         [Required]
         public int Capacity { get; set; }
 
-        [Required]
         public int Type { get; set; }
     }
 }

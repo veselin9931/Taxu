@@ -13,7 +13,7 @@ export class OrderService {
   public orders = [];
   public driverId: string;
   private readonly getOrdersAction$ = new Subject();
-  
+
   constructor(private http: HttpClient) { }
 
   public createOrder(data) {
@@ -27,17 +27,17 @@ export class OrderService {
 
   getOrderById(id: string): Observable<Order> {
     return this.http.get<Order>(`${environment.apiUrl}/api/order/id/${id}`)
-    .pipe(
-      tap(data => this.order = data),
-      catchError(this.handleError)
-    );
+      .pipe(
+        tap(data => this.order = data),
+        catchError(this.handleError)
+      );
   }
 
   getMyOrder(userId: string): Observable<Order> {
     return this.http.get<Order>(`${environment.apiUrl}/api/order/${userId}`)
-    .pipe(
-      catchError(this.handleError)
-    );
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   getAllOrders(): Observable<Order[]> {
@@ -70,13 +70,13 @@ export class OrderService {
   handleError(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
-        // client-side error
-        errorMessage = `Error: ${error.error.message}`;
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
     } else {
-        // server-side error
-        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.log(errorMessage);
     return throwError(errorMessage);
-}
+  }
 }

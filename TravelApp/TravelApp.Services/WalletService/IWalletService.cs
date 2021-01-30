@@ -10,7 +10,7 @@ namespace TravelApp.Services.WalletService
     {
         WalletViewModel GetWallet(string id);
 
-        Task<string> CreateWallet();
+        Task<string> CreateWallet(string applicationUserId);
 
         Task<bool> DeleteWallet(string id);
 

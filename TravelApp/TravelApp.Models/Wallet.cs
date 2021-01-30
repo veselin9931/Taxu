@@ -19,5 +19,7 @@ namespace TravelApp.Models
 
         [Required]
         public bool Confirmation { get; set; }
+
+        public string ApplicationUserId { get; set; }
     }
 }

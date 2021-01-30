@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelApp.Data;
 
 namespace TravelApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210130082855_driverchanged")]
+    partial class driverchanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -434,10 +436,10 @@ namespace TravelApp.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("DocumentConfirmation")
+                    b.Property<bool>("DocumentConfirmatiom")
                         .HasColumnType("bit");
 
-                    b.Property<string>("DriverLicense")
+                    b.Property<string>("DriverLicanse")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -638,9 +640,6 @@ namespace TravelApp.Data.Migrations
 
                     b.Property<decimal>("Ammount")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Confirmation")
                         .HasColumnType("bit");

@@ -13,14 +13,18 @@ namespace TravelApp.Models
             this.Id = Guid.NewGuid().ToString();
         }
 
+        public string ApplicationUserId { get; set; }
+
+        public ApplicationUser ApplicationUser { get; set; }
+
         [Required]
-        public string DriverLicanse { get; set; }
+        public string DriverLicense { get; set; }
 
         [Required]
         public string IDCardNumber { get; set; }
 
         [Required]
-        public bool DocumentConfirmatiom { get; set; }
+        public bool DocumentConfirmation { get; set; }
 
         public string CarId { get; set; }
         public Car Car { get; set; }

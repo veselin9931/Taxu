@@ -32,6 +32,10 @@ const routes: Routes = [
         loadChildren: () => import('../account-verifying/account-verifying.module').then(m => m.AccountVerifyingPageModule)
       },
       {
+        path: 'register-car',
+        loadChildren: () => import('../register-car/register-car-routing.module').then(m => m.RegisterCarPageRoutingModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

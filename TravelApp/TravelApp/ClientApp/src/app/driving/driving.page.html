@@ -19,7 +19,7 @@
           </ion-text>
 
           <form [formGroup]="form" novalidate class="col-md-6">
-            <div class="form-group col mt-5">
+            <!-- <div class="form-group col mt-5">
               <ion-button color="warning" expand="block" (click)="uploadLicense()">
                 <span class="ion-text-left">Upload driving license</span>
               </ion-button>
@@ -35,8 +35,26 @@
               <ion-button color="warning" expand="block" (click)="uploadCarPic()">
                 <span class="ion-text-left">Upload car picture</span>
               </ion-button>
+            </div> -->
+
+            <div class="form-group col mt-5 text-center">
+              <ion-input formControlName="driverLicense" type="text" class="form-control"
+                placeholder="Driver License Number" [ngClass]="{ 'is-invalid': submitted && f.driverLicense.errors }">
+              </ion-input>
+              <div *ngIf="submitted && f.driverLicense.errors" class="invalid-feedback">
+                <div *ngIf="f.driverLicense.errors.required">The field is required!</div>
+              </div>
             </div>
 
+
+            <div class="form-group col mt-5 text-center">
+              <ion-input formControlName="idCardNumber" type="text" class="form-control"
+                placeholder="ID Card Number" [ngClass]="{ 'is-invalid': submitted && f.idCardNumber.errors }">
+              </ion-input>
+              <div *ngIf="submitted && f.idCardNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.idCardNumber.errors.required">The field is required!</div>
+              </div>
+            </div>
 
             <div class="col-md-12 mt-3">
               <ion-button (click)="onSubmit()" type="submit" color="warning">Submit</ion-button>
@@ -131,7 +149,7 @@
                   <h3 class="text">Total price: {{this.totalPrice}}$</h3>
 
                 </ion-text>
-                
+
 
                 <ion-button (click)="finishTrip()" type="submit" color="warning">Finish</ion-button>
               </div>
@@ -140,7 +158,7 @@
         </div>
       </div>
 
-     
+
     </div>
   </div>
 
