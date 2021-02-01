@@ -11,12 +11,24 @@
       <ion-label>Travel</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button *ngIf="isLoggedIn" tab="driving">
+    <!-- Driver verified -->
+    <ion-tab-button *ngIf="isLoggedIn && isVerified && documentConfirmed == true" tab="driving">
+      <ion-icon name="car"></ion-icon>
+      <ion-label>Drive</ion-label>
+    </ion-tab-button>
+    
+    <!-- Become a driver -->
+    <ion-tab-button *ngIf="isLoggedIn && isVerified == false" tab="become-driver">
       <ion-icon name="car"></ion-icon>
       <ion-label>Drive</ion-label>
     </ion-tab-button>
 
-    
+    <!-- Check document confirmation -->
+    <ion-tab-button *ngIf="isLoggedIn && isVerified == true && documentConfirmed == false" tab="verifying">
+      <ion-icon name="car"></ion-icon>
+      <ion-label>Drive</ion-label>
+    </ion-tab-button>
+
   </ion-tab-bar>
 
 </ion-tabs>

@@ -250,6 +250,9 @@ namespace TravelApp.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DriverId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -318,6 +321,8 @@ namespace TravelApp.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DriverId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -416,9 +421,6 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CarId")
                         .HasColumnType("nvarchar(450)");
 
@@ -465,8 +467,6 @@ namespace TravelApp.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("CarId");
 
@@ -713,6 +713,15 @@ namespace TravelApp.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TravelApp.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("TravelApp.Models.Driver", "Driver")
+                        .WithMany()
+                        .HasForeignKey("DriverId");
+
+                    b.Navigation("Driver");
+                });
+
             modelBuilder.Entity("TravelApp.Models.Car", b =>
                 {
                     b.HasOne("TravelApp.Models.CarType", "Type")
@@ -724,10 +733,6 @@ namespace TravelApp.Data.Migrations
 
             modelBuilder.Entity("TravelApp.Models.Driver", b =>
                 {
-                    b.HasOne("TravelApp.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("TravelApp.Models.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId");
@@ -735,8 +740,6 @@ namespace TravelApp.Data.Migrations
                     b.HasOne("TravelApp.Models.Wallet", "Wallet")
                         .WithMany()
                         .HasForeignKey("WalletId");
-
-                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Car");
 

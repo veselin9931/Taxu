@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TravelApp.Infrastructure.InputModels.DriverInput;
 using TravelApp.Infrastructure.ViewModels;
+using TravelApp.Models;
 
 namespace TravelApp.Services.DriverService
 {
@@ -12,6 +13,8 @@ namespace TravelApp.Services.DriverService
         Task<DriverViewModel> CreateDriver(DriverInputModel driverInputModel);
 
         IEnumerable<DriverViewModel> GetAllDrivers();
+
+        public Driver GetById(string id);
 
         DriverViewModel GetDriver(string id);
     }

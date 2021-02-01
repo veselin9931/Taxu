@@ -36,6 +36,10 @@ const routes: Routes = [
         loadChildren: () => import('../register-car/register-car-routing.module').then(m => m.RegisterCarPageRoutingModule)
       },
       {
+        path: 'become-driver',
+        loadChildren: () => import('../become-driver/become-driver.module').then( m => m.BecomeDriverPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

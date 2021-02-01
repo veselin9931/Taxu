@@ -33,14 +33,19 @@ const routes: Routes = [
   {
     path: 'home-logged',
     loadChildren: () => import('./home-logged/home-logged.module').then( m => m.HomeLoggedPageModule)
-  },  {
+  },
+  {
     path: 'register-car',
     loadChildren: () => import('./register-car/register-car.module').then( m => m.RegisterCarPageModule)
   },
   {
     path: 'driver-profile',
     loadChildren: () => import('./driver-profile/driver-profile.module').then( m => m.DriverProfilePageModule)
+  },  {
+    path: 'become-driver',
+    loadChildren: () => import('./become-driver/become-driver.module').then( m => m.BecomeDriverPageModule)
   },
+
 
 
 
