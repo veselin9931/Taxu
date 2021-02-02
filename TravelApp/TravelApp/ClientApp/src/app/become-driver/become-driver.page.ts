@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-become-driver',
@@ -17,7 +18,8 @@ export class BecomeDriverPage implements OnInit {
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private driverService: DriverService,
-    private accountService: AccountService) { }
+    private accountService: AccountService,
+    private location: Location) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -29,7 +31,7 @@ export class BecomeDriverPage implements OnInit {
   }
 
   goBack() {
-    this.route.navigate(['tabs/home']);
+    this.location.back();
   }
 
   onSubmit() {

@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { Order, Trip, User } from 'src/_models';
 import { AccountService } from 'src/_services';
-import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
 import { SignalRService } from 'src/_services/signal-r.service';
 import { TripService } from 'src/_services/trip/trip.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-driving',
@@ -17,7 +16,6 @@ import { TripService } from 'src/_services/trip/trip.service';
 export class DrivingPage implements OnInit {
   public currentTrip: Trip;
 
-  form: FormGroup;
   orders: Order[] = [];
   orderId: string;
   location: string;
@@ -35,7 +33,8 @@ export class DrivingPage implements OnInit {
     private orderService: OrderService,
     private accountService: AccountService,
     private tripService: TripService,
-    public signalRService: SignalRService) { 
+    public signalRService: SignalRService,
+    private locationPage: Location) { 
       if(this.isDrivingNow == true){
         this.getAcceptedTrip()
       }
@@ -69,8 +68,6 @@ export class DrivingPage implements OnInit {
       this.getAcceptedTrip();
     });
   }
-
-  get f() { return this.form.controls; }
 
   getData(){
     this.orderService.getAllOrders().subscribe(data => {
@@ -146,27 +143,7 @@ export class DrivingPage implements OnInit {
   }
 
   goBack() {
-    this.route.navigate(['tabs/home']);
-  }
-  
-
-  uploadLicense() {
-    console.log('Uploaded drivers license!')
-  }
-
-  uploadCarTicket() {
-    console.log('Uploaded car ticket!')
-  }
-
-  uploadCarPic() {
-    console.log('Uploaded car picture!')
-  }
-
-  clearForm() {
-    this.form.reset({
-      'driverLicense': '',
-      'idCardNumber': ''
-    })
+    this.locationPage.back();
   }
 
 }

@@ -21,18 +21,29 @@
           <form [formGroup]="form" novalidate class="col-md-6">
 
             <div class="form-group col mt-5 text-center">
-              <ion-input formControlName="model" type="text" class="form-control"
-                placeholder="Model" [ngClass]="{ 'is-invalid': submitted && f.model.errors }">
+              <ion-input formControlName="model" type="text" class="form-control" placeholder="Model"
+                [ngClass]="{ 'is-invalid': submitted && f.model.errors }">
               </ion-input>
               <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
                 <div *ngIf="f.model.errors.required">The field is required!</div>
               </div>
             </div>
 
+            <div class="form-group col mt-5 text-center">
+              <select formControlName="type" class="form-control" id="exampleFormControlSelect1"
+                [ngClass]="{ 'is-invalid': submitted && f.categoryType.errors }">
+                <option value="" disabled selected hidden>Choose car type</option>
+                <option value="1">Normal</option>
+                <option value="2">Comfort</option>
+              </select>
+              <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                <div *ngIf="f.type.errors.required">The field is required!</div>
+              </div>
+            </div>
 
             <div class="form-group col mt-5 text-center">
-              <ion-input formControlName="color" type="text" class="form-control"
-                placeholder="Color" [ngClass]="{ 'is-invalid': submitted && f.color.errors }">
+              <ion-input formControlName="color" type="text" class="form-control" placeholder="Color"
+                [ngClass]="{ 'is-invalid': submitted && f.color.errors }">
               </ion-input>
               <div *ngIf="submitted && f.color.errors" class="invalid-feedback">
                 <div *ngIf="f.color.errors.required">The field is required!</div>
@@ -40,8 +51,8 @@
             </div>
 
             <div class="form-group col mt-5 text-center">
-              <ion-input formControlName="capacity" type="number" class="form-control"
-                placeholder="Capacity" [ngClass]="{ 'is-invalid': submitted && f.capacity.errors }">
+              <ion-input formControlName="capacity" type="number" class="form-control" placeholder="Capacity"
+                [ngClass]="{ 'is-invalid': submitted && f.capacity.errors }">
               </ion-input>
               <div *ngIf="submitted && f.capacity.errors" class="invalid-feedback">
                 <div *ngIf="f.capacity.errors.required">The field is required!</div>
@@ -50,7 +61,8 @@
 
             <div class="form-group col mt-5 text-center">
               <ion-input formControlName="registrationNumber" type="text" class="form-control"
-                placeholder="Registration Number" [ngClass]="{ 'is-invalid': submitted && f.registrationNumber.errors }">
+                placeholder="Registration Number"
+                [ngClass]="{ 'is-invalid': submitted && f.registrationNumber.errors }">
               </ion-input>
               <div *ngIf="submitted && f.registrationNumber.errors" class="invalid-feedback">
                 <div *ngIf="f.registrationNumber.errors.required">The field is required!</div>
@@ -77,4 +89,3 @@
 
 
 </ion-content>
-
