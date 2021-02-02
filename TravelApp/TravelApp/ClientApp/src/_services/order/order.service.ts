@@ -67,6 +67,13 @@ export class OrderService {
 
   }
 
+ deleteOrder(orderId: string): Observable<Order> {
+    return this.http.delete<Order>(`${environment.apiUrl}/api/order/${orderId}`)
+      .pipe(
+        tap(data => console.log('deleted order: ', JSON.stringify(data))),
+      );
+  }
+
   handleError(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

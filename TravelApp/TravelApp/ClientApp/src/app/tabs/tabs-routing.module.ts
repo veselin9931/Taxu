@@ -40,6 +40,10 @@ const routes: Routes = [
         loadChildren: () => import('../become-driver/become-driver.module').then( m => m.BecomeDriverPageModule)
       },
       {
+        path: 'driver-profile',
+        loadChildren: () => import('../driver-profile/driver-profile.module').then( m => m.DriverProfilePageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

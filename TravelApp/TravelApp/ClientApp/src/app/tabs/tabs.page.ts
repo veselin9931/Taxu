@@ -20,6 +20,8 @@ export class TabsPage implements OnInit {
   }
   ngOnInit(): void {
     this.isLoggedIn = localStorage.getItem("user");
+
+    
     if (this.isLoggedIn) {
       this.accountService.getById(this.accountService.userValue.id)
         .subscribe(x => {
