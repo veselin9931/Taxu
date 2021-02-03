@@ -7,7 +7,7 @@
 
         </div>
         <div class="col-9">
-          <h5 (click)=goBack() class="back">Back</h5>
+          <h5 (click)=logout() class="back">Logout</h5>
         </div>
       </div>
       <ion-text>
@@ -15,7 +15,7 @@
           <form [formGroup]="form" novalidate class="col">
             <div class="form-group col mt-5">
               <ion-label><i>Choose your starting point.</i></ion-label>
-              <ion-input formControlName="location" type="text" class="form-control" placeholder=" From" [ngClass]="{ 'is-invalid': isSubmitted && f.location.errors }"></ion-input>
+              <ion-input  formControlName="location" type="text" class="form-control" placeholder=" From" [ngClass]="{ 'is-invalid': isSubmitted && f.location.errors }"></ion-input>
               <div *ngIf="isSubmitted && f.location.errors" class="invalid-feedback">
                 <div *ngIf="f.location.errors.required">The field is required!</div>
               </div>
@@ -23,7 +23,7 @@
 
             <div class="form-group col mt-3">
               <ion-label><i>Choose your endpoint.</i></ion-label>
-              <ion-input formControlName="destination" type="text" class="form-control" placeholder=" To" [ngClass]="{ 'is-invalid': isSubmitted && f.destination.errors }"></ion-input>
+              <ion-input  formControlName="destination" type="text" class="form-control" placeholder=" To" [ngClass]="{ 'is-invalid': isSubmitted && f.destination.errors }"></ion-input>
               <div *ngIf="isSubmitted && f.destination.errors" class="invalid-feedback">
                 <div *ngIf="f.destination.errors.required">The field is required!</div>
               </div>
@@ -31,7 +31,7 @@
 
             <div class="form-group col mt-3">
               <ion-label><i>Increase amount</i></ion-label>
-              <ion-select formControlName="increasePrice" placeholder="Select amount you want to increase">
+              <ion-select  formControlName="increasePrice" placeholder="Select amount you want to increase">
                 <ion-select-option value="1">1</ion-select-option>
                 <ion-select-option value="2">2</ion-select-option>
                 <ion-select-option value="3">3</ion-select-option>
@@ -91,7 +91,7 @@
           <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
         </div>
         <div class="col-9">
-          <h5 (click)=goBack() class="back">Back</h5>
+          <h5 (click)=logout() class="back">Logout</h5>
         </div>
       </div>
 

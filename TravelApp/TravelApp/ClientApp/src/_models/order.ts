@@ -7,7 +7,8 @@ export class Order {
     increasePrice: string;
     isAccepted: boolean;
     createdOn: Date;
-    user: User;
+    applicationUser: User;
+    applicationUserId: string;
     totalPrice: number;
     acceptedBy: string;
 }

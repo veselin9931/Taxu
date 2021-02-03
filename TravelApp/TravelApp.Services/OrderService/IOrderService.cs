@@ -11,6 +11,7 @@ namespace TravelApp.Services.OrderService
     {
         public Task<string> CreateOrderAsync(CreateOrderInputModel input);
 
+        public Task<IList<Order>> GetAllAcceptedOrdersAsync(string userId);
 
         public Task<IList<Order>> GetAllOrdersAsync();
         

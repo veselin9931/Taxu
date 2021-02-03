@@ -42,14 +42,21 @@ namespace TravelApp.Controllers
 
         // GET api/<DriverController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(string id)
         {
-            return "value";
+            var driver = this.driverService.GetById(id);
+
+            if (driver != null)
+            {
+                return this.Ok(driver);
+            }
+
+            return this.NoContent();
         }
 
         // POST api/<DriverController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] DriverInputModel input, [FromQuery] string userId)
+        public async Task<IActionResult> Post([FromBody] DriverInputModel input)
         {
             if (!this.ModelState.IsValid || input == null)
             {
@@ -63,7 +70,7 @@ namespace TravelApp.Controllers
                 return this.BadRequest();
             }
 
-            var r = await this.accountService.AddDriverSettings(userId, driver.Id);
+            var r = await this.accountService.AddDriverSettings(input.ApplicationUserId, driver.Id);
 
             if (r)
             {

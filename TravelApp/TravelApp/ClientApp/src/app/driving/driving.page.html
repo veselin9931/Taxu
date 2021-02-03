@@ -10,60 +10,8 @@
         </div>
       </div>
 
-      <div *ngIf="verifiedAccount == false" class="row">
-        <div class="col text-center">
-          <ion-text class="centered" color="warning">
-            <h2 class="text">Become a driver</h2>
-            <hr>
-            <h5>Please upload your documents, so we can verify your account</h5>
-          </ion-text>
-
-          <form [formGroup]="form" novalidate class="col-md-6">
-            <!-- <div class="form-group col mt-5">
-              <ion-button color="warning" expand="block" (click)="uploadLicense()">
-                <span class="ion-text-left">Upload driving license</span>
-              </ion-button>
-            </div>
-
-            <div class="form-group col mt-5">
-              <ion-button color="warning" expand="block" (click)="uploadCarTicket()">
-                <span class="ion-text-left">Upload car ticket</span>
-              </ion-button>
-            </div>
-
-            <div class="form-group col mt-5">
-              <ion-button color="warning" expand="block" (click)="uploadCarPic()">
-                <span class="ion-text-left">Upload car picture</span>
-              </ion-button>
-            </div> -->
-
-            <div class="form-group col mt-5 text-center">
-              <ion-input formControlName="driverLicense" type="text" class="form-control"
-                placeholder="Driver License Number" [ngClass]="{ 'is-invalid': submitted && f.driverLicense.errors }">
-              </ion-input>
-              <div *ngIf="submitted && f.driverLicense.errors" class="invalid-feedback">
-                <div *ngIf="f.driverLicense.errors.required">The field is required!</div>
-              </div>
-            </div>
-
-
-            <div class="form-group col mt-5 text-center">
-              <ion-input formControlName="idCardNumber" type="text" class="form-control"
-                placeholder="ID Card Number" [ngClass]="{ 'is-invalid': submitted && f.idCardNumber.errors }">
-              </ion-input>
-              <div *ngIf="submitted && f.idCardNumber.errors" class="invalid-feedback">
-                <div *ngIf="f.idCardNumber.errors.required">The field is required!</div>
-              </div>
-            </div>
-
-            <div class="col-md-12 mt-3">
-              <ion-button (click)="onSubmit()" type="submit" color="warning">Submit</ion-button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <div *ngIf="verifiedAccount == true" class="row">
+      
+      <div class="row">
         <div class="col-md-12 text-center">
           <ion-text class="centered" color="warning">
             <h2 class="text">Driving</h2>
@@ -83,7 +31,7 @@
             <a class="text list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Order</h5>
-                <small>{{oldOrder.createdOn}}</small>
+                <small>{{oldOrder.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
               </div>
               <p class="mb-1">Location: {{oldOrder.location}}</p>
               <p class="mb-1">Destination: {{oldOrder.destination}}</p>

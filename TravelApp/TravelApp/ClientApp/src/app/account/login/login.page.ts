@@ -53,7 +53,7 @@ export class LoginPage implements OnInit {
             .subscribe(data => {
               console.log('success')
             });
-          this.route.navigate(['tabs/home-logged']);
+          this.route.navigate(['tabs/travelling']);
 
         },
         error => {
@@ -65,22 +65,6 @@ export class LoginPage implements OnInit {
 
   signUp() {
     this.route.navigate(['tabs/account/register']);
-  }
-
-  travelPage() {
-    this.route.navigate(['tabs/travelling']);
-  }
-
-  drivePage() {
-    this.route.navigate(['tabs/driving']);
-  }
-
-  logout() {
-    this.accountService.logout();
-    this.isLoggedIn = "";
-    this.route.navigate(['tabs/home']);
-
-    window.location.reload();
   }
 
   ionViewDidLeave() {

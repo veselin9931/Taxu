@@ -63,6 +63,9 @@ namespace TravelApp.Services.DriverService
             return drivers;
         }
 
+        public Driver GetById(string id)
+        => this.repository.All().FirstOrDefault(x => x.Id == id);
+
         public DriverViewModel GetDriver(string id)
         {
             var driver =  this.repository.All()

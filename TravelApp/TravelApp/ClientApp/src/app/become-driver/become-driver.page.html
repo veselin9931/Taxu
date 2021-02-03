@@ -1,0 +1,52 @@
+<ion-content padding class="background">
+  <div class="row">
+    <div class="col">
+      <div class="row mt-2">
+        <div class="col-1">
+          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
+        </div>
+        <div class="col-9">
+          <h5 (click)=goBack() class="back">Back</h5>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col text-center">
+          <ion-text class="centered" color="warning">
+            <h2 class="text">Become a driver</h2>
+            <hr>
+            <h5>Please upload your documents, so we can verify your account</h5>
+          </ion-text>
+
+          <form [formGroup]="form" novalidate class="col-md-6">
+
+            <div class="form-group col mt-5 text-center">
+              <ion-input formControlName="driverLicense" type="text" class="form-control"
+                placeholder="Driver License Number" [ngClass]="{ 'is-invalid': submitted && f.driverLicense.errors }">
+              </ion-input>
+              <div *ngIf="submitted && f.driverLicense.errors" class="invalid-feedback">
+                <div *ngIf="f.driverLicense.errors.required">The field is required!</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col mt-5 text-center">
+              <ion-input formControlName="idCardNumber" type="text" class="form-control" placeholder="ID Card Number"
+                [ngClass]="{ 'is-invalid': submitted && f.idCardNumber.errors }">
+              </ion-input>
+              <div *ngIf="submitted && f.idCardNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.idCardNumber.errors.required">The field is required!</div>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt-3">
+              <ion-button (click)="onSubmit()" type="submit" color="warning">Submit</ion-button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</ion-content>

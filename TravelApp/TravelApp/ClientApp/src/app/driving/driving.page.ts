@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { Order, Trip } from 'src/_models';
+import { Order, Trip, User } from 'src/_models';
 import { AccountService } from 'src/_services';
-import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
 import { SignalRService } from 'src/_services/signal-r.service';
 import { TripService } from 'src/_services/trip/trip.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-driving',
@@ -16,13 +15,13 @@ import { TripService } from 'src/_services/trip/trip.service';
 })
 export class DrivingPage implements OnInit {
   public currentTrip: Trip;
-
-  form: FormGroup;
+  
   orders: Order[] = [];
   orderId: string;
   location: string;
   totalPrice: number;
   destination: string;
+  appUserDriver: User;
   
   loading = false;
   isSubmitted = false;
@@ -30,27 +29,18 @@ export class DrivingPage implements OnInit {
   driverId = this.tripService.currentTripDriverId;
   isDrivingNow = this.accountService.userValue.isDrivingNow;
   applicationUserId = this.accountService.userValue.id;
-
   constructor(private route: Router,
-    private formBuilder: FormBuilder,
     private orderService: OrderService,
     private accountService: AccountService,
     private tripService: TripService,
     public signalRService: SignalRService,
-    private driverService: DriverService) { 
+    private locationPage: Location) { 
       if(this.isDrivingNow == true){
         this.getAcceptedTrip()
       }
     }
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      driverLicense: ['', Validators.required],
-      idCardNumber: ['', Validators.required],
-      applicationUserId: [''],
-
-    })
-
     this.getData();
 
     if(this.isDrivingNow == true){
@@ -77,8 +67,6 @@ export class DrivingPage implements OnInit {
       this.getAcceptedTrip();
     });
   }
-
-  get f() { return this.form.controls; }
 
   getData(){
     this.orderService.getAllOrders().subscribe(data => {
@@ -154,47 +142,7 @@ export class DrivingPage implements OnInit {
   }
 
   goBack() {
-    this.route.navigate(['tabs/home']);
-  }
-
-  onSubmit() {
-    this.isSubmitted = true;
-    if (!this.form.valid) {
-      console.log('Please provide all the required values!')
-      return false;
-    } else {
-      this.form.value.applicationUserId = this.applicationUserId;
-      this.driverService.createDriver(this.form.value)
-      .subscribe(data => {
-        this.clearForm();
-        console.log(data);
-        console.log('Successfully uploaded your data.')
-        this.route.navigate(['tabs/register-car']);
-
-      })
-    }
-
-  }
-  
-
-
-  uploadLicense() {
-    console.log('Uploaded drivers license!')
-  }
-
-  uploadCarTicket() {
-    console.log('Uploaded car ticket!')
-  }
-
-  uploadCarPic() {
-    console.log('Uploaded car picture!')
-  }
-
-  clearForm() {
-    this.form.reset({
-      'driverLicense': '',
-      'idCardNumber': ''
-    })
+    this.locationPage.back();
   }
 
 }

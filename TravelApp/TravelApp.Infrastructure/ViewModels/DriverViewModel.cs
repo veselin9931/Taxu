@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using TravelApp.Mappings;
+using TravelApp.Models;
 
 namespace TravelApp.Infrastructure.ViewModels
 {
-    public class DriverViewModel
+    public class DriverViewModel : IMapFrom<Driver>
     {
         [Required]
         public string Id { get; set; }

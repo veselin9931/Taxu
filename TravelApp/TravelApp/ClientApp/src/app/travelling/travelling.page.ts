@@ -14,10 +14,10 @@ import { TripService } from 'src/_services/trip/trip.service';
 })
 export class TravellingPage implements OnInit {
   public currentTrip: Trip;
-
-  form: FormGroup;
-  userId: string;
+  isLoggedIn;
   order: Order;
+  userId: string;
+  form: FormGroup;
   driverData: User;
 
   orderStatus = false;
@@ -87,11 +87,23 @@ export class TravellingPage implements OnInit {
     this.orderService.getMyOrder(this.userId)
       .subscribe(data => {
         console.log(`Travelling page data`)
+        
+        if(data == null){
+          console.log('Still no order!')
+          return;
+        }
         //get accepted by user id
         this.order = data;
+
         this.orderStatus = data.isAccepted
+
         console.log(data)
+
         this.isAccepted = data.isAccepted;
+
+        if (this.orderStatus == false) {
+          this.isCompleted = true;
+        }
 
         if (this.orderStatus == true) {
           this.isCompleted = false;
@@ -99,16 +111,15 @@ export class TravellingPage implements OnInit {
           this.clearForm();
 
           console.log('your order is accepted')
-          // this.orderData = data;
           this.orderService.order = data;
 
           this.getUserById(data.acceptedBy);
           this.getAcceptedTrip(data.acceptedBy);
         }
       },
-      error => {
-        console.log(error)
-      })
+        error => {
+          console.log(error)
+        })
   }
 
   getUserById(driverId: string) {
@@ -131,30 +142,41 @@ export class TravellingPage implements OnInit {
   completeOrder() {
     this.orderService.completeOrder(this.order.id)
       .subscribe(data => {
-        window.location.reload();
         console.log(data)
+        location.reload();
       });
 
-    this.tripService.completeTrip(this.currentTrip.id)
-      .subscribe(data => {
-        console.log('Completed trip')
-      })
+    // this.tripService.completeTrip(this.currentTrip.id)
+    //   .subscribe(data => {
+    //     console.log('Completed trip')
+    //   })
 
-    this.accountService.updateDriving(this.order.acceptedBy, false)
-      .subscribe(data => {
-        console.log('Successfull updated driver data!')
-      });
+    // this.accountService.updateDriving(this.order.acceptedBy, false)
+    //   .subscribe(data => {
+    //     console.log('Successfull updated driver data!')
+    //   });
   }
 
   cancelOrder() {
-    this.isCompleted = false;
-    console.log('Canceled order');
+    this.orderService.getMyOrder(this.userId)
+      .subscribe(data => {
+        this.orderService.deleteOrder(data.id)
+          .subscribe(order => {
+            this.isCompleted = false;
+            console.log('Canceled order:');
+            console.log(order);
+          })
+        this.clearForm();
+      })
 
-    this.clearForm();
+
   }
 
-  goBack() {
+  logout() {
+    this.accountService.logout();
+    this.isLoggedIn = "";
     this.route.navigate(['tabs/home']);
+
   }
 
   clearForm() {

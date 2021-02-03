@@ -66,6 +66,7 @@ namespace TravelApp.Services.OrderService
             {
                 var order = new Order()
                 {
+                    ApplicationUser = input.ApplicationUser,
                     ApplicationUserId = input.ApplicationUserId,
                     Location = input.Location,
                     Destination = input.Destination,
@@ -88,10 +89,19 @@ namespace TravelApp.Services.OrderService
             throw new InvalidOperationException("Creating order failed!");
         }
 
+        public async Task<IList<Order>> GetAllAcceptedOrdersAsync(string userId)
+         => await this.orderRepository
+            .All()
+            .Where(x => x.AcceptedBy == userId && x.IsCompleted == true)
+            .Include(x => x.ApplicationUser)
+            .OrderByDescending(x => x.CreatedOn)
+            .ToListAsync();
+
         public async Task<IList<Order>> GetAllOrdersAsync()
          => await this.orderRepository
             .All()
             .Where(x => x.IsAccepted == false && x.IsDeleted == false)
+            .Include(x => x.ApplicationUser)
             .OrderBy(x => x.CreatedOn)
             .ToListAsync();
 

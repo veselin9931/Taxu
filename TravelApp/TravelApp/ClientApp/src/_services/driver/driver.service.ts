@@ -1,20 +1,35 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Driver } from 'src/_models';
+import { Driver, Order, User } from 'src/_models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DriverService {
+  public user: User;
   public driver: Driver;
   public drivers = [];
   public applicationUserId: string;
   
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
+
+  public getDriverHistory(userId: string): Observable<Order[]>{
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order/history/${userId}`)
+      .pipe(
+        
+      );
+  }
+
+   public getDriver(driverId: string): Observable<Driver> {
+    return this.http.get<Driver>(`${environment.apiUrl}/api/driver/${driverId}`)
+      .pipe(
+        
+      );
+  }
 
   public createDriver(data) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

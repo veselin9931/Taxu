@@ -14,10 +14,6 @@ namespace TravelApp.Models
             this.Id = Guid.NewGuid().ToString();
         }
 
-        public string ApplicationUserId { get; set; }
-
-        public ApplicationUser ApplicationUser { get; set; }
-
         [Required]
         public string DriverLicense { get; set; }
 
