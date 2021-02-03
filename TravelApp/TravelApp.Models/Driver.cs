@@ -10,6 +10,7 @@ namespace TravelApp.Models
     {
         public Driver()
         {
+            this.Cars = new List<Car>();
             this.Id = Guid.NewGuid().ToString();
         }
 
@@ -25,9 +26,6 @@ namespace TravelApp.Models
 
         [Required]
         public bool DocumentConfirmation { get; set; }
-
-        public string CarId { get; set; }
-        public Car Car { get; set; }
 
         public string LastAdress { get; set; }
 
@@ -45,6 +43,8 @@ namespace TravelApp.Models
         [Required]
         [Range(0, 5)]
         public int ReferalUsedTimes { get; set; }
+
+        public IList<Car> Cars { get; set; }
 
         //TODO: Rating collection
     }
