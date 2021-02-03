@@ -54,6 +54,7 @@ namespace TravelApp.Services.DriverService
             {
                 Comission = 20,
                 DocumentConfirmation = false,
+                DocumentsUploaded = false,
                 DriverLicense = driverInputModel.DriverLicense,
                 IDCardNumber = driverInputModel.IDCardNumber,
                 CurrentLocation = driverInputModel.CurrentLocation,

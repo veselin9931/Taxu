@@ -13,6 +13,7 @@ export class TabsPage implements OnInit {
   driverId: string;
   isVerified: boolean;
   documentConfirmed: boolean;
+  driverCars = [];
   constructor(private accountService: AccountService,
     private driverService: DriverService,
     private route: Router) {
@@ -22,7 +23,7 @@ export class TabsPage implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn = localStorage.getItem("user");
 
-    
+
     if (this.isLoggedIn) {
       this.route.navigate(['tabs/travelling']);
       this.accountService.getById(this.accountService.userValue.id)
@@ -33,10 +34,17 @@ export class TabsPage implements OnInit {
 
           if (x.driverId != null) {
             this.driverService.getDriver(x.driverId)
-              .subscribe(x => {
-                this.documentConfirmed = x.documentConfirmation;
+              .subscribe(d => {
+                this.driverService.getDriverCars(x.driverId)
+                .subscribe(cars => {
+                  this.driverCars = cars;
+                })
+                //get all cars for driver
+                //this.driverCars = d.cars;
+
+                this.documentConfirmed = d.documentConfirmation;
                 console.log('Driver -- ')
-                console.log(x)
+                console.log(d)
               })
           }
 

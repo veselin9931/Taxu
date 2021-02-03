@@ -28,11 +28,30 @@ namespace TravelApp.Controllers
 
         // GET: api/<CarController>
         [HttpGet]
-        public IEnumerable<CarViewModel> Get()
+        public async Task<IActionResult> Get()
         {
-            var cars = service.GetCars();
+            var cars = await this.service.GetAllCarsAsync();
 
-            return cars;
+            if (cars != null)
+            {
+                return this.Ok(cars);
+            }
+
+            return this.NoContent();
+        }
+
+        // GET api/<CarController>/driver/{driverId}
+        [HttpGet("driver/{driverId}")]
+        public async Task<IActionResult> GetDriverCars(string driverId)
+        {
+            var cars = await this.service.GetAllCarsAsyncForDriver(driverId);
+
+            if (cars == null)
+            {
+                return this.StatusCode(204);
+            }
+
+            return this.Ok(cars);
         }
 
         // GET api/<CarController>/5

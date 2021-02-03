@@ -17,7 +17,8 @@ namespace TravelApp.Infrastructure.ViewModels
 
         [Required]
         public string IDCardNumber { get; set; }
-
+        
+        
         [Required]
         public bool DocumentConfirmatiom { get; set; }
 

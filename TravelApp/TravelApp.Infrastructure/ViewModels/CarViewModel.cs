@@ -22,5 +22,8 @@ namespace TravelApp.Infrastructure.ViewModels
 
         [Required]
         public int Capacity { get; set; }
+
+        public string DriverId { get; set; }
+
     }
 }

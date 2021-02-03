@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TravelApp.Infrastructure.InputModels.CarInput
 {
-    public class CreateCarInputModel
+    public class CreateCarInputModel 
     {
         [Required]
         public string Model { get; set; }
@@ -21,6 +21,9 @@ namespace TravelApp.Infrastructure.InputModels.CarInput
 
         [Required]
         public int Capacity { get; set; }
+
+        public string DriverId { get; set; }
+
 
         public int Type { get; set; }
     }

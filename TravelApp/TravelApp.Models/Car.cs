@@ -34,6 +34,9 @@ namespace TravelApp.Models
         [Required]
         public bool IsActive { get; set; }
 
+        public string DriverId { get; set; }
+
+        public Driver Driver { get; set; }
 
         public int TypeId { get; set; }
 

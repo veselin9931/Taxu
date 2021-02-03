@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ using TravelApp.Models;
 
 namespace TravelApp.Services.CarService
 {
+
     public class CarService : ICarService
     {
         private readonly IDeletableEntityRepository<Car> repository;
@@ -32,17 +34,16 @@ namespace TravelApp.Services.CarService
                 TehnicalReview = carInputModel.TehnicalReview,
                 TypeId = carInputModel.Type,
                 IsActive = true
-               
             };
 
             this.repository.Add(car);
 
             var result = await this.repository.SaveChangesAsync();
-            var viewModel = new CarViewModel() { Id = car.Id, Capacity = car.Capacity, Color = car.Color, Model = car.Model, RegistrationNumber = car.RegistrationNumber };
+            var viewModel = new CarViewModel() { Id = car.Id, Capacity = car.Capacity, Color = car.Color, Model = car.Model, RegistrationNumber = car.RegistrationNumber, DriverId = car.DriverId };
 
             if (result > 0)
             {
-                return viewModel;
+                return viewModel; 
             }
 
             return null;
@@ -82,9 +83,21 @@ namespace TravelApp.Services.CarService
             return new CarViewModel() { Id = carId , Color = car.Color , Capacity = car.Capacity, Model = car.Model, RegistrationNumber = car.RegistrationNumber};
         }
 
-        public IEnumerable<CarViewModel> GetCars()
-        {
-           return this.repository.All().To<CarViewModel>();
-        }
+        public async Task<IList<Car>> GetAllCarsAsync()
+         => await this.repository
+            .All()
+            .Where(x => x.IsDeleted == false)
+            .ToListAsync();
+
+        public async Task<IList<Car>> GetAllCarsAsyncForDriver(string driverId)
+         => await this.repository
+            .All()
+            .Where(x => x.DriverId == driverId)
+            .ToListAsync();
+
+        //public IEnumerable<CarViewModel> GetCars()
+        //{
+        //   return this.repository.All().To<CarViewModel>();
+        //}
     }
 }

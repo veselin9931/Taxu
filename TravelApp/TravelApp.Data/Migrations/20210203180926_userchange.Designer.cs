@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelApp.Data;
 
 namespace TravelApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210203180926_userchange")]
+    partial class userchange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,6 +267,9 @@ namespace TravelApp.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDocumentsUploaded")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDriver")
@@ -730,15 +735,13 @@ namespace TravelApp.Data.Migrations
 
             modelBuilder.Entity("TravelApp.Models.Car", b =>
                 {
-                    b.HasOne("TravelApp.Models.Driver", "Driver")
+                    b.HasOne("TravelApp.Models.Driver", null)
                         .WithMany("Cars")
                         .HasForeignKey("DriverId");
 
                     b.HasOne("TravelApp.Models.CarType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId1");
-
-                    b.Navigation("Driver");
 
                     b.Navigation("Type");
                 });

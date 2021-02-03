@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Driver, Order, User } from 'src/_models';
+import { Car } from 'src/_models/car';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,13 @@ export class DriverService {
 
    public getDriver(driverId: string): Observable<Driver> {
     return this.http.get<Driver>(`${environment.apiUrl}/api/driver/${driverId}`)
+      .pipe(
+        
+      );
+  }
+
+  public getDriverCars(driverId: string): Observable<Car[]> {
+    return this.http.get<Car[]>(`${environment.apiUrl}/api/car/driver/${driverId}`)
       .pipe(
         
       );

@@ -1,3 +1,4 @@
+import { Car } from "./car";
 import { User } from "./user";
 
 export class Driver {
@@ -7,7 +8,7 @@ export class Driver {
     idCardNumber: string;
     documentConfirmation: boolean;
     carId: string;
-    car: string; //make this car after that
+    cars: Car[]; //make this car after that
     lastAddress: string;
     currentLocation: string;
     walletId: string;

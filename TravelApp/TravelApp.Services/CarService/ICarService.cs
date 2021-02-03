@@ -12,11 +12,13 @@ namespace TravelApp.Services.CarService
     {
         Task<CarViewModel> CreateCar(CreateCarInputModel car);
 
+        public Task<IList<Car>> GetAllCarsAsync();
+
+        public Task<IList<Car>> GetAllCarsAsyncForDriver(string driverId);
+
         CarViewModel GetCar(string carId);
 
         Car Get(string carId);
-
-        IEnumerable<CarViewModel> GetCars();
 
         Task<bool> DeleteCar(string carId);
 
