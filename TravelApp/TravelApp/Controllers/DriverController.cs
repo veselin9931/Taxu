@@ -72,6 +72,8 @@ namespace TravelApp.Controllers
 
             var r = await this.accountService.AddDriverSettings(input.ApplicationUserId, driver.Id);
 
+            
+
             if (r)
             {
                 return this.Content(driver.Id);

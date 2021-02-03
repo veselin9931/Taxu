@@ -8,6 +8,7 @@ using TravelApp.Infrastructure.InputModels.DriverInput;
 using TravelApp.Infrastructure.ViewModels;
 using TravelApp.Mappings;
 using TravelApp.Models;
+using TravelApp.Services.CarService;
 using TravelApp.Services.WalletService;
 
 namespace TravelApp.Services.DriverService
@@ -16,11 +17,33 @@ namespace TravelApp.Services.DriverService
     {
         private readonly IRepository<Driver> repository;
         private readonly IWalletService walletService;
+        private readonly ICarService carService;
 
-        public DriverService(IRepository<Driver> repository, IWalletService walletService)
+        public DriverService(IRepository<Driver> repository, IWalletService walletService, ICarService carService)
         {
             this.repository = repository;
             this.walletService = walletService;
+            this.carService = carService;
+        }
+
+        public async Task<bool> AddCarToDriver(string driverId, string carId)
+        {
+            var driver = this.repository.All().FirstOrDefault();
+
+            var car = this.carService.Get(carId);
+
+            if (driver == null || car == null)
+            {
+                return false;
+            }
+
+            driver.Cars.Add(car);
+
+            this.repository.Update(driver);
+
+            var result = await this.repository.SaveChangesAsync();
+
+            return result > 0;
         }
 
         public async Task<DriverViewModel> CreateDriver(DriverInputModel driverInputModel)

@@ -30,7 +30,9 @@ namespace TravelApp.Services.CarService
                 Model = carInputModel.Model,
                 RegistrationNumber = carInputModel.RegistrationNumber,
                 TehnicalReview = carInputModel.TehnicalReview,
-                TypeId = carInputModel.Type
+                TypeId = carInputModel.Type,
+                IsActive = true
+               
             };
 
             this.repository.Add(car);
@@ -57,6 +59,14 @@ namespace TravelApp.Services.CarService
             var result = await this.repository.SaveChangesAsync();
 
             return result > 0;
+        }
+
+        public Car Get(string carId)
+        {
+            var car = this.repository.All()
+                 .FirstOrDefault(c => c.Id == carId);
+
+            return car;
         }
 
         public CarViewModel GetCar(string carId)

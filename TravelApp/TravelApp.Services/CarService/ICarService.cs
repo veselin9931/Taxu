@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TravelApp.Infrastructure.InputModels.CarInput;
 using TravelApp.Infrastructure.ViewModels;
+using TravelApp.Models;
 
 namespace TravelApp.Services.CarService
 {
@@ -12,6 +13,8 @@ namespace TravelApp.Services.CarService
         Task<CarViewModel> CreateCar(CreateCarInputModel car);
 
         CarViewModel GetCar(string carId);
+
+        Car Get(string carId);
 
         IEnumerable<CarViewModel> GetCars();
 

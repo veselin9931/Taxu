@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TravelApp.Infrastructure.InputModels.CarInput;
 using TravelApp.Infrastructure.ViewModels;
 using TravelApp.Services.CarService;
+using TravelApp.Services.DriverService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,10 +18,12 @@ namespace TravelApp.Controllers
     public class CarController : ControllerBase
     {
         private readonly ICarService service;
+        private readonly IDriverService driverService;
 
-        public CarController(ICarService service)
+        public CarController(ICarService service, IDriverService driverService)
         {
             this.service = service;
+            this.driverService = driverService;
         }
 
         // GET: api/<CarController>
@@ -48,7 +51,7 @@ namespace TravelApp.Controllers
 
         // POST api/<CarController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateCarInputModel input)
+        public async Task<IActionResult> Post([FromBody] CreateCarInputModel input, [FromRoute] string driverId)
         {
             if (!this.ModelState.IsValid || input == null)
             {
@@ -61,6 +64,13 @@ namespace TravelApp.Controllers
             if (car == null)
             {
                 return this.BadRequest();
+            }
+
+            var result = await this.driverService.AddCarToDriver(driverId, car.Id);
+
+            if (!result)
+            {
+                return this.Problem();
             }
 
             return this.Content(car.Id);
