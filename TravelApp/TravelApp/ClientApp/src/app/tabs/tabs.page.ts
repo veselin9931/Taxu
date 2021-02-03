@@ -14,7 +14,8 @@ export class TabsPage implements OnInit {
   isVerified: boolean;
   documentConfirmed: boolean;
   constructor(private accountService: AccountService,
-    private driverService: DriverService) {
+    private driverService: DriverService,
+    private route: Router) {
     this.isLoggedIn = localStorage.getItem("user");
 
   }
@@ -23,6 +24,7 @@ export class TabsPage implements OnInit {
 
     
     if (this.isLoggedIn) {
+      this.route.navigate(['tabs/travelling']);
       this.accountService.getById(this.accountService.userValue.id)
         .subscribe(x => {
           this.isVerified = x.isDriver;

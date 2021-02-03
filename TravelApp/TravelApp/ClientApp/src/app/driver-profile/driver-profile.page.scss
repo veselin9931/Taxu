@@ -1,0 +1,75 @@
+ion-content.background{
+    --background: url(../../assets/TaxiMi-homeback1.jpg) 0 0/100% 100% no-repeat;
+}
+
+.centered{
+    text-align: center;
+}
+
+.text{  
+    //font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: cursive;
+}
+
+hr{
+    background:rgb(255, 174, 0);
+    width: 70% !important;
+}
+
+
+.backIcon {
+    color: rgb(255, 174, 0);
+    font-size: 150%;
+}
+
+.back {
+    color: rgb(255, 174, 0);
+}
+
+.card-transparent {
+    margin: 0 auto;
+
+    .header-transparent {
+        height: 200px;
+
+        .avatar {
+            width: 160px;
+            height: 160px;
+            position: relative;
+            margin: 0 auto;
+
+            img {
+                display: block;
+                border-radius: 50%;
+                position: absolute;
+                bottom: calc(-1*(80px + 4px));
+                border: 8px solid rgb(255, 174, 0);
+                background-color: #fff;
+            }
+        }
+    }
+}
+
+.card-body {
+    background-color: #ffffff;
+    padding: 30px;
+    height: 100%;
+    overflow: hidden;
+
+    .user-meta {
+        padding-top: 40px;
+
+        .playername {
+            font-size: 24px;
+            font-weight: 600;
+            color: #303940;
+        }
+
+        .country {
+            font-size: 90%;
+            color: #949ea6;
+            text-transform: uppercase;
+            margin: 0 auto;
+        }
+    }
+}

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Driver, User } from 'src/_models';
+import { Driver, Order, User } from 'src/_models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +15,14 @@ export class DriverService {
   public applicationUserId: string;
   
 
-  constructor(private http: HttpClient) {
-    
-   }
+  constructor(private http: HttpClient) {}
+
+  public getDriverHistory(userId: string): Observable<Order[]>{
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order/history/${userId}`)
+      .pipe(
+        
+      );
+  }
 
    public getDriver(driverId: string): Observable<Driver> {
     return this.http.get<Driver>(`${environment.apiUrl}/api/driver/${driverId}`)

@@ -7,10 +7,6 @@ const routes: Routes = [
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
     path: 'account/login',
     loadChildren: () => import('./account/login/login.module').then( m => m.LoginPageModule)
   },
@@ -42,9 +38,10 @@ const routes: Routes = [
     path: 'become-driver',
     loadChildren: () => import('./become-driver/become-driver.module').then( m => m.BecomeDriverPageModule)
   },
-
-
-
+  {
+    path: 'driver-history',
+    loadChildren: () => import('./driver-history/driver-history.module').then( m => m.DriverHistoryPageModule)
+  }
 
 ];
 @NgModule({

@@ -37,15 +37,20 @@ const routes: Routes = [
       },
       {
         path: 'become-driver',
-        loadChildren: () => import('../become-driver/become-driver.module').then( m => m.BecomeDriverPageModule)
+        loadChildren: () => import('../become-driver/become-driver.module').then(m => m.BecomeDriverPageModule)
       },
       {
         path: 'driver-profile',
-        loadChildren: () => import('../driver-profile/driver-profile.module').then( m => m.DriverProfilePageModule)
+        loadChildren: () => import('../driver-profile/driver-profile.module').then(m => m.DriverProfilePageModule)
+      },
+
+      {
+        path: 'driver-history',
+        loadChildren: () => import('../driver-history/driver-history.module').then(m => m.DriverHistoryPageModule)
       },
       {
         path: '',
-        redirectTo: '/tabs/home',
+        redirectTo: '/tabs/travelling',
         pathMatch: 'full'
       }
     ]
@@ -61,4 +66,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule { }

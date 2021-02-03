@@ -1,9 +1,39 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>driverProfile</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content padding class="background">
+  <div class="row">
+    <div class="col">
+      <div class="row mt-2">
+        <div class="col-1">
+          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
+        </div>
+        <div class="col-9">
+          <h5 (click)=goBack() class="back">Back</h5>
+        </div>
+      </div>
 
-<ion-content>
+      <div class="card-transparent">
+        <div class="header-transparent">
+          <div class="avatar">
+            <img src="../../assets/about-us-yellow-taxi_360x240_973.jpg" alt="">
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="user-meta ion-text-center">
+          <h3 class="playername">{{user.firstName}} {{user.lastName}}</h3>
+          <h6 class="ranking">Wallet ballance: <ion-chip>
+            <ion-label>10$</ion-label>
+            </ion-chip>
+          </h6>
+          <h6 class="ranking">Rating: <ion-chip>
+            <ion-label>2</ion-label>
+            </ion-chip>
+          </h6>
+        </div>
+        <ion-button (click)="openHistory()" expand="full" color="warning">Drive history</ion-button>
+      </div>
+    </div>
+  </div>
+
 
 </ion-content>

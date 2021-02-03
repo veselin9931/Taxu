@@ -45,13 +45,27 @@ namespace TravelApp.Controllers
             //this.emailSender = emailSender;
         }
 
+        //GET ACCEPTED ORDERS BY USER
+        // GET: api/<OrderController>/{userId}
+        [HttpGet("history/{userId}")]
+        public async Task<IActionResult> GetAccepted(string userId)
+        {
+            var orders = await this.orderService.GetAllAcceptedOrdersAsync(userId);
+            
+            if (orders == null)
+            {
+                return this.NoContent();
+            }
+
+            return this.Ok(orders);
+        }
+
         // GET: api/<OrderController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            //var orders = new TimerManager(() => hub.Clients.All.SendAsync("transferorderdata", this.orderService.GetAllOrdersAsync()));
-            //var orders = this.orderRepository.All();
             var orders = await this.orderService.GetAllOrdersAsync();
+
             if (orders == null)
             {
                 return this.NoContent();
@@ -66,7 +80,10 @@ namespace TravelApp.Controllers
         public async Task<IActionResult> GetById(string orderId)
         {
             var order = this.orderService.GetOrderById(orderId);
+            var user = this.accountService.GetById(order.ApplicationUserId);
 
+            order.ApplicationUser = user;
+            
             if (order != null)
             {
                 return this.Ok(order);
@@ -104,9 +121,8 @@ namespace TravelApp.Controllers
                     var user = this.accountService.GetById(input.ApplicationUserId);
 
                     input.ApplicationUser = user;
-                    var result = await this.orderService.CreateOrderAsync(input);
 
-                    
+                    var result = await this.orderService.CreateOrderAsync(input);
 
                     if (result != null)
                     {

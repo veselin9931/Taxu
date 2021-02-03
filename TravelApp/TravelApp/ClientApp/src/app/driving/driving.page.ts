@@ -15,7 +15,7 @@ import { Location } from '@angular/common';
 })
 export class DrivingPage implements OnInit {
   public currentTrip: Trip;
-
+  
   orders: Order[] = [];
   orderId: string;
   location: string;
@@ -41,7 +41,6 @@ export class DrivingPage implements OnInit {
     }
 
   ngOnInit(): void {
-
     this.getData();
 
     if(this.isDrivingNow == true){

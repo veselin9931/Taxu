@@ -31,7 +31,7 @@
             <a class="text list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Order</h5>
-                <small>{{oldOrder.createdOn}}</small>
+                <small>{{oldOrder.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
               </div>
               <p class="mb-1">Location: {{oldOrder.location}}</p>
               <p class="mb-1">Destination: {{oldOrder.destination}}</p>
