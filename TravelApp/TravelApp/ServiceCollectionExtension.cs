@@ -10,6 +10,7 @@ using TravelApp.Data.Repositories;
 using TravelApp.Data.Seeding;
 using TravelApp.Services.Account;
 using TravelApp.Services.CarService;
+using TravelApp.Services.CarType;
 using TravelApp.Services.DriverService;
 using TravelApp.Services.EmailSender;
 using TravelApp.Services.OrderService;
@@ -30,6 +31,7 @@ namespace TravelApp
             services.AddTransient<IWalletService, WalletService>();
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IDriverService, DriverService>();
+            services.AddTransient<ICarType, CarTypeService>();
             //services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddSingleton<IHttpContextAccessor,
