@@ -176,8 +176,9 @@ namespace TravelApp.Controllers
 
         // DELETE api/<OrderController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async void Delete(string id)
         {
+            await this.orderService.Delete(id);
         }
 
     }

@@ -89,6 +89,17 @@ namespace TravelApp.Services.OrderService
             throw new InvalidOperationException("Creating order failed!");
         }
 
+        public async Task<bool> Delete(string orderId)
+        {
+           var order =  this.GetOrderById(orderId);
+
+            this.orderRepository.Delete(order);
+
+            var result = await this.orderRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
         public async Task<IList<Order>> GetAllAcceptedOrdersAsync(string userId)
          => await this.orderRepository
             .All()

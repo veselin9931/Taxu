@@ -23,5 +23,7 @@ namespace TravelApp.Services.OrderService
 
         public Task<bool> CompleteOrderAsync(string id);
 
+        public Task<bool> Delete(string orderId);
+
     }
 }
