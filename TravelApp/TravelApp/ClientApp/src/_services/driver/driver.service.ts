@@ -48,9 +48,9 @@ export class DriverService {
       );
   }
 
-  public activeCar(car: Car, driverId: string): Observable<Car> {
+  public activeCar(id: string, driverId: string): Observable<Car> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put<Car>(`${environment.apiUrl}/api/car/${car.id}/${driverId}`, { headers, responseType: 'json' },)
+    return this.http.put<Car>(`${environment.apiUrl}/api/car/${id}/${driverId}`, { headers, responseType: 'json' },)
       .pipe(
       );
 
