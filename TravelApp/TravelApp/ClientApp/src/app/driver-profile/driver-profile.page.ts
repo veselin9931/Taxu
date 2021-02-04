@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { Car } from 'src/_models/car';
 import * as signalR from '@aspnet/signalr';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-driver-profile',
@@ -20,7 +21,8 @@ export class DriverProfilePage implements OnInit {
   constructor(private accountService: AccountService,
     private driverService: DriverService,
     private route: Router,
-    private location: Location) { }
+    private location: Location,
+    private alertController: AlertController) { }
   
   ngOnInit() {
     this.getCars();
@@ -71,8 +73,18 @@ export class DriverProfilePage implements OnInit {
   }
 
   active(car: Car){
-    this.driverService.activeCar(car.id, car.driverId)
+    if(car.isActive){
+      return;
+    }
+    
+    if(car.confirmation == false){
+      this.presentAlert();
+      return;
+    }
+
+    this.driverService.activeCar(car, car.driverId)
     .subscribe(x => {
+     
       this.isActiveCar = x.isActive;
       console.log(x);
     })
@@ -89,4 +101,14 @@ export class DriverProfilePage implements OnInit {
     this.location.back();
   }
 
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Confirmation',
+      message: 'Your car is not confirmet yet.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
 }

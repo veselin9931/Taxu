@@ -56,13 +56,13 @@ export class RegisterCarPage implements OnInit {
           this.driverService.createCar(this.form.value)
             .subscribe(data => {
               this.clearForm();
-              console.log(data);
               console.log('Successfully uploaded your car.')
               this.driverService.getDriverCars(x.driverId)
                 .subscribe(d => {
                   if (d.length != 0) {
                     this.route.navigateByUrl('tabs/driver-profile');
                   } else {
+                    
                     this.route.navigateByUrl('tabs/verifying');
                   }
                 })
