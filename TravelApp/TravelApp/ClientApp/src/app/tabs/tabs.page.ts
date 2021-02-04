@@ -12,7 +12,7 @@ export class TabsPage implements OnInit {
   isLoggedIn;
   driverId: string;
   isVerified: boolean;
-  documentConfirmed: boolean;
+  documentConfirmed= false;
   driverCars = [];
   constructor(private accountService: AccountService,
     private driverService: DriverService,

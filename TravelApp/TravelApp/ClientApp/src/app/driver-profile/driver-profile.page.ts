@@ -82,7 +82,7 @@ export class DriverProfilePage implements OnInit {
       return;
     }
 
-    this.driverService.activeCar(car, car.driverId)
+    this.driverService.activeCar(car.id, car.driverId)
     .subscribe(x => {
      
       this.isActiveCar = x.isActive;
