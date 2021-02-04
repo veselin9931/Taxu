@@ -32,8 +32,7 @@ export class TripService {
   getTrip(applicationUserId: string): Observable<Trip> {
     return this.http.get<Trip>(`${environment.apiUrl}/api/trip/${applicationUserId}`)
       .pipe(
-        tap(data => this.trip = data),
-        catchError(this.handleError)
+        tap(data => this.trip = data)
       )
   }
 
@@ -41,7 +40,6 @@ export class TripService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Trip>(`${environment.apiUrl}/api/trip/${tripId}`, { headers, responseType: 'json' },)
       .pipe(
-        catchError(this.handleError),
       );
 
   }

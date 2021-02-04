@@ -39,7 +39,5 @@ namespace TravelApp.Models
         public Driver Driver { get; set; }
 
         public int TypeId { get; set; }
-
-        public CarType Type { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace TravelApp.Services.CarService
 
         public Task<IList<Car>> GetAllCarsAsyncForDriver(string driverId);
 
+        public Task<bool> ActivateCar(string id, string driverId);
         CarViewModel GetCar(string carId);
 
         Car Get(string carId);

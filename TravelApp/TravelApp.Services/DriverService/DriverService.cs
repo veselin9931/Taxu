@@ -28,7 +28,7 @@ namespace TravelApp.Services.DriverService
 
         public async Task<bool> AddCarToDriver(string driverId, string carId)
         {
-            var driver = this.repository.All().FirstOrDefault();
+            var driver = this.repository.All().FirstOrDefault(x => x.Id == driverId);
 
             var car = this.carService.Get(carId);
 
@@ -54,7 +54,6 @@ namespace TravelApp.Services.DriverService
             {
                 Comission = 20,
                 DocumentConfirmation = false,
-                DocumentsUploaded = false,
                 DriverLicense = driverInputModel.DriverLicense,
                 IDCardNumber = driverInputModel.IDCardNumber,
                 CurrentLocation = driverInputModel.CurrentLocation,

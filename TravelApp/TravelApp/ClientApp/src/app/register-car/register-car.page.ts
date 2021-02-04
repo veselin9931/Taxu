@@ -16,13 +16,14 @@ export class RegisterCarPage implements OnInit {
   loading = false;
   isSubmitted = false;
   userId: string;
+  driverId: string;
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private driverService: DriverService,
     private accountService: AccountService,
-    private location: Location) { 
-      this.userId = this.accountService.userValue.id;
-    }
+    private location: Location) {
+    this.userId = this.accountService.userValue.id;
+  }
 
   ngOnInit() {
 
@@ -39,26 +40,40 @@ export class RegisterCarPage implements OnInit {
 
   get f() { return this.form.controls; }
 
-  onSubmit(){
+  onSubmit() {
     this.isSubmitted = true;
     if (!this.form.valid) {
       console.log('Please provide all the required values!')
       return false;
-      
-    } else {
-      this.form.value.type = +this.form.value.type;
 
-      this.driverService.createCar(this.form.value)
-      .subscribe(data => {
-        this.clearForm();
-        console.log(data);
-        console.log('Successfully uploaded your car.')
-        this.route.navigateByUrl('tabs/verifying');
-      })
+    } else {
+
+      this.accountService.getById(this.userId)
+        .subscribe(x => {
+          this.form.value.driverId = x.driverId;
+          this.form.value.type = +this.form.value.type;
+
+          this.driverService.createCar(this.form.value)
+            .subscribe(data => {
+              this.clearForm();
+              console.log(data);
+              console.log('Successfully uploaded your car.')
+              this.driverService.getDriverCars(x.driverId)
+                .subscribe(d => {
+                  if (d.length != 0) {
+                    this.route.navigateByUrl('tabs/driver-profile');
+                  } else {
+                    this.route.navigateByUrl('tabs/verifying');
+                  }
+                })
+            })
+        });
+
+
     }
   }
 
-  goBack(){
+  goBack() {
     this.location.back();
   }
 

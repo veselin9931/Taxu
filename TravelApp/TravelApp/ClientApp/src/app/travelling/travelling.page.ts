@@ -53,7 +53,7 @@ export class TravellingPage implements OnInit {
       .build();
 
     connection.start().then(function () {
-      console.log('signalR Connected');
+      console.log('signalR Connected in travelling');
     }).catch(function (err) {
       return console.log(err.toString());
     });
@@ -133,6 +133,11 @@ export class TravellingPage implements OnInit {
   getAcceptedTrip(driverId: string) {
     this.tripService.getTrip(driverId)
       .subscribe(x => {
+        if(x == null){
+          console.log("Error occured");
+          return;
+        }
+
         console.log("Trip data")
         console.log(x);
         this.currentTrip = x;

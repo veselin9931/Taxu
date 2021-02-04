@@ -44,7 +44,7 @@ namespace TravelApp.Controllers
                 return this.Ok(trip);
             }
 
-            return this.BadRequest();
+            return this.NoContent();
         }
 
         // POST api/<TripController>

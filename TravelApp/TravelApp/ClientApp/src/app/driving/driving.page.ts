@@ -7,6 +7,7 @@ import { OrderService } from 'src/_services/order/order.service';
 import { SignalRService } from 'src/_services/signal-r.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { Location } from '@angular/common';
+import { min } from 'rxjs/operators';
 
 @Component({
   selector: 'app-driving',
@@ -57,7 +58,7 @@ export class DrivingPage implements OnInit {
     .build();
 
     connection.start().then(function() {
-      console.log('signalR Connected');
+      console.log('signalR Connected in driving');
     }).catch(function(err){
       return console.log(err.toString());
     });
@@ -70,6 +71,12 @@ export class DrivingPage implements OnInit {
 
   getData(){
     this.orderService.getAllOrders().subscribe(data => {
+      
+      if(data == null){
+        console.log('No trips');
+        return;
+      }
+
       this.orders = data;
       console.log("Driving page orders")
       console.log(this.orders)
@@ -110,6 +117,10 @@ export class DrivingPage implements OnInit {
   getAcceptedTrip(){
     this.tripService.getTrip(this.driverId)
     .subscribe(x => {
+      if(x == null){
+        console.log("No trip");
+        return;
+      }
       console.log("Trip data")
       console.log(x);
       this.currentTrip = x;

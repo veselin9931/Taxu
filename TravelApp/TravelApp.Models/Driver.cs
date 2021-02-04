@@ -23,9 +23,6 @@ namespace TravelApp.Models
         [Required]
         public bool DocumentConfirmation { get; set; }
 
-        [Required]
-        public bool DocumentsUploaded { get; set; }
-
         public string LastAdress { get; set; }
 
         public string CurrentLocation { get; set; }

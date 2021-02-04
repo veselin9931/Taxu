@@ -14,28 +14,21 @@ export class DriverService {
   public driver: Driver;
   public drivers = [];
   public applicationUserId: string;
-  
 
-  constructor(private http: HttpClient) {}
 
-  public getDriverHistory(userId: string): Observable<Order[]>{
+  constructor(private http: HttpClient) { }
+
+  public getDriverHistory(userId: string): Observable<Order[]> {
     return this.http.get<Order[]>(`${environment.apiUrl}/api/order/history/${userId}`)
       .pipe(
-        
+
       );
   }
 
-   public getDriver(driverId: string): Observable<Driver> {
+  public getDriver(driverId: string): Observable<Driver> {
     return this.http.get<Driver>(`${environment.apiUrl}/api/driver/${driverId}`)
       .pipe(
-        
-      );
-  }
 
-  public getDriverCars(driverId: string): Observable<Car[]> {
-    return this.http.get<Car[]>(`${environment.apiUrl}/api/car/driver/${driverId}`)
-      .pipe(
-        
       );
   }
 
@@ -44,8 +37,23 @@ export class DriverService {
 
     return this.http.post(`${environment.apiUrl}/api/driver`, data, { headers, responseType: 'text' })
       .pipe(
-        //catchError(this.handleError)
+        catchError(this.handleError)
       );
+  }
+
+  public getDriverCars(driverId: string): Observable<Car[]> {
+    return this.http.get<Car[]>(`${environment.apiUrl}/api/car/driver/${driverId}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  public activeCar(id: string, driverId: string): Observable<Car> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Car>(`${environment.apiUrl}/api/car/${id}/${driverId}`, { headers, responseType: 'json' },)
+      .pipe(
+      );
+
   }
 
   public createCar(data) {
@@ -53,7 +61,14 @@ export class DriverService {
 
     return this.http.post(`${environment.apiUrl}/api/car`, data, { headers, responseType: 'text' })
       .pipe(
-        
+        catchError(this.handleError)
+      );
+  }
+
+  public deleteCar(id: string): Observable<Car> {
+    return this.http.delete<Car>(`${environment.apiUrl}/api/car/${id}`)
+      .pipe(
+        catchError(this.handleError)
       );
   }
 

@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TravelApp.Infrastructure.HubConfig;
 using TravelApp.Infrastructure.InputModels.DriverInput;
 using TravelApp.Infrastructure.ViewModels;
 using TravelApp.Services.Account;
 using TravelApp.Services.DriverService;
+using TravelApp.Services.OrderService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,11 +21,13 @@ namespace TravelApp.Controllers
     {
         private readonly IDriverService driverService;
         private readonly IAccountService accountService;
+        private readonly IHubContext<OrderHub, IHubClient> hub;
 
-        public DriverController(IDriverService driverService, IAccountService accountService)
+        public DriverController(IDriverService driverService, IAccountService accountService, IHubContext<OrderHub, IHubClient> hub)
         {
             this.driverService = driverService;
             this.accountService = accountService;
+            this.hub = hub;
         }
 
         // GET: api/<AccountController>
@@ -69,7 +74,7 @@ namespace TravelApp.Controllers
             {
                 return this.BadRequest();
             }
-
+            await this.hub.Clients.All.BroadcastMessage();
             var r = await this.accountService.AddDriverSettings(input.ApplicationUserId, driver.Id);
 
             

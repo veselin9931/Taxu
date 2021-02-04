@@ -21,6 +21,8 @@
       <div class="card-body">
         <div class="user-meta ion-text-center">
           <h3 class="playername">{{user.firstName}} {{user.lastName}}</h3>
+          <h4 class="playername">{{user.phone}}</h4>
+
           <h6 class="ranking">Wallet ballance: <ion-chip>
             <ion-label>10$</ion-label>
             </ion-chip>
@@ -31,6 +33,26 @@
           </h6>
         </div>
         <ion-button (click)="openHistory()" expand="full" color="warning">Drive history</ion-button>
+        <ion-button (click)="addNewCar()" expand="full" color="warning">Add new car</ion-button>
+        <h6 class="ranking ion-text-center"><ion-chip>
+          <ion-label>Choose your car for today:</ion-label>
+          </ion-chip></h6>
+        <div *ngFor="let car of driverCars">
+          <div class="row">
+            <div class="col-10">
+              <ion-button *ngIf="car.isActive == false" (click)="active(car)" expand="full" color="medium">{{car.model}} - {{car.registrationNumber}}</ion-button>
+              <ion-button *ngIf="car.isActive == true" (click)="active(car)" expand="full" color="success">{{car.model}} - {{car.registrationNumber}}</ion-button>
+            </div>
+            <div class="col-2">
+              <ion-button (click)="deleteCar(car.id)" style="float: right" expand="full" color="danger">
+               Delete
+              </ion-button>
+
+            </div>
+
+          </div>
+
+        </div>
       </div>
     </div>
   </div>

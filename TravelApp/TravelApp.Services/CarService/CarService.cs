@@ -17,7 +17,7 @@ namespace TravelApp.Services.CarService
     {
         private readonly IDeletableEntityRepository<Car> repository;
 
-        public CarService(IDeletableEntityRepository<Car> repository )
+        public CarService(IDeletableEntityRepository<Car> repository)
         {
             this.repository = repository;
         }
@@ -33,17 +33,17 @@ namespace TravelApp.Services.CarService
                 RegistrationNumber = carInputModel.RegistrationNumber,
                 TehnicalReview = carInputModel.TehnicalReview,
                 TypeId = carInputModel.Type,
-                IsActive = true
+                IsActive = false
             };
 
             this.repository.Add(car);
 
             var result = await this.repository.SaveChangesAsync();
-            var viewModel = new CarViewModel() { Id = car.Id, Capacity = car.Capacity, Color = car.Color, Model = car.Model, RegistrationNumber = car.RegistrationNumber, DriverId = car.DriverId };
+            var viewModel = new CarViewModel() { Id = car.Id, Capacity = car.Capacity, Color = car.Color, Model = car.Model, RegistrationNumber = car.RegistrationNumber };
 
             if (result > 0)
             {
-                return viewModel; 
+                return viewModel;
             }
 
             return null;
@@ -80,7 +80,7 @@ namespace TravelApp.Services.CarService
                 return null;
             }
 
-            return new CarViewModel() { Id = carId , Color = car.Color , Capacity = car.Capacity, Model = car.Model, RegistrationNumber = car.RegistrationNumber};
+            return new CarViewModel() { Id = carId, Color = car.Color, Capacity = car.Capacity, Model = car.Model, RegistrationNumber = car.RegistrationNumber };
         }
 
         public async Task<IList<Car>> GetAllCarsAsync()
@@ -94,6 +94,42 @@ namespace TravelApp.Services.CarService
             .All()
             .Where(x => x.DriverId == driverId)
             .ToListAsync();
+
+        public async Task<bool> ActivateCar(string id, string driverId)
+        {
+            var currentCar = this.repository.All().FirstOrDefault(x => x.Id == id);
+
+            if (currentCar != null)
+            {
+                //Activate only this car
+                currentCar.IsActive = true;
+
+                this.repository.Update(currentCar);
+            }
+
+            var carsWithoutChosen = this.repository.All().Where(x => x.Id != id && x.DriverId == driverId);
+
+            if (carsWithoutChosen != null)
+            {
+                //Update all other cars value to zero to deselect items.
+                foreach (var car in carsWithoutChosen)
+                {
+                    car.IsActive = false;
+                    this.repository.Update(car);
+                }
+            }
+            
+
+            var result = await this.repository.SaveChangesAsync();
+
+            if (result != 0)
+            {
+                return true;
+            }
+
+            return false;
+
+        }
 
         //public IEnumerable<CarViewModel> GetCars()
         //{

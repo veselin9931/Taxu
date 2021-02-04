@@ -3,6 +3,8 @@ import { Order, User } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { Location } from '@angular/common';
+import * as signalR from '@aspnet/signalr';
+import { threadId } from 'worker_threads';
 @Component({
   selector: 'app-driver-history',
   templateUrl: './driver-history.page.html',
@@ -18,12 +20,39 @@ export class DriverHistoryPage implements OnInit {
     private locationPage: Location) { }
 
   ngOnInit() {
-    this.driverService.getDriverHistory(this.userId)
-    .subscribe((x: Order[]) => {
-      this.orders = x;
-    })
+    this.getHistory();
+
+    const connection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl('https://localhost:44329/orderHub', {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets
+      })
+      .build();
+
+    connection.start().then(function () {
+      console.log('signalR Connected in history');
+    }).catch(function (err) {
+      return console.log(err.toString());
+    });
+
+    connection.on('BroadcastMessage', () => {
+      this.getHistory();
+    });
+    
 
     
+  }
+
+  getHistory(){
+    this.driverService.getDriverHistory(this.userId)
+    .subscribe((x: Order[]) => {
+      if(this.orders == null){
+        console.log("No orders");
+        return;
+      }
+      this.orders = x;
+    })
   }
 
   goBack(){
