@@ -30,6 +30,19 @@ namespace TravelApp.Controllers
             this.hub = hub;
         }
 
+        [HttpGet("confirm/{id}")]
+        public async Task<IActionResult> DriverConfirmation(string id)
+        {
+            var car = await this.driverService.ConfirmDriver(id);
+
+            if (!car)
+            {
+                return this.StatusCode(204);
+            }
+
+            return this.Ok();
+        }
+
         // GET: api/<AccountController>
         [HttpGet]
         public IEnumerable<DriverViewModel> GetAllDrivers()

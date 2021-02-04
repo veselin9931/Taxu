@@ -131,6 +131,25 @@ namespace TravelApp.Services.CarService
 
         }
 
+        public async Task<IList<Car>> GetAllCarsForConfirmationAsync()
+        => await this.repository
+            .All()
+            .Where(x => x.IsDeleted == false && x.Confirmation == false)
+            .ToListAsync();
+
+        public async Task<bool> VerifyCar(string id)
+        {
+           var car = await this.repository.All().FirstOrDefaultAsync(a => a.Id == id);
+
+            car.Confirmation = true;
+
+            this.repository.Update(car);
+
+            var result = await this.repository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
         //public IEnumerable<CarViewModel> GetCars()
         //{
         //   return this.repository.All().To<CarViewModel>();

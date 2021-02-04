@@ -32,6 +32,19 @@ namespace TravelApp.Controllers
             this.hub = hub;
         }
 
+        [HttpGet("carForConfirmation")]
+        public async Task<IActionResult> ForConfirmation()
+        {
+            var cars = await this.service.GetAllCarsForConfirmationAsync();
+
+            if (cars != null)
+            {
+                return this.Ok(cars);
+            }
+
+            return this.NoContent();
+        }
+
         // GET: api/<CarController>
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -72,6 +85,19 @@ namespace TravelApp.Controllers
             }
 
             return this.Ok(car);
+        }
+
+        [HttpGet("confirm/{id}")]
+        public async Task<IActionResult> CarConfirmation(string id)
+        {
+            var car =  await this.service.VerifyCar(id);
+
+            if (!car)
+            {
+                return this.StatusCode(204);
+            }
+
+            return this.Ok();
         }
 
         // POST api/<CarController>

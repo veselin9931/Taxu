@@ -43,14 +43,14 @@ namespace TravelApp.Controllers
             return this.userService.GetById(driverId);
         }
 
-        //// GET: api/<AccountController>
-        //[HttpGet]
-        //public IEnumerable<ApplicationUser> GetAllDrivers ()
-        //{
-        //    return this.userService.GetAll().Where(a => a.DriverId != null).AsEnumerable();
-        //}
+        // GET: api/<AccountController>
+        [HttpGet]
+        public IEnumerable<ApplicationUser> GetAllDrivers()
+        {
+            return this.userService.GetAll().Where(a => a.DriverId != null).AsEnumerable();
+        }
 
-        // POST api/<AccountController>
+        //POST api/<AccountController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] RegisterViewModel model)
         {

@@ -5,5 +5,5 @@
     firstName: string;
     lastName: string;
     token: string;
-    isDrivingNow: boolean;
+    isDriver: boolean;
 }

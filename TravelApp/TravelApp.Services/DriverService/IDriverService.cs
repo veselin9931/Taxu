@@ -14,6 +14,8 @@ namespace TravelApp.Services.DriverService
 
         Task<bool> AddCarToDriver(string driverId, string carId);
 
+        Task<bool> ConfirmDriver(string driverId);
+
         IEnumerable<DriverViewModel> GetAllDrivers();
 
         public Driver GetById(string id);

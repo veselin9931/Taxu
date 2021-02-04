@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +47,19 @@ namespace TravelApp.Services.DriverService
             return result > 0;
         }
 
+        public async Task<bool> ConfirmDriver(string driverId)
+        {
+            var driver = await this.repository.All().FirstOrDefaultAsync(a => a.Id == driverId);
+
+            driver.DocumentConfirmation = true;
+
+            this.repository.Update(driver);
+
+            var result = await this.repository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
         public async Task<DriverViewModel> CreateDriver(DriverInputModel driverInputModel)
         {
             var walletId =  await this.walletService.CreateWallet(driverInputModel.ApplicationUserId);
@@ -74,7 +88,7 @@ namespace TravelApp.Services.DriverService
 
         public IEnumerable<DriverViewModel> GetAllDrivers()
         {
-            var drivers = this.repository.All().Select(a =>
+            var drivers = this.repository.All().Where(d => d.DocumentConfirmation !=true).Select(a =>
             new DriverViewModel()
             { 
                 Comission = a.Comission, 
