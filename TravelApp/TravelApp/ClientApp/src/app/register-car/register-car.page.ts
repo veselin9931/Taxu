@@ -12,11 +12,13 @@ import { Location } from '@angular/common';
   styleUrls: ['./register-car.page.scss'],
 })
 export class RegisterCarPage implements OnInit {
-  form: FormGroup;
+  submitted = false;
   loading = false;
-  isSubmitted = false;
+  form: FormGroup;
+
   userId: string;
   driverId: string;
+  
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private driverService: DriverService,
@@ -41,10 +43,10 @@ export class RegisterCarPage implements OnInit {
   get f() { return this.form.controls; }
 
   onSubmit() {
-    this.isSubmitted = true;
+    this.submitted = true;
     if (!this.form.valid) {
       console.log('Please provide all the required values!')
-      return false;
+      
 
     } else {
 

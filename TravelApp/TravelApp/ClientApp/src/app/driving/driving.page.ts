@@ -7,7 +7,6 @@ import { OrderService } from 'src/_services/order/order.service';
 import { SignalRService } from 'src/_services/signal-r.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { Location } from '@angular/common';
-import { min } from 'rxjs/operators';
 
 @Component({
   selector: 'app-driving',
