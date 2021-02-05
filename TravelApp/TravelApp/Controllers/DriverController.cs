@@ -87,13 +87,13 @@ namespace TravelApp.Controllers
             {
                 return this.BadRequest();
             }
-            await this.hub.Clients.All.BroadcastMessage();
             var r = await this.accountService.AddDriverSettings(input.ApplicationUserId, driver.Id);
 
             
 
             if (r)
             {
+                await this.hub.Clients.All.BroadcastMessage();
                 return this.Content(driver.Id);
             }
 

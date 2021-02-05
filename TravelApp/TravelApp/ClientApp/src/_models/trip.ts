@@ -6,6 +6,7 @@ export class Trip {
     orderId: string;
     driverId: string;
     createdOn: Date;
+    isCompleted: boolean;
     order: Order;
     applicationUser: User;
 }

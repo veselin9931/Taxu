@@ -67,12 +67,12 @@ export class LoginPage implements OnInit {
     this.route.navigate(['tabs/account/register']);
   }
 
-  ionViewDidLeave() {
-    if (this.isLoggedIn == null) {
-      window.location.reload();
+  // ionViewDidLeave() {
+  //   if (this.isLoggedIn == null) {
+  //     window.location.reload();
 
-    }
-  }
+  //   }
+  // }
 
   clearForm() {
     this.form.reset({

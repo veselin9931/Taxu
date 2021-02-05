@@ -70,7 +70,7 @@ namespace TravelApp.Controllers
             if (complete)
             {
                 await this.hub.Clients.All.BroadcastMessage();
-                return this.Ok();
+                return this.Ok(complete);
             }
 
             return this.BadRequest();

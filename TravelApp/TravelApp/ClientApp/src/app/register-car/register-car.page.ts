@@ -60,12 +60,12 @@ export class RegisterCarPage implements OnInit {
               console.log('Successfully uploaded your car.')
               this.driverService.getDriverCars(x.driverId)
                 .subscribe(d => {
-                  if(d.length == 1){
-                    this.driverService.activeCar(data, this.driverId)
-                    .subscribe(a => {
-                      console.log('Will be active after approval')
-                    })
-                  }
+                  // if(d.length == 1){
+                  //   this.driverService.activeCar(data, this.driverId)
+                  //   .subscribe(a => {
+                  //     console.log('Will be active after approval')
+                  //   })
+                  // }
                   
                   if (d.length != 0) {
                     this.route.navigateByUrl('tabs/driver-profile');

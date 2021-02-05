@@ -48,6 +48,13 @@ export class DriverService {
       );
   }
 
+  public getDriverActiveCar(driverId: string): Observable<Car> {
+    return this.http.get<Car>(`${environment.apiUrl}/api/car/driver/active/${driverId}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   public activeCar(id: string, driverId: string): Observable<Car> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Car>(`${environment.apiUrl}/api/car/${id}/${driverId}`, { headers, responseType: 'json' },)

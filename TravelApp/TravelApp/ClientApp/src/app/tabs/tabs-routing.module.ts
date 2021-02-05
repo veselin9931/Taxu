@@ -43,7 +43,6 @@ const routes: Routes = [
         path: 'driver-profile',
         loadChildren: () => import('../driver-profile/driver-profile.module').then(m => m.DriverProfilePageModule)
       },
-
       {
         path: 'driver-history',
         loadChildren: () => import('../driver-history/driver-history.module').then(m => m.DriverHistoryPageModule)

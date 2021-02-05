@@ -59,6 +59,21 @@ namespace TravelApp.Controllers
             return this.NoContent();
         }
 
+        // GET api/<CarController>/5
+        [HttpGet("driver/active/{id}")]
+        public async Task<IActionResult> GetActiveCar(string id)
+        {
+            var activeCar = this.service.GetActiveCar(id);
+
+            if (activeCar != null)
+            {
+                return this.Ok(activeCar);
+            }
+
+            return this.NoContent();
+        }
+
+
         // GET api/<CarController>/driver/{driverId}
         [HttpGet("driver/{driverId}")]
         public async Task<IActionResult> GetDriverCars(string driverId)

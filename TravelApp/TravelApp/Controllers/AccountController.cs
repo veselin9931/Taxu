@@ -8,11 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using TravelApp.Infrastructure.HubConfig;
 using TravelApp.Infrastructure.ViewModels;
 using TravelApp.Models;
 using TravelApp.Services.Account;
+using TravelApp.Services.OrderService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,15 +28,18 @@ namespace TravelApp.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IConfiguration configuration;
         private readonly IAccountService userService;
+        private readonly IHubContext<OrderHub, IHubClient> hub;
 
         public AccountController(
                                  UserManager<ApplicationUser> userManager,
                                  IConfiguration configuration,
-                                 IAccountService userService)
+                                 IAccountService userService,
+                                 IHubContext<OrderHub, IHubClient> hub)
         {
             this.userManager = userManager;
             this.configuration = configuration;
             this.userService = userService;
+            this.hub = hub;
         }
 
         // GET: api/<AccountController>
@@ -73,6 +79,7 @@ namespace TravelApp.Controllers
 
             if (result != null)
             {
+                await this.hub.Clients.All.BroadcastMessage();
                 return this.Ok();
             }
 
@@ -104,6 +111,7 @@ namespace TravelApp.Controllers
             var tokenString = tokenHandler.WriteToken(token);
 
             // return basic user info (without password) and token to store client side
+            await this.hub.Clients.All.BroadcastMessage();
             return Ok(new
             {
                 Id = user.Id,
@@ -124,6 +132,7 @@ namespace TravelApp.Controllers
 
             if (result)
             {
+                await this.hub.Clients.All.BroadcastMessage();
                 return this.Ok();
             }
 

@@ -6,6 +6,7 @@ export class Order {
     destination: string;
     increasePrice: string;
     isAccepted: boolean;
+    isCompleted: boolean;
     createdOn: Date;
     applicationUser: User;
     applicationUserId: string;

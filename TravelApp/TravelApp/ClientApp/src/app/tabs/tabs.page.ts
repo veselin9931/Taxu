@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as signalR from '@aspnet/signalr';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
 
@@ -21,11 +22,35 @@ export class TabsPage implements OnInit {
 
   }
   ngOnInit(): void {
+    if(this.isLoggedIn){
+      this.route.navigate(['tabs/travelling']);
+    }
+    this.checkValues();
+
+    const connection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl('https://localhost:44329/orderHub', {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets
+      })
+      .build();
+
+    connection.start().then(function () {
+      console.log('signalR Connected in tabs');
+    }).catch(function (err) {
+      return console.log(err.toString());
+    });
+
+    connection.on('BroadcastMessage', () => {
+      this.checkValues();
+    });
+  }
+
+  checkValues(){
     this.isLoggedIn = localStorage.getItem("user");
 
-
     if (this.isLoggedIn) {
-      this.route.navigate(['tabs/travelling']);
+     
       this.accountService.getById(this.accountService.userValue.id)
         .subscribe(x => {
           this.isVerified = x.isDriver;
@@ -38,19 +63,16 @@ export class TabsPage implements OnInit {
                 this.driverService.getDriverCars(x.driverId)
                 .subscribe(cars => {
                   this.driverCars = cars;
-                })
-                //get all cars for driver
-                //this.driverCars = d.cars;
+                });
 
                 this.documentConfirmed = d.documentConfirmation;
                 console.log('Driver -- ')
                 console.log(d)
               })
           }
-
         })
-
-
+    }else{
+        this.route.navigate(['tabs/home']);
     }
   }
 }

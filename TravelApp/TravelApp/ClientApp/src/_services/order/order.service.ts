@@ -12,6 +12,7 @@ export class OrderService {
   public order: Order;
   public orders = [];
   public driverId: string;
+  public completedOrder = false;
   private readonly getOrdersAction$ = new Subject();
 
   constructor(private http: HttpClient) { }
@@ -43,8 +44,7 @@ export class OrderService {
   getAllOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
       .pipe(
-        catchError(this.handleError),
-        tap(() => this.getOrdersAction$.next())
+        catchError(this.handleError)
       )
   }
 

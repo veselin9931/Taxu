@@ -16,14 +16,14 @@ import { min } from 'rxjs/operators';
 })
 export class DrivingPage implements OnInit {
   public currentTrip: Trip;
-  
+
   orders: Order[] = [];
   orderId: string;
   location: string;
   totalPrice: number;
   destination: string;
   appUserDriver: User;
-  
+
   loading = false;
   isSubmitted = false;
   verifiedAccount = false;
@@ -35,31 +35,31 @@ export class DrivingPage implements OnInit {
     private accountService: AccountService,
     private tripService: TripService,
     public signalRService: SignalRService,
-    private locationPage: Location) { 
-      if(this.isDrivingNow == true){
-        this.getAcceptedTrip()
-      }
+    private locationPage: Location) {
+    if (this.isDrivingNow == true) {
+      this.getAcceptedTrip()
     }
+  }
 
   ngOnInit(): void {
     this.getData();
 
-    if(this.isDrivingNow == true){
+    if (this.isDrivingNow == true) {
       this.getAcceptedTrip()
     }
 
     //SignalR data logic:
     const connection = new signalR.HubConnectionBuilder()
-    .configureLogging(signalR.LogLevel.Information)
-    .withUrl('https://localhost:44329/orderHub', {
-          skipNegotiation: true,
-          transport: signalR.HttpTransportType.WebSockets
-        })
-    .build();
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl('https://localhost:44329/orderHub', {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets
+      })
+      .build();
 
-    connection.start().then(function() {
+    connection.start().then(function () {
       console.log('signalR Connected in driving');
-    }).catch(function(err){
+    }).catch(function (err) {
       return console.log(err.toString());
     });
 
@@ -69,10 +69,10 @@ export class DrivingPage implements OnInit {
     });
   }
 
-  getData(){
+  getData() {
     this.orderService.getAllOrders().subscribe(data => {
-      
-      if(data == null){
+
+      if (data == null) {
         console.log('No trips');
         return;
       }
@@ -83,73 +83,76 @@ export class DrivingPage implements OnInit {
     })
   }
 
-  acceptOrder(order){
+  acceptOrder(order) {
     let applicationUserId = this.accountService.userValue.id;
     let value = this.accountService.userValue.isDrivingNow = true;
 
     this.accountService.updateDriving(applicationUserId, value)
-    .subscribe(data => {
-      console.log(data)
-    });
+      .subscribe(data => {
+        console.log(data)
+      });
 
     this.isDrivingNow = this.accountService.userValue.isDrivingNow;
     order.acceptedBy = applicationUserId;
 
     this.orderService.acceptOrder(order.id, applicationUserId)
-    .subscribe(data => {
-      console.log(data);
-    })
+      .subscribe(data => {
+        console.log(data);
+
+      })
 
     let orderId = order.id;
 
-    let data = {orderId, applicationUserId, order};
+    let data = { orderId, applicationUserId, order };
 
     this.tripService.createTrip(data)
-    .subscribe(data => {
-      //this.route.navigate(['tabs/accepted-order']);
-      console.log(data);
-    })
-
-    this.route.navigateByUrl('tabs/driving', { skipLocationChange: true });
-  
-  }
-
-  getAcceptedTrip(){
-    this.tripService.getTrip(this.driverId)
-    .subscribe(x => {
-      if(x == null){
-        console.log("No trip");
-        return;
-      }
-      console.log("Trip data")
-      console.log(x);
-      this.currentTrip = x;
-      this.orderId = x.orderId;
-
-      this.orderService.getOrderById(x.orderId).subscribe(order => {
-        x.order = order;
-        this.location = order.location;
-        this.destination = order.destination;
-        this.totalPrice = order.totalPrice;
+      .subscribe(data => {
+        //this.route.navigate(['tabs/accepted-order']);
+        console.log(data);
       })
-    });
+
   }
 
-  finishTrip(){
+  getAcceptedTrip() {
+    this.tripService.getTrip(this.driverId)
+      .subscribe(x => {
+        if (x == null) {
+          console.log("No trip");
+          return;
+        }
+        console.log("Trip data")
+        console.log(x);
+        this.currentTrip = x;
+        this.orderId = x.orderId;
+
+        this.orderService.getOrderById(x.orderId).subscribe(order => {
+          x.order = order;
+          this.location = order.location;
+          this.destination = order.destination;
+          this.totalPrice = order.totalPrice;
+        })
+      });
+  }
+
+  finishTrip() {
     this.tripService.completeTrip(this.currentTrip.id)
-    .subscribe(data => {
-      console.log('Completed trip')
-    })
-    
+      .subscribe(data => {
+        this.orderService.completeOrder(this.currentTrip.orderId)
+          .subscribe(data => {
+            console.log(data)
+          });
+        console.log('Completed trip')
+      })
+
     //trigger the driver's driving now property to false
     let driverId = this.accountService.userValue.id;
     let value = this.accountService.userValue.isDrivingNow = false;
 
     this.accountService.updateDriving(driverId, value)
-    .subscribe(data => {
-      window.location.reload();
-    });
-     
+      .subscribe(data => {
+      });
+
+      this.isDrivingNow = this.accountService.userValue.isDrivingNow;
   }
 
   goBack() {

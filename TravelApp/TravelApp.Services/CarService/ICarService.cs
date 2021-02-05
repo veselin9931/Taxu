@@ -16,6 +16,8 @@ namespace TravelApp.Services.CarService
 
         public Task<IList<Car>> GetAllCarsForConfirmationAsync();
 
+        public Car GetActiveCar(string driverId);
+
         public Task<IList<Car>> GetAllCarsAsyncForDriver(string driverId);
 
         public Task<bool> VerifyCar(string id);

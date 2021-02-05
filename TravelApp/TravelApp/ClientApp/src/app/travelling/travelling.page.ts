@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
+import { AlertController } from '@ionic/angular';
 import { Order, Trip, User } from 'src/_models';
+import { Car } from 'src/_models/car';
 import { AccountService, AlertService } from 'src/_services';
+import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
 
@@ -19,6 +22,16 @@ export class TravellingPage implements OnInit {
   userId: string;
   form: FormGroup;
   driverData: User;
+  activeCarData: Car;
+  lastOrder: Order;
+
+  //Car html properties;
+  carModel = "";
+  carColor = "";
+
+  //User html properties
+  firstName = "";
+  lastName = "";
 
   orderStatus = false;
   isSubmitted = false;
@@ -30,7 +43,9 @@ export class TravellingPage implements OnInit {
     private orderService: OrderService,
     private alertService: AlertService,
     private accountService: AccountService,
-    private tripService: TripService) {
+    private tripService: TripService,
+    private driverService: DriverService,
+    private alertController: AlertController) {
     this.userId = this.accountService.userValue.id;
   }
 
@@ -94,27 +109,29 @@ export class TravellingPage implements OnInit {
         }
         //get accepted by user id
         this.order = data;
-
+        
         this.orderStatus = data.isAccepted
-
+        
         console.log(data)
-
+        
         this.isAccepted = data.isAccepted;
-
+        
         if (this.orderStatus == false) {
           this.isCompleted = true;
         }
-
+        
         if (this.orderStatus == true) {
           this.isCompleted = false;
           this.isSubmitted = false;
           this.clearForm();
-
+          
           console.log('your order is accepted')
           this.orderService.order = data;
 
-          this.getUserById(data.acceptedBy);
-          this.getAcceptedTrip(data.acceptedBy);
+          if(data.acceptedBy != null){
+            this.getUserById(data.acceptedBy);
+            this.getAcceptedTrip(data.acceptedBy);
+          }
         }
       },
         error => {
@@ -125,8 +142,13 @@ export class TravellingPage implements OnInit {
   getUserById(driverId: string) {
     this.accountService.getById(driverId)
       .subscribe(userData => {
-        this.driverData = userData;
-        console.log(userData)
+        this.firstName = userData.firstName;
+        this.lastName = userData.lastName;
+        this.driverService.getDriverActiveCar(userData.driverId)
+        .subscribe(car => {
+          this.carModel = car.model;
+          this.carColor = car.color;
+        })
       })
   }
 
@@ -148,7 +170,6 @@ export class TravellingPage implements OnInit {
     this.orderService.completeOrder(this.order.id)
       .subscribe(data => {
         console.log(data)
-        location.reload();
       });
 
     // this.tripService.completeTrip(this.currentTrip.id)
@@ -180,8 +201,10 @@ export class TravellingPage implements OnInit {
   logout() {
     this.accountService.logout();
     this.isLoggedIn = "";
-    this.route.navigate(['tabs/home']);
-
+    this.route.navigate(['tabs/home'])
+    .then(() => {
+      window.location.reload();
+    })
   }
 
   clearForm() {
@@ -190,6 +213,17 @@ export class TravellingPage implements OnInit {
       'destination': '',
       'increaseAmount': ''
     })
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Order completed',
+      message: 'You have reached your destination!',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
 }

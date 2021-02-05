@@ -103,7 +103,7 @@
             <h5>Your order is accepted</h5>
           </ion-text>
 
-          <div class="col-md-12 mt-5">
+          <!-- <div class="col-md-12 mt-5">
             <div class="mapouter">
               <div class="gmap_canvas">
                 <iframe width="600" height="500" id="gmap_canvas"
@@ -130,7 +130,7 @@
                 </style>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="row text-center">
             <div class="col text-center">
@@ -138,8 +138,9 @@
                 <ion-text class="centered" color="warning">
                   <h4 class="text">Driver </h4>
 
-                  <h3 class="text">{{driverData.firstName}}</h3> 
-                  <h3 class="text">{{driverData.lastName}}</h3> 
+                  <h3 class="text">{{firstName}}</h3> 
+                  <h3 class="text">{{lastName}}</h3> 
+                  <h3 class="text">With {{carModel}}, color {{carColor}}</h3> 
                   <h2 class="text">will arrive in 10 minutes.</h2>
                   <hr>
 
@@ -152,7 +153,6 @@
                 
 
               </div>
-              <ion-button (click)="completeOrder()" color="warning">Complete order</ion-button>
             </div>
           </div>
         </div>

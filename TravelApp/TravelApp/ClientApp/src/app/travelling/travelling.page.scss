@@ -21,6 +21,10 @@ ion-input{
     border: 3px solid rgb(255, 174, 0);
 }
 
+.my-custom-class {
+    --background: #e5e5e5;
+  }
+
 ion-select{
     color: rgb(56, 56, 56);
     background-color: white;
