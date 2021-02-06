@@ -12,7 +12,7 @@ namespace TravelApp.Services.WalletService
     public class WalletService : IWalletService
     {
         private readonly IDeletableEntityRepository<Wallet> repository;
-
+         
         public WalletService(IDeletableEntityRepository<Wallet> repository)
         {
             this.repository = repository;
@@ -66,6 +66,13 @@ namespace TravelApp.Services.WalletService
             return false;
         }
 
+        public WalletViewModel GetUserWallet(string userId)
+        {
+            var wallet = this.repository.All().FirstOrDefault(w => w.ApplicationUserId == userId);
+
+            return new WalletViewModel() { Ammount = wallet.Ammount, Confirmation = wallet.Confirmation };
+        }
+
         public WalletViewModel GetWallet(string id)
         {
             var wallet =  this.repository.All().FirstOrDefault(w => w.Id == id);
@@ -73,9 +80,34 @@ namespace TravelApp.Services.WalletService
             return new WalletViewModel() { Ammount = wallet.Ammount, Confirmation = wallet.Confirmation };
         }
 
-        public Task<bool> TopUp(string userId, decimal money)
+        public async Task<bool> Charge(string userId, decimal money)
         {
-            throw new NotImplementedException();
+            var wallet = this.repository.All().FirstOrDefault(x => x.ApplicationUserId == userId);
+
+            if(wallet != null)
+            {
+                wallet.Ammount += money;
+                this.repository.Update(wallet);
+                await this.repository.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> Decrease(string userId, decimal money)
+        {
+            var wallet = this.repository.All().FirstOrDefault(x => x.ApplicationUserId == userId);
+
+            if (wallet != null && (wallet.Ammount - money) > 0)
+            {
+                wallet.Ammount -= money;
+                this.repository.Update(wallet);
+                await this.repository.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
     }
 }

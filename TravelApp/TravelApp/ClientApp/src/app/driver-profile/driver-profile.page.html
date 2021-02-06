@@ -24,9 +24,12 @@
           <h4 class="playername">{{user.phone}}</h4>
 
           <h6 class="ranking">Wallet ballance: <ion-chip>
-            <ion-label>10$</ion-label>
+            <ion-label>{{walletAmount}}$</ion-label>
             </ion-chip>
           </h6>
+          <ion-chip (click)="presentPrompt()">
+            <ion-label>Charge cash</ion-label>
+            </ion-chip>
           <h6 class="ranking">Rating: <ion-chip>
             <ion-label>2</ion-label>
             </ion-chip>

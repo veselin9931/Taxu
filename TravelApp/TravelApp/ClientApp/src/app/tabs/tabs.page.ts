@@ -22,9 +22,6 @@ export class TabsPage implements OnInit {
 
   }
   ngOnInit(): void {
-    if(this.isLoggedIn){
-      this.route.navigate(['tabs/travelling']);
-    }
     this.checkValues();
 
     const connection = new signalR.HubConnectionBuilder()

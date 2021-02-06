@@ -7,6 +7,7 @@ import { OrderService } from 'src/_services/order/order.service';
 import { SignalRService } from 'src/_services/signal-r.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { Location } from '@angular/common';
+import { WalletService } from 'src/_services/wallet/wallet.service';
 
 @Component({
   selector: 'app-driving',
@@ -34,7 +35,8 @@ export class DrivingPage implements OnInit {
     private accountService: AccountService,
     private tripService: TripService,
     public signalRService: SignalRService,
-    private locationPage: Location) {
+    private locationPage: Location,
+    private walletService: WalletService) {
     if (this.isDrivingNow == true) {
       this.getAcceptedTrip()
     }
@@ -110,6 +112,12 @@ export class DrivingPage implements OnInit {
         console.log(data);
       })
 
+    this.walletService.dischargeWallet(this.applicationUserId, 10)
+      .subscribe(x => {
+        console.log('Successfully discharged the user.')
+      })
+
+      this.route.navigate(['tabs/driving']);
   }
 
   getAcceptedTrip() {
@@ -130,6 +138,9 @@ export class DrivingPage implements OnInit {
           this.destination = order.destination;
           this.totalPrice = order.totalPrice;
         })
+
+
+        this.route.navigate(['tabs/driving']);
       });
   }
 
@@ -138,7 +149,7 @@ export class DrivingPage implements OnInit {
       .subscribe(data => {
         this.orderService.completeOrder(this.currentTrip.orderId)
           .subscribe(data => {
-            console.log(data)
+            console.log('Completed order')
           });
         console.log('Completed trip')
       })
@@ -151,7 +162,7 @@ export class DrivingPage implements OnInit {
       .subscribe(data => {
       });
 
-      this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+    this.isDrivingNow = this.accountService.userValue.isDrivingNow;
   }
 
   goBack() {
