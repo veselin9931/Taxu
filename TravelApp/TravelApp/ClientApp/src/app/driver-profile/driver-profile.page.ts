@@ -7,6 +7,7 @@ import { Car } from 'src/_models/car';
 import * as signalR from '@aspnet/signalr';
 import { AlertController } from '@ionic/angular';
 import { WalletService } from 'src/_services/wallet/wallet.service';
+import { Driver } from 'src/_models';
 
 @Component({
   selector: 'app-driver-profile',
@@ -16,10 +17,12 @@ import { WalletService } from 'src/_services/wallet/wallet.service';
 export class DriverProfilePage implements OnInit {
   user = this.accountService.userValue;
   driverId: string;
+  referral: string;
   driverCars: Car[];
+  carsCount = 0;
   walletAmount: number;
   isActiveCar: boolean;
-
+  driver: Driver;
   constructor(private accountService: AccountService,
     private driverService: DriverService,
     private route: Router,
@@ -30,6 +33,7 @@ export class DriverProfilePage implements OnInit {
   ngOnInit() {
     this.getWalletAmount();
     this.getCars();
+    this.getDriver();
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
@@ -49,8 +53,25 @@ export class DriverProfilePage implements OnInit {
       this.getCars();
       this.getWalletAmount();
     });
+  }
 
+  copy(referral: string){
+    console.log(referral)
+  }
 
+  getDriver(){
+    this.accountService.getById(this.user.id)
+      .subscribe(x => {
+        this.driverService.getDriver(x.driverId)
+          .subscribe(d => {
+            if (d == null) {
+              console.log('No driver');
+              return;
+            }
+            this.driver = d;
+            this.referral = this.driver.referal;
+          })
+      })
   }
 
   getWalletAmount(){
@@ -75,6 +96,7 @@ export class DriverProfilePage implements OnInit {
             }
 
             this.driverCars = d;
+            this.carsCount = this.driverCars.length;
             console.log(this.driverCars)
           })
       })
@@ -85,7 +107,7 @@ export class DriverProfilePage implements OnInit {
   }
 
   addNewCar() {
-    this.route.navigate(['tabs/register-car'])
+    this.route.navigate(['tabs/car-register'])
   }
 
   active(car: Car) {

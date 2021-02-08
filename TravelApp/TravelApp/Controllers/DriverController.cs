@@ -30,6 +30,19 @@ namespace TravelApp.Controllers
             this.hub = hub;
         }
 
+        [HttpGet("referral/{referral}")]
+        public async Task<IActionResult> GetDriverByReferral(string referral)
+        {
+            var driver = this.driverService.GetByReferral(referral);
+
+            if (driver == null)
+            {
+                return this.StatusCode(204);
+            }
+
+            return this.Ok(driver);
+        }
+
         [HttpGet("confirm/{id}")]
         public async Task<IActionResult> DriverConfirmation(string id)
         {
@@ -102,8 +115,16 @@ namespace TravelApp.Controllers
 
         // PUT api/<DriverController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(string id)
         {
+            var driver = await this.driverService.LowerCommission(id);
+
+            if (driver)
+            {
+                return this.Ok(driver);
+            }
+
+            return this.NotFound();
         }
 
         // DELETE api/<DriverController>/5

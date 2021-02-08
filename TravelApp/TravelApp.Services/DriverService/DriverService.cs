@@ -103,6 +103,9 @@ namespace TravelApp.Services.DriverService
         public Driver GetById(string id)
         => this.repository.All().FirstOrDefault(x => x.Id == id);
 
+        public Driver GetByReferral(string referral)
+        => this.repository.All()?.FirstOrDefault(x => x.Referal == referral);
+
         public DriverViewModel GetDriver(string id)
         {
             var driver =  this.repository.All()
@@ -116,6 +119,28 @@ namespace TravelApp.Services.DriverService
             }
 
             return driver;
+        }
+
+        public async Task<bool> LowerCommission(string id)
+        {
+            var driver = this.GetById(id);
+
+            if(driver!= null)
+            {
+                if (driver.ReferalUsedTimes == 5)
+                {
+                    return false;
+                }
+
+                driver.ReferalUsedTimes += 1;
+                driver.Comission -= driver.Comission * 0.02;
+
+                this.repository.Update(driver);
+                await this.repository.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
     }
 }

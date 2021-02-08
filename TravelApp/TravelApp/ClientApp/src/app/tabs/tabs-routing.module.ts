@@ -60,7 +60,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/tabs/home',
+    redirectTo: '/tabs/travelling',
     pathMatch: 'full'
   }
 ];

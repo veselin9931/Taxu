@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AccountService, AlertService } from 'src/_services';
+import { DriverService } from 'src/_services/driver/driver.service';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,8 @@ export class RegisterPage implements OnInit {
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private accountService: AccountService,
-    private alertService: AlertService) { }
+    private alertService: AlertService,
+    private driverService: DriverService) { }
 
     
 
@@ -28,7 +30,8 @@ export class RegisterPage implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      phone: ['', Validators.required]
+      phone: ['', Validators.required],
+      referral: ['']
     },{
       validators: this.ConfirmedValidator('password', 'confirmPassword')
     })
@@ -51,6 +54,18 @@ export class RegisterPage implements OnInit {
     .subscribe(
       data => {
         this.alertService.success('Successful registration', { keepAfterRouteChange: true });
+        this.driverService.getDriverByReferral(this.form.value.referral)
+        .subscribe(driver => {
+          if(driver){
+            this.driverService.lowerDriverCommission(driver.id)
+            .subscribe(x => {
+              console.log(x)
+            })
+          }else{
+            console.log('The referral does not exists!')
+
+          }
+        })
         this.route.navigate(['tabs/home']);
         console.log(data)
       },

@@ -55,13 +55,27 @@ export class DriverService {
       );
   }
 
+  public getDriverByReferral(referral: string): Observable<Driver> {
+    return this.http.get<Driver>(`${environment.apiUrl}/api/driver/referral/${referral}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  public lowerDriverCommission(driverId: string): Observable<Driver>{
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Driver>(`${environment.apiUrl}/api/driver/${driverId}`, { headers, responseType: 'json' },)
+    .pipe(
+    );
+  }
+
   public activeCar(id: string, driverId: string): Observable<Car> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Car>(`${environment.apiUrl}/api/car/${id}/${driverId}`, { headers, responseType: 'json' },)
       .pipe(
       );
-
   }
+  
 
   public createCar(data) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

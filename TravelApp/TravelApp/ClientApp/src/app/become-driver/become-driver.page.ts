@@ -46,7 +46,7 @@ export class BecomeDriverPage implements OnInit {
         this.clearForm();
         console.log(data);
         console.log('Successfully uploaded your data.')
-        this.route.navigate(['tabs/register-car']);
+        this.route.navigate(['tabs/car-register']);
       })
     }
 

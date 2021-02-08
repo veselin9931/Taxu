@@ -18,7 +18,12 @@ namespace TravelApp.Services.DriverService
 
         IEnumerable<DriverViewModel> GetAllDrivers();
 
+        public Task<bool> LowerCommission(string id);
+
         public Driver GetById(string id);
+
+        public Driver GetByReferral(string referral);
+
 
         DriverViewModel GetDriver(string id);
     }
