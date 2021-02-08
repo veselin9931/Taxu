@@ -25,7 +25,7 @@ namespace TravelApp.Services.WalletService
               ApplicationUserId = applicationUserId,
               Ammount = 0, 
               Confirmation = false, 
-              CreatedOn = DateTime.Now
+              CreatedOn = DateTime.UtcNow
             };
 
             this.repository.Add(wallet);

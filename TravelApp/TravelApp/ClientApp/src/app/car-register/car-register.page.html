@@ -13,12 +13,13 @@
       <div class="row">
         <div class="col text-center">
           <ion-text class="centered" color="warning">
-            <h2 class="text">Add a car</h2>
+            <h2 class="text">Become a driver</h2>
             <hr>
-            <h5>Please upload your car, so we can verify your account</h5>
+            <h5>Please upload your documents, so we can verify your account</h5>
           </ion-text>
 
-          <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="col-md-6">
+          <form [formGroup]="form" novalidate class="col-md-6">
+
             <div class="form-group col mt-5 text-center">
               <ion-input formControlName="model" type="text" class="form-control" placeholder="Model"
                 [ngClass]="{ 'is-invalid': submitted && f.model.errors }">
@@ -78,7 +79,7 @@
             </div>
 
             <div class="col-md-12 mt-3">
-              <ion-button type="submit" color="warning">Submit</ion-button>
+              <ion-button type="submit" (click)="onSubmit()" color="warning">Submit</ion-button>
             </div>
           </form>
         </div>

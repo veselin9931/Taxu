@@ -71,7 +71,7 @@ namespace TravelApp.Services.DriverService
                 DriverLicense = driverInputModel.DriverLicense,
                 IDCardNumber = driverInputModel.IDCardNumber,
                 CurrentLocation = driverInputModel.CurrentLocation,
-                Referal = new Guid().ToString(),
+                Referal = Guid.NewGuid().ToString(),
                 ReferalUsedTimes = 0,
                 WalletId = walletId,
                 CreatedOn = DateTime.UtcNow

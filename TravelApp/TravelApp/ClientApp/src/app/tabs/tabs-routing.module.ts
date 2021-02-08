@@ -32,10 +32,6 @@ const routes: Routes = [
         loadChildren: () => import('../account-verifying/account-verifying.module').then(m => m.AccountVerifyingPageModule)
       },
       {
-        path: 'register-car',
-        loadChildren: () => import('../register-car/register-car-routing.module').then(m => m.RegisterCarPageRoutingModule)
-      },
-      {
         path: 'become-driver',
         loadChildren: () => import('../become-driver/become-driver.module').then(m => m.BecomeDriverPageModule)
       },
@@ -50,6 +46,10 @@ const routes: Routes = [
       {
         path: 'wallet-charge',
         loadChildren: () => import('../wallet-charge/wallet-charge.module').then( m => m.WalletChargePageModule)
+      },
+      {
+        path: 'car-register',
+        loadChildren: () => import('../car-register/car-register.module').then( m => m.CarRegisterPageModule)
       },
       {
         path: '',

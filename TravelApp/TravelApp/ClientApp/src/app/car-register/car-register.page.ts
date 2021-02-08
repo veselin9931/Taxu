@@ -1,34 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { Location } from '@angular/common';
-
 @Component({
-  selector: 'app-register-car',
-  templateUrl: './register-car.page.html',
-  styleUrls: ['./register-car.page.scss'],
+  selector: 'app-car-register',
+  templateUrl: './car-register.page.html',
+  styleUrls: ['./car-register.page.scss'],
 })
-export class RegisterCarPage implements OnInit {
+export class CarRegisterPage implements OnInit {
+  form: FormGroup;
   submitted = false;
   loading = false;
-  form: FormGroup;
 
   userId: string;
   driverId: string;
-  
+
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private driverService: DriverService,
     private accountService: AccountService,
-    private location: Location) {
-    this.userId = this.accountService.userValue.id;
-  }
+    private location: Location) { this.userId = this.accountService.userValue.id; }
 
   ngOnInit() {
-
     this.form = this.formBuilder.group({
       model: ['', Validators.required],
       tehnicalReview: ['', Validators.required],
@@ -44,12 +39,10 @@ export class RegisterCarPage implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+
     if (!this.form.valid) {
       console.log('Please provide all the required values!')
-      
-
     } else {
-
       this.accountService.getById(this.userId)
         .subscribe(x => {
           this.form.value.driverId = x.driverId;
@@ -96,5 +89,4 @@ export class RegisterCarPage implements OnInit {
       'capacity': '',
     })
   }
-
 }

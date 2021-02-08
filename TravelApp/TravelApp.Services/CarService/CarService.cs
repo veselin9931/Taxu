@@ -33,7 +33,8 @@ namespace TravelApp.Services.CarService
                 RegistrationNumber = carInputModel.RegistrationNumber,
                 TehnicalReview = carInputModel.TehnicalReview,
                 TypeId = carInputModel.Type,
-                IsActive = false
+                IsActive = false,
+                CreatedOn = DateTime.UtcNow
             };
 
             this.repository.Add(car);

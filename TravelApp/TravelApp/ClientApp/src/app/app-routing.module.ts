@@ -27,10 +27,6 @@ const routes: Routes = [
     loadChildren: () => import('./account-verifying/account-verifying.module').then( m => m.AccountVerifyingPageModule)
   },
   {
-    path: 'register-car',
-    loadChildren: () => import('./register-car/register-car.module').then( m => m.RegisterCarPageModule)
-  },
-  {
     path: 'driver-profile',
     loadChildren: () => import('./driver-profile/driver-profile.module').then( m => m.DriverProfilePageModule)
   },
@@ -41,9 +37,14 @@ const routes: Routes = [
   {
     path: 'driver-history',
     loadChildren: () => import('./driver-history/driver-history.module').then( m => m.DriverHistoryPageModule)
-  },  {
+  },
+  {
     path: 'wallet-charge',
     loadChildren: () => import('./wallet-charge/wallet-charge.module').then( m => m.WalletChargePageModule)
+  },
+  {
+    path: 'car-register',
+    loadChildren: () => import('./car-register/car-register.module').then( m => m.CarRegisterPageModule)
   }
 
 
