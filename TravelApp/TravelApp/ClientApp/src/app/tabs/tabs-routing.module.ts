@@ -44,10 +44,6 @@ const routes: Routes = [
         loadChildren: () => import('../driver-history/driver-history.module').then(m => m.DriverHistoryPageModule)
       },
       {
-        path: 'wallet-charge',
-        loadChildren: () => import('../wallet-charge/wallet-charge.module').then( m => m.WalletChargePageModule)
-      },
-      {
         path: 'car-register',
         loadChildren: () => import('../car-register/car-register.module').then( m => m.CarRegisterPageModule)
       },

@@ -62,10 +62,25 @@ namespace TravelApp.Controllers
         }
 
         // PUT api/<TripController>/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id)
+        [HttpPut("finish/{id}")]
+        public async Task<IActionResult> FinishTrip(string id)
         {
             var complete = await this.tripService.FinishTripAsync(id);
+
+            if (complete)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok(complete);
+            }
+
+            return this.BadRequest();
+        }
+
+        // PUT api/<TripController>/5
+        [HttpPut("start/{id}")]
+        public async Task<IActionResult> StartTrip(string id)
+        {
+            var complete = await this.tripService.StartTripAsync(id);
 
             if (complete)
             {

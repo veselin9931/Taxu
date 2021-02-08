@@ -36,9 +36,17 @@ export class TripService {
       )
   }
 
+  startTrip(tripId: string): Observable<Trip> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/start/${tripId}`, { headers, responseType: 'json' },)
+      .pipe(
+      );
+
+  }
+
   completeTrip(tripId: string): Observable<Trip> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/${tripId}`, { headers, responseType: 'json' },)
+    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/finish/${tripId}`, { headers, responseType: 'json' },)
       .pipe(
       );
 

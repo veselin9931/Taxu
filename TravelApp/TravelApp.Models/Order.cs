@@ -30,22 +30,9 @@ namespace TravelApp.Models
         [Range(typeof(decimal), "0", "999999999999999999")]
         public decimal TotalPrice { get; set; }
 
+        public string Status { get; set; }
 
-        public bool IsAccepted { get; set; }
 
         public string AcceptedBy { get; set; }
-
-
-
-        public bool IsCompleted { get; set; }
-
-        //[Required]
-        //public string ReservationId { get; set; }
-
-        //public Reservation Reservation { get; set; }
-
-        //[Required]
-        //public decimal Comission { get; set; }
-
     }
 }

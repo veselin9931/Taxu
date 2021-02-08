@@ -27,7 +27,8 @@ namespace TravelApp.Services.OrderService
 
             if (currentOrder != null)
             {
-                currentOrder.IsAccepted = true;
+                currentOrder.Status = "Accepted";
+                //currentOrder.IsAccepted = true;
                 currentOrder.AcceptedBy = driverId;
 
                 this.orderRepository.Update(currentOrder);
@@ -47,7 +48,8 @@ namespace TravelApp.Services.OrderService
 
             if (currentOrder != null)
             {
-                currentOrder.IsCompleted = true;
+                //currentOrder.IsCompleted = true;
+                currentOrder.Status = "Completed";
 
                 this.orderRepository.Update(currentOrder);
 
@@ -71,10 +73,11 @@ namespace TravelApp.Services.OrderService
                     Location = input.Location,
                     Destination = input.Destination,
                     IncreasePrice = input.IncreasePrice,
-                    TotalPrice = input.TotalPrice + input.IncreasePrice,
+                    TotalPrice = 10, //Just temporary
                     CreatedOn = DateTime.UtcNow,
-                    IsAccepted = false,
-                    IsCompleted = false,
+                    Status = "Waiting"
+                    //IsAccepted = false,
+                    //IsCompleted = false,
                 };
 
                 this.orderRepository.Add(order);
@@ -82,7 +85,6 @@ namespace TravelApp.Services.OrderService
                 await this.orderRepository.SaveChangesAsync();
 
                 
-
                 return order.ToString();
             }
 
@@ -103,7 +105,7 @@ namespace TravelApp.Services.OrderService
         public async Task<IList<Order>> GetAllAcceptedOrdersAsync(string userId)
          => await this.orderRepository
             .All()
-            .Where(x => x.AcceptedBy == userId && x.IsCompleted == true)
+            .Where(x => x.AcceptedBy == userId && x.Status == "Completed")
             .Include(x => x.ApplicationUser)
             .OrderByDescending(x => x.CreatedOn)
             .ToListAsync();
@@ -111,7 +113,7 @@ namespace TravelApp.Services.OrderService
         public async Task<IList<Order>> GetAllOrdersAsync()
          => await this.orderRepository
             .All()
-            .Where(x => x.IsAccepted == false && x.IsDeleted == false)
+            .Where(x => x.Status == "Waiting" && x.IsDeleted == false)
             .Include(x => x.ApplicationUser)
             .OrderBy(x => x.CreatedOn)
             .ToListAsync();
@@ -120,6 +122,6 @@ namespace TravelApp.Services.OrderService
         => this.orderRepository.All()?.FirstOrDefault(x => x.Id == id);
 
         public Order GetOrderByUserId(string userId)
-        => this.orderRepository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.ApplicationUserId == userId && x.IsCompleted == false);
+        => this.orderRepository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.ApplicationUserId == userId && x.Status != "Completed");
     }
 }

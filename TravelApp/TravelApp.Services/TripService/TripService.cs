@@ -27,7 +27,7 @@ namespace TravelApp.Services.TripService
                     ApplicationUserId = model.ApplicationUserId,
                     OrderId = model.OrderId,
                     CreatedOn = DateTime.UtcNow,
-                    IsCompleted = false
+                    Status = "Processing"
                 };
 
                 this.tripRepository.Add(trip);
@@ -46,7 +46,7 @@ namespace TravelApp.Services.TripService
 
             if (trip != null)
             {
-                trip.IsCompleted = true;
+                trip.Status = "Completed";
 
                 this.tripRepository.Update(trip);
 
@@ -62,6 +62,24 @@ namespace TravelApp.Services.TripService
        => this.tripRepository.All()?.FirstOrDefault(x => x.Id == id);
 
         public Trip GetTripByUserId(string applicationUserId)
-         => this.tripRepository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.ApplicationUserId == applicationUserId && x.IsCompleted == false);
+         => this.tripRepository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.ApplicationUserId == applicationUserId && x.Status != "Completed");
+
+        public async Task<bool> StartTripAsync(string tripId)
+        {
+            var trip = this.GetTripById(tripId);
+
+            if (trip != null)
+            {
+                trip.Status = "Started";
+
+                this.tripRepository.Update(trip);
+
+                await this.tripRepository.SaveChangesAsync();
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Completing a trip failed!");
+        }
     }
 }

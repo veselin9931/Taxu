@@ -8,6 +8,8 @@ import { SignalRService } from 'src/_services/signal-r.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { Location } from '@angular/common';
 import { WalletService } from 'src/_services/wallet/wallet.service';
+import { AlertController } from '@ionic/angular';
+import { DriverService } from 'src/_services/driver/driver.service';
 
 @Component({
   selector: 'app-driving',
@@ -16,27 +18,32 @@ import { WalletService } from 'src/_services/wallet/wallet.service';
 })
 export class DrivingPage implements OnInit {
   public currentTrip: Trip;
-
+  tripStatus: string;
   orders: Order[] = [];
+  order: Order;
   orderId: string;
   location: string;
   totalPrice: number;
   destination: string;
   appUserDriver: User;
-
+  tripPriceForDriver: number;
+  driverCommission: number;
   loading = false;
   isSubmitted = false;
   verifiedAccount = false;
   driverId = this.tripService.currentTripDriverId;
   isDrivingNow = this.accountService.userValue.isDrivingNow;
   applicationUserId = this.accountService.userValue.id;
+
   constructor(private route: Router,
     private orderService: OrderService,
     private accountService: AccountService,
     private tripService: TripService,
     public signalRService: SignalRService,
     private locationPage: Location,
-    private walletService: WalletService) {
+    private walletService: WalletService,
+    private alertController: AlertController,
+    private driverService: DriverService) {
     if (this.isDrivingNow == true) {
       this.getAcceptedTrip()
     }
@@ -86,38 +93,85 @@ export class DrivingPage implements OnInit {
 
   acceptOrder(order) {
     let applicationUserId = this.accountService.userValue.id;
-    let value = this.accountService.userValue.isDrivingNow = true;
 
-    this.accountService.updateDriving(applicationUserId, value)
+
+    this.walletService.getMyWallet(this.applicationUserId)
+      .subscribe(wallet => {
+        if (wallet.ammount < this.tripPriceForDriver) {
+          this.NotEnoughCashAlert();
+          return;
+        }
+
+        this.accountService.userValue.isDrivingNow = true;
+        this.accountService.updateDriving(applicationUserId, true)
+          .subscribe(data => {
+            console.log(data)
+          });
+
+        this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+        order.acceptedBy = applicationUserId;
+
+        this.orderService.acceptOrder(order.id, applicationUserId)
+          .subscribe(data => {
+            console.log(data);
+          })
+
+        let orderId = order.id;
+
+        let data = { orderId, applicationUserId, order };
+
+        this.tripService.createTrip(data)
+          .subscribe(data => {
+            console.log(data);
+          })
+      })
+
+    this.route.navigate(['tabs/driving']);
+  }
+
+  startTrip() {
+    this.tripService.startTrip(this.currentTrip.id)
+    .subscribe(trip => {
+      if(trip){
+        this.tripStatus = trip.status;
+      }
+
+      this.accountService.getById(this.applicationUserId)
+      .subscribe(user => {
+        this.driverService.getDriver(user.driverId)
+          .subscribe(driver => {
+            this.tripPriceForDriver = (this.order.totalPrice * (driver.comission / 100));
+
+            this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
+              .subscribe(x => {
+                console.log('Successfully discharged the user.')
+              })
+          })
+      })
+    })
+  }
+
+  cancelTrip() {
+    this.tripService.completeTrip(this.currentTrip.id)
+      .subscribe(trip => {
+        if(trip){
+          this.tripStatus = trip.status;
+        }
+        this.orderService.completeOrder(this.currentTrip.orderId)
+          .subscribe(data => {
+            console.log('Canceled order')
+          });
+        console.log('Canceled trip')
+      })
+
+    let driverId = this.accountService.userValue.id;
+    let value = this.accountService.userValue.isDrivingNow = false;
+
+    this.accountService.updateDriving(driverId, value)
       .subscribe(data => {
-        console.log(data)
       });
 
     this.isDrivingNow = this.accountService.userValue.isDrivingNow;
-    order.acceptedBy = applicationUserId;
-
-    this.orderService.acceptOrder(order.id, applicationUserId)
-      .subscribe(data => {
-        console.log(data);
-
-      })
-
-    let orderId = order.id;
-
-    let data = { orderId, applicationUserId, order };
-
-    this.tripService.createTrip(data)
-      .subscribe(data => {
-        //this.route.navigate(['tabs/accepted-order']);
-        console.log(data);
-      })
-
-    this.walletService.dischargeWallet(this.applicationUserId, 10)
-      .subscribe(x => {
-        console.log('Successfully discharged the user.')
-      })
-
-      this.route.navigate(['tabs/driving']);
   }
 
   getAcceptedTrip() {
@@ -129,16 +183,17 @@ export class DrivingPage implements OnInit {
         }
         console.log("Trip data")
         console.log(x);
+        this.tripStatus = x.status;
         this.currentTrip = x;
         this.orderId = x.orderId;
 
         this.orderService.getOrderById(x.orderId).subscribe(order => {
           x.order = order;
+          this.order = x.order;
           this.location = order.location;
           this.destination = order.destination;
           this.totalPrice = order.totalPrice;
         })
-
 
         this.route.navigate(['tabs/driving']);
       });
@@ -146,7 +201,10 @@ export class DrivingPage implements OnInit {
 
   finishTrip() {
     this.tripService.completeTrip(this.currentTrip.id)
-      .subscribe(data => {
+      .subscribe(trip => {
+        if(trip){
+          this.tripStatus = trip.status;
+        }
         this.orderService.completeOrder(this.currentTrip.orderId)
           .subscribe(data => {
             console.log('Completed order')
@@ -167,6 +225,17 @@ export class DrivingPage implements OnInit {
 
   goBack() {
     this.locationPage.back();
+  }
+
+  async NotEnoughCashAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Balance',
+      message: 'Your wallet balance is not enough for this order!',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
 }

@@ -8,6 +8,7 @@ export class Order {
     isAccepted: boolean;
     isCompleted: boolean;
     createdOn: Date;
+    status: string;
     applicationUser: User;
     applicationUserId: string;
     totalPrice: number;

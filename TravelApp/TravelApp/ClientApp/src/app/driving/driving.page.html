@@ -82,16 +82,23 @@
             <div class="col">
               <div class="d-flex w-100 justify-content-between">
                 <ion-text class="centered" color="warning">
-                  <small class="text">Order ID: {{orderId}}</small>
-                  <small class="text">Driver ID: {{driverId}}</small>
                   <h2 class="text">Location: {{this.location}}</h2>
                   <h2 class="text">Destination: {{this.destination}}</h2>
                   <h3 class="text">Total price: {{this.totalPrice}}$</h3>
-
+                  <div class="row">
+                    <div class="col">
+                      <div class="d-flex w-100 justify-content-between">
+                        <ion-button [disabled]="tripStatus=='Started'" (click)="startTrip()" type="submit" color="success">Go!</ion-button>
+                      </div>
+                      <div class="d-flex w-100 justify-content-between">
+                        <ion-button [disabled]="tripStatus=='Started'" (click)="cancelTrip()" type="submit" color="danger">Cancel</ion-button>
+                      </div>
+                    </div>
+                  </div>
                 </ion-text>
 
 
-                <ion-button (click)="finishTrip()" type="submit" color="warning">Finish</ion-button>
+                <ion-button [disabled]="tripStatus=='Processing'" (click)="finishTrip()" type="submit" color="warning">Finish</ion-button>
               </div>
             </div>
           </div>

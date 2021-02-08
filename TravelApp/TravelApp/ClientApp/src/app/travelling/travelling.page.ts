@@ -21,9 +21,10 @@ export class TravellingPage implements OnInit {
   order: Order;
   userId: string;
   form: FormGroup;
+  lastOrder: Order;
   driverData: User;
   activeCarData: Car;
-  lastOrder: Order;
+  orderStatus: string;
 
   //Car html properties;
   carModel = "";
@@ -33,7 +34,7 @@ export class TravellingPage implements OnInit {
   firstName = "";
   lastName = "";
 
-  orderStatus = false;
+  statusForOrder = false;
   isSubmitted = false;
   isCompleted = false;
   isAccepted = false;
@@ -56,7 +57,8 @@ export class TravellingPage implements OnInit {
       applicationUserId: [''],
       location: ['', Validators.required],
       destination: ['', Validators.required],
-      increasePrice: [0]
+      increasePrice: [0],
+      status: 'Waiting'
     })
 
     const connection = new signalR.HubConnectionBuilder()
@@ -93,7 +95,7 @@ export class TravellingPage implements OnInit {
       this.orderService.createOrder(this.form.value)
         .subscribe(() => {
           this.alertService.success('You have created an order.', { autoClose: true });
-          this.isCompleted = true;
+          this.orderStatus = this.form.value.status;
         })
     }
   }
@@ -110,17 +112,19 @@ export class TravellingPage implements OnInit {
         //get accepted by user id
         this.order = data;
         
-        this.orderStatus = data.isAccepted
+        //this.orderStatus = data.isAccepted
+        this.orderStatus = data.status;
         
         console.log(data)
         
-        this.isAccepted = data.isAccepted;
+        //this.isAccepted = data.isAccepted;
         
-        if (this.orderStatus == false) {
+        if (this.orderStatus == "Waiting") {
+          this.statusForOrder = false;
           this.isCompleted = true;
         }
         
-        if (this.orderStatus == true) {
+        if (this.orderStatus == "Accepted") {
           this.isCompleted = false;
           this.isSubmitted = false;
           this.clearForm();
@@ -166,22 +170,22 @@ export class TravellingPage implements OnInit {
       });
   }
 
-  completeOrder() {
-    this.orderService.completeOrder(this.order.id)
-      .subscribe(data => {
-        console.log(data)
-      });
+  // completeOrder() {
+  //   this.orderService.completeOrder(this.order.id)
+  //     .subscribe(data => {
+  //       console.log(data)
+  //     });
 
-    // this.tripService.completeTrip(this.currentTrip.id)
-    //   .subscribe(data => {
-    //     console.log('Completed trip')
-    //   })
+  //   // this.tripService.completeTrip(this.currentTrip.id)
+  //   //   .subscribe(data => {
+  //   //     console.log('Completed trip')
+  //   //   })
 
-    // this.accountService.updateDriving(this.order.acceptedBy, false)
-    //   .subscribe(data => {
-    //     console.log('Successfull updated driver data!')
-    //   });
-  }
+  //   // this.accountService.updateDriving(this.order.acceptedBy, false)
+  //   //   .subscribe(data => {
+  //   //     console.log('Successfull updated driver data!')
+  //   //   });
+  // }
 
   cancelOrder() {
     this.orderService.getMyOrder(this.userId)
