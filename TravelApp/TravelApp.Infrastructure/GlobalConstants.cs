@@ -11,5 +11,16 @@ namespace TravelApp.Infrastructure
             public const string Admin = "Admin";
             public const string User = "User";
         }
+
+        public static class CloudinaryFolders
+        {
+            public const string DriverFacePics = "driverFacePic";
+
+            public const string DriverLicanses = "driverLicanse";
+
+            public const string IdCards = "idCard";
+
+            public const string TehnicalReviews = "tehnicalReview";
+        }
     }
 }
