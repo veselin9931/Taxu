@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CloudinaryDotNet;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,7 @@ using TravelApp.Services.CarService;
 using TravelApp.Services.CarType;
 using TravelApp.Services.DriverService;
 using TravelApp.Services.EmailSender;
+using TravelApp.Services.ImageService;
 using TravelApp.Services.OrderService;
 using TravelApp.Services.TripService;
 using TravelApp.Services.WalletService;
@@ -32,6 +35,7 @@ namespace TravelApp
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IDriverService, DriverService>();
             services.AddTransient<ICarType, CarTypeService>();
+            services.AddTransient<IImageService, ImageService>();
             //services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddSingleton<IHttpContextAccessor,
@@ -44,6 +48,20 @@ namespace TravelApp
         {
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+
+            return services;
+        }
+
+        public static IServiceCollection RegisterCloudinary(this IServiceCollection services, IConfiguration configuration)
+        {
+            Account cloudinaryCredentials = new Account(
+                configuration["Cloudinary:CloudName"],
+                configuration["Cloudinary:ApiKey"],
+                configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinaryUtility = new Cloudinary(cloudinaryCredentials);
+
+            services.AddSingleton(cloudinaryUtility);
 
             return services;
         }
