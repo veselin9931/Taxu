@@ -15,6 +15,7 @@ using TravelApp.Services.CarService;
 using TravelApp.Services.CarType;
 using TravelApp.Services.DriverService;
 using TravelApp.Services.EmailSender;
+using TravelApp.Services.ImageService;
 using TravelApp.Services.OrderService;
 using TravelApp.Services.TripService;
 using TravelApp.Services.WalletService;
@@ -34,6 +35,7 @@ namespace TravelApp
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IDriverService, DriverService>();
             services.AddTransient<ICarType, CarTypeService>();
+            services.AddTransient<IImageService, ImageService>();
             //services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddSingleton<IHttpContextAccessor,
