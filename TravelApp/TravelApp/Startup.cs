@@ -14,6 +14,7 @@ using TravelApp.Services;
 using TravelApp.Services.OrderService;
 using TravelApp.Infrastructure;
 using TravelApp.Data.Seeding;
+using CloudinaryDotNet;
 
 namespace TravelApp
 {
@@ -81,6 +82,8 @@ namespace TravelApp
 
             services.RegisterRepositoryServices();
 
+            services.RegisterCloudinary(Configuration);
+
             services.RegisterCustomServices();
 
 
@@ -128,6 +131,8 @@ namespace TravelApp
                 endpoints.MapControllers();
                 endpoints.MapHub<OrderHub>("/orderHub");
             });
-        }
+        }      
     }
+
+
 }
