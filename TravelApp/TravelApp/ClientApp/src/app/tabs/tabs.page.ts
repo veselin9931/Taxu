@@ -51,8 +51,8 @@ export class TabsPage implements OnInit {
       this.accountService.getById(this.accountService.userValue.id)
         .subscribe(x => {
           this.isVerified = x.isDriver;
-          console.log('User -- ')
-          console.log(x)
+          // console.log('User -- ')
+          // console.log(x)
 
           if (x.driverId != null) {
             this.driverService.getDriver(x.driverId)
@@ -63,8 +63,8 @@ export class TabsPage implements OnInit {
                 });
 
                 this.documentConfirmed = d.documentConfirmation;
-                console.log('Driver -- ')
-                console.log(d)
+                // console.log('Driver -- ')
+                // console.log(d)
               })
           }
         })

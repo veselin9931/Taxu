@@ -19,11 +19,13 @@ namespace TravelApp.Controllers
     {
         private readonly ITripService tripService;
         private readonly IHubContext<OrderHub, IHubClient> hub;
+        private readonly IOrderService orderService;
 
-        public TripController(ITripService tripService, IHubContext<OrderHub, IHubClient> hub)
+        public TripController(ITripService tripService, IHubContext<OrderHub, IHubClient> hub, IOrderService orderService)
         {
             this.tripService = tripService;
             this.hub = hub;
+            this.orderService = orderService;
         }
 
         // GET: api/<TripController>
@@ -52,10 +54,12 @@ namespace TravelApp.Controllers
         public async Task<IActionResult> Post([FromBody] CreateTripInputModel model)
         {
             var result = await this.tripService.CreateTrip(model);
+            
 
             if (result == true)
             {
-                return this.Ok();
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok(result);
             }
 
             return this.BadRequest();

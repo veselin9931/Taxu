@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { Order, Trip, User } from 'src/_models';
+import { Driver, Order, Trip, User } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
 import { SignalRService } from 'src/_services/signal-r.service';
@@ -10,6 +10,7 @@ import { Location } from '@angular/common';
 import { WalletService } from 'src/_services/wallet/wallet.service';
 import { AlertController } from '@ionic/angular';
 import { DriverService } from 'src/_services/driver/driver.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-driving',
@@ -18,6 +19,7 @@ import { DriverService } from 'src/_services/driver/driver.service';
 })
 export class DrivingPage implements OnInit {
   public currentTrip: Trip;
+  driver: Driver;
   tripStatus: string;
   orders: Order[] = [];
   order: Order;
@@ -92,69 +94,95 @@ export class DrivingPage implements OnInit {
   }
 
   acceptOrder(order) {
-    let applicationUserId = this.accountService.userValue.id;
 
+    this.accountService.getById(this.applicationUserId)
+      .subscribe(user => {
+        this.driverService.getDriver(user.driverId)
+          .subscribe(driver => {
+            this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
+            this.walletService.getMyWallet(this.applicationUserId)
+              .subscribe(wallet => {
+                if (wallet.ammount < this.tripPriceForDriver) {
+                  this.NotEnoughCashAlert();
+                  return;
+                } else {
+                  let applicationUserId = this.accountService.userValue.id;
+                  this.accountService.userValue.isDrivingNow = true;
+                  this.accountService.updateDriving(applicationUserId, true)
+                    .subscribe(data => {
+                      console.log(data)
+                    });
 
-    this.walletService.getMyWallet(this.applicationUserId)
-      .subscribe(wallet => {
-        if (wallet.ammount < this.tripPriceForDriver) {
-          this.NotEnoughCashAlert();
-          return;
-        }
+                  this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+                  order.acceptedBy = applicationUserId;
 
-        this.accountService.userValue.isDrivingNow = true;
-        this.accountService.updateDriving(applicationUserId, true)
-          .subscribe(data => {
-            console.log(data)
-          });
+                  this.orderService.acceptOrder(order.id, applicationUserId)
+                    .subscribe(data => {
+                      console.log(data);
+                    })
 
-        this.isDrivingNow = this.accountService.userValue.isDrivingNow;
-        order.acceptedBy = applicationUserId;
+                  let orderId = order.id;
 
-        this.orderService.acceptOrder(order.id, applicationUserId)
-          .subscribe(data => {
-            console.log(data);
-          })
+                  let data = { orderId, applicationUserId, order };
 
-        let orderId = order.id;
+                  this.tripService.createTrip(data)
+                    .subscribe(data => {
+                      console.log(data);
+                    })
 
-        let data = { orderId, applicationUserId, order };
+                  this.route.navigate(['tabs/driving']);
+                }
+              })
 
-        this.tripService.createTrip(data)
-          .subscribe(data => {
-            console.log(data);
           })
       })
 
-    this.route.navigate(['tabs/driving']);
+
   }
 
   startTrip() {
     this.tripService.startTrip(this.currentTrip.id)
-    .subscribe(trip => {
-      if(trip){
-        this.tripStatus = trip.status;
-      }
+      .subscribe(trip => {
+        if (trip) {
+          this.tripStatus = trip.status;
+          this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
+            .subscribe(x => {
+              console.log('Successfully discharged the user.')
+            })
+        }
+      })
+  }
 
-      this.accountService.getById(this.applicationUserId)
+  checkIfDriverHasMoney(order: Order) {
+    this.accountService.getById(this.applicationUserId)
       .subscribe(user => {
         this.driverService.getDriver(user.driverId)
           .subscribe(driver => {
-            this.tripPriceForDriver = (this.order.totalPrice * (driver.comission / 100));
-
-            this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
-              .subscribe(x => {
-                console.log('Successfully discharged the user.')
+            this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
+            this.walletService.getMyWallet(this.applicationUserId)
+              .subscribe(wallet => {
+                if (wallet.ammount < this.tripPriceForDriver) {
+                  this.NotEnoughCashAlert();
+                  return 'No Cash';
+                } else {
+                  this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
+                    .subscribe(x => {
+                      console.log('Successfully discharged the user.')
+                      return;
+                    })
+                }
               })
+
           })
       })
-    })
+
+
   }
 
   cancelTrip() {
     this.tripService.completeTrip(this.currentTrip.id)
       .subscribe(trip => {
-        if(trip){
+        if (trip) {
           this.tripStatus = trip.status;
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
@@ -202,11 +230,12 @@ export class DrivingPage implements OnInit {
   finishTrip() {
     this.tripService.completeTrip(this.currentTrip.id)
       .subscribe(trip => {
-        if(trip){
+        if (trip) {
           this.tripStatus = trip.status;
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
           .subscribe(data => {
+            console.log(this.orderService.alertForcomplete)
             console.log('Completed order')
           });
         console.log('Completed trip')

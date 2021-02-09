@@ -103,8 +103,11 @@ export class TravellingPage implements OnInit {
   checkorder() {
     this.orderService.getMyOrder(this.userId)
       .subscribe(data => {
-        console.log(`Travelling page data`)
         
+        if(this.orderStatus == 'Completed'){
+          this.completedOrderAlert();
+        }
+
         if(data == null){
           console.log('Still no order!')
           return;
@@ -114,8 +117,6 @@ export class TravellingPage implements OnInit {
         
         //this.orderStatus = data.isAccepted
         this.orderStatus = data.status;
-        
-        console.log(data)
         
         //this.isAccepted = data.isAccepted;
         
@@ -160,32 +161,18 @@ export class TravellingPage implements OnInit {
     this.tripService.getTrip(driverId)
       .subscribe(x => {
         if(x == null){
-          console.log("Error occured");
+          this.orderStatus = "Completed";
+          console.log("No trip!");
           return;
         }
-
-        console.log("Trip data")
-        console.log(x);
+        if(x.status == "Completed"){
+          this.orderStatus = "Completed";
+        }
         this.currentTrip = x;
       });
+
+      
   }
-
-  // completeOrder() {
-  //   this.orderService.completeOrder(this.order.id)
-  //     .subscribe(data => {
-  //       console.log(data)
-  //     });
-
-  //   // this.tripService.completeTrip(this.currentTrip.id)
-  //   //   .subscribe(data => {
-  //   //     console.log('Completed trip')
-  //   //   })
-
-  //   // this.accountService.updateDriving(this.order.acceptedBy, false)
-  //   //   .subscribe(data => {
-  //   //     console.log('Successfull updated driver data!')
-  //   //   });
-  // }
 
   cancelOrder() {
     this.orderService.getMyOrder(this.userId)
@@ -198,8 +185,6 @@ export class TravellingPage implements OnInit {
           })
         this.clearForm();
       })
-
-
   }
 
   logout() {
@@ -219,15 +204,45 @@ export class TravellingPage implements OnInit {
     })
   }
 
-  async presentAlert() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Order completed',
-      message: 'You have reached your destination!',
-      buttons: ['OK']
+  // async completedOrderAlert() {
+  //   const alert = await this.alertController.create({
+  //     cssClass: 'my-custom-class',
+  //     header: 'Order completed',
+  //     message: 'You have reached your destination!',
+  //     buttons: ['OK']
+  //   });
+
+  //   await alert.present();
+  // }
+  async completedOrderAlert() {
+    const popup = await this.alertController.create({
+      header: 'You have reached the destination!',
+      message: 'Rate your trip',
+      inputs: [
+        {
+          name: 'Rate',
+          placeholder: 'Rate'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Confirm',
+          handler: data => {
+            
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Report a problem',
+          role: 'report',
+        }
+      ]
     });
-
-    await alert.present();
+    
+    await popup.present();
+    
   }
-
 }

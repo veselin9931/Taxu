@@ -13,7 +13,9 @@ export class OrderService {
   public orders = [];
   public driverId: string;
   public completedOrder = false;
+  public alertForcomplete: boolean;
   private readonly getOrdersAction$ = new Subject();
+
 
   constructor(private http: HttpClient) { }
 
@@ -62,6 +64,7 @@ export class OrderService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}`, { headers, responseType: 'json' },)
       .pipe(
+        tap(x => this.alertForcomplete = true),
         catchError(this.handleError)
       );
 
