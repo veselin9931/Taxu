@@ -13,7 +13,9 @@ export class OrderService {
   public orders = [];
   public driverId: string;
   public completedOrder = false;
+  public serviceStatus: string;
   private readonly getOrdersAction$ = new Subject();
+
 
   constructor(private http: HttpClient) { }
 

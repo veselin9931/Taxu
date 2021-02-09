@@ -133,7 +133,7 @@ namespace TravelApp.Services.DriverService
                 }
 
                 driver.ReferalUsedTimes += 1;
-                driver.Comission -= driver.Comission * 0.02;
+                driver.Comission -= 2;
 
                 this.repository.Update(driver);
                 await this.repository.SaveChangesAsync();

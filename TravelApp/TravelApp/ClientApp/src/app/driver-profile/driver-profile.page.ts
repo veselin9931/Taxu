@@ -23,6 +23,7 @@ export class DriverProfilePage implements OnInit {
   walletAmount: number;
   isActiveCar: boolean;
   driver: Driver;
+  driverCommission: number;
   constructor(private accountService: AccountService,
     private driverService: DriverService,
     private route: Router,
@@ -69,6 +70,8 @@ export class DriverProfilePage implements OnInit {
               return;
             }
             this.driver = d;
+            this.driverCommission = d.comission;
+            (Math.round(this.driverCommission * 100) / 100).toFixed(2);
             this.referral = this.driver.referal;
           })
       })

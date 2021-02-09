@@ -34,6 +34,10 @@
               <ion-label>2</ion-label>
             </ion-chip>
           </h6>
+          <h6 class="ranking">Commission: <ion-chip>
+            <ion-label>{{driverCommission}}%</ion-label>
+          </ion-chip>
+        </h6>
         </div>
         <ion-button (click)="openHistory()" expand="full" color="warning">Drive history</ion-button>
         <ion-button (click)="addNewCar()" expand="full" color="warning">Add new car</ion-button>

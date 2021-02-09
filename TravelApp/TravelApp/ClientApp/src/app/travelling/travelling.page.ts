@@ -104,9 +104,15 @@ export class TravellingPage implements OnInit {
     this.orderService.getMyOrder(this.userId)
       .subscribe(data => {
         console.log(`Travelling page data`)
+        console.log(this.orderService.serviceStatus)
+
+        if(this.orderService.serviceStatus == "Completed"){
+          this.orderStatus = "Completed";
+        }
         
         if(data == null){
           console.log('Still no order!')
+          this.orderStatus = "Completed";
           return;
         }
         //get accepted by user id
@@ -160,8 +166,12 @@ export class TravellingPage implements OnInit {
     this.tripService.getTrip(driverId)
       .subscribe(x => {
         if(x == null){
+          this.orderStatus = "Completed";
           console.log("Error occured");
           return;
+        }
+        if(x.status == "Completed"){
+          this.orderStatus = "Completed";
         }
 
         console.log("Trip data")
@@ -169,23 +179,6 @@ export class TravellingPage implements OnInit {
         this.currentTrip = x;
       });
   }
-
-  // completeOrder() {
-  //   this.orderService.completeOrder(this.order.id)
-  //     .subscribe(data => {
-  //       console.log(data)
-  //     });
-
-  //   // this.tripService.completeTrip(this.currentTrip.id)
-  //   //   .subscribe(data => {
-  //   //     console.log('Completed trip')
-  //   //   })
-
-  //   // this.accountService.updateDriving(this.order.acceptedBy, false)
-  //   //   .subscribe(data => {
-  //   //     console.log('Successfull updated driver data!')
-  //   //   });
-  // }
 
   cancelOrder() {
     this.orderService.getMyOrder(this.userId)
@@ -198,8 +191,6 @@ export class TravellingPage implements OnInit {
           })
         this.clearForm();
       })
-
-
   }
 
   logout() {
