@@ -33,6 +33,8 @@ namespace TravelApp.Data
 
         public DbSet<Image> Images { get; set; }
 
+        public DbSet<Report> Reports { get; set; }
+
         public DbSet<ReportType> ReportTypes { get; set; }
 
 
