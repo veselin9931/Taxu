@@ -38,7 +38,7 @@ namespace TravelApp.Controllers
 
         // POST api/<ImageController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateImageInputModel input)
+        public async Task<IActionResult> Post([FromBody] CreateImageInputModel input, [FromRoute] string folderName)
         {
             input.File = (Microsoft.AspNetCore.Http.IFormFile)Request.Form.Files;
 
@@ -46,7 +46,7 @@ namespace TravelApp.Controllers
             {
                 try
                 {
-                    var result = await this.service.CreateImageAsync(input);
+                    var result = await this.service.Upload(input, folderName);
 
                     if (result != "")
                     {
