@@ -123,5 +123,22 @@ namespace TravelApp.Services.OrderService
 
         public Order GetOrderByUserId(string userId)
         => this.orderRepository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.ApplicationUserId == userId && x.Status != "Completed");
+
+        public async Task<bool> IncreaseOrderPriceAsync(string id, decimal amount)
+        {
+            var order = this.GetOrderById(id);
+
+            if (order != null)
+            {
+                order.TotalPrice += amount;
+
+                this.orderRepository.Update(order);
+                await this.orderRepository.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

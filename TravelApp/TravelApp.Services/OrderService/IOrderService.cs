@@ -21,6 +21,9 @@ namespace TravelApp.Services.OrderService
 
         public Task<bool> AcceptOrderAsync(string id, string driverId);
 
+        public Task<bool> IncreaseOrderPriceAsync(string id, decimal amount);
+
+
         public Task<bool> CompleteOrderAsync(string id);
 
         public Task<bool> Delete(string orderId);

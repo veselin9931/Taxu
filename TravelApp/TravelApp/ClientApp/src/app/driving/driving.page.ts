@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { Driver, Order, Trip, User } from 'src/_models';
+import { Driver, Message, Order, Trip, User } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
 import { SignalRService } from 'src/_services/signal-r.service';
@@ -11,6 +11,7 @@ import { WalletService } from 'src/_services/wallet/wallet.service';
 import { AlertController } from '@ionic/angular';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { Observable } from 'rxjs';
+import { ChatService } from 'src/_services/chat/chat.service';
 
 @Component({
   selector: 'app-driving',
@@ -45,13 +46,17 @@ export class DrivingPage implements OnInit {
     private locationPage: Location,
     private walletService: WalletService,
     private alertController: AlertController,
-    private driverService: DriverService) {
+    private driverService: DriverService,
+    private chatService: ChatService) {
     if (this.isDrivingNow == true) {
       this.getAcceptedTrip()
     }
   }
 
   ngOnInit(): void {
+    this.chatService.retrieveMappedObject()
+    .subscribe( (receivedObj: Message) => { this.addToInbox(receivedObj);});  // calls the service method to get the new messages sent
+
     this.getData();
 
     if (this.isDrivingNow == true) {
@@ -77,6 +82,30 @@ export class DrivingPage implements OnInit {
       this.getData();
       this.getAcceptedTrip();
     });
+  }
+
+  
+  msgDto: Message = new Message();
+  msgInboxArray: Message[] = [];
+
+  send(): void {
+    if(this.msgDto) {
+      if(this.msgDto.text.length == 0){
+        window.alert("Text field is required.");
+        return;
+      } else {
+        this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`
+        this.chatService.broadcastMessage(this.msgDto);                   // Send the message via a service
+      }
+    }
+  }
+
+  addToInbox(obj: Message) {
+    let newObj = new Message();
+    newObj.user = obj.user;
+    newObj.text = obj.text;
+    this.msgInboxArray.push(newObj);
+
   }
 
   getData() {

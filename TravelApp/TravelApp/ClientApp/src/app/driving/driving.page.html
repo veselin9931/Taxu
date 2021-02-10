@@ -10,7 +10,7 @@
         </div>
       </div>
 
-      
+
       <div class="row">
         <div class="col-md-12 text-center">
           <ion-text class="centered" color="warning">
@@ -88,20 +88,63 @@
                   <div class="row">
                     <div class="col">
                       <div class="d-flex w-100 justify-content-between">
-                        <ion-button [disabled]="tripStatus=='Started'" (click)="startTrip()" type="submit" color="success">Go!</ion-button>
+                        <ion-button [disabled]="tripStatus=='Started'" (click)="startTrip()" type="submit"
+                          color="success">Go!</ion-button>
                       </div>
                       <div class="d-flex w-100 justify-content-between">
-                        <ion-button [disabled]="tripStatus=='Started'" (click)="cancelTrip()" type="submit" color="danger">Cancel</ion-button>
+                        <ion-button [disabled]="tripStatus=='Started'" (click)="cancelTrip()" type="submit"
+                          color="danger">Cancel</ion-button>
                       </div>
                     </div>
                   </div>
                 </ion-text>
 
 
-                <ion-button [disabled]="tripStatus=='Processing'" (click)="finishTrip()" type="submit" color="warning">Finish</ion-button>
+                <ion-button [disabled]="tripStatus=='Processing'" (click)="finishTrip()" type="submit" color="warning">
+                  Finish</ion-button>
               </div>
             </div>
           </div>
+
+         
+
+          <div class="row chat">
+            
+            <div class="col">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-subtitle>Chat</ion-card-subtitle>
+                </ion-card-header>
+              </ion-card>
+
+              <ion-card>
+                  
+                  <div class="msg-box">
+                    <ul *ngFor="let mObj of msgInboxArray">
+                      <li [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
+                        {{mObj.user}}:  <br />
+                        {{mObj.text}}
+                        <hr />
+                    </li>
+                      
+                    </ul>
+                  </div>
+              </ion-card>
+
+              <ion-card>
+                <ion-item>
+                  <ion-textarea [(ngModel)]="msgDto.text" placeholder="Type your message...">
+
+                  </ion-textarea>
+                  <button class="send-btn" (click)="send()">
+                    <ion-icon name="pin"></ion-icon>
+                  </button>
+                </ion-item>
+              </ion-card>
+            </div>
+            
+          </div>
+
         </div>
       </div>
 

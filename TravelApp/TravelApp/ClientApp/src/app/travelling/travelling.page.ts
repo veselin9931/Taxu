@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { AlertController } from '@ionic/angular';
-import { Order, Trip, User } from 'src/_models';
+import { Message, Order, Trip, User } from 'src/_models';
 import { Car } from 'src/_models/car';
 import { AccountService, AlertService } from 'src/_services';
+import { ChatService } from 'src/_services/chat/chat.service';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
@@ -25,7 +26,7 @@ export class TravellingPage implements OnInit {
   driverData: User;
   activeCarData: Car;
   orderStatus: string;
-
+  orderTotalPrice = 0;
   //Car html properties;
   carModel = "";
   carColor = "";
@@ -46,11 +47,16 @@ export class TravellingPage implements OnInit {
     private accountService: AccountService,
     private tripService: TripService,
     private driverService: DriverService,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private chatService: ChatService) {
     this.userId = this.accountService.userValue.id;
   }
 
   ngOnInit() {
+    this.chatService.retrieveMappedObject()
+    .subscribe( (receivedObj: Message) => { this.addToInbox(receivedObj);});  // calls the service method to get the new messages sent
+
+
     this.checkorder();
 
     this.form = this.formBuilder.group({
@@ -81,7 +87,30 @@ export class TravellingPage implements OnInit {
 
   }
 
+  msgDto: Message = new Message();
+  msgInboxArray: Message[] = [];
+
   get f() { return this.form.controls; }
+
+  send(): void {
+    if(this.msgDto) {
+      if(this.msgDto.text.length == 0){
+        window.alert("Text field is required.");
+        return;
+      } else {
+        this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`
+        this.chatService.broadcastMessage(this.msgDto);                   // Send the message via a service
+      }
+    }
+  }
+
+  addToInbox(obj: Message) {
+    let newObj = new Message();
+    newObj.user = obj.user;
+    newObj.text = obj.text;
+    this.msgInboxArray.push(newObj);
+
+  }
 
   onSubmit() {
     this.form.value.increasePrice = (+this.form.value.increasePrice);
@@ -103,6 +132,10 @@ export class TravellingPage implements OnInit {
   checkorder() {
     this.orderService.getMyOrder(this.userId)
       .subscribe(data => {
+
+        if(data){
+          this.orderTotalPrice = data.totalPrice;
+        }
         
         if(this.orderStatus == 'Completed'){
           this.completedOrderAlert();
@@ -123,6 +156,10 @@ export class TravellingPage implements OnInit {
         if (this.orderStatus == "Waiting") {
           this.statusForOrder = false;
           this.isCompleted = true;
+          // User can increase order price here.
+
+          this.selector(0);
+         
         }
         
         if (this.orderStatus == "Accepted") {
@@ -142,6 +179,17 @@ export class TravellingPage implements OnInit {
         error => {
           console.log(error)
         })
+  }
+
+  selector($event){
+    let amount = +$event;
+    if(amount != 0 || $event != ""){
+      this.orderService.increaseOrderPrice(this.order.id, amount)
+      .subscribe(x => {
+        console.log('Order increased');
+      })
+    }
+    
   }
 
   getUserById(driverId: string) {
@@ -180,10 +228,11 @@ export class TravellingPage implements OnInit {
         this.orderService.deleteOrder(data.id)
           .subscribe(order => {
             this.isCompleted = false;
+            this.orderStatus = null;
+            this.orderTotalPrice = 0;
             console.log('Canceled order:');
             console.log(order);
           })
-        this.clearForm();
       })
   }
 
@@ -204,16 +253,6 @@ export class TravellingPage implements OnInit {
     })
   }
 
-  // async completedOrderAlert() {
-  //   const alert = await this.alertController.create({
-  //     cssClass: 'my-custom-class',
-  //     header: 'Order completed',
-  //     message: 'You have reached your destination!',
-  //     buttons: ['OK']
-  //   });
-
-  //   await alert.present();
-  // }
   async completedOrderAlert() {
     const popup = await this.alertController.create({
       header: 'You have reached the destination!',

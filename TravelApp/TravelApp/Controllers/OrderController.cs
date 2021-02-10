@@ -145,7 +145,7 @@ namespace TravelApp.Controllers
 
         // PUT api/<OrderController>/orderId/driverId
         [HttpPut("{orderId}/{driverId}")]
-        public async Task<IActionResult> Put(string orderId, string driverId)
+        public async Task<IActionResult> AcceptOrder(string orderId, string driverId)
         {
             var accepted = await this.orderService.AcceptOrderAsync(orderId, driverId);
 
@@ -161,11 +161,26 @@ namespace TravelApp.Controllers
 
         // PUT api/<OrderController>/orderId
         [HttpPut("{orderId}")]
-        public async Task<IActionResult> Put(string orderId)
+        public async Task<IActionResult> CompleteOrder(string orderId)
         {
-            var accepted = await this.orderService.CompleteOrderAsync(orderId);
+            var complete = await this.orderService.CompleteOrderAsync(orderId);
 
-            if (accepted)
+            if (complete)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
+        // PUT api/<OrderController>/orderId/increaseAmount
+        [HttpPut("increase/{orderId}/{amount}")]
+        public async Task<IActionResult> IncreaseAmount(string orderId, decimal amount)
+        {
+            var increase = await this.orderService.IncreaseOrderPriceAsync(orderId, amount);
+
+            if (increase)
             {
                 await this.hub.Clients.All.BroadcastMessage();
                 return this.Ok();
@@ -176,9 +191,17 @@ namespace TravelApp.Controllers
 
         // DELETE api/<OrderController>/5
         [HttpDelete("{id}")]
-        public async void Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            await this.orderService.Delete(id);
+            var order = await this.orderService.Delete(id);
+
+            if (order)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.NoContent();
         }
 
     }

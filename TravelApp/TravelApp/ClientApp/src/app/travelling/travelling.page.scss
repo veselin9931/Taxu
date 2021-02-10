@@ -50,3 +50,41 @@ ion-select{
 .back {
     color: rgb(255, 174, 0);
 }
+
+
+//CHAT 
+
+
+
+.chat{
+    background-color: wheat;
+}
+
+.msg-box {
+    width: 100%;
+    height: calc(100% - 140px); 
+    margin-top: 20px;
+    padding: 10px 30px;
+    font-size: 14px;
+
+    overflow: auto;
+
+    ul {
+        list-style: none;
+        hr{
+            background:rgb(255, 174, 0);
+            width: 100% !important;
+        }
+        .ex-msg {
+            margin-bottom: 10px;
+            text-align: left;
+            
+        }
+
+        .in-msg {
+            margin-bottom: 10px;
+            text-align: right;
+        }
+    }
+    
+}

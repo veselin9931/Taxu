@@ -60,6 +60,14 @@ export class OrderService {
 
   }
 
+  increaseOrderPrice(id: string, amount: number): Observable<Order> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Order>(`${environment.apiUrl}/api/order/increase/${id}/${amount}`, { headers, responseType: 'json' },)
+      .pipe(
+      );
+
+  }
+
   completeOrder(orderId: string): Observable<Order> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}`, { headers, responseType: 'json' },)
