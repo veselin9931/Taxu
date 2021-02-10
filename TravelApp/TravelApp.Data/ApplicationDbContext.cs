@@ -33,6 +33,9 @@ namespace TravelApp.Data
 
         public DbSet<Image> Images { get; set; }
 
+        public DbSet<ReportType> ReportTypes { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

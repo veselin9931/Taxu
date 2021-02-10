@@ -22,5 +22,14 @@ namespace TravelApp.Infrastructure
 
             public const string TehnicalReviews = "tehnicalReview";
         }
+
+        public static class ReportType
+        {
+            public const string Tehnical = "Tehnical";
+
+            public const string Complaint = "Complaint";
+
+            public const string Other = "Other";
+        }
     }
 }
