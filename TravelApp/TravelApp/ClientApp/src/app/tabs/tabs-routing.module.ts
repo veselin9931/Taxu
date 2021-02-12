@@ -48,6 +48,10 @@ const routes: Routes = [
         loadChildren: () => import('../car-register/car-register.module').then( m => m.CarRegisterPageModule)
       },
       {
+        path: 'report',
+        loadChildren: () => import('../report/report.module').then( m => m.ReportPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/travelling',
         pathMatch: 'full'

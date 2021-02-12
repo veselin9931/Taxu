@@ -10,7 +10,7 @@ namespace TravelApp.Models
     {
         public Report()
         {
-            this.Id = new Guid().ToString();
+            this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
         }
 

@@ -41,7 +41,11 @@ const routes: Routes = [
   {
     path: 'car-register',
     loadChildren: () => import('./car-register/car-register.module').then( m => m.CarRegisterPageModule)
+  },  {
+    path: 'report',
+    loadChildren: () => import('./report/report.module').then( m => m.ReportPageModule)
   }
+
 
 
 ];

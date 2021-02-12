@@ -48,7 +48,7 @@ namespace TravelApp.Controllers
 
         // POST api/<ReportController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateReportInputModel inputModel)
+        public async Task<IActionResult> Post(CreateReportInputModel inputModel)
         {
             if (this.ModelState.IsValid)
             {

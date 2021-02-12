@@ -9,6 +9,7 @@ namespace TravelApp.Models
     {
         public ReportType()
         {
+            
             this.CreatedOn = DateTime.UtcNow;
         }
 

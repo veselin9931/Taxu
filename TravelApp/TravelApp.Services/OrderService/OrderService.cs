@@ -115,8 +115,11 @@ namespace TravelApp.Services.OrderService
             .All()
             .Where(x => x.Status == "Waiting" && x.IsDeleted == false)
             .Include(x => x.ApplicationUser)
-            .OrderBy(x => x.CreatedOn)
+            .OrderBy(x => x.CreatedOn) 
             .ToListAsync();
+
+        public Order GetLastCompletedOrderByUserId(string userId)
+        => this.orderRepository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.ApplicationUserId == userId && x.Status == "Completed");
 
         public Order GetOrderById(string id)
         => this.orderRepository.All()?.FirstOrDefault(x => x.Id == id);

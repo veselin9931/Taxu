@@ -36,6 +36,13 @@ export class OrderService {
       );
   }
 
+  getLastCompletedOrder(userId: string): Observable<Order>{
+    return this.http.get<Order>(`${environment.apiUrl}/api/order/completed/${userId}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   getMyOrder(userId: string): Observable<Order> {
     return this.http.get<Order>(`${environment.apiUrl}/api/order/${userId}`)
       .pipe(
