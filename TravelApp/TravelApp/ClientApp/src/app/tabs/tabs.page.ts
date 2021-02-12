@@ -68,7 +68,7 @@ export class TabsPage implements OnInit {
               })
           }
         })
-    }else{
+    }else if(this.isLoggedIn == null){
         this.route.navigate(['tabs/home']);
     }
   }

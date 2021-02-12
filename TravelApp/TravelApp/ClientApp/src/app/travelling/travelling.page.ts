@@ -135,10 +135,13 @@ export class TravellingPage implements OnInit {
 
         if(data){
           this.orderTotalPrice = data.totalPrice;
+        }else{
+          this.orderTotalPrice = 0;
         }
         
         if(this.orderStatus == 'Completed'){
           this.completedOrderAlert();
+          this.orderStatus = null;
         }
 
         if(data == null){

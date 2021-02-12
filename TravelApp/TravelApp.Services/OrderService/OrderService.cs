@@ -110,6 +110,7 @@ namespace TravelApp.Services.OrderService
             .OrderByDescending(x => x.CreatedOn)
             .ToListAsync();
 
+
         public async Task<IList<Order>> GetAllOrdersAsync()
          => await this.orderRepository
             .All()
@@ -119,6 +120,9 @@ namespace TravelApp.Services.OrderService
             .ToListAsync();
 
         public Order GetLastCompletedOrderByUserId(string userId)
+       => this.orderRepository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.AcceptedBy == userId && x.Status == "Completed");
+
+        public Order GetLastAcceptedOrderByUserId(string userId)
         => this.orderRepository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.ApplicationUserId == userId && x.Status == "Completed");
 
         public Order GetOrderById(string id)

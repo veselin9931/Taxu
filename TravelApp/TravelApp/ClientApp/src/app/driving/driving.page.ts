@@ -100,6 +100,10 @@ export class DrivingPage implements OnInit {
     }
   }
 
+  reportProblem(){
+    this.route.navigate(['tabs/report']);
+  }
+
   addToInbox(obj: Message) {
     let newObj = new Message();
     newObj.user = obj.user;

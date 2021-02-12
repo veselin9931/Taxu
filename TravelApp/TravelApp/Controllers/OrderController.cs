@@ -45,6 +45,20 @@ namespace TravelApp.Controllers
             //this.emailSender = emailSender;
         }
 
+        //// GET: api/<OrderController>/{userId}
+        //[HttpGet("completed/{userId}")]
+        //public async Task<IActionResult> GetCompleted(string userId)
+        //{
+        //    var order = this.orderService.GetLastCompletedOrderByUserId(userId);
+
+        //    if (order == null)
+        //    {
+        //        return this.NoContent();
+        //    }
+
+        //    return this.Ok(order);
+        //}
+
         //GET ACCEPTED ORDERS BY USER
         // GET: api/<OrderController>/{userId}
         [HttpGet("history/{userId}")]
@@ -97,14 +111,22 @@ namespace TravelApp.Controllers
         [HttpGet("completed/{userId}")]
         public async Task<IActionResult> GetLastCompletedOrder(string userId)
         {
-            var order = this.orderService.GetLastCompletedOrderByUserId(userId);
             var user = this.accountService.GetById(userId);
+            var passengerOrder = this.orderService.GetLastCompletedOrderByUserId(userId);
 
-
-            if (order != null)
+            if (passengerOrder != null)
             {
-                order.ApplicationUser = user;
-                return this.Ok(order);
+                passengerOrder.ApplicationUser = user;
+                return this.Ok(passengerOrder);
+            }
+
+
+            if (passengerOrder == null)
+            {
+                var driverOrder = this.orderService.GetLastAcceptedOrderByUserId(userId);
+                driverOrder.ApplicationUser = user;
+                return this.Ok(driverOrder);
+
             }
 
             return this.NoContent();

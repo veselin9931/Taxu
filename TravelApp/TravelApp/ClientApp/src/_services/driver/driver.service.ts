@@ -25,6 +25,13 @@ export class DriverService {
       );
   }
 
+  public getLastCompletedOrder(userId: string): Observable<Order> {
+    return this.http.get<Order>(`${environment.apiUrl}/api/order/completed/${userId}`)
+      .pipe(
+
+      );
+  }
+
   public getDriver(driverId: string): Observable<Driver> {
     return this.http.get<Driver>(`${environment.apiUrl}/api/driver/${driverId}`)
       .pipe(

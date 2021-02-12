@@ -44,6 +44,10 @@ const routes: Routes = [
   },  {
     path: 'report',
     loadChildren: () => import('./report/report.module').then( m => m.ReportPageModule)
+  },
+  {
+    path: 'passenger-report',
+    loadChildren: () => import('./passenger-report/passenger-report.module').then( m => m.PassengerReportPageModule)
   }
 
 
