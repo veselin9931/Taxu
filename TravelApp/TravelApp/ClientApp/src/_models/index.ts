@@ -5,5 +5,5 @@ export * from './trip';
 export * from './driver';
 export * from './wallet';
 export * from './message';
-
+export * from './report';
 

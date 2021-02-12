@@ -275,8 +275,11 @@ export class TravellingPage implements OnInit {
           role: 'cancel',
         },
         {
-          text: 'Report a problem',
+          text: 'Report a problem', //route to reportpage
           role: 'report',
+          handler: () => {
+            this.route.navigate(['tabs/report']);
+          }
         }
       ]
     });

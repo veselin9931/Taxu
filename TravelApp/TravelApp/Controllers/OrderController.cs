@@ -94,6 +94,24 @@ namespace TravelApp.Controllers
 
         //GET ORDER BY USER ID
         // GET api/<OrderController>/{userId}
+        [HttpGet("completed/{userId}")]
+        public async Task<IActionResult> GetLastCompletedOrder(string userId)
+        {
+            var order = this.orderService.GetLastCompletedOrderByUserId(userId);
+            var user = this.accountService.GetById(userId);
+
+
+            if (order != null)
+            {
+                order.ApplicationUser = user;
+                return this.Ok(order);
+            }
+
+            return this.NoContent();
+        }
+
+        //GET ORDER BY USER ID
+        // GET api/<OrderController>/{userId}
         [HttpGet("{userId}")]
         public async Task<IActionResult> Get(string userId)
         {
