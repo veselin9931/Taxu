@@ -70,7 +70,7 @@ namespace TravelApp.Services.ImageService
         }
 
         public Image GetImageForUserIdAsync(string id)
-        => this.repository.All().FirstOrDefault(x => x.userId == id);
+        => this.repository.All().OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.userId == id);
 
 
         public async Task<Image> GetImagelByIdAsync(string id)
