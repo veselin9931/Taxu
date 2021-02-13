@@ -1,4 +1,5 @@
 ﻿using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,12 +11,15 @@ namespace TravelApp.Services.ImageService
 {
     public interface IImageService
     {
-        public Task<string> CreateImageAsync(CreateImageInputModel inputModel);
+        public Task<bool> CreateImageAsync(IFormFileCollection inputModel, string userId, string folderName);
 
         public Task<bool> DeleteImageAsync(string id);
 
         public Task<Image> GetImagelByIdAsync(string id);
 
-        public Task<string> Upload(CreateImageInputModel model, string folder);
+        public Image GetImageForUserIdAsync(string id);
+
+
+        public Task<string> Upload(IFormFile model, string folderName);
     }
 }

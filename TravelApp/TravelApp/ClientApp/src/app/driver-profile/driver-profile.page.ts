@@ -8,6 +8,8 @@ import * as signalR from '@aspnet/signalr';
 import { AlertController } from '@ionic/angular';
 import { WalletService } from 'src/_services/wallet/wallet.service';
 import { Driver } from 'src/_models';
+import { ImageService } from 'src/_services/image/image.service';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-driver-profile',
@@ -24,14 +26,21 @@ export class DriverProfilePage implements OnInit {
   isActiveCar: boolean;
   driver: Driver;
   driverCommission: number;
+  folderName = "driverFacePic";
+  imgPath: string;
+  public progress: number;
+  public message: string;
+
   constructor(private accountService: AccountService,
     private driverService: DriverService,
     private route: Router,
     private location: Location,
     private alertController: AlertController,
-    private walletService: WalletService) { }
+    private walletService: WalletService,
+    private imageService: ImageService) { }
 
   ngOnInit() {
+    this.getProfilePicture();
     this.getWalletAmount();
     this.getCars();
     this.getDriver();
@@ -52,11 +61,38 @@ export class DriverProfilePage implements OnInit {
     connection.on('BroadcastMessage', () => {
       this.getCars();
       this.getWalletAmount();
+      this.getProfilePicture();
     });
   }
 
   copy(referral: string){
     console.log(referral)
+  }
+
+  getProfilePicture(){
+    this.imageService.getMyPicture(this.user.id)
+    .subscribe(x => {
+      this.imgPath = x.path;
+    })
+  }
+
+  upload(files){
+    if (files.length === 0) {
+      return;
+    }
+
+    let fileToUpload = <File>files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+
+    this.imageService.upload(formData, this.folderName, this.user.id)
+    .subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress)
+          this.progress = Math.round(100 * event.loaded / event.total);
+        else if (event.type === HttpEventType.Response) {
+          this.message = 'Upload success.';
+        }
+    })
   }
 
   getDriver(){

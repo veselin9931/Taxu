@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TravelApp.Common.Repositories;
@@ -22,8 +24,8 @@ namespace TravelApp.Services.ImageService
             this.repository = repository;
             this.cloudinaryUtility = cloudinaryUtility;
         }
-
-        public async Task<string> CreateImageAsync(CreateImageInputModel inputModel)
+        
+        public async Task<bool> CreateImageAsync(IFormFileCollection inputModel, string userId, string folderName)
         {
             if (inputModel == null)
             {
@@ -31,16 +33,23 @@ namespace TravelApp.Services.ImageService
                 // TODO: Add errMsg
             }
 
-            var img = new Image()
+            foreach (var file in inputModel)
             {
-                userId = inputModel.UserId
-            };
+                var fileUrl = await this.Upload(file, folderName);
 
-            this.repository.Add(img);
+                var img = new Image()
+                {
+                    CreatedOn = DateTime.UtcNow,
+                    userId = userId,
+                    Path = fileUrl
 
-            var result = await this.repository.SaveChangesAsync();
+                };
+                this.repository.Add(img);
 
-            return result > 0 ? img.Id : throw new InvalidOperationException();
+            }
+
+            await this.repository.SaveChangesAsync();
+            return true;
         }
 
         public async Task<bool> DeleteImageAsync(string id)
@@ -60,6 +69,10 @@ namespace TravelApp.Services.ImageService
             return true;
         }
 
+        public Image GetImageForUserIdAsync(string id)
+        => this.repository.All().FirstOrDefault(x => x.userId == id);
+
+
         public async Task<Image> GetImagelByIdAsync(string id)
         {
             var img = await this.repository.GetByIdAsync(id);
@@ -73,32 +86,30 @@ namespace TravelApp.Services.ImageService
             return img;
         }
 
-        public async Task<string> Upload(CreateImageInputModel model, string folder)
+        public async Task<string> Upload(IFormFile picture, string folderName)
         {
-            if (model.File.Length > 0)
+            byte[] destinationData;
+
+            using (var ms = new MemoryStream())
             {
-
-               var imgId = await this.CreateImageAsync(model);
-
-                using (var ms = new MemoryStream())
-                {
-                    model.File.CopyTo(ms);
-                    var fileBytes = ms.ToArray();
-                    string s = Convert.ToBase64String(fileBytes);
-
-
-                    var uploadParams = new ImageUploadParams()
-                    {
-                        Folder = folder,
-                        File = new FileDescription(model.Title, ms)
-                    };
-                    var uploadResult = cloudinaryUtility.Upload(uploadParams);
-
-                    return imgId;
-                }
+                await picture.CopyToAsync(ms);
+                destinationData = ms.ToArray();
             }
 
-            return "";
+            UploadResult uploadResult = null;
+
+            using (var ms = new MemoryStream(destinationData))
+            {
+                ImageUploadParams uploadParams = new ImageUploadParams
+                {
+                    Folder = folderName,
+                    File = new FileDescription(picture.FileName, ms),
+                };
+
+                uploadResult = this.cloudinaryUtility.Upload(uploadParams);
+            }
+
+            return uploadResult?.SecureUri.AbsoluteUri;
         }
     }
 }

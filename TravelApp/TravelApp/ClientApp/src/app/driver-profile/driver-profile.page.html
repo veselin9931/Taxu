@@ -13,7 +13,7 @@
       <div class="card-transparent">
         <div class="header-transparent">
           <div class="avatar">
-            <img src="../../assets/about-us-yellow-taxi_360x240_973.jpg" alt="">
+            <img src={{imgPath}} alt="">
           </div>
         </div>
       </div>
@@ -39,6 +39,19 @@
           </ion-chip>
         </h6>
         </div>
+        <div class="col-md-3">
+          <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
+          <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+        </div>
+        <div class="col-md-4">
+          <span class="upload" *ngIf="progress > 0">
+            {{progress}}%
+          </span>
+          <span class="upload" *ngIf="message">
+            {{message}}
+          </span>
+        </div>
+
         <ion-button (click)="openHistory()" expand="full" color="warning">Drive history</ion-button>
         <ion-button (click)="addNewCar()" expand="full" color="warning">Add new car</ion-button>
         <h6 *ngIf="carsCount > 0" class="ranking ion-text-center">

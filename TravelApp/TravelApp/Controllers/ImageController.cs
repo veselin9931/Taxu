@@ -36,19 +36,35 @@ namespace TravelApp.Controllers
             return this.BadRequest($"Failed to load image with id={id} from db");
         }
 
-        // POST api/<ImageController>
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateImageInputModel input, [FromRoute] string folderName)
+        // GET api/<imageController>/user/{userId}
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetProfilePicture(string userId)
         {
-            input.File = (Microsoft.AspNetCore.Http.IFormFile)Request.Form.Files;
+            var image = this.service.GetImageForUserIdAsync(userId);
+
+            if (image != null)
+            {
+                return this.Ok(image);
+            }
+
+            return this.BadRequest($"Failed to load image for user id={userId} from db");
+        }
+
+        // POST api/<ImageController>
+        [HttpPost("{folderName}/{userId}"), DisableRequestSizeLimit]
+        public async Task<IActionResult> Post(string folderName, string userId)
+        {
+            //input.File = (Microsoft.AspNetCore.Http.IFormFile)Request.Form.Files;
+           
 
             if (this.ModelState.IsValid)
             {
                 try
                 {
-                    var result = await this.service.Upload(input, folderName);
+                    var files = Request.Form.Files;
+                    var result = await this.service.CreateImageAsync(files, userId, folderName);
 
-                    if (result != "")
+                    if (result)
                     {
                         return this.Ok(result);
                     }

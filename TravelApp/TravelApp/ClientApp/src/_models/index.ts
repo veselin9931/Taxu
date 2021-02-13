@@ -6,4 +6,6 @@ export * from './driver';
 export * from './wallet';
 export * from './message';
 export * from './report';
+export * from './image';
+
 
