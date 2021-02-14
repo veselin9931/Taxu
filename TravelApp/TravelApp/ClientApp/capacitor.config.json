@@ -1,0 +1,33 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "TaxiMi",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {
+    "preferences": {
+      "ScrollEnabled": "false",
+      "BackupWebStorage": "none",
+      "SplashMaintainAspectRatio": "true",
+      "FadeSplashScreenDuration": "300",
+      "SplashShowOnlyFirstTime": "false",
+      "SplashScreen": "screen",
+      "SplashScreenDelay": "3000"
+    }
+  },
+  "server": {
+    "url": "https://localhost:44329",
+    "allowNavigation": [
+      "localhost:44329",
+      "*.localhost:44329"
+    ]
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

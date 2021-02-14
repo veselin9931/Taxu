@@ -114,6 +114,7 @@ namespace TravelApp
 
             app.UseCors("corsAllowAllPolicy");
 
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
