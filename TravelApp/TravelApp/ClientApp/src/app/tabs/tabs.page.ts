@@ -24,9 +24,17 @@ export class TabsPage implements OnInit {
   ngOnInit(): void {
     this.checkValues();
 
+    // const connection = new signalR.HubConnectionBuilder()
+    //   .configureLogging(signalR.LogLevel.Information)
+    //   .withUrl('https://localhost:44329/orderHub', {
+    //     skipNegotiation: true,
+    //     transport: signalR.HttpTransportType.WebSockets
+    //   })
+    //   .build();
+
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl('https://localhost:44329/orderHub', {
+      .withUrl('http://192.168.0.2:3000/orderHub', {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })

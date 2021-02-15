@@ -9,13 +9,24 @@ import { Observable, Subject } from 'rxjs';
 })
 export class ChatService {
 
+  // private connection: any = new signalR.HubConnectionBuilder()
+  //   .withUrl('https://localhost:44329/orderHub', {
+  //     skipNegotiation: true,
+  //     transport: signalR.HttpTransportType.WebSockets
+  //   })
+  //   .build();
+
   private connection: any = new signalR.HubConnectionBuilder()
-    .withUrl('https://localhost:44329/orderHub', {
+    .withUrl('http://192.168.0.2:3000/orderHub', {
       skipNegotiation: true,
       transport: signalR.HttpTransportType.WebSockets
     })
     .build();
-  readonly POST_URL = "https://localhost:44329/api/chat/send"
+
+  //readonly POST_URL = "https://localhost:44329/api/chat/send";
+
+  readonly POST_URL = "http://192.168.0.2:3000/api/chat/send";
+
 
   private receivedMessageObject: Message = new Message();
   private sharedObj = new Subject<Message>();
