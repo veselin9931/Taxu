@@ -71,8 +71,11 @@ namespace TravelApp
 
             });
 
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+                                                             .AllowAnyMethod()
+                                                              .AllowAnyHeader()));
 
-            services.AddCors();
+            //services.AddCors();
 
             services.AddSignalR();
 
@@ -92,6 +95,7 @@ namespace TravelApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -111,19 +115,21 @@ namespace TravelApp
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("AllowAll");
 
-            app.UseCors("corsAllowAllPolicy");
+            //app.UseCors("corsAllowAllPolicy");
 
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseCors(x => x
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .SetIsOriginAllowed(origin => true) // allow any origin
-               .AllowCredentials()); // allow credentials
+            //app.UseCors(x => x
+              // .AllowAnyMethod()
+               //.AllowAnyHeader()
+               //.SetIsOriginAllowed(origin => true)
+               //.AllowCredentials());
+
 
             app.UseAuthorization();
 

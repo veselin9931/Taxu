@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,7 +18,8 @@ export class LoginPage implements OnInit {
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private accountService: AccountService) {
+    private accountService: AccountService,
+    private http: HttpClient) {
     this.isLoggedIn = localStorage.getItem("user");
   }
 

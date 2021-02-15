@@ -25,6 +25,7 @@ export class AccountService {
   public get userValue(): User {
     return this.userSubject.value;
   }
+  
 
   login(username, password) {
     return this.http.post<User>(`${environment.apiUrl}/api/account/authenticate`, { username, password })
@@ -54,7 +55,7 @@ export class AccountService {
     return this.http.get<User>(`${environment.apiUrl}/api/account/${id}`);
   }
 
-  updateDriving(id, value): Observable<User>{
+  updateDriving(id, value): Observable<User> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<User>(`${environment.apiUrl}/api/account/${id}/${value}`, { headers, responseType: 'json' },)
       .pipe(map(x => {

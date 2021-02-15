@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { HttpClientModule } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 
 import { HomeLoggedPageRoutingModule } from './home-logged-routing.module';
@@ -10,6 +10,7 @@ import { HomeLoggedPage } from './home-logged.page';
 
 @NgModule({
   imports: [
+    HttpClientModule,
     CommonModule,
     FormsModule,
     IonicModule,

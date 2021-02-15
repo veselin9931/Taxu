@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/_services';
@@ -10,9 +11,13 @@ import { AccountService } from 'src/_services';
 export class HomeLoggedPage implements OnInit {
 isLoggedIn;
   constructor(private route: Router,
-    private accountService: AccountService) { this.isLoggedIn = localStorage.getItem("user"); }
+    private accountService: AccountService,
+    private http: HttpClient) { 
+      this.isLoggedIn = localStorage.getItem("user");
+    }
 
   ngOnInit() {
+    
   }
 
   travelPage() {

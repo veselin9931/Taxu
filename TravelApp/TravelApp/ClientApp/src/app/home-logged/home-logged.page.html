@@ -1,4 +1,4 @@
-<ion-content padding class="background" *ngIf="isLoggedIn">
+<ion-content padding class="background">
   <div class="row">
     <div class="col">
       <div class="row mt-2">
@@ -16,6 +16,9 @@
           <div class="support">
             <ion-text class="centered" color="warning">
               <h1 class="text">Use app for</h1>
+              <div *ngFor="let data of data">
+                {{data}}
+              </div>
               <div class="col-md-5 mt-5">
                 <ion-button (click)="travelPage()" expand="block" color="warning">Traveling</ion-button>
               </div>
