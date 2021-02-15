@@ -55,6 +55,7 @@ export class LoginPage implements OnInit {
             .subscribe(data => {
               console.log('success')
             });
+          window.location.reload();
           this.route.navigate(['tabs/travelling']);
 
         },
