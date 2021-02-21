@@ -23,6 +23,9 @@ export class ChatService {
     })
     .build();
 
+
+    
+
   //readonly POST_URL = "https://localhost:44329/api/chat/send";
 
   readonly POST_URL = "http://192.168.0.2:3000/api/chat/send";
