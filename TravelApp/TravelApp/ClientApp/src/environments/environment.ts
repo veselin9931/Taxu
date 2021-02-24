@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   // apiUrl: 'https://localhost:44329'
   // apiUrl: 'http://192.168.0.2:3000'
-  apiUrl: 'http://192.168.0.30:3000'
- //apiUrl: 'http://taximi2021.azurewebsites.net'
+  //apiUrl: 'http://192.168.0.7:3000'
+ apiUrl: 'http://taximi2021.azurewebsites.net'
 };
 
 /*
