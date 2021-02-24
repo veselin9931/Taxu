@@ -3,6 +3,7 @@ import * as signalR from '@aspnet/signalr';        // import signalR
 import { HttpClient } from '@angular/common/http';
 import { Message } from '../../_models'
 import { Observable, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +18,16 @@ export class ChatService {
   //   .build();
 
   private connection: any = new signalR.HubConnectionBuilder()
-    .withUrl('http://192.168.0.2:3000/orderHub', {
+  .withUrl(`${environment.apiUrl}/orderHub`, {
       skipNegotiation: true,
       transport: signalR.HttpTransportType.WebSockets
     })
     .build();
 
+
   //readonly POST_URL = "https://localhost:44329/api/chat/send";
 
-  readonly POST_URL = "http://192.168.0.2:3000/api/chat/send";
+  readonly POST_URL = `${environment.apiUrl}/api/chat/send`;
 
 
   private receivedMessageObject: Message = new Message();

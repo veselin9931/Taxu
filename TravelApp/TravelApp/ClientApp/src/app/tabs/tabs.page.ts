@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
+import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
 
@@ -34,7 +35,7 @@ export class TabsPage implements OnInit {
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl('http://192.168.0.2:3000/orderHub', {
+      .withUrl(`${environment.apiUrl}/orderHub`, {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })

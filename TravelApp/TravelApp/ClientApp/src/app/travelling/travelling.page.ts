@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { AlertController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 import { Message, Order, Trip, User } from 'src/_models';
 import { Car } from 'src/_models/car';
 import { AccountService, AlertService } from 'src/_services';
@@ -77,7 +78,7 @@ export class TravellingPage implements OnInit {
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl('http://192.168.0.2:3000/orderHub', {
+      .withUrl(`${environment.apiUrl}/orderHub`, {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })
