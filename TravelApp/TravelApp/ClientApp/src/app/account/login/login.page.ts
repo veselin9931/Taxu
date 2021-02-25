@@ -76,7 +76,6 @@ export class LoginPage implements OnInit {
               console.log('success')
             });
           this.route.navigate(['tabs/travelling']);
-
         },
         error => {
           this.alertService.error(error);
