@@ -12,6 +12,7 @@ import { AlertController } from '@ionic/angular';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { Observable } from 'rxjs';
 import { ChatService } from 'src/_services/chat/chat.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-driving',
@@ -72,13 +73,13 @@ export class DrivingPage implements OnInit {
     //   })
     //   .build();
 
-      const connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Information)
-      .withUrl('http://192.168.0.2:3000/orderHub', {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
-      })
-      .build();
+    const connection = new signalR.HubConnectionBuilder()
+    .configureLogging(signalR.LogLevel.Information)
+    .withUrl(`${environment.apiUrl}/orderHub`, {
+      skipNegotiation: true,
+      transport: signalR.HttpTransportType.WebSockets
+    })
+    .build();
 
     connection.start().then(function () {
       console.log('signalR Connected in driving');

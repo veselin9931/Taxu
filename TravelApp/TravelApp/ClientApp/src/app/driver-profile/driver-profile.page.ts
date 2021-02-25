@@ -10,6 +10,7 @@ import { WalletService } from 'src/_services/wallet/wallet.service';
 import { Driver } from 'src/_models';
 import { ImageService } from 'src/_services/image/image.service';
 import { HttpEventType } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-driver-profile',
@@ -54,7 +55,7 @@ export class DriverProfilePage implements OnInit {
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl('http://192.168.0.2:3000/orderHub', {
+      .withUrl(`${environment.apiUrl}/orderHub`, {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })

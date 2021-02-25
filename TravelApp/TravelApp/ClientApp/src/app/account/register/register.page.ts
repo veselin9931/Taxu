@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as signalR from '@aspnet/signalr';
 import { first } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { AccountService, AlertService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
 
@@ -35,6 +37,24 @@ export class RegisterPage implements OnInit {
     },{
       validators: this.ConfirmedValidator('password', 'confirmPassword')
     })
+
+    const connection = new signalR.HubConnectionBuilder()
+    .configureLogging(signalR.LogLevel.Information)
+    .withUrl(`${environment.apiUrl}/orderHub`, {
+      skipNegotiation: true,
+      transport: signalR.HttpTransportType.WebSockets
+    })
+    .build();
+
+    connection.start().then(function () {
+      console.log('signalR Connected in driving');
+    }).catch(function (err) {
+      return console.log(err.toString());
+    });
+
+    connection.on('BroadcastMessage', () => {
+      this.onSubmit();
+    });
   }
 
   get f() { return this.form.controls; }

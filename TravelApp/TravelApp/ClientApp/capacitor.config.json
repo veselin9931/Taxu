@@ -12,5 +12,9 @@
   "android": {
     "allowMixedContent": true
   },
-  "cordova": {}
+  "cordova": {},
+  "server": {
+    "url": "http://localhost:8100",
+    "cleartext": true
+  }
 }
