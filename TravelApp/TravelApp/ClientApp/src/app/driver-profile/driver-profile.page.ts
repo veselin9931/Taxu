@@ -149,11 +149,11 @@ export class DriverProfilePage implements OnInit {
   }
 
   openHistory() {
-    this.route.navigate(['tabs/driver-history']);
+    this.route.navigate(['menu/driver-history']);
   }
 
   addNewCar() {
-    this.route.navigate(['tabs/car-register'])
+    this.route.navigate(['menu/car-register'])
   }
 
   active(car: Car) {

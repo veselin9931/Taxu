@@ -110,7 +110,7 @@ export class DrivingPage implements OnInit {
   }
 
   reportProblem(){
-    this.route.navigate(['tabs/report']);
+    this.route.navigate(['menu/report']);
   }
 
   addToInbox(obj: Message) {
@@ -172,7 +172,7 @@ export class DrivingPage implements OnInit {
                       console.log(data);
                     })
 
-                  this.route.navigate(['tabs/driving']);
+                  this.route.navigate(['menu/driving']);
                 }
               })
 
@@ -265,7 +265,7 @@ export class DrivingPage implements OnInit {
           this.totalPrice = order.totalPrice;
         })
 
-        this.route.navigate(['tabs/driving']);
+        this.route.navigate(['menu/driving']);
       });
   }
 

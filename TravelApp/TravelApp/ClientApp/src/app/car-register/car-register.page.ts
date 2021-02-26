@@ -63,10 +63,10 @@ export class CarRegisterPage implements OnInit {
                   // }
                   
                   if (d.length != 0) {
-                    this.route.navigateByUrl('tabs/driver-profile');
+                    this.route.navigateByUrl('menu/driver-profile');
                   } else {
                     
-                    this.route.navigateByUrl('tabs/verifying');
+                    this.route.navigateByUrl('menu/verifying');
                   }
                 })
             })

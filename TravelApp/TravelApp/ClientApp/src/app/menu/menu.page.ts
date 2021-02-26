@@ -1,38 +1,59 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterEvent } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
 
 @Component({
-  selector: 'app-tabs',
-  templateUrl: 'tabs.page.html',
-  styleUrls: ['tabs.page.scss']
+  selector: 'app-menu',
+  templateUrl: './menu.page.html',
+  styleUrls: ['./menu.page.scss'],
 })
-export class TabsPage implements OnInit {
+export class MenuPage implements OnInit {
   isLoggedIn;
   driverId: string;
   isVerified: boolean;
   documentConfirmed= false;
   driverCars = [];
-  constructor(private accountService: AccountService,
-    private driverService: DriverService,
-    private route: Router) {
-    this.isLoggedIn = localStorage.getItem("user");
 
-  }
-  ngOnInit(): void {
+  accessedPath = "";
+
+  pages = [
+    {
+      title: "Travel",
+      url: '/menu/travelling'
+    },
+    {
+      title: "Profile",
+      url: '/menu/driver-profile'
+    },
+    {
+      title: "Drive",
+      url: '/menu/driving'
+    }
+  ];
+
+  selectedPath = '';
+  constructor(private router: Router,
+    private accountService: AccountService,
+    private driverService: DriverService) {
+      this.isLoggedIn = localStorage.getItem("user");
+    this.router.events.subscribe((event: RouterEvent) => {
+      if(event && event.url){
+        if(event.url == "/menu/driving"){
+          if(this.isLoggedIn && this.isVerified && this.documentConfirmed && this.driverCars.length >= 1){
+            event.url = '/menu/driving'
+          }
+        }
+        //this.selectedPath = event.url;
+      }
+    });
+   }
+
+  ngOnInit() {
     this.checkValues();
-
-    // const connection = new signalR.HubConnectionBuilder()
-    //   .configureLogging(signalR.LogLevel.Information)
-    //   .withUrl('https://localhost:44329/orderHub', {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets
-    //   })
-    //   .build();
-
+    
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
       .withUrl(`${environment.apiUrl}/orderHub`, {
@@ -78,7 +99,16 @@ export class TabsPage implements OnInit {
           }
         })
     }else if(this.isLoggedIn == null){
-        //this.route.navigate(['tabs/home']);
+        this.router.navigate(['menu/home']);
     }
+  }
+
+  logout() {
+    this.accountService.logout();
+    this.isLoggedIn = "";
+    this.router.navigate(['menu/home'])
+    .then(() => {
+      window.location.reload();
+    })
   }
 }

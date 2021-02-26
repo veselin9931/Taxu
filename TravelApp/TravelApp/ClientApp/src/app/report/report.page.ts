@@ -136,10 +136,10 @@ export class ReportPage implements OnInit {
           text: 'Confirm',
           handler: data => {
             if(this.isDriver == true){
-              this.route.navigate(['tabs/driving']);
+              this.route.navigate(['menu/driving']);
 
             } else {
-              this.route.navigate(['tabs/travelling']);
+              this.route.navigate(['menu/travelling']);
             }
           }
         }

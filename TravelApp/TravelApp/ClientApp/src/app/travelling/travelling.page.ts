@@ -251,7 +251,7 @@ export class TravellingPage implements OnInit {
   logout() {
     this.accountService.logout();
     this.isLoggedIn = "";
-    this.route.navigate(['tabs/home'])
+    this.route.navigate(['menu/home'])
     .then(() => {
       window.location.reload();
     })
@@ -290,7 +290,7 @@ export class TravellingPage implements OnInit {
           text: 'Report a problem', //route to reportpage
           role: 'report',
           handler: () => {
-            this.route.navigate(['tabs/report']);
+            this.route.navigate(['menu/report']);
           }
         }
       ]
