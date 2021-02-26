@@ -15,6 +15,7 @@ using TravelApp.Services.OrderService;
 using TravelApp.Infrastructure;
 using TravelApp.Data.Seeding;
 using CloudinaryDotNet;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace TravelApp
 {
@@ -30,9 +31,16 @@ namespace TravelApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection services)
         {
+            services.Configure<FormOptions>(o => {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("MSSQL")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(cfg =>
             {
