@@ -86,7 +86,7 @@ export class RegisterPage implements OnInit {
 
           }
         })
-        this.route.navigate(['tabs/home']);
+        this.route.navigate(['menu/home']);
         console.log(data)
       },
       error => {
@@ -97,11 +97,11 @@ export class RegisterPage implements OnInit {
   }
 
   signIn(){
-    this.route.navigate(['tabs/home']);
+    this.route.navigate(['menu/home']);
   }
 
   goBack(){
-    this.route.navigate(['tabs/home']);
+    this.route.navigate(['menu/home']);
   }
 
   ConfirmedValidator(controlName: string, matchingControlName: string){
