@@ -63,16 +63,7 @@ export class DrivingPage implements OnInit {
     if (this.isDrivingNow == true) {
       this.getAcceptedTrip()
     }
-
-    //SignalR data logic:
-    // const connection = new signalR.HubConnectionBuilder()
-    //   .configureLogging(signalR.LogLevel.Information)
-    //   .withUrl('https://localhost:44329/orderHub', {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets
-    //   })
-    //   .build();
-
+    
     const connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Information)
     .withUrl(`${environment.apiUrl}/orderHub`, {
@@ -84,7 +75,7 @@ export class DrivingPage implements OnInit {
     connection.start().then(function () {
       console.log('signalR Connected in driving');
     }).catch(function (err) {
-      return console.log(err.toString());
+      return console.log(err);
     });
 
     connection.on('BroadcastMessage', () => {

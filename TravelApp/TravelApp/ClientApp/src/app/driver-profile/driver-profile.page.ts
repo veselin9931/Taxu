@@ -57,13 +57,14 @@ export class DriverProfilePage implements OnInit {
       .configureLogging(signalR.LogLevel.Information)
       .withUrl(`${environment.apiUrl}/orderHub`, {
         skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
+        transport: signalR.HttpTransportType.WebSockets,
+        
       })
       .build();
     connection.start().then(function () {
       console.log('signalR Connected in profile');
     }).catch(function (err) {
-      return console.log(err.toString());
+      return console.log(err);
     });
 
     connection.on('BroadcastMessage', () => {

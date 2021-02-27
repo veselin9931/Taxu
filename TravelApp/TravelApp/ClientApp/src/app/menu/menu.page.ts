@@ -63,7 +63,7 @@ export class MenuPage implements OnInit {
       .build();
 
     connection.start().then(function () {
-      console.log('signalR Connected in tabs');
+      console.log('signalR Connected in menu');
     }).catch(function (err) {
       return console.log(err.toString());
     });

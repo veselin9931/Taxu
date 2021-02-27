@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   //apiUrl: 'https://localhost:44329'
-  apiUrl: 'http://taximi2021.azurewebsites.net'
+  apiUrl: 'http://taxu.azurewebsites.net'
 };
