@@ -16,6 +16,7 @@ using TravelApp.Infrastructure;
 using TravelApp.Data.Seeding;
 using CloudinaryDotNet;
 using Microsoft.AspNetCore.Http.Features;
+using System;
 
 namespace TravelApp
 {
@@ -84,8 +85,10 @@ namespace TravelApp
                                                               .AllowAnyHeader()));
 
             //services.AddCors();
+            services.AddMvc();
 
-            services.AddSignalR();
+            services.AddSignalR()
+                 .AddAzureSignalR();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -94,7 +97,7 @@ namespace TravelApp
             services.RegisterRepositoryServices();
 
             services.RegisterCloudinary(Configuration);
-
+        
             services.RegisterCustomServices();
 
 
@@ -126,6 +129,25 @@ namespace TravelApp
             app.UseCors("AllowAll");
 
             //app.UseCors("corsAllowAllPolicy");
+
+            app.UseFileServer();
+
+            app.UseAzureSignalR(routes =>
+            {
+                routes.MapHub<OrderHub>("/orderHub");
+            });
+
+            app.UseWebSockets();
+
+            var webSocketOptions = new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(120),
+            };
+
+            webSocketOptions.AllowedOrigins.Add("https://taxu.azurewebsites.net/");
+            webSocketOptions.AllowedOrigins.Add("https://localhost:8000/");
+
+            app.UseWebSockets(webSocketOptions);
 
 
             app.UseHttpsRedirection();
