@@ -20,6 +20,6 @@ namespace TravelApp.Services.OrderService
         public async Task SendMessage(string user, string message)
         {
             await this.hub.Clients.All.MessageReceived(user, message);
-        }
+        }  
     }
 }
