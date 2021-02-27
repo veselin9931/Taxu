@@ -173,7 +173,7 @@ namespace TravelApp
             };
 
             webSocketOptions.AllowedOrigins.Add("https://taxu.azurewebsites.net/");
-            webSocketOptions.AllowedOrigins.Add("https://localhost:8000/");
+            webSocketOptions.AllowedOrigins.Add("https://localhost:8100/");
 
             app.UseWebSockets(webSocketOptions);
 
