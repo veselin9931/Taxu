@@ -7,8 +7,13 @@ export const environment = {
   //apiUrl: 'https://localhost:44329'
   //apiUrl: 'http://192.168.0.3:3000'
   //apiUrl: 'http://192.168.0.7:3000'
- apiUrl: 'http://taximi2021.azurewebsites.net'
+ apiUrl: 'http://taximi2021.azurewebsites.net',
+
+ mapBox: {
+   accessToken: 'sk.eyJ1IjoiYXRhbmFzc2VyYWZpbW92IiwiYSI6ImNrbG1keXBvMTA4NW4ybm4xZnJ5Z2dreWEifQ.OlGZFFJ6vmgAniUgmuTtuw'
+ }
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file
