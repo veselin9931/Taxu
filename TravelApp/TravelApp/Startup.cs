@@ -136,7 +136,7 @@ namespace TravelApp
 
             app.Use(async (context, next) =>
             {
-                if (context.Request.Path == "/ws")
+                if (context.Request.Path == "/wss")
                 {
                     if (context.WebSockets.IsWebSocketRequest)
                     {
