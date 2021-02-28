@@ -1,19 +1,33 @@
-ion-content.background{
-    --background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+ion-content{
+    //--background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+    --ion-background-color:#353535;
 }
 
 .centered{
     text-align: center;
 }
 
+ion-toolbar{
+    --ion-background-color:#eeeeee;
+}
+
+ion-title {
+    text-align: center;
+}
+
+#toolbarIcon{
+    font-size: 1.7em;
+}
+
+
 hr{
-    background:rgb(255, 174, 0);
+    background:#eeeeee;
     width: 70% !important;
 }
 
 ion-input {
     border-radius: 20px;
-    border: 3px solid rgb(255, 174, 0);
+    border: 3px solid #eeeeee;
 }
 
 .backIcon {
@@ -29,6 +43,5 @@ ion-input {
     margin-top: 50px;
 }
 ion-icon {
-    color: rgb(255, 174, 0);
     font-size: 350%;
 }

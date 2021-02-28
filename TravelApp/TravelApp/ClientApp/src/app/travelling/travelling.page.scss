@@ -1,6 +1,20 @@
-ion-content.background{
-    --background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+ion-content{
+    //--background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+    --ion-background-color:#353535;
 }
+
+ion-toolbar{
+    --ion-background-color:#eeeeee;
+}
+
+ion-title {
+    text-align: center;
+}
+
+#toolbarIcon{
+    font-size: 1.7em;
+}
+
 
 .centered{
     text-align: center;
@@ -8,16 +22,17 @@ ion-content.background{
 
 .text{  
     font-size: 2.4em;
+    font-family: Open Sans Light;
 }
 
 i{
-    color:rgb(255, 174, 0);
+    color:#eeeeee;
 }
 
-ion-input{
-    border-radius: 10px;
-    border: 3px solid rgb(255, 174, 0);
-}
+// ion-input{
+//     border-radius: 10px;
+//     border: 3px solid rgb(255, 174, 0);
+// }
 
 .my-custom-class {
     --background: #e5e5e5;
@@ -27,7 +42,7 @@ ion-select{
     color: rgb(56, 56, 56);
     background-color: white;
     border-radius: 10px;
-    border: 3px solid rgb(255, 174, 0);
+    border: 3px solid #eeeeee;
 }
 
 .blink_me {

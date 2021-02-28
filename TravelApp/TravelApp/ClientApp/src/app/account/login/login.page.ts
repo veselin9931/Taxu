@@ -31,6 +31,10 @@ export class LoginPage implements OnInit {
       password: ['', Validators.required]
     })
 
+    if(this.isLoggedIn){
+      this.route.navigate(['menu/travelling'])
+    }
+
     const connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Information)
     .withUrl(`${environment.apiUrl}/orderHub`, {
@@ -75,7 +79,7 @@ export class LoginPage implements OnInit {
             .subscribe(data => {
               console.log('success')
             });
-          this.route.navigate(['tabs/travelling']);
+          this.route.navigate(['menu/travelling']);
         },
         error => {
           this.alertService.error(error);
@@ -85,7 +89,7 @@ export class LoginPage implements OnInit {
   }
 
   signUp() {
-    this.route.navigate(['tabs/account/register']);
+    this.route.navigate(['menu/account/register']);
   }
 
   // ionViewDidLeave() {

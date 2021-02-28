@@ -10,22 +10,12 @@ import { environment } from 'src/environments/environment';
 })
 export class ChatService {
 
-  // private connection: any = new signalR.HubConnectionBuilder()
-  //   .withUrl('https://localhost:44329/orderHub', {
-  //     skipNegotiation: true,
-  //     transport: signalR.HttpTransportType.WebSockets
-  //   })
-  //   .build();
-
   private connection: any = new signalR.HubConnectionBuilder()
   .withUrl(`${environment.apiUrl}/orderHub`, {
       skipNegotiation: true,
       transport: signalR.HttpTransportType.WebSockets
     })
     .build();
-
-
-    
 
   //readonly POST_URL = "https://localhost:44329/api/chat/send";
 
@@ -60,16 +50,16 @@ export class ChatService {
     this.sharedObj.next(this.receivedMessageObject);
   }
 
-  /* ****************************** Public Mehods **************************************** */
+  // /* ****************************** Public Mehods **************************************** */
 
-  // Calls the controller method
+  // // Calls the controller method
   public broadcastMessage(msgDto: any) {
     this.http.post(this.POST_URL, msgDto).subscribe(data => console.log(data));
     // this.connection.invoke("SendMessage1", msgDto.user, msgDto.msgText).catch(err => console.error(err));    // This can invoke the server method named as "SendMethod1" directly.
   }
 
-  public retrieveMappedObject(): Observable<Message> {
-    return this.sharedObj.asObservable();
-  }
+   public retrieveMappedObject(): Observable<Message> {
+     return this.sharedObj.asObservable();
+   }
 
 }

@@ -33,23 +33,23 @@ export class TabsPage implements OnInit {
     //   })
     //   .build();
 
-    const connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.apiUrl}/orderHub`, {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
-      })
-      .build();
+    // const connection = new signalR.HubConnectionBuilder()
+    //   .configureLogging(signalR.LogLevel.Information)
+    //   .withUrl(`${environment.apiUrl}/orderHub`, {
+    //     skipNegotiation: true,
+    //     transport: signalR.HttpTransportType.WebSockets
+    //   })
+    //   .build();
 
-    connection.start().then(function () {
-      console.log('signalR Connected in tabs');
-    }).catch(function (err) {
-      return console.log(err.toString());
-    });
+    // connection.start().then(function () {
+    //   console.log('signalR Connected in tabs');
+    // }).catch(function (err) {
+    //   return console.log(err.toString());
+    // });
 
-    connection.on('BroadcastMessage', () => {
-      this.checkValues();
-    });
+    // connection.on('BroadcastMessage', () => {
+    //   this.checkValues();
+    // });
   }
 
   checkValues(){
@@ -78,7 +78,7 @@ export class TabsPage implements OnInit {
           }
         })
     }else if(this.isLoggedIn == null){
-        this.route.navigate(['tabs/home']);
+        //this.route.navigate(['tabs/home']);
     }
   }
 }

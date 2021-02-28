@@ -55,24 +55,15 @@ export class DrivingPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.chatService.retrieveMappedObject()
-    .subscribe( (receivedObj: Message) => { this.addToInbox(receivedObj);});  // calls the service method to get the new messages sent
+     this.chatService.retrieveMappedObject()
+     .subscribe( (receivedObj: Message) => { this.addToInbox(receivedObj);});  // calls the service method to get the new messages sent
 
     this.getData();
 
     if (this.isDrivingNow == true) {
       this.getAcceptedTrip()
     }
-
-    //SignalR data logic:
-    // const connection = new signalR.HubConnectionBuilder()
-    //   .configureLogging(signalR.LogLevel.Information)
-    //   .withUrl('https://localhost:44329/orderHub', {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets
-    //   })
-    //   .build();
-
+    
     const connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Information)
     .withUrl(`${environment.apiUrl}/orderHub`, {
@@ -84,7 +75,7 @@ export class DrivingPage implements OnInit {
     connection.start().then(function () {
       console.log('signalR Connected in driving');
     }).catch(function (err) {
-      return console.log(err.toString());
+      return console.log(err);
     });
 
     connection.on('BroadcastMessage', () => {
@@ -110,7 +101,7 @@ export class DrivingPage implements OnInit {
   }
 
   reportProblem(){
-    this.route.navigate(['tabs/report']);
+    this.route.navigate(['menu/report']);
   }
 
   addToInbox(obj: Message) {
@@ -172,7 +163,7 @@ export class DrivingPage implements OnInit {
                       console.log(data);
                     })
 
-                  this.route.navigate(['tabs/driving']);
+                  this.route.navigate(['menu/driving']);
                 }
               })
 
@@ -265,7 +256,7 @@ export class DrivingPage implements OnInit {
           this.totalPrice = order.totalPrice;
         })
 
-        this.route.navigate(['tabs/driving']);
+        this.route.navigate(['menu/driving']);
       });
   }
 
