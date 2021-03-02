@@ -3,6 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+    
 
     <ion-title>
         <ion-label>TaxiMi</ion-label>
@@ -27,10 +28,12 @@
         </div> -->
       </div>
       <ion-text>
+        
         <div class="row">
           <form [formGroup]="form" novalidate class="col">
             <div class="form-group col mt-5">
               <ion-input formControlName="location" type="text" class="form-control" placeholder=" From"
+               (click)="locationMap()"
                 [ngClass]="{ 'is-invalid': isSubmitted && f.location.errors }"></ion-input>
               <div *ngIf="isSubmitted && f.location.errors" class="invalid-feedback">
                 <div *ngIf="f.location.errors.required">The field is required!</div>
@@ -39,6 +42,7 @@
 
             <div class="form-group col mt-3">
               <ion-input formControlName="destination" type="text" class="form-control" placeholder=" To"
+              (click)="destinationMap()"
                 [ngClass]="{ 'is-invalid': isSubmitted && f.destination.errors }"></ion-input>
               <div *ngIf="isSubmitted && f.destination.errors" class="invalid-feedback">
                 <div *ngIf="f.destination.errors.required">The field is required!</div>
@@ -63,36 +67,6 @@
               </ion-select>
             </div>
 
-            <!-- <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="col-1 mt-3">
-                    <ion-button [disabled]="isCompleted == true"  (click)="onSubmit()" color="warning">Find</ion-button>
-                    
-                    
-                  </div>
-  
-                  <div class="col-1  mt-3">
-                    <ion-button color="warning"> Cost: {{orderTotalPrice}}$</ion-button>
-                  </div>
-  
-                  <div class="col-1 mt-3 ">
-                    <ion-button [disabled]="isCompleted == false" (click)="cancelOrder()" color="danger">Cancel</ion-button>
-                  </div>
-                </div>
-                
-              </div>
-
-            </div> -->
-
-            <!-- <ion-row>
-              <ion-col size="3" size-lg >
-                <ion-button [disabled]="isCompleted == true"  (click)="onSubmit()" color="warning">Find</ion-button>
-              </ion-col>
-              <ion-col size="3" size-lg>
-                <ion-button color="warning"> Cost: {{orderTotalPrice}}$</ion-button>
-              </ion-col>
-            </ion-row> -->
 
             <ion-row>
               <ion-col class="ion-align-self-start" offset="0.2">
@@ -110,8 +84,6 @@
           <div *ngIf="isCompleted == true" class="blink_me col-md-12 mt-3 text-center">
             <ion-button type="submit" color="light">Looking for a driver</ion-button>
           </div>
-
-
 
         </div>
 
@@ -144,34 +116,9 @@
             <h5>Your order is accepted</h5>
           </ion-text>
 
-          <!-- <div class="col-md-12 mt-5">
-            <div class="mapouter">
-              <div class="gmap_canvas">
-                <iframe width="600" height="500" id="gmap_canvas"
-                  src="https://maps.google.com/maps?q=Sofia&t=&z=11&ie=UTF8&iwloc=&output=embed" frameborder="0"
-                  scrolling="no" marginheight="0" marginwidth="0">
-                </iframe>
-                <br>
-                <style>
-                  .mapouter {
-                    margin-left: 9%;
-                    position: relative;
-                    text-align: right;
-                    height: 80%;
-                    width: 90%;
-                  }
-                </style>
-                <style>
-                  .gmap_canvas {
-                    overflow: hidden;
-                    background: none !important;
-                    height: 80%;
-                    width: 90%;
-                  }
-                </style>
-              </div>
-            </div>
-          </div> -->
+           <div class="col-md-12 mt-5">
+            <div id='map' style='width: 300px; height: 300px;'></div>
+          </div>
 
           <div class="row text-center">
             <div class="col text-center">
@@ -191,25 +138,6 @@
                   <h2 class="text">Cost of the trip: {{order.totalPrice}}$</h2>
 
                 </ion-text>
-
-
-                <!-- <div class="ud-header">
-                  <h2 class="text-center">Public Chat</h2>
-                </div>
-                <div class="ud-body">
-                  <div class="msg-box">
-                    <ul>
-                      <li *ngFor="let mObj of msgInboxArray"
-                        [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">{{mObj.user}} :<br /><span
-                          class="msg-italic-style">{{mObj.text}}</span></li>
-                    </ul>
-                  </div>
-                  <div class="ud-flex-row">
-                    <input type="text" placeholder="Type message here" class="msg-input" [(ngModel)]="msgDto.text" />
-                    <button class="send-btn" (click)="send()"><i class="fa fa-paper-plane"></i></button>
-                  </div>
-                  <input type="text" placeholder="Your name" class="name-box" [(ngModel)]="msgDto.user" />
-                </div> -->
 
                 
               </div>

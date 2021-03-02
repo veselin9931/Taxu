@@ -12,6 +12,8 @@ import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
 
+
+
 @Component({
   selector: 'app-travelling',
   templateUrl: './travelling.page.html',
@@ -41,6 +43,8 @@ export class TravellingPage implements OnInit {
   isCompleted = false;
   isAccepted = false;
 
+  
+
   constructor(private formBuilder: FormBuilder,
     private route: Router,
     private orderService: OrderService,
@@ -67,14 +71,6 @@ export class TravellingPage implements OnInit {
       increasePrice: [0],
       status: 'Waiting'
     })
-
-    // const connection = new signalR.HubConnectionBuilder()
-    //   .configureLogging(signalR.LogLevel.Information)
-    //   .withUrl('https://localhost:44329/orderHub', {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets
-    //   })
-    //   .build();
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
@@ -120,6 +116,15 @@ export class TravellingPage implements OnInit {
     this.msgInboxArray.push(newObj);
 
   }
+
+  locationMap(){
+    this.route.navigate(['menu/location'])
+  }
+
+ destinationMap(){
+    this.route.navigate(['menu/destination'])
+  }
+
 
   onSubmit() {
     this.form.value.increasePrice = (+this.form.value.increasePrice);

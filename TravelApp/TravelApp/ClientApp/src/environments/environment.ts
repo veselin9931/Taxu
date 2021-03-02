@@ -4,15 +4,12 @@
 
 export const environment = {
    production: false,
-// <<<<<<< marian-pc
-//   apiUrl: 'https://localhost:44329'
-// =======
-//   //apiUrl: 'https://localhost:44329'
-// >>>>>>> master
-  //apiUrl: 'http://192.168.0.3:3000'
+  //apiUrl: 'https://localhost:44329'
+  apiUrl: 'http://192.168.0.3:3000'
   //apiUrl: 'http://192.168.0.7:3000'
- apiUrl: 'http://taximi2021.azurewebsites.net'
+ //apiUrl: 'https://taxu.azurewebsites.net',
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file
