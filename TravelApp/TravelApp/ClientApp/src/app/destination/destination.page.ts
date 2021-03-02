@@ -1,51 +1,58 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import * as Mapboxgl from 'mapbox-gl';
+import { Plugins } from '@capacitor/core';
 
+const { Geolocation } = Plugins;
+declare var google: any;
 @Component({
   selector: 'app-destination',
   templateUrl: './destination.page.html',
   styleUrls: ['./destination.page.scss'],
 })
 export class DestinationPage implements OnInit {
-  longitude;
-  latitude;
-  location = {};
-  map: Mapboxgl.Map;
+  map: any;
+  latitude: any;
+  longitude: any;
+  @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
+
   constructor(private route: Router) {
-    (Mapboxgl as any).accessToken = "pk.eyJ1IjoiYXRhbmFzc2VyYWZpbW92IiwiYSI6ImNrbHFjd2w3MDFidjQybm4zZXZzcDQ3Y2gifQ.R2hMULM0HPAbT0eAViTMgg";
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getLocation();
-    
   }
 
   ionViewDidEnter() {
-    this.buildMap();
-    this.createMarker(this.longitude, this.latitude);
+    this.getLocation();
+    this.loadMap(this.mapRef);
   }
 
-  createMarker(lng:number, lat: number){
-    const marker = new Mapboxgl.Marker({
-      draggable:true
-    })
-    .setLngLat([lng, lat])
-        .addTo(this.map);
+  async loadMap(mapRef: ElementRef) {
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
 
-        marker.on('drag', () => {
-          this.location = marker.getLngLat();
-        })
+
+    const options: google.maps.MapOptions = {
+      center: new google.maps.LatLng(myLatLng.lat,myLatLng.lng),
+      zoom: 15
+    };
+
+    var marker = new google.maps.Marker({
+      position: myLatLng,
+      title: "Hello World!",
+    });
+
+    this.map = new google.maps.Map(mapRef.nativeElement, options);
+
+    marker.setMap(this.map);
   }
 
   destination(){
     this.route.navigate(['menu/destination']);
-    console.log('Destination');
-    console.log(this.location);
   }
 
   getLocation(): void {
-    
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.longitude = position.coords.longitude;
@@ -63,13 +70,8 @@ export class DestinationPage implements OnInit {
     //Call API
   }
 
-  buildMap() {
-    this.map = new Mapboxgl.Map({
-      container: 'mapbox', // container id
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [this.longitude, this.latitude], // starting position
-      zoom: 15// starting zoom
-    });
+  travel(){
+    this.route.navigate(['menu/travelling'])
   }
 
 }

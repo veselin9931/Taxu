@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { Plugins } from '@capacitor/core';
 
+const { Geolocation } = Plugins;
 declare var google: any;
 
 @Component({
@@ -10,31 +12,57 @@ declare var google: any;
 })
 export class LocationPage implements OnInit {
   map: any;
-  
-  @ViewChild('map', {read: ElementRef, static: false}) mapRef: ElementRef;
-
+  latitude: any;
+  longitude: any;
+  @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
   constructor(private route: Router) {
   }
 
   ngOnInit(): void {
-    
+    this.getLocation();
   }
 
-  ionViewDidEnter(){
-    this.initMap();
+  ionViewDidEnter() {
+    this.getLocation();
+    this.loadMap(this.mapRef);
   }
 
-  initMap(){
-    const location = new google.maps.LatLng(45,100);
+  async loadMap(mapRef: ElementRef) {
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
 
-    const options = {
-      center: location,
-      zoom: 14,
-      disableDefaultUI: true
-    }
 
-    this.map = new google.maps.Map(this.mapRef.nativeElement,options);
+    const options: google.maps.MapOptions = {
+      center: new google.maps.LatLng(myLatLng.lat, myLatLng.lng),
+      zoom: 15
+    };
+
+    var marker = new google.maps.Marker({
+      position: myLatLng,
+      draggable: true,
+      title: "Take me from here!",
+    });
+
+    this.map = new google.maps.Map(mapRef.nativeElement, options);
+
+    marker.setMap(this.map);
+    let geocoder = new google.maps.Geocoder;
+    google.maps.event.addListener(marker, 'dragend', async () => {
+      var position = marker.getPosition();
+      var lat = position.lat()
+      var lng = position.lng()
+      console.log(lat, lng)
+
+      let latlng = { lat: position.lat(), lng: position.lng() };
+      geocoder.geocode({ 'location': latlng }, (results, status) => {
+        console.log(results); // read data from here
+        console.log(status);
+      });
+
+    })
   }
+
+
 
   // createMarker(lng:number, lat: number){
   //   const marker = new Mapboxgl.Marker({
@@ -49,31 +77,28 @@ export class LocationPage implements OnInit {
   //       })
   // }
 
-  // destination(){
-  //   this.route.navigate(['menu/destination']);
-  //   console.log('Starting location');
+  destination() {
+    this.route.navigate(['menu/destination']);
+  }
 
-  //   console.log(this.location);
-  // }
+  getLocation(): void {
 
-  // getLocation(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.longitude = position.coords.longitude;
+        this.latitude = position.coords.latitude;
+        this.callApi(this.longitude, this.latitude);
+        console.log(this.longitude, this.latitude)
+      });
+    } else {
+      console.log("No support for geolocation")
+    }
+  }
 
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       this.longitude = position.coords.longitude;
-  //       this.latitude = position.coords.latitude;
-  //       this.callApi(this.longitude, this.latitude);
-  //       console.log(this.longitude, this.latitude)
-  //     });
-  //   } else {
-  //     console.log("No support for geolocation")
-  //   }
-  // }
-
-  // callApi(Longitude: number, Latitude: number) {
-  //   const url = `https://api-adresse.data.gouv.fr/reverse/?lon=${Longitude}&lat=${Latitude}`
-  //   //Call API
-  // }
+  callApi(Longitude: number, Latitude: number) {
+    const url = `https://api-adresse.data.gouv.fr/reverse/?lon=${Longitude}&lat=${Latitude}`
+    //Call API
+  }
 
   // buildMap() {
 

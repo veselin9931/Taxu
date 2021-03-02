@@ -8,10 +8,6 @@ export const environment = {
   apiUrl: 'http://192.168.0.3:3000'
   //apiUrl: 'http://192.168.0.7:3000'
  //apiUrl: 'https://taxu.azurewebsites.net',
- ,
- mapBox: {
-    accessToken: 'pk.eyJ1IjoiYXRhbmFzc2VyYWZpbW92IiwiYSI6ImNrbHFjd2w3MDFidjQybm4zZXZzcDQ3Y2gifQ.R2hMULM0HPAbT0eAViTMgg'
-  }
 };
 
 

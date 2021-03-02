@@ -11,17 +11,15 @@ INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\An
 	android:name
 		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:36:13-62
 manifest
-ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-64:12
-INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-64:12
-INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-64:12
-INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-64:12
-MERGED from [:capacitor-mapbox] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\capacitor-mapbox\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-23:12
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
 MERGED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-50:12
 MERGED from [com.google.android.material:material:1.1.0-rc02] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\102b3c44740e06a0c65ab0c577ce7e61\material-1.1.0-rc02\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\d38bcf900577a63e0da310b3fe272179\appcompat-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-18:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\61e488a7b48ffc8255adc230dafa50f0\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:2:1-21:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\283499019944b954344c21ecf1019372\jetified-viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:firebase-messaging:20.1.2] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6fe0f05486c9f14086b1b659ca69db6\jetified-firebase-messaging-20.1.2\AndroidManifest.xml:17:1-44:12
 MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\febea47f8deaefcdcab072224acc8dc4\jetified-play-services-location-17.0.0\AndroidManifest.xml:2:1-9:12
@@ -42,7 +40,6 @@ MERGED from [androidx.appcompat:appcompat-resources:1.1.0] C:\Users\malek\.gradl
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\9d28e40defdf6a4e3602d97c075e17f2\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.browser:browser:1.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\f4cbb3a779e32db78e3b6c8e4b5173a1\browser-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\d41f6a590796eccba86906146b86c0e8\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:2:1-29:12
 MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\652ae343ce7045a2f751e9940f7d865d\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\967ac9d00d0570a1e1fe1c7644cdc60a\loader-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.activity:activity:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\fcea55302b5d2e843f6bf32f4bea1587\jetified-activity-1.0.0\AndroidManifest.xml:17:1-24:12
@@ -52,7 +49,6 @@ MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\malek\
 MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\5b59b01475618829fe79ad446c5facaf\recyclerview-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\8d4666f682775c60e9e0f1d669843aa7\customview-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c939c9d1cce5aa2f18956c8b9d20ad18\transition-1.2.0\AndroidManifest.xml:17:1-24:12
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-gestures:0.7.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\1b4d843a73b27accf733a601791887f5\jetified-mapbox-android-gestures-0.7.0\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.core:core:1.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\583d0de7df83d6366d0f0380146cace4\core-1.2.0\AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\5c5e5af1473cda4f9f188f4b37076293\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.exifinterface:exifinterface:1.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\a897121207f57358e1821939525cde70\exifinterface-1.2.0\AndroidManifest.xml:17:1-24:12
@@ -63,7 +59,6 @@ MERGED from [com.google.android.datatransport:transport-backend-cct:2.2.0] C:\Us
 MERGED from [com.google.android.datatransport:transport-runtime:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\65c9f7529c4981d43c925fa693badfa2\jetified-transport-runtime-2.2.0\AndroidManifest.xml:15:1-41:12
 MERGED from [com.google.firebase:firebase-components:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\5e826c1b109742f8bca7b17a6327c1d0\jetified-firebase-components-16.0.0\AndroidManifest.xml:15:1-23:12
 MERGED from [com.google.firebase:firebase-encoders-json:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\f9d65e81b499a1a3336efc50b9a88ef3\jetified-firebase-encoders-json-16.0.0\AndroidManifest.xml:15:1-23:12
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-accounts:0.7.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\409795fcf5711b9ad76a80b8ebb26878\jetified-mapbox-android-accounts-0.7.0\AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\a37cc7d38ecba109ecfb72735d489975\lifecycle-runtime-2.1.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6f5bca5887ecb4409ba6069f8d7382e\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\cae9d7df45129530ff877ef3c8a4c88d\jetified-savedstate-1.0.0\AndroidManifest.xml:17:1-24:12
@@ -74,28 +69,25 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\malek\.gradle\ca
 MERGED from [androidx.print:print:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6320adba18b4d4720bd8695f5fffc52f\print-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [org.apache.cordova:framework:7.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c1ca5d0a1b33de69d3f35337e7942eb8\jetified-framework-7.0.0\AndroidManifest.xml:20:1-27:12
 MERGED from [com.google.android.datatransport:transport-api:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\2915d1d7082de4bb0fb820d3fa381a33\jetified-transport-api-2.2.0\AndroidManifest.xml:15:1-22:12
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-core:2.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\2c0ab077419c38add5ef7f9bf32a54a5\jetified-mapbox-android-core-2.0.1\AndroidManifest.xml:2:1-13:12
-INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-64:12
-INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-64:12
-INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-64:12
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
 	package
 		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:3:5-31
 		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-64:12
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
 		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-64:12
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
 		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:11-69
 application
 ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:5:5-44:19
-MERGED from [:capacitor-mapbox] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\capacitor-mapbox\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-21:19
-MERGED from [:capacitor-mapbox] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\capacitor-mapbox\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-21:19
 MERGED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-48:19
 MERGED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-48:19
 MERGED from [com.google.android.material:material:1.1.0-rc02] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\102b3c44740e06a0c65ab0c577ce7e61\material-1.1.0-rc02\AndroidManifest.xml:22:5-20
@@ -128,8 +120,6 @@ MERGED from [com.google.android.gms:play-services-stats:17.0.0] C:\Users\malek\.
 MERGED from [com.google.android.gms:play-services-stats:17.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\038edd49363f603fbef80e09a9f407b2\jetified-play-services-stats-17.0.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\a52bfb92d2b276c79d11db281b8aa668\jetified-play-services-basement-17.0.0\AndroidManifest.xml:22:5-26:19
 MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\a52bfb92d2b276c79d11db281b8aa668\jetified-play-services-basement-17.0.0\AndroidManifest.xml:22:5-26:19
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:17:5-27:19
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:17:5-27:19
 MERGED from [androidx.core:core:1.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\583d0de7df83d6366d0f0380146cace4\core-1.2.0\AndroidManifest.xml:24:5-89
 MERGED from [androidx.core:core:1.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\583d0de7df83d6366d0f0380146cace4\core-1.2.0\AndroidManifest.xml:24:5-89
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\f549a48962f97668ee442149d558a50d\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
@@ -198,14 +188,10 @@ uses-permission#android.permission.INTERNET
 ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:48:5-67
 MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-67
 MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-67
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:16:5-67
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:16:5-67
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-installations:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\1fc34a2957977e5d72908a2cfd4e5c7c\jetified-firebase-installations-16.0.0\AndroidManifest.xml:11:5-67
 MERGED from [com.google.firebase:firebase-installations:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\1fc34a2957977e5d72908a2cfd4e5c7c\jetified-firebase-installations-16.0.0\AndroidManifest.xml:11:5-67
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:15:5-67
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:15:5-67
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\80740ea671f9509e07d6a34e2b93f75c\jetified-transport-backend-cct-2.2.0\AndroidManifest.xml:26:5-67
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\80740ea671f9509e07d6a34e2b93f75c\jetified-transport-backend-cct-2.2.0\AndroidManifest.xml:26:5-67
 	android:name
@@ -224,8 +210,6 @@ ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\Andro
 		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:53:22-78
 uses-permission#android.permission.ACCESS_FINE_LOCATION
 ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:54:5-79
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:19:5-79
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:19:5-79
 	android:name
 		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:54:22-76
 uses-feature#android.hardware.location.gps
@@ -236,20 +220,14 @@ uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:57:5-79
 MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
 MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:17:5-79
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:17:5-79
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:22:5-79
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:22:5-79
 MERGED from [com.google.firebase:firebase-installations:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\1fc34a2957977e5d72908a2cfd4e5c7c\jetified-firebase-installations-16.0.0\AndroidManifest.xml:10:5-79
 MERGED from [com.google.firebase:firebase-installations:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\1fc34a2957977e5d72908a2cfd4e5c7c\jetified-firebase-installations-16.0.0\AndroidManifest.xml:10:5-79
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:13:5-79
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:13:5-79
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\80740ea671f9509e07d6a34e2b93f75c\jetified-transport-backend-cct-2.2.0\AndroidManifest.xml:25:5-79
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\80740ea671f9509e07d6a34e2b93f75c\jetified-transport-backend-cct-2.2.0\AndroidManifest.xml:25:5-79
 MERGED from [com.google.android.datatransport:transport-runtime:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\65c9f7529c4981d43c925fa693badfa2\jetified-transport-runtime-2.2.0\AndroidManifest.xml:22:5-79
 MERGED from [com.google.android.datatransport:transport-runtime:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\65c9f7529c4981d43c925fa693badfa2\jetified-transport-runtime-2.2.0\AndroidManifest.xml:22:5-79
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-core:2.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\2c0ab077419c38add5ef7f9bf32a54a5\jetified-mapbox-android-core-2.0.1\AndroidManifest.xml:11:5-79
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-core:2.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\2c0ab077419c38add5ef7f9bf32a54a5\jetified-mapbox-android-core-2.0.1\AndroidManifest.xml:11:5-79
 	android:name
 		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:57:22-76
 uses-permission#android.permission.CAMERA
@@ -264,12 +242,16 @@ uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
 ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:63:5-79
 	android:name
 		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:63:22-77
+uses-feature#0x00020000
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:65:5-67:31
+	android:glEsVersion
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:66:5-37
+	android:required
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:67:5-28
 uses-sdk
 INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-MERGED from [:capacitor-mapbox] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\capacitor-mapbox\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [:capacitor-mapbox] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\capacitor-mapbox\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.android.material:material:1.1.0-rc02] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\102b3c44740e06a0c65ab0c577ce7e61\material-1.1.0-rc02\AndroidManifest.xml:20:5-44
@@ -280,8 +262,6 @@ MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelAp
 MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-10:41
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\61e488a7b48ffc8255adc230dafa50f0\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\61e488a7b48ffc8255adc230dafa50f0\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:5:5-7:41
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\283499019944b954344c21ecf1019372\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\283499019944b954344c21ecf1019372\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.firebase:firebase-messaging:20.1.2] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6fe0f05486c9f14086b1b659ca69db6\jetified-firebase-messaging-20.1.2\AndroidManifest.xml:20:5-44
@@ -322,8 +302,6 @@ MERGED from [androidx.browser:browser:1.2.0] C:\Users\malek\.gradle\caches\trans
 MERGED from [androidx.browser:browser:1.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\f4cbb3a779e32db78e3b6c8e4b5173a1\browser-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\d41f6a590796eccba86906146b86c0e8\viewpager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\d41f6a590796eccba86906146b86c0e8\viewpager-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:7:5-9:41
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:7:5-9:41
 MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\652ae343ce7045a2f751e9940f7d865d\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\652ae343ce7045a2f751e9940f7d865d\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\967ac9d00d0570a1e1fe1c7644cdc60a\loader-1.0.0\AndroidManifest.xml:20:5-44
@@ -342,8 +320,6 @@ MERGED from [androidx.customview:customview:1.0.0] C:\Users\malek\.gradle\caches
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\8d4666f682775c60e9e0f1d669843aa7\customview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c939c9d1cce5aa2f18956c8b9d20ad18\transition-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c939c9d1cce5aa2f18956c8b9d20ad18\transition-1.2.0\AndroidManifest.xml:20:5-22:41
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-gestures:0.7.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\1b4d843a73b27accf733a601791887f5\jetified-mapbox-android-gestures-0.7.0\AndroidManifest.xml:7:5-9:41
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-gestures:0.7.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\1b4d843a73b27accf733a601791887f5\jetified-mapbox-android-gestures-0.7.0\AndroidManifest.xml:7:5-9:41
 MERGED from [androidx.core:core:1.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\583d0de7df83d6366d0f0380146cace4\core-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core:1.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\583d0de7df83d6366d0f0380146cace4\core-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\5c5e5af1473cda4f9f188f4b37076293\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
@@ -364,8 +340,6 @@ MERGED from [com.google.firebase:firebase-components:16.0.0] C:\Users\malek\.gra
 MERGED from [com.google.firebase:firebase-components:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\5e826c1b109742f8bca7b17a6327c1d0\jetified-firebase-components-16.0.0\AndroidManifest.xml:19:5-21:41
 MERGED from [com.google.firebase:firebase-encoders-json:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\f9d65e81b499a1a3336efc50b9a88ef3\jetified-firebase-encoders-json-16.0.0\AndroidManifest.xml:19:5-21:41
 MERGED from [com.google.firebase:firebase-encoders-json:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\f9d65e81b499a1a3336efc50b9a88ef3\jetified-firebase-encoders-json-16.0.0\AndroidManifest.xml:19:5-21:41
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-accounts:0.7.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\409795fcf5711b9ad76a80b8ebb26878\jetified-mapbox-android-accounts-0.7.0\AndroidManifest.xml:5:5-7:41
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-accounts:0.7.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\409795fcf5711b9ad76a80b8ebb26878\jetified-mapbox-android-accounts-0.7.0\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\a37cc7d38ecba109ecfb72735d489975\lifecycle-runtime-2.1.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\a37cc7d38ecba109ecfb72735d489975\lifecycle-runtime-2.1.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6f5bca5887ecb4409ba6069f8d7382e\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:20:5-44
@@ -386,8 +360,6 @@ MERGED from [org.apache.cordova:framework:7.0.0] C:\Users\malek\.gradle\caches\t
 MERGED from [org.apache.cordova:framework:7.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c1ca5d0a1b33de69d3f35337e7942eb8\jetified-framework-7.0.0\AndroidManifest.xml:25:5-44
 MERGED from [com.google.android.datatransport:transport-api:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\2915d1d7082de4bb0fb820d3fa381a33\jetified-transport-api-2.2.0\AndroidManifest.xml:18:5-20:41
 MERGED from [com.google.android.datatransport:transport-api:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\2915d1d7082de4bb0fb820d3fa381a33\jetified-transport-api-2.2.0\AndroidManifest.xml:18:5-20:41
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-core:2.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\2c0ab077419c38add5ef7f9bf32a54a5\jetified-mapbox-android-core-2.0.1\AndroidManifest.xml:7:5-9:41
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-core:2.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\2c0ab077419c38add5ef7f9bf32a54a5\jetified-mapbox-android-core-2.0.1\AndroidManifest.xml:7:5-9:41
 INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion
@@ -404,18 +376,6 @@ ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\Andro
 		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:42:17-51
 	android:name
 		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:41:17-67
-activity#com.ionicframework.cap.mapbox.MapBoxActivity
-ADDED from [:capacitor-mapbox] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\capacitor-mapbox\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-20:20
-	android:configChanges
-		ADDED from [:capacitor-mapbox] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\capacitor-mapbox\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-74
-	android:name
-		ADDED from [:capacitor-mapbox] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\capacitor-mapbox\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-72
-intent-filter#action:name:com.ionicframework.cap.mapbox.MapBoxActivity+category:name:android.intent.category.DEFAULT
-ADDED from [:capacitor-mapbox] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\capacitor-mapbox\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-19:29
-action#com.ionicframework.cap.mapbox.MapBoxActivity
-ADDED from [:capacitor-mapbox] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\capacitor-mapbox\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:17-87
-	android:name
-		ADDED from [:capacitor-mapbox] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\capacitor-mapbox\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:25-84
 uses-feature#android.hardware.camera
 ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-13:36
 	android:required
@@ -430,8 +390,6 @@ uses-permission#android.permission.WAKE_LOCK
 ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:5-68
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:24:5-68
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:24:5-68
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:12:5-68
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:12:5-68
 	android:name
 		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:22-65
 service#com.getcapacitor.plugin.background.BackgroundTaskService
@@ -488,24 +446,6 @@ action#android.intent.action.QUICKBOOT_POWERON
 ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:45:17-82
 	android:name
 		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:45:25-79
-uses-feature#0x00020000
-ADDED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:9:5-11:35
-	android:glEsVersion
-		ADDED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:10:9-41
-	android:required
-		ADDED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:11:9-32
-uses-feature#android.hardware.wifi
-ADDED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:12:5-14:36
-	android:required
-		ADDED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:14:9-33
-	android:name
-		ADDED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:13:9-45
-uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:18:5-76
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:14:5-76
-MERGED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:14:5-76
-	android:name
-		ADDED from [com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6344cf691878166cb52dc452f0a33c14\jetified-mapbox-android-sdk-9.2.0\AndroidManifest.xml:18:22-73
 service#com.google.firebase.messaging.FirebaseMessagingService
 ADDED from [com.google.firebase:firebase-messaging:20.1.2] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6fe0f05486c9f14086b1b659ca69db6\jetified-firebase-messaging-20.1.2\AndroidManifest.xml:28:9-34:19
 	android:exported
@@ -596,22 +536,6 @@ ADDED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\malek
 		ADDED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\a52bfb92d2b276c79d11db281b8aa668\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
 	android:name
 		ADDED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\a52bfb92d2b276c79d11db281b8aa668\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
-provider#com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider
-ADDED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:18:9-22:39
-	android:authorities
-		ADDED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:20:13-79
-	android:exported
-		ADDED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:21:13-37
-	android:initOrder
-		ADDED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:22:13-36
-	android:name
-		ADDED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:19:13-93
-service#com.mapbox.android.telemetry.errors.ErrorReporterJobIntentService
-ADDED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:24:9-26:72
-	android:permission
-		ADDED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:26:13-69
-	android:name
-		ADDED from [com.mapbox.mapboxsdk:mapbox-android-telemetry:5.0.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\ee8821634cf302ade040597d42acba5d\jetified-mapbox-android-telemetry-5.0.1\AndroidManifest.xml:25:13-93
 service#com.google.android.datatransport.runtime.backends.TransportBackendDiscovery
 ADDED from [com.google.android.datatransport:transport-backend-cct:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\80740ea671f9509e07d6a34e2b93f75c\jetified-transport-backend-cct-2.2.0\AndroidManifest.xml:29:9-35:19
 MERGED from [com.google.android.datatransport:transport-runtime:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\65c9f7529c4981d43c925fa693badfa2\jetified-transport-runtime-2.2.0\AndroidManifest.xml:36:9-38:40

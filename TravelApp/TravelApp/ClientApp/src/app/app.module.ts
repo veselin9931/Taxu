@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertComponent } from './alert/alert.component';
-import {NativeGeocoder } from "@ionic-native/native-geocoder/ngx";
 
 import { ChartsModule } from 'ng2-charts';
 
@@ -26,7 +25,6 @@ import { ChartsModule } from 'ng2-charts';
     FormsModule, 
     ReactiveFormsModule],
   providers: [
-    NativeGeocoder,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

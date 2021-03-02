@@ -15,7 +15,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-button (click)="destination()" size="expand" color="light">Choose destination and click here</ion-button>
+
+<ion-button (click)="travel()" size="expand" color="light">Click here to find a taxi</ion-button>
 <ion-content class="noScroll">
-  <div id='mapbox'></div>
+  <div #map id="map"></div>
 </ion-content>
