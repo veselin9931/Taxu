@@ -4,14 +4,14 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:44329'
-  //apiUrl: 'http://192.168.0.3:3000'
+  //apiUrl: 'https://localhost:44329'
+  apiUrl: 'http://192.168.0.3:3000'
   //apiUrl: 'http://192.168.0.7:3000'
  //apiUrl: 'https://taxu.azurewebsites.net',
-// ,
-//  mapBox: {
-//    accessToken: 'sk.eyJ1IjoiYXRhbmFzc2VyYWZpbW92IiwiYSI6ImNrbG1keXBvMTA4NW4ybm4xZnJ5Z2dreWEifQ.OlGZFFJ6vmgAniUgmuTtuw'
-//  }
+ ,
+ mapBox: {
+    accessToken: 'pk.eyJ1IjoiYXRhbmFzc2VyYWZpbW92IiwiYSI6ImNrbHFjd2w3MDFidjQybm4zZXZzcDQ3Y2gifQ.R2hMULM0HPAbT0eAViTMgg'
+  }
 };
 
 
