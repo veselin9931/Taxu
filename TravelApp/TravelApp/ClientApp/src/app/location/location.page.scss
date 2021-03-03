@@ -2,7 +2,23 @@
     overflow: hidden;
     }
 
-
+    #marker{
+        position:absolute;
+        /*url of the marker*/
+        background:url(http://maps.gstatic.com/mapfiles/markers2/marker.png) no-repeat;
+        /*center the marker*/
+        top:50%;left:50%;
+      
+        z-index:1;
+        /*fix offset when needed*/
+        margin-left:-10px;
+        margin-top:-34px;
+        /*size of the image*/
+        height:34px;
+        width:20px;
+      
+        cursor:pointer;
+      }
     
     #map {
     height: 100%;
@@ -25,7 +41,10 @@
     #toolbarIcon{
         font-size: 1.7em;
     }
-    
+    #toolbarIcon1{
+        font-size: 3em;
+        --background: url(../../assets/Daco_4674738.png) 0 0/100% 100% no-repeat;
+    }
     
     .centered{
         text-align: center;

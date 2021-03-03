@@ -32,20 +32,20 @@
         <div class="row">
           <form [formGroup]="form" novalidate class="col">
             <div class="form-group col mt-5">
-              <ion-input formControlName="location" type="text" class="form-control" placeholder=" From"
+              <ion-input formControlName="location" type="text" class="form-control" placeholder="Choose starting location"
                (click)="locationMap()"
                 [ngClass]="{ 'is-invalid': isSubmitted && f.location.errors }"></ion-input>
               <div *ngIf="isSubmitted && f.location.errors" class="invalid-feedback">
-                <div *ngIf="f.location.errors.required">The field is required!</div>
+                <div *ngIf="f.location.errors.required">Please choose starting point.</div>
               </div>
             </div>
 
             <div class="form-group col mt-3">
-              <ion-input formControlName="destination" type="text" class="form-control" placeholder=" To"
+              <ion-input formControlName="destination" type="text" class="form-control" placeholder="Choose destination"
               (click)="destinationMap()"
                 [ngClass]="{ 'is-invalid': isSubmitted && f.destination.errors }"></ion-input>
               <div *ngIf="isSubmitted && f.destination.errors" class="invalid-feedback">
-                <div *ngIf="f.destination.errors.required">The field is required!</div>
+                <div *ngIf="f.destination.errors.required">Please choose endpoint.</div>
               </div>
             </div>
 

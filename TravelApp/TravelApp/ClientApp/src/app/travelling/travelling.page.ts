@@ -58,6 +58,7 @@ export class TravellingPage implements OnInit {
   }
 
   ngOnInit() {
+   
     this.chatService.retrieveMappedObject()
     .subscribe( (receivedObj: Message) => { this.addToInbox(receivedObj);});  // calls the service method to get the new messages sent
 
@@ -66,11 +67,12 @@ export class TravellingPage implements OnInit {
 
     this.form = this.formBuilder.group({
       applicationUserId: [''],
-      location: ['', Validators.required],
-      destination: ['', Validators.required],
+      location: this.orderService.chosenLocation,
+      destination: this.orderService.chosenDestination,
       increasePrice: [0],
       status: 'Waiting'
     })
+
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
@@ -90,6 +92,11 @@ export class TravellingPage implements OnInit {
       this.checkorder();
     });
 
+  }
+
+  ionViewDidEnter() {
+    this.form.get('location').setValue(this.orderService.chosenLocation)
+    this.form.get('destination').setValue(this.orderService.chosenDestination)
   }
 
   msgDto: Message = new Message();
@@ -249,6 +256,8 @@ export class TravellingPage implements OnInit {
             this.orderTotalPrice = 0;
             console.log('Canceled order:');
             console.log(order);
+            this.form.get('location').setValue('Choose starting location')
+            this.form.get('destination').setValue('Choose destination')
           })
       })
   }

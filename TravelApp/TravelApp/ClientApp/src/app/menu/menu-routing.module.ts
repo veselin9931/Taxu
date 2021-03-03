@@ -71,11 +71,7 @@ const routes: Routes = [
       },
       {
         path: '',
-<<<<<<< HEAD
-        redirectTo: '/second',
-=======
         redirectTo: '/home',
->>>>>>> master
         pathMatch: 'full'
       }
     ]

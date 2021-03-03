@@ -15,23 +15,28 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- <ion-content>
-  <ion-item style="cursor: pointer" (click)="locatePosition()">
-      <ion-button fill="clear">
-          <ion-icon slot="start" name="map"></ion-icon>
-          Locate Position
-      </ion-button>
-  </ion-item>
-<ion-item>
-  <ion-icon slot="start" name="locate"></ion-icon>
-  <ion-label position="stacked">Address</ion-label>
-<ion-textarea [(ngModel)]="address" type="text" style="margin-top:20px;"></ion-textarea>
-</ion-item>
-<ion-button shape="round" expand="block" (click)="confirmPickupLocation()">Confirm Pickup Location</ion-button>
-</ion-content> -->
-
-<ion-button (click)="destination()" size="expand" color="light">Click here to choose destination</ion-button>
 <ion-content class="noScroll">
-
   <div #map id="map"></div>
+  <div #marker id="marker"></div>
+ 
 </ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Choosen location</ion-title>
+
+    <ion-buttons slot="end">
+      <img class="mr-3" (click)="onSubmit()" src="../../../assets/Daco_4674738.png" width="40" height="40">
+   </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{address}}</ion-title>
+
+    
+  </ion-toolbar>
+
+  
+</ion-footer>

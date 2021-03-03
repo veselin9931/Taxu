@@ -14,6 +14,8 @@ export class OrderService {
   public driverId: string;
   public completedOrder = false;
   public alertForcomplete: boolean;
+  public chosenLocation: string;
+  public chosenDestination: string;
   private readonly getOrdersAction$ = new Subject();
 
 

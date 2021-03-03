@@ -15,8 +15,28 @@
   </ion-toolbar>
 </ion-header>
 
-
-<ion-button (click)="travel()" size="expand" color="light">Click here to find a taxi</ion-button>
 <ion-content class="noScroll">
   <div #map id="map"></div>
+  <div #marker id="marker"></div>
+ 
 </ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Choosen destination</ion-title>
+
+    <ion-buttons slot="end">
+      <img class="mr-3" (click)="onSubmit()" src="../../../assets/Daco_4674738.png" width="40" height="40">
+   </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{address}}</ion-title>
+
+    
+  </ion-toolbar>
+
+  
+</ion-footer>

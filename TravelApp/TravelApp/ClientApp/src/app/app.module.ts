@@ -14,10 +14,17 @@ import { AlertComponent } from './alert/alert.component';
 
 import { ChartsModule } from 'ng2-charts';
 
+const googleMapsParams = {
+  apiKey: "AIzaSyAEvlXdM4joG4bNVT5l-tJSk9lUSGhxMNw",
+  libraries: ['places'],
+  language: 'en',
+  // region: 'DE'
+};
+
 @NgModule({
   declarations: [AppComponent, AlertComponent],
   entryComponents: [],
-  imports: [BrowserModule, 
+  imports: [BrowserModule,
     IonicModule.forRoot(), 
     AppRoutingModule, 
     HttpClientModule,
