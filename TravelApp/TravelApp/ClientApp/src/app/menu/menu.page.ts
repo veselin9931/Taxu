@@ -54,23 +54,23 @@ export class MenuPage implements OnInit {
   ngOnInit() {
     this.checkValues();
     
-    const connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.apiUrl}/orderHub`, {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
-      })
-      .build();
+     const connection = new signalR.HubConnectionBuilder()
+       .configureLogging(signalR.LogLevel.Information)
+       .withUrl(`${environment.apiUrl}/orderHub`, {
+         skipNegotiation: true,
+         transport: signalR.HttpTransportType.WebSockets
+       })
+       .build();
 
-    connection.start().then(function () {
-      console.log('signalR Connected in menu');
-    }).catch(function (err) {
-      return console.log(err.toString());
-    });
+     connection.start().then(function () {
+       console.log('signalR Connected in menu');
+     }).catch(function (err) {
+       return console.log(err.toString());
+     });
 
-    connection.on('BroadcastMessage', () => {
-      this.checkValues();
-    });
+     connection.on('BroadcastMessage', () => {
+       this.checkValues();
+     });
   }
 
   checkValues(){

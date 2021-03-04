@@ -12,6 +12,8 @@ import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
 
+
+
 @Component({
   selector: 'app-travelling',
   templateUrl: './travelling.page.html',
@@ -41,6 +43,8 @@ export class TravellingPage implements OnInit {
   isCompleted = false;
   isAccepted = false;
 
+  
+
   constructor(private formBuilder: FormBuilder,
     private route: Router,
     private orderService: OrderService,
@@ -54,6 +58,7 @@ export class TravellingPage implements OnInit {
   }
 
   ngOnInit() {
+   
     this.chatService.retrieveMappedObject()
     .subscribe( (receivedObj: Message) => { this.addToInbox(receivedObj);});  // calls the service method to get the new messages sent
 
@@ -62,19 +67,12 @@ export class TravellingPage implements OnInit {
 
     this.form = this.formBuilder.group({
       applicationUserId: [''],
-      location: ['', Validators.required],
-      destination: ['', Validators.required],
+      location: this.orderService.chosenLocation,
+      destination: this.orderService.chosenDestination,
       increasePrice: [0],
       status: 'Waiting'
     })
 
-    // const connection = new signalR.HubConnectionBuilder()
-    //   .configureLogging(signalR.LogLevel.Information)
-    //   .withUrl('https://localhost:44329/orderHub', {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets
-    //   })
-    //   .build();
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
@@ -94,6 +92,11 @@ export class TravellingPage implements OnInit {
       this.checkorder();
     });
 
+  }
+
+  ionViewDidEnter() {
+    this.form.get('location').setValue(this.orderService.chosenLocation)
+    this.form.get('destination').setValue(this.orderService.chosenDestination)
   }
 
   msgDto: Message = new Message();
@@ -120,6 +123,15 @@ export class TravellingPage implements OnInit {
     this.msgInboxArray.push(newObj);
 
   }
+
+  locationMap(){
+    this.route.navigate(['menu/location'])
+  }
+
+ destinationMap(){
+    this.route.navigate(['menu/destination'])
+  }
+
 
   onSubmit() {
     this.form.value.increasePrice = (+this.form.value.increasePrice);
@@ -244,6 +256,8 @@ export class TravellingPage implements OnInit {
             this.orderTotalPrice = 0;
             console.log('Canceled order:');
             console.log(order);
+            this.form.get('location').setValue('Choose starting location')
+            this.form.get('destination').setValue('Choose destination')
           })
       })
   }

@@ -14,8 +14,12 @@ const routes: Routes = [
         component: TabsPage
       },
       {
-        path: 'second',
-        loadChildren: () => import('../second/second.module').then( m => m.SecondPageModule)
+        path: 'location',
+        loadChildren: () => import('../location/location.module').then( m => m.LocationPageModule)
+      },
+      {
+        path: 'destination',
+        loadChildren: () => import('../destination/destination.module').then( m => m.DestinationPageModule)
       },
       {
         path: 'home',
@@ -67,7 +71,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/second',
+        redirectTo: '/home',
         pathMatch: 'full'
       }
     ]
