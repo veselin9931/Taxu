@@ -16,6 +16,11 @@ using TravelApp.Infrastructure;
 using TravelApp.Data.Seeding;
 using CloudinaryDotNet;
 using Microsoft.AspNetCore.Http.Features;
+using System;
+using System.Net.WebSockets;
+using System.Threading.Tasks;
+using System.Threading;
+using Microsoft.AspNetCore.Http;
 
 namespace TravelApp
 {
@@ -84,8 +89,10 @@ namespace TravelApp
                                                               .AllowAnyHeader()));
 
             //services.AddCors();
+            services.AddMvc();
 
-            services.AddSignalR();
+            services.AddSignalR()
+                 .AddAzureSignalR();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -94,7 +101,7 @@ namespace TravelApp
             services.RegisterRepositoryServices();
 
             services.RegisterCloudinary(Configuration);
-
+        
             services.RegisterCustomServices();
 
 
@@ -127,6 +134,49 @@ namespace TravelApp
 
             //app.UseCors("corsAllowAllPolicy");
 
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path == "/wss")
+                {
+                    if (context.WebSockets.IsWebSocketRequest)
+                    {
+                        using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
+                        {
+                            await Echo(context, webSocket);
+                        }
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = 400;
+                    }
+                }
+                else
+                {
+                    await next();
+                }
+
+            });
+
+
+            app.UseFileServer();
+
+            app.UseAzureSignalR(routes =>
+            {
+                routes.MapHub<OrderHub>("/orderHub");
+            });
+
+            app.UseWebSockets();
+
+            var webSocketOptions = new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(120),
+            };
+
+            webSocketOptions.AllowedOrigins.Add("https://taxu.azurewebsites.net/");
+            webSocketOptions.AllowedOrigins.Add("http://localhost:8100/");
+
+            app.UseWebSockets(webSocketOptions);
+
 
             app.UseHttpsRedirection();
 
@@ -146,8 +196,23 @@ namespace TravelApp
                 endpoints.MapControllers();
                 endpoints.MapHub<OrderHub>("/orderHub");
             });
-        }      
+        }
+
+        private async Task Echo(HttpContext context, WebSocket webSocket)
+        {
+            var buffer = new byte[1024 * 4];
+            WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            while (!result.CloseStatus.HasValue)
+            {
+                await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);
+
+                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            }
+            await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+        }
     }
+
+   
 
 
 }

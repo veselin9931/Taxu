@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelApp.Data;
 
 namespace TravelApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210226150749_Rate")]
+    partial class Rate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -433,12 +435,6 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("CurrentLocation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CurrentLocationLat")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CurrentLocationLong")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
@@ -530,15 +526,6 @@ namespace TravelApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("DestinationLat")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("DestinationLong")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ETA")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("IncreasePrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -548,12 +535,6 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("LocationLat")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("LocationLong")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");

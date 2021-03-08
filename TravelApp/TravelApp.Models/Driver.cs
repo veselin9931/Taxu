@@ -12,6 +12,7 @@ namespace TravelApp.Models
         {
             this.Cars = new List<Car>();
             this.Id = Guid.NewGuid().ToString();
+            this.Ratings = new List<Rating>();
         }
 
         [Required]
@@ -47,6 +48,6 @@ namespace TravelApp.Models
 
         public IList<Car> Cars { get; set; }
 
-        //TODO: Rating collection
+        public IList<Rating> Ratings { get; set; }
     }
 }
