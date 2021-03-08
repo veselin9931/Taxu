@@ -7,6 +7,15 @@ ion-toolbar{
     --ion-background-color:#eeeeee;
 }
 
+.noScroll {
+    overflow: hidden;
+    }
+    
+    #map {
+    height: 100%;
+    width: 100%;
+    }
+
 ion-title {
     text-align: center;
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelApp.Data;
 
 namespace TravelApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210305080035_datachanges")]
+    partial class datachanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -535,9 +537,6 @@ namespace TravelApp.Data.Migrations
 
                     b.Property<decimal>("DestinationLong")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ETA")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("IncreasePrice")
                         .HasColumnType("decimal(18,2)");

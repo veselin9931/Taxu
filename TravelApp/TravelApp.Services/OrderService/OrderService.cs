@@ -71,11 +71,16 @@ namespace TravelApp.Services.OrderService
                     ApplicationUser = input.ApplicationUser,
                     ApplicationUserId = input.ApplicationUserId,
                     Location = input.Location,
+                    LocationLat = input.LocationLat,
+                    LocationLong = input.LocationLong,
                     Destination = input.Destination,
+                    DestinationLat = input.DestinationLat,
+                    DestinationLong = input.DestinationLong,
                     IncreasePrice = input.IncreasePrice,
-                    TotalPrice = 10, //Just temporary
+                    TotalPrice = input.TotalPrice, //Just temporary
                     CreatedOn = DateTime.UtcNow,
-                    Status = "Waiting"
+                    Status = "Waiting",
+                    ETA = input.ETA
                     //IsAccepted = false,
                     //IsCompleted = false,
                 };
@@ -94,7 +99,7 @@ namespace TravelApp.Services.OrderService
         public async Task<bool> Delete(string orderId)
         {
            var order =  this.GetOrderById(orderId);
-
+            order.Status = "Completed";
             this.orderRepository.Delete(order);
 
             var result = await this.orderRepository.SaveChangesAsync();

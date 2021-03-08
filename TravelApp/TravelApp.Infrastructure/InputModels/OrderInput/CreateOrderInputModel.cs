@@ -17,10 +17,21 @@ namespace TravelApp.Infrastructure.InputModels.OrderInput
         [Required]
         public string Location { get; set; }
 
+        public decimal LocationLat { get; set; }
+
+        public decimal LocationLong { get; set; }
+
+
         [Required]
         public string Destination { get; set; }
 
+        public decimal DestinationLat { get; set; }
+
+        public decimal DestinationLong { get; set; }
+
         public decimal IncreasePrice { get; set; }
+
+        public string ETA { get; set; }
 
         [Required]
         [Range(typeof(decimal), "0", "999999999999999999")]

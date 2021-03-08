@@ -4,9 +4,13 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
 
-    <ion-title>
-        <ion-label>TaxiMi</ion-label>
+    <ion-title *ngIf="isDrivingNow == false">
+        <ion-label>Orders</ion-label>
     </ion-title>
+
+    <ion-title *ngIf="isDrivingNow == true">
+      <ion-label>Accepted order</ion-label>
+  </ion-title>
 
     <ion-buttons slot="end">
       <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
@@ -16,16 +20,6 @@
 <ion-content padding class="background" *ngIf="isDrivingNow == false">
   <div class="row mt-2">
     <div class="col">
-      <!-- <div class="row mt-2">
-        <div class="col-1">
-          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
-        </div>
-        <div class="col-9">
-          <h5 (click)=goBack() class="back">Back</h5>
-        </div>
-      </div> -->
-
-
       <div class="row">
         <div class="col-md-12 text-center">
           <ion-text class="centered" color="light">
@@ -39,6 +33,8 @@
             </ion-text>
           </div>
         </div>
+
+       
 
         <div class="col-md-10">
           <div *ngFor="let oldOrder of orders" class="list-group mt-2">
@@ -76,23 +72,27 @@
 <ion-content padding class="background" *ngIf="isDrivingNow == true">
   <div class="row">
     <div class="col">
-      <!-- <div class="row mt-2">
-        <div class="col-1">
-          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
-        </div>
-        <div class="col-9">
-          <h5 (click)=goBack() class="back">Back</h5>
-        </div>
-      </div> -->
 
       <div class="row">
         <div class="col text-center">
-          <ion-text class="centered" color="light">
+          <!-- <ion-text class="centered" color="light">
             <h2 class="text">Driving</h2>
             <hr>
             <h5>Accepted order</h5>
-          </ion-text>
+          </ion-text> -->
 
+          <ion-content class="noScroll">
+            <div #map id="map"></div>
+
+            <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEvlXdM4joG4bNVT5l-tJSk9lUSGhxMNw&callback=initMap&libraries=&v=weekly"
+            async
+          ></script>
+          </ion-content>
+          <ion-button  (click)="navigateToUserAndCalculateDistance()" type="submit"
+          color="success">Navigate to user</ion-button>
+          <ion-button  (click)="navigateToPointAndCalculateDistance()" type="submit"
+          color="success">Start trip</ion-button>
           <div class="row">
             <div class="col">
               <div class="d-flex w-100 justify-content-between">

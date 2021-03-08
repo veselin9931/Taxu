@@ -30,6 +30,8 @@ export class TravellingPage implements OnInit {
   activeCarData: Car;
   orderStatus: string;
   orderTotalPrice = 0;
+  orderTotalDestination: any;
+  estimatedDuration: any;
   //Car html properties;
   carModel = "";
   carColor = "";
@@ -43,7 +45,6 @@ export class TravellingPage implements OnInit {
   isCompleted = false;
   isAccepted = false;
 
-  
 
   constructor(private formBuilder: FormBuilder,
     private route: Router,
@@ -58,9 +59,9 @@ export class TravellingPage implements OnInit {
   }
 
   ngOnInit() {
-   
+    this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
     this.chatService.retrieveMappedObject()
-    .subscribe( (receivedObj: Message) => { this.addToInbox(receivedObj);});  // calls the service method to get the new messages sent
+      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
 
 
     this.checkorder();
@@ -68,9 +69,15 @@ export class TravellingPage implements OnInit {
     this.form = this.formBuilder.group({
       applicationUserId: [''],
       location: this.orderService.chosenLocation,
+      locationLat: this.orderService.userLocationLat,
+      locationLong: this.orderService.userLocationLong,
       destination: this.orderService.chosenDestination,
+      destinationLat: this.orderService.userDestinationLat,
+      destinationLong: this.orderService.userDestinationLong,
+      totalPrice: this.orderTotalPrice,
       increasePrice: [0],
-      status: 'Waiting'
+      status: 'Waiting',
+      eta: '',
     })
 
 
@@ -95,8 +102,16 @@ export class TravellingPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.form.get('location').setValue(this.orderService.chosenLocation)
-    this.form.get('destination').setValue(this.orderService.chosenDestination)
+    this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
+    this.form.get('location').setValue(this.orderService.chosenLocation);
+    this.form.get('locationLat').setValue(this.orderService.userLocationLat);
+    this.form.get('locationLong').setValue(this.orderService.userLocationLong);
+
+    this.form.get('destination').setValue(this.orderService.chosenDestination);
+    this.form.get('destinationLat').setValue(this.orderService.userDestinationLat);
+    this.form.get('destinationLong').setValue(this.orderService.userDestinationLong);
+
+
   }
 
   msgDto: Message = new Message();
@@ -105,8 +120,8 @@ export class TravellingPage implements OnInit {
   get f() { return this.form.controls; }
 
   send(): void {
-    if(this.msgDto) {
-      if(this.msgDto.text.length == 0){
+    if (this.msgDto) {
+      if (this.msgDto.text.length == 0) {
         window.alert("Text field is required.");
         return;
       } else {
@@ -124,77 +139,113 @@ export class TravellingPage implements OnInit {
 
   }
 
-  locationMap(){
+  locationMap() {
     this.route.navigate(['menu/location'])
   }
 
- destinationMap(){
+  destinationMap() {
     this.route.navigate(['menu/destination'])
   }
 
 
   onSubmit() {
+    this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
+
+    this.form.value.totalPrice = this.orderTotalPrice;
+    (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
     this.form.value.increasePrice = (+this.form.value.increasePrice);
+    this.form.value.eta = this.estimatedDuration;
     let userId = this.accountService.userValue.id;
     this.form.value.applicationUserId = userId;
-
     this.isSubmitted = true;
     if (!this.form.valid) {
       return false;
     } else {
-      this.orderService.createOrder(this.form.value)
-        .subscribe(() => {
-          this.alertService.success('You have created an order.', { autoClose: true });
-          this.orderStatus = this.form.value.status;
-        })
+        this.orderService.createOrder(this.form.value)
+          .subscribe(() => {
+            this.alertService.success('You have created an order.', { autoClose: true });
+            this.orderStatus = this.form.value.status;
+
+          })
+      
     }
+  }
+
+  calculateRoutePrice(locLat, locLng, destLat, destLng) {
+    const directionsService = new google.maps.DirectionsService();
+
+    directionsService.route(
+      {
+        origin: {
+          lat: locLat,
+          lng: locLng
+        },
+        destination: {
+          lat: destLat,
+          lng: destLng,
+        },
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (response, status) => {
+        if (status === "OK") {
+          this.estimatedDuration = response.routes[0].legs[0].duration.text;
+          this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
+          this.orderTotalPrice = this.orderTotalDestination * 0.90;
+          (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
+        } else {
+          window.alert("Directions request failed due to " + status);
+        }
+      }
+    );
   }
 
   checkorder() {
     this.orderService.getMyOrder(this.userId)
       .subscribe(data => {
 
-        if(data){
+        if (data) {
+          (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
           this.orderTotalPrice = data.totalPrice;
-        }else{
+          this.estimatedDuration = data.eta;
+        } else {
           this.orderTotalPrice = 0;
         }
-        
-        if(this.orderStatus == 'Completed'){
+
+        if (this.orderStatus == 'Completed') {
           this.completedOrderAlert();
           this.orderStatus = null;
         }
 
-        if(data == null){
+        if (data == null) {
           console.log('Still no order!')
           return;
         }
         //get accepted by user id
         this.order = data;
-        
+
         //this.orderStatus = data.isAccepted
         this.orderStatus = data.status;
-        
+
         //this.isAccepted = data.isAccepted;
-        
+
         if (this.orderStatus == "Waiting") {
           this.statusForOrder = false;
           this.isCompleted = true;
           // User can increase order price here.
 
           this.selector(0);
-         
+
         }
-        
+
         if (this.orderStatus == "Accepted") {
           this.isCompleted = false;
           this.isSubmitted = false;
           this.clearForm();
-          
+
           console.log('your order is accepted')
           this.orderService.order = data;
 
-          if(data.acceptedBy != null){
+          if (data.acceptedBy != null) {
             this.getUserById(data.acceptedBy);
             this.getAcceptedTrip(data.acceptedBy);
           }
@@ -205,15 +256,15 @@ export class TravellingPage implements OnInit {
         })
   }
 
-  selector($event){
+  selector($event) {
     let amount = +$event;
-    if(amount != 0 || $event != ""){
+    if (amount != 0 || $event != "") {
       this.orderService.increaseOrderPrice(this.order.id, amount)
-      .subscribe(x => {
-        console.log('Order increased');
-      })
+        .subscribe(x => {
+          console.log('Order increased');
+        })
     }
-    
+
   }
 
   getUserById(driverId: string) {
@@ -222,28 +273,28 @@ export class TravellingPage implements OnInit {
         this.firstName = userData.firstName;
         this.lastName = userData.lastName;
         this.driverService.getDriverActiveCar(userData.driverId)
-        .subscribe(car => {
-          this.carModel = car.model;
-          this.carColor = car.color;
-        })
+          .subscribe(car => {
+            this.carModel = car.model;
+            this.carColor = car.color;
+          })
       })
   }
 
   getAcceptedTrip(driverId: string) {
     this.tripService.getTrip(driverId)
       .subscribe(x => {
-        if(x == null){
+        if (x == null) {
           this.orderStatus = "Completed";
           console.log("No trip!");
           return;
         }
-        if(x.status == "Completed"){
+        if (x.status == "Completed") {
           this.orderStatus = "Completed";
         }
         this.currentTrip = x;
       });
 
-      
+
   }
 
   cancelOrder() {
@@ -266,9 +317,9 @@ export class TravellingPage implements OnInit {
     this.accountService.logout();
     this.isLoggedIn = "";
     this.route.navigate(['menu/home'])
-    .then(() => {
-      window.location.reload();
-    })
+      .then(() => {
+        window.location.reload();
+      })
   }
 
   clearForm() {
@@ -293,7 +344,7 @@ export class TravellingPage implements OnInit {
         {
           text: 'Confirm',
           handler: data => {
-            
+
           }
         },
         {
@@ -309,8 +360,8 @@ export class TravellingPage implements OnInit {
         }
       ]
     });
-    
+
     await popup.present();
-    
+
   }
 }

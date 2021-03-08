@@ -17,14 +17,14 @@ export class DestinationPage implements OnInit {
   longitude: any;
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
   @ViewChild('marker', { read: ElementRef, static: false }) markerRef: ElementRef;
-  @ViewChild('myButton') myButton : ElementRef;
+  @ViewChild('myButton') myButton: ElementRef;
 
   constructor(private route: Router,
     private orderService: OrderService) {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   ionViewDidEnter() {
@@ -32,7 +32,7 @@ export class DestinationPage implements OnInit {
     this.loadMap(this.mapRef, this.markerRef);
   }
 
-  onSubmit(){
+  onSubmit() {
     this.orderService.chosenDestination = this.address;
     this.route.navigate(['menu/travelling'])
   }
@@ -41,20 +41,23 @@ export class DestinationPage implements OnInit {
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
 
+    this.orderService.userDestinationLat = myLatLng.lat;
+    this.orderService.userDestinationLong = myLatLng.lng;
 
     const options: google.maps.MapOptions = {
       center: new google.maps.LatLng(myLatLng.lat, myLatLng.lng),
-      zoom: 15
+      zoom: 15,
+      disableDefaultUI: true,
     };
 
     this.map = new google.maps.Map(mapRef.nativeElement, options);
-    
+
     var marker = new google.maps.Marker({
       position: new google.maps.LatLng(myLatLng),
       icon: 'http://maps.gstatic.com/mapfiles/markers2/marker.png',
       map: this.map
     });
-    
+
 
     let geocoder = new google.maps.Geocoder;
 
@@ -62,7 +65,7 @@ export class DestinationPage implements OnInit {
       var center = this.map.getCenter();
       var lat = center.lat();
       var lng = center.lng();
-      
+
       const myLatLng = { lat: lat, lng: lng };
 
       if (marker && marker.setMap) {
@@ -74,6 +77,9 @@ export class DestinationPage implements OnInit {
         icon: 'http://maps.gstatic.com/mapfiles/markers2/marker.png',
         map: this.map
       });
+
+      this.orderService.userDestinationLat = myLatLng.lat;
+      this.orderService.userDestinationLong = myLatLng.lng;
 
       //Get Location
       geocoder.geocode({ location: myLatLng },

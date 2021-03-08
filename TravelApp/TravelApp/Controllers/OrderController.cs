@@ -174,7 +174,7 @@ namespace TravelApp.Controllers
                     //await emailSender.SendEmailAsync(new Message(new List<string>() { "veselin@gmail.com" }, "aaaaaadsfaf", "asasassasas", null));
 
                 }
-                catch (Exception e)
+                catch (Exception e) 
                 {
                     return this.BadRequest(e.Message);
                 }

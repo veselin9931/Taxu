@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { Driver, Message, Order, Trip, User } from 'src/_models';
@@ -13,6 +13,10 @@ import { DriverService } from 'src/_services/driver/driver.service';
 import { Observable } from 'rxjs';
 import { ChatService } from 'src/_services/chat/chat.service';
 import { environment } from 'src/environments/environment';
+import { Plugins } from '@capacitor/core';
+
+const { Geolocation } = Plugins;
+declare var google: any;
 
 @Component({
   selector: 'app-driving',
@@ -39,6 +43,17 @@ export class DrivingPage implements OnInit {
   isDrivingNow = this.accountService.userValue.isDrivingNow;
   applicationUserId = this.accountService.userValue.id;
 
+  //Map
+  address: string;
+  map: any;
+  latitude: any;
+  longitude: any;
+  userLatitude: any;
+  userLongitude: any;
+  userDestinationLat: any;
+  userDestinationLng: any;
+  @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
+
   constructor(private route: Router,
     private orderService: OrderService,
     private accountService: AccountService,
@@ -55,22 +70,24 @@ export class DrivingPage implements OnInit {
   }
 
   ngOnInit(): void {
-     this.chatService.retrieveMappedObject()
-     .subscribe( (receivedObj: Message) => { this.addToInbox(receivedObj);});  // calls the service method to get the new messages sent
+
+
+    this.chatService.retrieveMappedObject()
+      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
 
     this.getData();
 
     if (this.isDrivingNow == true) {
       this.getAcceptedTrip()
     }
-    
+
     const connection = new signalR.HubConnectionBuilder()
-    .configureLogging(signalR.LogLevel.Information)
-    .withUrl(`${environment.apiUrl}/orderHub`, {
-      skipNegotiation: true,
-      transport: signalR.HttpTransportType.WebSockets
-    })
-    .build();
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl(`${environment.apiUrl}/orderHub`, {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets
+      })
+      .build();
 
     connection.start().then(function () {
       console.log('signalR Connected in driving');
@@ -84,13 +101,131 @@ export class DrivingPage implements OnInit {
     });
   }
 
-  
+  ionViewDidEnter() {
+    if (this.isDrivingNow == true) {
+      this.getAcceptedTrip()
+    }
+    this.loadMap(this.mapRef);
+  }
+
+
+
+  async loadMap(mapRef: ElementRef) {
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+
+    const options: google.maps.MapOptions = {
+      center: new google.maps.LatLng(myLatLng.lat, myLatLng.lng),
+      zoom: 15,
+      disableDefaultUI: true,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    this.map = new google.maps.Map(mapRef.nativeElement, options);
+
+
+    let geocoder = new google.maps.Geocoder;
+
+    google.maps.event.addListener(this.map, 'idle', async () => {
+      var center = this.map.getCenter();
+      var lat = center.lat();
+      var lng = center.lng();
+
+      const myLatLng = { lat: lat, lng: lng };
+
+      //Get Location
+      geocoder.geocode({ location: myLatLng },
+        (
+          results: google.maps.GeocoderResult[],
+          status: google.maps.GeocoderStatus
+        ) => {
+          if (status == "OK") {
+            if (results[0]) {
+              this.address = results[0].formatted_address;
+              console.log(this.address);
+            }
+          }
+        })
+    })
+  }
+
+  async navigateToUserAndCalculateDistance() {
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+    let usetLat = this.userLatitude;
+    let userLng = this.userLongitude;
+
+    directionsService.route(
+      {
+        origin: {
+          lat: myLatLng.lat,
+          lng: myLatLng.lng
+        },
+        destination: {
+          lat: usetLat,
+          lng: userLng,
+        },
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (response, status) => {
+        if (status === "OK") {
+          directionsRenderer.setDirections(response);
+          console.log(response.routes[0].legs[0].distance.text)
+          console.log(response.routes[0].legs[0].duration.text)
+          window.open(`https://www.google.com/maps/dir/?api=1&destination=${this.userLatitude},${this.userLongitude}&travelmode=driving`);
+
+        } else {
+          window.alert("Directions request failed due to " + status);
+        }
+      }
+    );
+    directionsRenderer.setMap(this.map);
+  }
+
+  async navigateToPointAndCalculateDistance() {
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+    let usetLat = this.userLatitude;
+    let userLng = this.userLongitude;
+
+    directionsService.route(
+      {
+        origin: {
+          lat: myLatLng.lat,
+          lng: myLatLng.lng
+        },
+        destination: {
+          lat: this.userDestinationLat,
+          lng: this.userDestinationLng,
+        },
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (response, status) => {
+        if (status === "OK") {
+          directionsRenderer.setDirections(response);
+          console.log(response.routes[0].legs[0].distance.text)
+          console.log(response.routes[0].legs[0].duration.text)
+          window.open(`https://www.google.com/maps/dir/?api=1&destination=${this.userDestinationLat},${this.userDestinationLng}&travelmode=driving`);
+
+
+        } else {
+          window.alert("Directions request failed due to " + status);
+        }
+      }
+    );
+    directionsRenderer.setMap(this.map);
+  }
+
   msgDto: Message = new Message();
   msgInboxArray: Message[] = [];
 
   send(): void {
-    if(this.msgDto) {
-      if(this.msgDto.text.length == 0){
+    if (this.msgDto) {
+      if (this.msgDto.text.length == 0) {
         window.alert("Text field is required.");
         return;
       } else {
@@ -100,7 +235,7 @@ export class DrivingPage implements OnInit {
     }
   }
 
-  reportProblem(){
+  reportProblem() {
     this.route.navigate(['menu/report']);
   }
 
@@ -254,8 +389,11 @@ export class DrivingPage implements OnInit {
           this.location = order.location;
           this.destination = order.destination;
           this.totalPrice = order.totalPrice;
+          this.userLatitude = order.locationLat;
+          this.userLongitude = order.locationLong;
+          this.userDestinationLat = order.destinationLat;
+          this.userDestinationLng = order.destinationLong;
         })
-
         this.route.navigate(['menu/driving']);
       });
   }

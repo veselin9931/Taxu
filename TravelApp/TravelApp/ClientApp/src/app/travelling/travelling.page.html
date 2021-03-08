@@ -116,10 +116,6 @@
             <h5>Your order is accepted</h5>
           </ion-text>
 
-           <div class="col-md-12 mt-5">
-            <div id='map' style='width: 300px; height: 300px;'></div>
-          </div>
-
           <div class="row text-center">
             <div class="col text-center">
               <div class="d-flex w-100 justify-content-between">
@@ -129,7 +125,7 @@
                   <h3 class="text">{{firstName}}</h3>
                   <h3 class="text">{{lastName}}</h3>
                   <h3 class="text">With {{carModel}}, color {{carColor}}</h3>
-                  <h2 class="text">will arrive in 10 minutes.</h2>
+                  <h2 class="text">will arrive in {{estimatedDuration}}.</h2>
                   <hr>
 
                   <h3 class="text">Location: {{order.location}}</h3>

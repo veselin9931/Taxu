@@ -27,6 +27,11 @@ namespace TravelApp.Models
 
         public string CurrentLocation { get; set; }
 
+        public int CurrentLocationLat { get; set; }
+
+        public int CurrentLocationLong { get; set; }
+
+
         public string WalletId { get; set; }
         public Wallet Wallet { get; set; }
             

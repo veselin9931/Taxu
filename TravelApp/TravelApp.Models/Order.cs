@@ -20,8 +20,17 @@ namespace TravelApp.Models
         [Required]
         public string Location { get; set; }
 
+        public decimal LocationLat { get; set; }
+
+        public decimal LocationLong { get; set; }
+        
+
         [Required]
         public string Destination { get; set; }
+
+        public decimal DestinationLat { get; set; }
+
+        public decimal DestinationLong { get; set; } 
 
         public decimal IncreasePrice { get; set; }
 
@@ -29,6 +38,8 @@ namespace TravelApp.Models
         [Required]
         [Range(typeof(decimal), "0", "999999999999999999")]
         public decimal TotalPrice { get; set; }
+
+        public string ETA { get; set; }
 
         public string Status { get; set; }
 

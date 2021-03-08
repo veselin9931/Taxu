@@ -16,6 +16,10 @@ export class OrderService {
   public alertForcomplete: boolean;
   public chosenLocation: string;
   public chosenDestination: string;
+  public userLocationLat: number;
+  public userLocationLong: number;
+  public userDestinationLat: number;
+  public userDestinationLong: number;
   private readonly getOrdersAction$ = new Subject();
 
 
@@ -28,6 +32,15 @@ export class OrderService {
       .pipe(
         catchError(this.handleError)
       );
+  }
+
+  public getDirections(locationLat, locationLng, destinationLat, destinationLng){
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(`https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${locationLat},${locationLng}&destinations=${destinationLat}%2C${destinationLng}%7C&key=AIzaSyAEvlXdM4joG4bNVT5l-tJSk9lUSGhxMNw`, { headers, responseType: 'text' })
+    .pipe(
+      catchError(this.handleError)
+    );
   }
 
   getOrderById(id: string): Observable<Order> {
