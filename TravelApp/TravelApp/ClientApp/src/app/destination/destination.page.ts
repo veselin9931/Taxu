@@ -16,7 +16,6 @@ export class DestinationPage implements OnInit {
   latitude: any;
   longitude: any;
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
-  @ViewChild('marker', { read: ElementRef, static: false }) markerRef: ElementRef;
   @ViewChild('myButton') myButton: ElementRef;
 
   constructor(private route: Router,
@@ -29,7 +28,7 @@ export class DestinationPage implements OnInit {
 
   ionViewDidEnter() {
     this.getLocation();
-    this.loadMap(this.mapRef, this.markerRef);
+    this.loadMap(this.mapRef);
   }
 
   onSubmit() {
@@ -37,7 +36,7 @@ export class DestinationPage implements OnInit {
     this.route.navigate(['menu/travelling'])
   }
 
-  async loadMap(mapRef: ElementRef, markerRef: ElementRef) {
+  async loadMap(mapRef: ElementRef) {
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
 
@@ -58,6 +57,47 @@ export class DestinationPage implements OnInit {
       map: this.map
     });
 
+    var input = document.getElementById('searchTextField');
+    var searchbox = new google.maps.places.SearchBox(input);
+
+    this.map.addListener("bounds_changed", () => {
+      searchbox.setBounds(this.map.getBounds() as google.maps.LatLngBounds);
+    });
+
+    searchbox.addListener("places_changed", () => {
+      const places = searchbox.getPlaces();
+
+      if (places.length == 0) {
+        return;
+      }
+
+      var bounds = new google.maps.LatLngBounds();
+
+      places.forEach((place) => {
+        console.log(place.geometry.location.lat())
+        if (!place.geometry) {
+          console.log('No Geometry');
+          return;
+        }
+        marker.setMap(null);
+
+        marker = new google.maps.Marker({
+          position: place.geometry.location,
+          icon: 'http://maps.gstatic.com/mapfiles/markers2/marker.png',
+          map: this.map
+        });
+
+        if (place.geometry.viewport) {
+          bounds.union(place.geometry.viewport);
+        } else {
+          bounds.extend(place.geometry.location)
+        }
+
+      });
+
+      this.map.fitBounds(bounds);
+
+    })
 
     let geocoder = new google.maps.Geocoder;
 

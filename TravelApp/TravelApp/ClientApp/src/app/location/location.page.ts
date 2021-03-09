@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import { NavController } from '@ionic/angular';
+import { map } from 'rxjs/operators';
 import { OrderService } from 'src/_services/order/order.service';
 
 const { Geolocation } = Plugins;
@@ -17,11 +18,8 @@ export class LocationPage implements OnInit {
   map: any;
   latitude: any;
   longitude: any;
-  destinationHaskovo = new google.maps.LatLng(41.9327555, 25.4786186);
 
-
-  @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
-  @ViewChild('marker', { read: ElementRef, static: false }) markerRef: ElementRef;
+  @ViewChild('map', { read: ElementRef, static: true }) mapRef: ElementRef;
   @ViewChild('myButton') myButton: ElementRef;
 
   constructor(private route: Router,
@@ -36,7 +34,7 @@ export class LocationPage implements OnInit {
   ionViewDidEnter() {
     this.getLocation();
 
-    this.loadMap(this.mapRef, this.markerRef);
+    this.loadMap(this.mapRef);
   }
 
   onSubmit() {
@@ -45,7 +43,7 @@ export class LocationPage implements OnInit {
     this.route.navigate(['menu/destination'])
   }
 
-  async loadMap(mapRef: ElementRef, markerRef: ElementRef) {
+  async loadMap(mapRef: ElementRef) {
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
     this.orderService.userLocationLat = myLatLng.lat;
@@ -65,6 +63,47 @@ export class LocationPage implements OnInit {
       map: this.map
     });
 
+    var input = document.getElementById('searchTextField');
+    var searchbox = new google.maps.places.SearchBox(input);
+
+    this.map.addListener("bounds_changed", () => {
+      searchbox.setBounds(this.map.getBounds() as google.maps.LatLngBounds);
+    });
+
+    searchbox.addListener("places_changed", () => {
+      const places = searchbox.getPlaces();
+
+      if (places.length == 0) {
+        return;
+      }
+
+      var bounds = new google.maps.LatLngBounds();
+
+      places.forEach((place) => {
+        console.log(place.geometry.location.lat())
+        if (!place.geometry) {
+          console.log('No Geometry');
+          return;
+        }
+        marker.setMap(null);
+
+        marker = new google.maps.Marker({
+          position: place.geometry.location,
+          icon: 'http://maps.gstatic.com/mapfiles/markers2/marker.png',
+          map: this.map
+        });
+
+        if (place.geometry.viewport) {
+          bounds.union(place.geometry.viewport);
+        } else {
+          bounds.extend(place.geometry.location)
+        }
+
+      });
+
+      this.map.fitBounds(bounds);
+
+    })
 
     let geocoder = new google.maps.Geocoder;
 
@@ -112,14 +151,12 @@ export class LocationPage implements OnInit {
     this.route.navigate(['menu/destination']);
   }
 
-
-
   getLocation(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.longitude = position.coords.longitude;
         this.latitude = position.coords.latitude;
-        
+
         this.callApi(this.longitude, this.latitude);
       });
     } else {
