@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
@@ -11,8 +11,10 @@ import { ChatService } from 'src/_services/chat/chat.service';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
+import { Plugins } from '@capacitor/core';
 
-
+const { Geolocation } = Plugins;
+declare var google: any;
 
 @Component({
   selector: 'app-travelling',
@@ -41,12 +43,16 @@ export class TravellingPage implements OnInit {
   firstName = "";
   lastName = "";
 
+  location: string;
+  destination: string;
+
   statusForOrder = false;
   isSubmitted = false;
   isCompleted = false;
   isAccepted = false;
 
-
+  map: any;
+  @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
   constructor(private formBuilder: FormBuilder,
     private route: Router,
     private orderService: OrderService,
@@ -58,6 +64,8 @@ export class TravellingPage implements OnInit {
     private chatService: ChatService) {
     this.userId = this.accountService.userValue.id;
   }
+
+  
 
   ngOnInit() {
     //this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
@@ -102,6 +110,7 @@ export class TravellingPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.loadMap(this.mapRef);
     this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
     this.form.get('location').setValue(this.orderService.chosenLocation);
     this.form.get('locationLat').setValue(this.orderService.userLocationLat);
@@ -110,6 +119,8 @@ export class TravellingPage implements OnInit {
     this.form.get('destination').setValue(this.orderService.chosenDestination);
     this.form.get('destinationLat').setValue(this.orderService.userDestinationLat);
     this.form.get('destinationLong').setValue(this.orderService.userDestinationLong);
+
+    
   }
 
   msgDto: Message = new Message();
@@ -145,6 +156,22 @@ export class TravellingPage implements OnInit {
     this.route.navigate(['menu/destination'])
   }
 
+  async loadMap(mapRef: ElementRef) {
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+
+    this.orderService.userDestinationLat = myLatLng.lat;
+    this.orderService.userDestinationLong = myLatLng.lng;
+
+    const options: google.maps.MapOptions = {
+      center: new google.maps.LatLng(myLatLng.lat, myLatLng.lng),
+      zoom: 15,
+      disableDefaultUI: true,
+    };
+
+    this.map = new google.maps.Map(mapRef.nativeElement, options);
+
+  }
 
   onSubmit() {
     this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
@@ -201,6 +228,8 @@ export class TravellingPage implements OnInit {
       .subscribe(data => {
 
         if (data) {
+          this.location = data.location;
+          this.destination = data.destination;
           (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
           this.orderTotalPrice = data.totalPrice;
           this.estimatedDuration = data.eta;
