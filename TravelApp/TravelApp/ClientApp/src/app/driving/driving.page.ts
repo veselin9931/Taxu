@@ -105,7 +105,9 @@ export class DrivingPage implements OnInit {
     if (this.isDrivingNow == true) {
       this.getAcceptedTrip()
     }
-    this.loadMap(this.mapRef);
+    if(this.isDrivingNow == true){
+      this.loadMap(this.mapRef);
+    }
   }
 
 
@@ -142,7 +144,6 @@ export class DrivingPage implements OnInit {
           if (status == "OK") {
             if (results[0]) {
               this.address = results[0].formatted_address;
-              console.log(this.address);
             }
           }
         })
@@ -172,8 +173,6 @@ export class DrivingPage implements OnInit {
       (response, status) => {
         if (status === "OK") {
           directionsRenderer.setDirections(response);
-          console.log(response.routes[0].legs[0].distance.text)
-          console.log(response.routes[0].legs[0].duration.text)
           window.open(`https://www.google.com/maps/dir/?api=1&destination=${this.userLatitude},${this.userLongitude}&travelmode=driving`);
 
         } else {
@@ -207,8 +206,6 @@ export class DrivingPage implements OnInit {
       (response, status) => {
         if (status === "OK") {
           directionsRenderer.setDirections(response);
-          console.log(response.routes[0].legs[0].distance.text)
-          console.log(response.routes[0].legs[0].duration.text)
           window.open(`https://www.google.com/maps/dir/?api=1&destination=${this.userDestinationLat},${this.userDestinationLng}&travelmode=driving`);
 
 
@@ -251,13 +248,10 @@ export class DrivingPage implements OnInit {
     this.orderService.getAllOrders().subscribe(data => {
 
       if (data == null) {
-        console.log('No trips');
         return;
       }
 
       this.orders = data;
-      console.log("Driving page orders")
-      console.log(this.orders)
     })
   }
 
@@ -278,7 +272,6 @@ export class DrivingPage implements OnInit {
                   this.accountService.userValue.isDrivingNow = true;
                   this.accountService.updateDriving(applicationUserId, true)
                     .subscribe(data => {
-                      console.log(data)
                     });
 
                   this.isDrivingNow = this.accountService.userValue.isDrivingNow;
@@ -286,7 +279,6 @@ export class DrivingPage implements OnInit {
 
                   this.orderService.acceptOrder(order.id, applicationUserId)
                     .subscribe(data => {
-                      console.log(data);
                     })
 
                   let orderId = order.id;
@@ -295,7 +287,6 @@ export class DrivingPage implements OnInit {
 
                   this.tripService.createTrip(data)
                     .subscribe(data => {
-                      console.log(data);
                     })
 
                   this.route.navigate(['menu/driving']);
@@ -315,7 +306,6 @@ export class DrivingPage implements OnInit {
           this.tripStatus = trip.status;
           this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
             .subscribe(x => {
-              console.log('Successfully discharged the user.')
             })
         }
       })
@@ -335,7 +325,6 @@ export class DrivingPage implements OnInit {
                 } else {
                   this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
                     .subscribe(x => {
-                      console.log('Successfully discharged the user.')
                       return;
                     })
                 }
@@ -355,9 +344,7 @@ export class DrivingPage implements OnInit {
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
           .subscribe(data => {
-            console.log('Canceled order')
           });
-        console.log('Canceled trip')
       })
 
     let driverId = this.accountService.userValue.id;
@@ -374,11 +361,8 @@ export class DrivingPage implements OnInit {
     this.tripService.getTrip(this.driverId)
       .subscribe(x => {
         if (x == null) {
-          console.log("No trip");
           return;
         }
-        console.log("Trip data")
-        console.log(x);
         this.tripStatus = x.status;
         this.currentTrip = x;
         this.orderId = x.orderId;
@@ -406,10 +390,7 @@ export class DrivingPage implements OnInit {
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
           .subscribe(data => {
-            console.log(this.orderService.alertForcomplete)
-            console.log('Completed order')
           });
-        console.log('Completed trip')
       })
 
     //trigger the driver's driving now property to false

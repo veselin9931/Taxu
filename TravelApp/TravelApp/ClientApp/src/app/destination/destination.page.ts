@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import * as signalR from '@aspnet/signalr';
 import { Plugins } from '@capacitor/core';
+import { environment } from 'src/environments/environment';
 import { OrderService } from 'src/_services/order/order.service';
 
 const { Geolocation } = Plugins;
@@ -23,7 +25,23 @@ export class DestinationPage implements OnInit {
   }
 
   ngOnInit(): void {
+    const connection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl(`${environment.apiUrl}/orderHub`, {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets
+      })
+      .build();
 
+    connection.start().then(function () {
+      console.log('signalR Connected in menu');
+    }).catch(function (err) {
+      return console.log(err.toString());
+    });
+
+    connection.on('BroadcastMessage', () => {
+      this.loadMap(this.mapRef);
+    });
   }
 
   ionViewDidEnter() {
@@ -35,6 +53,8 @@ export class DestinationPage implements OnInit {
     this.orderService.chosenDestination = this.address;
     this.route.navigate(['menu/travelling'])
   }
+
+  
 
   async loadMap(mapRef: ElementRef) {
     const coordinates = await Geolocation.getCurrentPosition();
@@ -57,7 +77,7 @@ export class DestinationPage implements OnInit {
       map: this.map
     });
 
-    var input = document.getElementById('searchTextField');
+    var input = document.getElementById('searchTextField2').getElementsByTagName('input')[0];;
     var searchbox = new google.maps.places.SearchBox(input);
 
     this.map.addListener("bounds_changed", () => {

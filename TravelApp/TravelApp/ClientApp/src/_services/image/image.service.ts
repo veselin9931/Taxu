@@ -1,7 +1,8 @@
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { error } from 'selenium-webdriver';
 import { environment } from 'src/environments/environment';
 import { Image } from '../../_models'
 
@@ -27,4 +28,19 @@ export class ImageService {
       .pipe(
       );
   }
+
+  handleError(error) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(errorMessage);
+  }
 }
+
+
