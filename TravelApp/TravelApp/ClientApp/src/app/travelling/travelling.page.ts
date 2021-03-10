@@ -30,6 +30,7 @@ export class TravellingPage implements OnInit {
   activeCarData: Car;
   orderStatus: string;
   orderTotalPrice = 0;
+  ordercost: string;
   orderTotalDestination: any;
   estimatedDuration: any;
   //Car html properties;
@@ -59,10 +60,9 @@ export class TravellingPage implements OnInit {
   }
 
   ngOnInit() {
-    this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
+    //this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
-
 
     this.checkorder();
 
@@ -110,8 +110,6 @@ export class TravellingPage implements OnInit {
     this.form.get('destination').setValue(this.orderService.chosenDestination);
     this.form.get('destinationLat').setValue(this.orderService.userDestinationLat);
     this.form.get('destinationLong').setValue(this.orderService.userDestinationLong);
-
-
   }
 
   msgDto: Message = new Message();
@@ -165,9 +163,7 @@ export class TravellingPage implements OnInit {
           .subscribe(() => {
             this.alertService.success('You have created an order.', { autoClose: true });
             this.orderStatus = this.form.value.status;
-
           })
-      
     }
   }
 
@@ -191,7 +187,8 @@ export class TravellingPage implements OnInit {
           this.estimatedDuration = response.routes[0].legs[0].duration.text;
           this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
           this.orderTotalPrice = this.orderTotalDestination * 0.90;
-          (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
+          this.ordercost = this.orderTotalPrice.toFixed(2);
+          // (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
         } else {
           window.alert("Directions request failed due to " + status);
         }

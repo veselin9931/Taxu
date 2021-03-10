@@ -5,7 +5,7 @@
     </ion-buttons>
 
     <ion-title>
-        <ion-label>TaxiMi</ion-label>
+      <ion-label>TaxiMi</ion-label>
     </ion-title>
 
     <ion-buttons slot="end">
@@ -16,17 +16,20 @@
 <ion-content padding class="background">
   <div class="row mt-2">
     <div class="col">
-     
+
 
       <div class="card-transparent">
         <div class="header-transparent">
           <div class="avatar">
-            <img src={{imgPath}} alt="">
+            <img src={{imgPath}} onerror="this.onerror=null; this.src='../assets/default.png'" alt="">
           </div>
         </div>
       </div>
+      
 
       <div class="card-body">
+
+        
         <div class="user-meta ion-text-center">
           <h3 class="playername my-label">{{user.firstName}} {{user.lastName}}</h3>
           <h4 class="playername my-label">{{user.phone}}</h4>
@@ -38,11 +41,22 @@
           <ion-chip (click)="presentPrompt()">
             <ion-label class="my-label">Charge cash</ion-label>
           </ion-chip>
-          <form id="alfacoins-checkout-form" method="post" action="https://www.alfacoins.com/checkout"> <input name="button_id" value="6041050ab9624" type="hidden"> <div class="alfacoins-btn alfacoins-btn-default alfacoins-btn-2 alfacoins-btn-cur-none"> <div class="alfacoins-btn-body alfacoins-btn-2-body" onclick="document.getElementById('alfacoins-checkout-form').submit();"> <div class="alfacoins-btn-border alfacoins-btn-2-border"> <div class="alfacoins-btn-inner alfacoins-btn-2-inner"> <svg class="ico-21 ico-svg"><use xlink:href="#logo"></use></svg> <span> Pay with ALFAcoins </span> </div> </div> </div> </div>
-            <form id="alfacoins-checkout-form" method="post" action="https://www.alfacoins.com/checkout"> <input name="button_id" value="6041019650dd2" type="hidden"> <div class="alfacoins-btn alfacoins-btn-default alfacoins-btn-2 alfacoins-btn-cur-none"> <div class="alfacoins-btn-body alfacoins-btn-2-body" onclick="document.getElementById('alfacoins-checkout-form').submit();"> <div class="alfacoins-btn-border alfacoins-btn-2-border"> <div class="alfacoins-btn-inner alfacoins-btn-2-inner"> <svg class="ico-21 ico-svg"><use xlink:href="#logo"></use></svg> <span> Pay with ALFAcoins </span> </div> </div> </div> </div>
-            </form>
-            <form id="alfacoins-checkout-form" method="post" action="https://www.alfacoins.com/checkout"> <input name="button_id" value="604104b253f7d" type="hidden"> <div class="alfacoins-btn alfacoins-btn-default alfacoins-btn-2 alfacoins-btn-cur-none"> <div class="alfacoins-btn-body alfacoins-btn-2-body" onclick="document.getElementById('alfacoins-checkout-form').submit();"> <div class="alfacoins-btn-border alfacoins-btn-2-border"> <div class="alfacoins-btn-inner alfacoins-btn-2-inner"> <svg class="ico-21 ico-svg"><use xlink:href="#logo"></use></svg> <span> Pay with ALFAcoins </span> </div> </div> </div> </div>
-            </form>
+          <form id="alfacoins-checkout-form" method="post" action="https://www.alfacoins.com/checkout">
+            <input name="button_id" value="6041050ab9624" type="hidden">
+            <div class="alfacoins-btn alfacoins-btn-default alfacoins-btn-2 alfacoins-btn-cur-none">
+              <div class="alfacoins-btn-body alfacoins-btn-2-body"
+                onclick="document.getElementById('alfacoins-checkout-form').submit();">
+                <div class="alfacoins-btn-border alfacoins-btn-2-border">
+                  <div class="alfacoins-btn-inner alfacoins-btn-2-inner">
+                    <svg class="ico-21 ico-svg">
+                      <use xlink:href="#logo"></use>
+                    </svg>
+                    <span>Charge 10$</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
 
           </form>
           <h6 class="ranking my-label">Rating: <ion-chip>
@@ -50,14 +64,14 @@
             </ion-chip>
           </h6>
           <h6 class="ranking my-label">Commission: <ion-chip>
-            <ion-label>{{driverCommission}}%</ion-label>
-          </ion-chip>
-        </h6>
+              <ion-label>{{driverCommission}}%</ion-label>
+            </ion-chip>
+          </h6>
         </div>
-        <div class="col-md-3">
+        
           <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
-          <button type="button" class="btn btn-success my-label" (click)="file.click()">Upload File</button>
-        </div>
+          <ion-button class="my-label" (click)="file.click()" expand="full" color="primary">Upload picture</ion-button>
+
         <div class="col-md-4">
           <span class="upload" *ngIf="progress > 0">
             {{progress}}%
@@ -66,7 +80,6 @@
             {{message}}
           </span>
         </div>
-
         <ion-button class="my-label" (click)="openHistory()" expand="full" color="dark">Drive history</ion-button>
         <ion-button class="my-label" (click)="addNewCar()" expand="full" color="dark">Add new car</ion-button>
         <h6 *ngIf="carsCount > 0" class="ranking ion-text-center">
@@ -83,13 +96,16 @@
         <div *ngFor="let car of driverCars">
           <div class="row">
             <div class="col-10">
-              <ion-button class="my-label" *ngIf="car.isActive == false" (click)="active(car)" expand="full" color="medium">{{car.model}}
+              <ion-button class="my-label" *ngIf="car.isActive == false" (click)="active(car)" expand="full"
+                color="medium">{{car.model}}
                 - {{car.registrationNumber}}</ion-button>
-              <ion-button class="my-label" *ngIf="car.isActive == true" (click)="active(car)" expand="full" color="success">{{car.model}}
+              <ion-button class="my-label" *ngIf="car.isActive == true" (click)="active(car)" expand="full"
+                color="success">{{car.model}}
                 - {{car.registrationNumber}}</ion-button>
             </div>
             <div class="col-2">
-              <ion-button class="my-label" (click)="deleteCar(car.id)" style="float: right" expand="full" color="danger">
+              <ion-button class="my-label" (click)="deleteCar(car.id)" style="float: right" expand="full"
+                color="danger">
                 Delete
               </ion-button>
 
@@ -101,11 +117,11 @@
 
         <div class="text-center ranking my-label">
           My referral
-          <ion-chip (click)="copy(referral)" >
+          <ion-chip (click)="copy(referral)">
             <ion-label>{{referral}}</ion-label>
           </ion-chip>
         </div>
-          
+
       </div>
     </div>
   </div>

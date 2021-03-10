@@ -45,13 +45,6 @@ export class DriverProfilePage implements OnInit {
     this.getWalletAmount();
     this.getCars();
     this.getDriver();
-    // const connection = new signalR.HubConnectionBuilder()
-    //   .configureLogging(signalR.LogLevel.Information)
-    //   .withUrl('https://localhost:44329/orderHub', {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets
-    //   })
-    //   .build();
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)

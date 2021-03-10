@@ -13,9 +13,11 @@
       <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
+  
 </ion-header>
-
-<input id="searchTextField" type="text" size="50" placeholder="Enter a place!"> 
+<ion-item>
+  <ion-input id="searchTextField" type="text" placeholder="Search location" clearInput></ion-input>
+</ion-item>
 <ion-content class="noScroll">
   <div #map id="map"></div>
   <div #marker id="marker"></div>
@@ -24,11 +26,11 @@
 
 <ion-footer class="ion-no-border">
   <ion-toolbar>
-    <ion-title>Choosen location</ion-title>
+    <!-- <ion-title>Choosen location</ion-title> -->
 
-    <ion-buttons slot="end">
-      <img class="mr-3" (click)="onSubmit()" src="../../../assets/Daco_4674738.png" width="40" height="40">
-   </ion-buttons>
+      <ion-button (click)="onSubmit()" color="medium" expand="block">Take me from here</ion-button>
+      <!-- <img class="mr-3" (click)="onSubmit()" src="../../../assets/Daco_4674738.png" width="40" height="40"> -->
+
   </ion-toolbar>
 </ion-footer>
 

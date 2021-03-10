@@ -18,7 +18,7 @@ export class LocationPage implements OnInit {
   map: any;
   latitude: any;
   longitude: any;
-
+search: any;
   @ViewChild('map', { read: ElementRef, static: true }) mapRef: ElementRef;
   @ViewChild('myButton') myButton: ElementRef;
 
@@ -63,7 +63,7 @@ export class LocationPage implements OnInit {
       map: this.map
     });
 
-    var input = document.getElementById('searchTextField');
+    var input = document.getElementById('searchTextField').getElementsByTagName('input')[0];
     var searchbox = new google.maps.places.SearchBox(input);
 
     this.map.addListener("bounds_changed", () => {
