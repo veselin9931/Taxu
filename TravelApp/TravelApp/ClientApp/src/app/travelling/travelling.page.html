@@ -1,21 +1,21 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    
-
-    <ion-title>
-        <ion-label>TaxiMi</ion-label>
-    </ion-title>
-
-    <ion-buttons slot="end">
-      <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 <ion-content padding
   *ngIf="orderStatus == 'Waiting' || orderStatus == 'Completed' || orderStatus == null">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      
+  
+      <ion-title>
+          <ion-label>TaxiMi</ion-label>
+      </ion-title>
+  
+      <ion-buttons slot="end">
+        <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
   <div class="row mt-2">
     <div class="col">
       <div class="row mt-2">
@@ -96,17 +96,28 @@
 
 
 
-<ion-content padding class="background" *ngIf="orderStatus == 'Accepted' && order != null">
-  <div class="row">
+<ion-content padding class="noScroll"  *ngIf="orderStatus == 'Accepted' && order != null">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      
+  
+      <ion-title>
+          <ion-label class="blink_me">Waiting for the car</ion-label>
+      </ion-title>
+  
+      <ion-buttons slot="end">
+        <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+    <div #map id="map"></div>
+    <!-- <div #marker id="marker"></div> -->
+    
+  <!-- <div class="row">
     <div class="col">
-      <!-- <div class="row mt-2">
-        <div class="col-1">
-          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
-        </div>
-        <div class="col-9">
-          <h5 (click)=logout() class="back">Logout</h5>
-        </div>
-      </div> -->
 
       <div class="row">
         <div class="col text-center">
@@ -182,7 +193,62 @@
 
     </div>
   </div>
-
+ -->
 
 
 </ion-content>
+
+<ion-footer class="ion-no-border"  *ngIf="orderStatus == 'Accepted' && order != null">
+  <ion-toolbar class="text-center">
+    <ion-text class="textTravel">
+      Your driver {{firstName}} {{lastName}}
+      will arrive with {{carColor}} {{carModel}} in about {{estimatedDuration}}
+
+    </ion-text>
+  </ion-toolbar>
+</ion-footer>
+
+<ion-footer class="ion-no-border"  *ngIf="orderStatus == 'Accepted' && order != null">
+  <ion-toolbar class="text-center">
+    <ion-title>Your destination</ion-title>
+    <ion-label >{{destination}}</ion-label>
+
+  </ion-toolbar>
+  
+  <div class="row chat">
+            
+    <div class="col">
+      <ion-card>
+        <ion-card-header class="text-center">
+          <ion-card-subtitle>Chat</ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+
+      <ion-card>
+          
+          <div class="msg-box">
+            <ul *ngFor="let mObj of msgInboxArray">
+              <li [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
+                {{mObj.user}}:  <br />
+                {{mObj.text}}
+                <hr />
+            </li>
+              
+            </ul>
+          </div>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-textarea [(ngModel)]="msgDto.text" placeholder="Type your message...">
+
+          </ion-textarea>
+          <button class="send-btn" (click)="send()">
+            <ion-icon name="pin"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-card>
+    </div>
+    
+  </div>
+</ion-footer>
