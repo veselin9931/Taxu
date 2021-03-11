@@ -19,13 +19,6 @@
   <div class="row mt-2">
     <div class="col">
       <div class="row mt-2">
-        <!-- <div class="col-1">
-          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
-
-        </div>
-        <div class="col-9">
-          <h5 (click)=logout() class="back">Logout</h5>
-        </div> -->
       </div>
       <ion-text>
         
@@ -114,88 +107,6 @@
     </ion-toolbar>
   </ion-header>
     <div #map id="map"></div>
-    <!-- <div #marker id="marker"></div> -->
-    
-  <!-- <div class="row">
-    <div class="col">
-
-      <div class="row">
-        <div class="col text-center">
-          <ion-text class="centered" color="light">
-            <h2 class="text">Processing</h2>
-            <hr>
-            <h5>Your order is accepted</h5>
-          </ion-text>
-
-          <div class="row text-center">
-            <div class="col text-center">
-              <div class="d-flex w-100 justify-content-between">
-                <ion-text class="centered" color="light">
-                  <h4 class="text">Driver </h4>
-
-                  <h3 class="text">{{firstName}}</h3>
-                  <h3 class="text">{{lastName}}</h3>
-                  <h3 class="text">With {{carModel}}, color {{carColor}}</h3>
-                  <h2 class="text">will arrive in {{estimatedDuration}}.</h2>
-                  <hr>
-
-                  <h3 class="text">Location: {{order.location}}</h3>
-                  <h3 class="text">Destination: {{order.destination}}</h3>
-                  <hr>
-                  <h2 class="text">Cost of the trip: {{order.totalPrice}}$</h2>
-
-                </ion-text>
-
-                
-              </div>
-            </div>
-          </div>
-
-          <div class="row chat">
-            
-            <div class="col">
-              <ion-card>
-                <ion-card-header>
-                  <ion-card-subtitle>Chat</ion-card-subtitle>
-                </ion-card-header>
-              </ion-card>
-
-              <ion-card>
-                  
-                  <div class="msg-box">
-                    <ul *ngFor="let mObj of msgInboxArray">
-                      <li [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
-                        {{mObj.user}}:  <br />
-                        {{mObj.text}}
-                        <hr />
-                    </li>
-                      
-                    </ul>
-                  </div>
-              </ion-card>
-
-              <ion-card>
-                <ion-item>
-                  <ion-textarea [(ngModel)]="msgDto.text" placeholder="Type your message...">
-
-                  </ion-textarea>
-                  <button class="send-btn" (click)="send()">
-                    <ion-icon name="pin"></ion-icon>
-                  </button>
-                </ion-item>
-              </ion-card>
-            </div>
-            
-          </div>
-        </div>
-      </div>
-
-
-    </div>
-  </div>
- -->
-
-
 </ion-content>
 
 <ion-footer class="ion-no-border"  *ngIf="orderStatus == 'Accepted' && order != null">
