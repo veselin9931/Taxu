@@ -69,20 +69,15 @@
 </ion-content>
 
 
-<ion-content padding class="background" *ngIf="isDrivingNow == true">
-  <div class="row">
+<ion-content padding class="noScroll" *ngIf="isDrivingNow == true">
+  <div #map id="map"></div>
+  <!-- <div class="row">
     <div class="col">
 
       <div class="row">
         <div class="col text-center">
 
           <ion-content class="noScroll">
-            <!-- <div #map id="map"></div>
-
-            <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEvlXdM4joG4bNVT5l-tJSk9lUSGhxMNw&callback=initMap&libraries=&v=weekly"
-            async
-          ></script> -->
           </ion-content>
           <ion-button  (click)="navigateToUserAndCalculateDistance()" type="submit"
           color="success">Navigate to user</ion-button>
@@ -122,48 +117,78 @@
 
          
 
-          <div class="row chat">
-            
-            <div class="col">
-              <ion-card>
-                <ion-card-header>
-                  <ion-card-subtitle>Chat</ion-card-subtitle>
-                </ion-card-header>
-              </ion-card>
-
-              <ion-card>
-                  
-                  <div class="msg-box">
-                    <ul *ngFor="let mObj of msgInboxArray">
-                      <li [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
-                        {{mObj.user}}:  <br />
-                        {{mObj.text}}
-                        <hr />
-                    </li>
-                      
-                    </ul>
-                  </div>
-              </ion-card>
-
-              <ion-card>
-                <ion-item>
-                  <ion-textarea [(ngModel)]="msgDto.text" placeholder="Type your message...">
-
-                  </ion-textarea>
-                  <button class="send-btn" (click)="send()">
-                    <ion-icon name="pin"></ion-icon>
-                  </button>
-                </ion-item>
-              </ion-card>
-            </div>
-            
-          </div>
-
-        </div>
-      </div>
+          
 
 
     </div>
-  </div>
+  </div> -->
 
 </ion-content>
+
+
+<ion-footer class="ion-no-border" *ngIf="isDrivingNow == true">
+  <ion-toolbar class="text-center">
+    <ion-text class="textTravel">
+      <ion-title>Pick up address <ion-label>(15km from you)</ion-label></ion-title>
+      <ion-label >{{this.location}}</ion-label>
+    </ion-text>
+  </ion-toolbar>
+</ion-footer>
+
+
+<ion-footer class="ion-no-border" *ngIf="isDrivingNow == true">
+  <ion-toolbar class="text-center">
+    <ion-text class="textTravel">
+      <ion-button  (click)="navigateToUserAndCalculateDistance()" type="submit"
+      [disabled]="tripStatus=='Started'" color="primary">Navigate to user</ion-button>
+          <ion-button (click)="navigateToPointAndCalculateDistance()" type="submit"
+          color="primary" [disabled]="tripStatus=='!Processing'">Start trip</ion-button>
+          <ion-title>Drop off address<ion-label>(15km trip)</ion-label></ion-title>
+          <ion-label >{{this.destination}}</ion-label>
+    </ion-text>
+  </ion-toolbar>
+</ion-footer>
+
+<ion-footer class="ion-no-border"  *ngIf="isDrivingNow == true">
+  <ion-toolbar class="text-center">
+    <ion-button [disabled]="tripStatus=='Processing'" (click)="finishTrip()" type="submit" color="light">
+      Finish trip</ion-button>
+  </ion-toolbar>
+  
+  <div class="row chat">
+            
+    <div class="col">
+      <ion-card>
+        <ion-card-header class="text-center">
+          <ion-card-subtitle>Chat</ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+
+      <ion-card>
+          
+          <div class="msg-box">
+            <ul *ngFor="let mObj of msgInboxArray">
+              <li [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
+                {{mObj.user}}:  <br />
+                {{mObj.text}}
+                <hr />
+            </li>
+              
+            </ul>
+          </div>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-textarea [(ngModel)]="msgDto.text" placeholder="Type your message...">
+
+          </ion-textarea>
+          <button class="send-btn" (click)="send()">
+            <ion-icon name="pin"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-card>
+    </div>
+    
+  </div>
+</ion-footer>

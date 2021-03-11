@@ -172,6 +172,7 @@ export class DrivingPage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
+          
           directionsRenderer.setDirections(response);
           window.open(`https://www.google.com/maps/dir/?api=1&destination=${this.userLatitude},${this.userLongitude}&travelmode=driving`);
 
@@ -205,6 +206,7 @@ export class DrivingPage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
+          this.startTrip();
           directionsRenderer.setDirections(response);
           window.open(`https://www.google.com/maps/dir/?api=1&destination=${this.userDestinationLat},${this.userDestinationLng}&travelmode=driving`);
 

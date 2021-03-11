@@ -65,7 +65,7 @@ export class TravellingPage implements OnInit {
     this.userId = this.accountService.userValue.id;
   }
 
-  
+
 
   ngOnInit() {
     //this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
@@ -110,8 +110,10 @@ export class TravellingPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.loadMap(this.mapRef);
-    this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
+    if (this.orderStatus == 'Accepted' && this.order != null) {
+      this.loadMap(this.mapRef);
+      this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
+    }
     this.form.get('location').setValue(this.orderService.chosenLocation);
     this.form.get('locationLat').setValue(this.orderService.userLocationLat);
     this.form.get('locationLong').setValue(this.orderService.userLocationLong);
@@ -120,7 +122,7 @@ export class TravellingPage implements OnInit {
     this.form.get('destinationLat').setValue(this.orderService.userDestinationLat);
     this.form.get('destinationLong').setValue(this.orderService.userDestinationLong);
 
-    
+
   }
 
   msgDto: Message = new Message();
@@ -177,6 +179,7 @@ export class TravellingPage implements OnInit {
     this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
 
     this.form.value.totalPrice = this.orderTotalPrice;
+    
     (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
     this.form.value.increasePrice = (+this.form.value.increasePrice);
     this.form.value.eta = this.estimatedDuration;
@@ -186,11 +189,11 @@ export class TravellingPage implements OnInit {
     if (!this.form.valid) {
       return false;
     } else {
-        this.orderService.createOrder(this.form.value)
-          .subscribe(() => {
-            this.alertService.success('You have created an order.', { autoClose: true });
-            this.orderStatus = this.form.value.status;
-          })
+      this.orderService.createOrder(this.form.value)
+        .subscribe(() => {
+          this.alertService.success('You have created an order.', { autoClose: true });
+          this.orderStatus = this.form.value.status;
+        })
     }
   }
 
@@ -215,7 +218,6 @@ export class TravellingPage implements OnInit {
           this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
           this.orderTotalPrice = this.orderTotalDestination * 0.90;
           this.ordercost = this.orderTotalPrice.toFixed(2);
-          // (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
         } else {
           window.alert("Directions request failed due to " + status);
         }
