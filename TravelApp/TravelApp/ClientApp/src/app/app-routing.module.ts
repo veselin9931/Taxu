@@ -22,11 +22,7 @@ const routes: Routes = [
   {
     path: 'destination',
     loadChildren: () => import('./destination/destination.module').then( m => m.DestinationPageModule)
-  },  {
-    path: 'payments-sucsses',
-    loadChildren: () => import('./payments-sucsses/payments-sucsses.module').then( m => m.PaymentsSucssesPageModule)
-  }
-
+  },
 
 ];
 

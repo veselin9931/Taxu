@@ -3,24 +3,29 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Order } from 'src/_models';
+import { FavouriteOrder, Order } from 'src/_models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
+  public selectedFavourite: FavouriteOrder;
+
   public order: Order;
   public orders = [];
+
   public driverId: string;
   public completedOrder = false;
   public alertForcomplete: boolean;
+
   public chosenLocation: string;
   public chosenDestination: string;
+
   public userLocationLat: number;
   public userLocationLong: number;
+
   public userDestinationLat: number;
   public userDestinationLong: number;
-  private readonly getOrdersAction$ = new Subject();
 
 
   constructor(private http: HttpClient) { }
@@ -31,6 +36,29 @@ export class OrderService {
     return this.http.post(`${environment.apiUrl}/api/order`, data, { headers, responseType: 'text' })
       .pipe(
         catchError(this.handleError)
+      );
+  }
+
+  addToFavourites(data){
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(`${environment.apiUrl}/api/order/favourites`, data, { headers, responseType: 'text' })
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getMyFavourites(userId: string): Observable<FavouriteOrder[]> {
+    return this.http.get<FavouriteOrder[]>(`${environment.apiUrl}/api/order/favourites/${userId}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  deleteFavouriteOrder(orderId: string): Observable<FavouriteOrder> {
+    return this.http.delete<FavouriteOrder>(`${environment.apiUrl}/api/order/favourites/${orderId}`)
+      .pipe(
+        tap(data => console.log('deleted favourite order: ', JSON.stringify(data))),
       );
   }
 
@@ -108,6 +136,8 @@ export class OrderService {
         tap(data => console.log('deleted order: ', JSON.stringify(data))),
       );
   }
+
+  
 
   handleError(error) {
     let errorMessage = '';

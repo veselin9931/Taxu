@@ -1,6 +1,6 @@
 import { User } from ".";
 
-export class Order {
+export class FavouriteOrder {
     id: string;
     location: string;
     locationLat: number;
@@ -9,15 +9,8 @@ export class Order {
     destinationLat: number;
     destinationLong: number;
     increasePrice: string;
-    isAccepted: boolean;
-    isCompleted: boolean;
     createdOn: Date;
-    status: string;
     applicationUser: User;
     applicationUserId: string;
     totalPrice: number;
-    acceptedBy: string;
-    eta: string;
-    tripDistance: number;
-    userDistance: number;
 }

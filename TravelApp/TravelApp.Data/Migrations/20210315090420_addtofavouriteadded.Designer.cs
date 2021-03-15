@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelApp.Data;
 
 namespace TravelApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210315090420_addtofavouriteadded")]
+    partial class addtofavouriteadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -479,74 +481,6 @@ namespace TravelApp.Data.Migrations
                     b.ToTable("Drivers");
                 });
 
-            modelBuilder.Entity("TravelApp.Models.FavouriteOrder", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AcceptedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Destination")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("DestinationLat")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("DestinationLong")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ETA")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("IncreasePrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("LocationLat")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("LocationLong")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TripDistance")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("UserDistance")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("FavouriteOrders");
-                });
-
             modelBuilder.Entity("TravelApp.Models.Image", b =>
                 {
                     b.Property<string>("Id")
@@ -929,15 +863,6 @@ namespace TravelApp.Data.Migrations
                     b.Navigation("Wallet");
                 });
 
-            modelBuilder.Entity("TravelApp.Models.FavouriteOrder", b =>
-                {
-                    b.HasOne("TravelApp.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.Navigation("ApplicationUser");
-                });
-
             modelBuilder.Entity("TravelApp.Models.Order", b =>
                 {
                     b.HasOne("TravelApp.Models.ApplicationUser", "ApplicationUser")
@@ -950,7 +875,7 @@ namespace TravelApp.Data.Migrations
             modelBuilder.Entity("TravelApp.Models.Rating", b =>
                 {
                     b.HasOne("TravelApp.Models.Driver", "Driver")
-                        .WithMany("Ratings")
+                        .WithMany()
                         .HasForeignKey("DriverId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1020,8 +945,6 @@ namespace TravelApp.Data.Migrations
             modelBuilder.Entity("TravelApp.Models.Driver", b =>
                 {
                     b.Navigation("Cars");
-
-                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }

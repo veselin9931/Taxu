@@ -39,6 +39,7 @@ export class DrivingPage implements OnInit {
   loading = false;
   isSubmitted = false;
   verifiedAccount = false;
+  tripDistance:any;
   driverId = this.tripService.currentTripDriverId;
   isDrivingNow = this.accountService.userValue.isDrivingNow;
   applicationUserId = this.accountService.userValue.id;
@@ -155,9 +156,9 @@ export class DrivingPage implements OnInit {
     const directionsRenderer = new google.maps.DirectionsRenderer();
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-    let usetLat = this.userLatitude;
-    let userLng = this.userLongitude;
-
+    let usetLat = this.order.locationLat
+    let userLng = this.order.locationLong;
+    let order = this.order;
     directionsService.route(
       {
         origin: {
@@ -379,6 +380,7 @@ export class DrivingPage implements OnInit {
           this.userLongitude = order.locationLong;
           this.userDestinationLat = order.destinationLat;
           this.userDestinationLng = order.destinationLong;
+          this.tripDistance = order.tripDistance;
         })
         this.route.navigate(['menu/driving']);
       });

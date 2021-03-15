@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using TravelApp.Mappings;
-using TravelApp.Models;
+using TravelApp.Common.BaseModels;
 
-namespace TravelApp.Infrastructure.InputModels.OrderInput
+namespace TravelApp.Models
 {
-    public class CreateOrderInputModel : IMapFrom<Order>
+    public class FavouriteOrder : BaseDeletableModel<string>
     {
-        public string Id { get; set; }
+        public FavouriteOrder()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
 
         public ApplicationUser ApplicationUser { get; set; }
+
         public string ApplicationUserId { get; set; }
 
         [Required]
@@ -31,14 +34,20 @@ namespace TravelApp.Infrastructure.InputModels.OrderInput
 
         public decimal IncreasePrice { get; set; }
 
-        public string ETA { get; set; }
-
         public decimal TripDistance { get; set; }
 
         public decimal UserDistance { get; set; }
 
+
         [Required]
         [Range(typeof(decimal), "0", "999999999999999999")]
         public decimal TotalPrice { get; set; }
+
+        public string ETA { get; set; }
+
+        public string Status { get; set; }
+
+
+        public string AcceptedBy { get; set; }
     }
 }

@@ -31,6 +31,18 @@ export class MenuPage implements OnInit {
     {
       title: "Drive",
       url: '/menu/driving'
+    },
+    {
+      title: "Report",
+      url: '/menu/report'
+    },
+    {
+      title: "Favourites",
+      url: '/menu/favourite-orders'
+    },
+    {
+      title: "Payments",
+      url: '/menu/payments'
     }
   ];
 
@@ -81,8 +93,6 @@ export class MenuPage implements OnInit {
       this.accountService.getById(this.accountService.userValue.id)
         .subscribe(x => {
           this.isVerified = x.isDriver;
-          // console.log('User -- ')
-          // console.log(x)
 
           if (x.driverId != null) {
             this.driverService.getDriver(x.driverId)
@@ -93,8 +103,6 @@ export class MenuPage implements OnInit {
                 });
 
                 this.documentConfirmed = d.documentConfirmation;
-                // console.log('Driver -- ')
-                // console.log(d)
               })
           }
         })

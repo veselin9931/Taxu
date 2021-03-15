@@ -68,6 +68,7 @@ export class TravellingPage implements OnInit {
 
 
   ngOnInit() {
+    console.log(this.orderService.selectedFavourite)
     //this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
@@ -83,6 +84,8 @@ export class TravellingPage implements OnInit {
       destinationLat: this.orderService.userDestinationLat,
       destinationLong: this.orderService.userDestinationLong,
       totalPrice: this.orderTotalPrice,
+      tripDistance: 0,
+      userDistance: 0,
       increasePrice: [0],
       status: 'Waiting',
       eta: '',
@@ -110,17 +113,34 @@ export class TravellingPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    if (this.orderService.selectedFavourite) {
+      console.log('there is selected')
+      console.log(this.orderService.selectedFavourite.destination)
+      this.form.get('location').setValue(this.orderService.selectedFavourite.location);
+      this.form.get('locationLat').setValue(this.orderService.selectedFavourite.locationLat);
+      this.form.get('locationLong').setValue(this.orderService.selectedFavourite.locationLong);
+
+      this.form.get('destination').setValue(this.orderService.selectedFavourite.destination);
+      this.form.get('destinationLat').setValue(this.orderService.selectedFavourite.destinationLat);
+      this.form.get('destinationLong').setValue(this.orderService.selectedFavourite.destinationLong);
+
+      console.log(this.form)
+    } else {
+
+      this.form.get('location').setValue(this.orderService.chosenLocation);
+      this.form.get('locationLat').setValue(this.orderService.userLocationLat);
+      this.form.get('locationLong').setValue(this.orderService.userLocationLong);
+
+      this.form.get('destination').setValue(this.orderService.chosenDestination);
+      this.form.get('destinationLat').setValue(this.orderService.userDestinationLat);
+      this.form.get('destinationLong').setValue(this.orderService.userDestinationLong);
+    }
+
     if (this.orderStatus == 'Accepted' && this.order != null) {
       this.loadMap(this.mapRef);
       this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
     }
-    this.form.get('location').setValue(this.orderService.chosenLocation);
-    this.form.get('locationLat').setValue(this.orderService.userLocationLat);
-    this.form.get('locationLong').setValue(this.orderService.userLocationLong);
 
-    this.form.get('destination').setValue(this.orderService.chosenDestination);
-    this.form.get('destinationLat').setValue(this.orderService.userDestinationLat);
-    this.form.get('destinationLong').setValue(this.orderService.userDestinationLong);
 
 
   }
@@ -176,24 +196,73 @@ export class TravellingPage implements OnInit {
   }
 
   onSubmit() {
-    this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
+    const directionsService = new google.maps.DirectionsService();
 
-    this.form.value.totalPrice = this.orderTotalPrice;
-    
-    (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
-    this.form.value.increasePrice = (+this.form.value.increasePrice);
-    this.form.value.eta = this.estimatedDuration;
-    let userId = this.accountService.userValue.id;
-    this.form.value.applicationUserId = userId;
-    this.isSubmitted = true;
-    if (!this.form.valid) {
-      return false;
+    directionsService.route(
+      {
+        origin: {
+          lat: this.form.value.locationLat,
+          lng: this.form.value.locationLong
+        },
+        destination: {
+          lat: this.form.value.destinationLat,
+          lng: this.form.value.destinationLong,
+        },
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (response, status) => {
+        if (status === "OK") {
+          this.estimatedDuration = response.routes[0].legs[0].duration.text;
+          this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
+          this.orderTotalPrice = this.orderTotalDestination * 0.90;
+          this.ordercost = this.orderTotalPrice.toFixed(2);
+
+          this.form.value.totalPrice = this.orderTotalPrice;
+          this.form.value.tripDistance = this.orderTotalDestination;
+          (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
+          this.form.value.increasePrice = (+this.form.value.increasePrice);
+          this.form.value.eta = this.estimatedDuration;
+          let userId = this.accountService.userValue.id;
+          this.form.value.applicationUserId = userId;
+          this.isSubmitted = true;
+          if (!this.form.valid) {
+            return false;
+          } else {
+            this.orderService.createOrder(this.form.value)
+              .subscribe(() => {
+                this.alertService.success('You have created an order.', { autoClose: true });
+                this.orderStatus = this.form.value.status;
+              })
+          }
+
+        } else {
+          window.alert("Directions request failed due to " + status);
+        }
+      }
+    );
+
+  }
+
+  addToFavourite() {
+    let data = {
+      applicationUserId: this.order.applicationUserId,
+      location: this.order.location,
+      locationLat: this.order.locationLat,
+      locationLong: this.order.locationLong,
+      destination: this.order.destination,
+      destinationLat: this.order.destinationLat,
+      destinationLong: this.order.destinationLong,
+      totalPrice: this.order.totalPrice
+    };
+
+    if (data) {
+      this.orderService.addToFavourites(data)
+        .subscribe(x => {
+          this.successAddedFavourite();
+        });
+
     } else {
-      this.orderService.createOrder(this.form.value)
-        .subscribe(() => {
-          this.alertService.success('You have created an order.', { autoClose: true });
-          this.orderStatus = this.form.value.status;
-        })
+      console.log('Problem with data occured')
     }
   }
 
@@ -223,6 +292,10 @@ export class TravellingPage implements OnInit {
         }
       }
     );
+  }
+
+  addFavourite() {
+    console.log(this.order)
   }
 
   checkorder() {
@@ -269,8 +342,6 @@ export class TravellingPage implements OnInit {
           this.isCompleted = false;
           this.isSubmitted = false;
           this.clearForm();
-
-          console.log('your order is accepted')
           this.orderService.order = data;
 
           if (data.acceptedBy != null) {
@@ -333,10 +404,7 @@ export class TravellingPage implements OnInit {
             this.isCompleted = false;
             this.orderStatus = null;
             this.orderTotalPrice = 0;
-            console.log('Canceled order:');
-            console.log(order);
-            this.form.get('location').setValue('Choose starting location')
-            this.form.get('destination').setValue('Choose destination')
+            this.clearForm();
           })
       })
   }
@@ -354,7 +422,18 @@ export class TravellingPage implements OnInit {
     this.form.reset({
       'location': '',
       'destination': '',
-      'increaseAmount': ''
+      'increaseAmount': '',
+      'applicationUserId': '',
+      'locationLat': '',
+      'locationLong': '',
+      'destinationLat': '',
+      'destinationLong': '',
+      'totalPrice': '',
+      'tripDistance': '',
+      'userDistance': '',
+      'increasePrice': '',
+      'status': '',
+      'eta': '',
     })
   }
 
@@ -385,6 +464,21 @@ export class TravellingPage implements OnInit {
           handler: () => {
             this.route.navigate(['menu/report']);
           }
+        }
+      ]
+    });
+
+    await popup.present();
+
+  }
+  async successAddedFavourite() {
+    const popup = await this.alertController.create({
+      header: 'Successfully added to favourites!',
+
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
         }
       ]
     });
