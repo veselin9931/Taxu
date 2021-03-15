@@ -77,7 +77,8 @@ export class DestinationPage implements OnInit {
       map: this.map
     });
 
-    var input = document.getElementById('searchTextField2').getElementsByTagName('input')[0];;
+    var input = document.getElementById('searchTextField2').getElementsByTagName('input')[0];
+    
     var searchbox = new google.maps.places.SearchBox(input);
 
     this.map.addListener("bounds_changed", () => {

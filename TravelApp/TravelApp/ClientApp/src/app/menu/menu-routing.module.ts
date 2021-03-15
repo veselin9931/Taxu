@@ -70,6 +70,10 @@ const routes: Routes = [
         loadChildren: () => import('../passenger-report/passenger-report.module').then( m => m.PassengerReportPageModule)
       },
       {
+        path: 'favourite-orders',
+        loadChildren: () => import('../favourite-orders/favourite-orders.module').then( m => m.FavouriteOrdersPageModule)
+      },
+      {
         path: '',
         redirectTo: '/home',
         pathMatch: 'full'

@@ -22,7 +22,8 @@ const routes: Routes = [
   {
     path: 'destination',
     loadChildren: () => import('./destination/destination.module').then( m => m.DestinationPageModule)
-  }
+  },
+
 ];
 
 @NgModule({

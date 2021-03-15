@@ -34,6 +34,10 @@ namespace TravelApp.Models
 
         public decimal IncreasePrice { get; set; }
 
+        public decimal TripDistance { get; set; }
+
+        public decimal UserDistance { get; set; }
+
 
         [Required]
         [Range(typeof(decimal), "0", "999999999999999999")]

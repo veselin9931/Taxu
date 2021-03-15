@@ -31,6 +31,14 @@ export class MenuPage implements OnInit {
     {
       title: "Drive",
       url: '/menu/driving'
+    },
+    {
+      title: "Report",
+      url: '/menu/report'
+    },
+    {
+      title: "Favourites",
+      url: '/menu/favourite-orders'
     }
   ];
 

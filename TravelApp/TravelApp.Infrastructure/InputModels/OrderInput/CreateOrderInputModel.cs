@@ -33,6 +33,10 @@ namespace TravelApp.Infrastructure.InputModels.OrderInput
 
         public string ETA { get; set; }
 
+        public decimal TripDistance { get; set; }
+
+        public decimal UserDistance { get; set; }
+
         [Required]
         [Range(typeof(decimal), "0", "999999999999999999")]
         public decimal TotalPrice { get; set; }

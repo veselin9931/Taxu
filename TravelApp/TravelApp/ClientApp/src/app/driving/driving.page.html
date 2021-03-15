@@ -23,7 +23,7 @@
       <div class="row">
         <div class="col-md-12 text-center">
           <ion-text class="centered" color="light">
-            <h2 class="text">Driving</h2>
+            <h2 class="fonted">Driving</h2>
             <hr>
           </ion-text>
 
@@ -41,17 +41,17 @@
 
             <a class="text list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Order</h5>
+                <h5 class="mb-1 fonted">Order</h5>
                 <small>{{oldOrder.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
               </div>
-              <p class="mb-1">Location: {{oldOrder.location}}</p>
-              <p class="mb-1">Destination: {{oldOrder.destination}}</p>
-
+              <p class="mb-1 fonted">Location: {{oldOrder.location}}</p>
+              <hr />
+              <p class="mb-1 fonted">Destination: {{oldOrder.destination}}</p>
               <div class="row">
                 <div class="col">
                   <div class="d-flex w-100 justify-content-between">
-                    <small>Distance: 25 km (coming soon...)</small>
-                    <ion-button (click)="acceptOrder(oldOrder)" type="submit" color="light">Accept</ion-button>
+                    <small>Trip distance: {{oldOrder.tripDistance}} km</small>
+                    <ion-button class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">Accept</ion-button>
                   </div>
                 </div>
                 <div class="col-md-12">
@@ -129,7 +129,7 @@
 <ion-footer class="ion-no-border" *ngIf="isDrivingNow == true">
   <ion-toolbar class="text-center">
     <ion-text class="textTravel">
-      <ion-title>Pick up address <ion-label>(15km from you)</ion-label></ion-title>
+      <ion-title>Pick up address <ion-label>(..km coming soon)</ion-label></ion-title>
       <ion-label >{{this.location}}</ion-label>
     </ion-text>
   </ion-toolbar>
@@ -143,7 +143,7 @@
       [disabled]="tripStatus=='Started'" color="primary">Navigate to user</ion-button>
           <ion-button (click)="navigateToPointAndCalculateDistance()" type="submit"
           color="primary" [disabled]="tripStatus=='!Processing'">Start trip</ion-button>
-          <ion-title>Drop off address<ion-label>(15km trip)</ion-label></ion-title>
+          <ion-title>Drop off address<ion-label>({{tripDistance}}km total.)</ion-label></ion-title>
           <ion-label >{{this.destination}}</ion-label>
     </ion-text>
   </ion-toolbar>

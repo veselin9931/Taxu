@@ -123,7 +123,10 @@
   <ion-toolbar class="text-center">
     <ion-title>Your destination</ion-title>
     <ion-label >{{destination}}</ion-label>
-
+    <ion-toolbar class="text-center">
+      <ion-button (click)="addToFavourite()" type="submit" color="light">
+        Add to favourites</ion-button>
+    </ion-toolbar>
   </ion-toolbar>
   
   <div class="row chat">
