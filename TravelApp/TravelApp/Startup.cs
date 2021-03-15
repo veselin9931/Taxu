@@ -91,8 +91,7 @@ namespace TravelApp
             //services.AddCors();
             services.AddMvc();
 
-            services.AddSignalR()
-                 .AddAzureSignalR();
+            services.AddSignalR();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -156,26 +155,6 @@ namespace TravelApp
                 }
 
             });
-
-
-            app.UseFileServer();
-
-            app.UseAzureSignalR(routes =>
-            {
-                routes.MapHub<OrderHub>("/orderHub");
-            });
-
-            app.UseWebSockets();
-
-            var webSocketOptions = new WebSocketOptions()
-            {
-                KeepAliveInterval = TimeSpan.FromSeconds(120),
-            };
-
-            webSocketOptions.AllowedOrigins.Add("https://taxu.azurewebsites.net/");
-            webSocketOptions.AllowedOrigins.Add("http://localhost:8100/");
-
-            app.UseWebSockets(webSocketOptions);
 
 
             app.UseHttpsRedirection();

@@ -9,40 +9,44 @@
 
     <ion-content>
       <ion-list>
-        <ion-menu-toggle auto-hide="false">
-          <!-- <ion-item [routerLink]="p.url" routerDirection="root" [class.active.item]="selectedPage">
-            <ion-label> {{p.title}} </ion-label>
-          </ion-item> -->
-          <ion-item *ngIf="!isLoggedIn" routerLink="/menu/home" [class.active.item]="selectedPage">
-            <ion-label class="my-label" color="light"> Sign up </ion-label>
-          </ion-item>
+          <ion-menu-toggle auto-hide="false">
+              <!-- <ion-item [routerLink]="p.url" routerDirection="root" [class.active.item]="selectedPage">
+      <ion-label> {{p.title}} </ion-label>
+    </ion-item> -->
+              <ion-item *ngIf="!isLoggedIn" routerLink="/menu/home" [class.active.item]="selectedPage">
+                  <ion-label class="my-label" color="light"> Sign up </ion-label>
+              </ion-item>
 
-          <ion-item *ngIf="isLoggedIn" routerLink="/menu/travelling" [class.active.item]="selectedPage">
-            <ion-label class="my-label" color="light"> Travel </ion-label>
-          </ion-item>
+              <ion-item *ngIf="isLoggedIn" routerLink="/menu/travelling" [class.active.item]="selectedPage">
+                  <ion-label class="my-label" color="light"> Travel </ion-label>
+              </ion-item>
 
-          <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true" routerLink="/menu/driver-profile" [class.active.item]="selectedPath">
-            <ion-label class="my-label" color="light"> Profile </ion-label>
-          </ion-item>
+              <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true" routerLink="/menu/driver-profile" [class.active.item]="selectedPath">
+                  <ion-label class="my-label" color="light"> Profile </ion-label>
+              </ion-item>
+
+              <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true" routerLink="/menu/payments" [class.active.item]="selectedPath">
+                  <ion-label class="my-label" color="light"> Payments </ion-label>
+              </ion-item>
 
 
-          <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true && driverCars.length >= 1" routerLink="/menu/driving" [class.active.item]="selectedPath">
-            <ion-label class="my-label" color="light"> Drive </ion-label>
-          </ion-item>
+              <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true && driverCars.length >= 1" routerLink="/menu/driving" [class.active.item]="selectedPath">
+                  <ion-label class="my-label" color="light"> Drive </ion-label>
+              </ion-item>
 
-          <ion-item *ngIf="isLoggedIn && isVerified == false && documentConfirmed == false" routerLink="/menu/become-driver" [class.active.item]="selectedPath">
-            <ion-label class="my-label" color="light"> Drive </ion-label>
-          </ion-item>
+              <ion-item *ngIf="isLoggedIn && isVerified == false && documentConfirmed == false" routerLink="/menu/become-driver" [class.active.item]="selectedPath">
+                  <ion-label class="my-label" color="light"> Drive </ion-label>
+              </ion-item>
 
-          <ion-item *ngIf="isLoggedIn && isVerified == true && driverCars.length == 0 && documentConfirmed == false" routerLink="/menu/car-register" [class.active.item]="selectedPage">
-            <ion-label class="my-label" color="light"> Drive </ion-label>
-          </ion-item>
+              <ion-item *ngIf="isLoggedIn && isVerified == true && driverCars.length == 0 && documentConfirmed == false" routerLink="/menu/car-register" [class.active.item]="selectedPage">
+                  <ion-label class="my-label" color="light"> Drive </ion-label>
+              </ion-item>
 
-          <ion-item *ngIf="isLoggedIn && isVerified == true && documentConfirmed == false && driverCars.length >= 1" routerLink="/menu/verifying" [class.active.item]="selectedPage">
-            <ion-label class="my-label" color="light"> Drive </ion-label>
-          </ion-item>
+              <ion-item *ngIf="isLoggedIn && isVerified == true && documentConfirmed == false && driverCars.length >= 1" routerLink="/menu/verifying" [class.active.item]="selectedPage">
+                  <ion-label class="my-label" color="light"> Drive </ion-label>
+              </ion-item>
 
-        </ion-menu-toggle>
+          </ion-menu-toggle>
 
         <ion-item *ngIf="isLoggedIn" toppable (click)=logout() routerDirection="root">
           <ion-icon color="light" name="log-out-outline" slot="start"></ion-icon>
