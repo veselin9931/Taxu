@@ -11,6 +11,15 @@ namespace TravelApp.Services.OrderService
     {
         public Task<string> CreateOrderAsync(CreateOrderInputModel input);
 
+        public Task<string> AddToFavouriteOrder(CreateOrderInputModel input);
+
+        public Task<IList<FavouriteOrder>> GetAllFavouriteOrdersAsync();
+
+        public Task<IList<FavouriteOrder>> GetAllFavouriteOrdersForUserAsync(string userId);
+
+        public Task<bool> DeleteFavourite(string orderId);
+
+
         public Task<IList<Order>> GetAllAcceptedOrdersAsync(string userId);
 
         public Order GetLastAcceptedOrderByUserId(string userId);

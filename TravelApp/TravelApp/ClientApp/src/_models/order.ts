@@ -18,4 +18,6 @@ export class Order {
     totalPrice: number;
     acceptedBy: string;
     eta: string;
+    tripDistance: number;
+    userDistance: number;
 }
