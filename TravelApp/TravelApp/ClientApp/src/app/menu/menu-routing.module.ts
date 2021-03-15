@@ -15,11 +15,11 @@ const routes: Routes = [
       },
       {
         path: 'location',
-        loadChildren: () => import('../location/location.module').then( m => m.LocationPageModule)
+        loadChildren: () => import('../location/location.module').then(m => m.LocationPageModule)
       },
       {
         path: 'destination',
-        loadChildren: () => import('../destination/destination.module').then( m => m.DestinationPageModule)
+        loadChildren: () => import('../destination/destination.module').then(m => m.DestinationPageModule)
       },
       {
         path: 'home',
@@ -59,32 +59,26 @@ const routes: Routes = [
       },
       {
         path: 'car-register',
-        loadChildren: () => import('../car-register/car-register.module').then( m => m.CarRegisterPageModule)
+        loadChildren: () => import('../car-register/car-register.module').then(m => m.CarRegisterPageModule)
       },
       {
         path: 'report',
-        loadChildren: () => import('../report/report.module').then( m => m.ReportPageModule)
+        loadChildren: () => import('../report/report.module').then(m => m.ReportPageModule)
       },
       {
         path: 'passenger-report',
-        loadChildren: () => import('../passenger-report/passenger-report.module').then( m => m.PassengerReportPageModule)
+        loadChildren: () => import('../passenger-report/passenger-report.module').then(m => m.PassengerReportPageModule)
       },
       {
         path: 'favourite-orders',
-        loadChildren: () => import('../favourite-orders/favourite-orders.module').then( m => m.FavouriteOrdersPageModule)
-      },
-      {
-        path: '',
-        redirectTo: '/home',
-        pathMatch: 'full'
+        loadChildren: () => import('../favourite-orders/favourite-orders.module').then(m => m.FavouriteOrdersPageModule)
       }
     ]
   }
-  
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MenuPageRoutingModule {}
+export class MenuPageRoutingModule { }
