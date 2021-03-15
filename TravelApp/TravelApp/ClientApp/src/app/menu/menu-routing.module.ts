@@ -72,6 +72,14 @@ const routes: Routes = [
       {
         path: 'favourite-orders',
         loadChildren: () => import('../favourite-orders/favourite-orders.module').then(m => m.FavouriteOrdersPageModule)
+      },
+      {
+        path: 'payments-sucsses',
+        loadChildren: () => import('../payments-sucsses/payments-sucsses.module').then( m => m.PaymentsSucssesPageModule)
+      },
+      {
+        path: 'payments',
+        loadChildren: () => import('../payments/payments.module').then( m => m.PaymentsPageModule)
       }
     ]
   }
