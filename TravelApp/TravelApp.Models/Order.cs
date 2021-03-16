@@ -47,6 +47,9 @@ namespace TravelApp.Models
 
         public string Status { get; set; }
 
+        public string OrderOptionsId { get; set; }
+
+        public OrderOptions OrderOptions { get; set; }
 
         public string AcceptedBy { get; set; }
     }
