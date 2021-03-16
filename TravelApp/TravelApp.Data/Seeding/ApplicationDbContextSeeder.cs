@@ -28,7 +28,8 @@
                           {
                               new RolesSeeder(),
                               new CarTypesSeeder(),
-                              new ReportTypeSeeder()
+                              new ReportTypeSeeder(),
+                              new OrderOptionsSeeder()
                           };
 
             foreach (var seeder in seeders)

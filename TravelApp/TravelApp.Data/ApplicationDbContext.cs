@@ -40,6 +40,8 @@ namespace TravelApp.Data
 
         public DbSet<ReportType> ReportTypes { get; set; }
 
+        public DbSet<OrderOptions> OrderOptions { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
