@@ -28,13 +28,13 @@
     <div class="row">
         <div class="col text-center">
 
-              <ion-text>
-                  <h5 class="mt-2 text">Please top up your account to start driving. For more information on creating a crypto wallet, see here.</h5>
-              </ion-text>
+            <ion-text>
+                <h5 class="mt-2 text">Please top up your account to start driving. For more information on creating a crypto wallet, see here.</h5>
+            </ion-text>
         </div>
-      </div>
+    </div>
 
-      
+
     <form action="https://www.alfacoins.com/checkout" method="post" id="alfacoins-checkout-form1">
         <input type="hidden" name="button_id" value="6047847005579">
         <ion-button color="secondary" onclick="document.getElementById('alfacoins-checkout-form1').submit();" expand="block">
@@ -49,7 +49,7 @@
     </form>
 
     <form id="alfacoins-checkout-form" method="post" action="https://www.alfacoins.com/checkout"
-        id="alfacoins-checkout-form3">
+          id="alfacoins-checkout-form3">
         <input name="button_id" value="60478574cb508" type="hidden">
         <ion-button color="secondary" onclick="document.getElementById('alfacoins-checkout-form3').submit();" expand="block">
             <ion-icon ios="logo-bitcoin" md="logo-bitcoin"></ion-icon> <span> Charge 20 $ </span>
@@ -63,13 +63,20 @@
         </ion-button>
     </form>
 
-<ion-toolbar>
+    <form action="https://www.alfacoins.com/checkout" method="post" id="alfacoins-checkout-form5">
+        <input type="hidden" name="button_id" value="6050a41c82c5a">
+        <ion-button color="secondary" onclick="document.getElementById('alfacoins-checkout-form5').submit();" expand="block">
+            <ion-icon ios="logo-bitcoin" md="logo-bitcoin"></ion-icon> <span> Charge 100 $ </span>
+        </ion-button>
+    </form>
 
-    <h5 class="ranking my-label text-center pt-2 text">
-        Your wallet ballance: <ion-chip>
-            <ion-label>{{walletAmount}} $</ion-label>
-        </ion-chip>
-    </h5>
-    
-</ion-toolbar>
+        <ion-toolbar>
+
+            <h5 class="ranking my-label text-center pt-2 text">
+                Your wallet ballance: <ion-chip>
+                    <ion-label>{{walletAmount}} $</ion-label>
+                </ion-chip>
+            </h5>
+
+        </ion-toolbar>
 </ion-content>

@@ -142,5 +142,14 @@ namespace TravelApp.Services.DriverService
 
             return false;
         }
+
+        public bool UpdateDriverRating(Driver driver)
+        {
+            this.repository.Update(driver);
+
+            var r = this.repository.SaveChangesAsync();
+
+            return r.Result > 0;
+        }
     }
 }

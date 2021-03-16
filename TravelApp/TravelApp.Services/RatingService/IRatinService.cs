@@ -8,7 +8,7 @@ namespace TravelApp.Services.RatingService
 {
     public interface IRatinService
     {
-        public bool AddRating(string driverId, int value);
+        public Task<bool> AddRating(string driverId, int value);
 
         public Task<double> GetRatingByDriverId(string driverId);
 

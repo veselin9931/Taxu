@@ -24,6 +24,7 @@ namespace TravelApp.Services.DriverService
 
         public Driver GetByReferral(string referral);
 
+        public bool UpdateDriverRating(Driver driver);
 
         DriverViewModel GetDriver(string id);
     }

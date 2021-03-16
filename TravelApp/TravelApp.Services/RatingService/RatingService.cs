@@ -20,9 +20,36 @@ namespace TravelApp.Services.RatingService
             this.driverService = driverService;
         }
 
-        public bool AddRating(string driverId, int value)
+        public async Task<bool> AddRating(string driverId, int value)
         {
-            throw new NotImplementedException();
+            var driver = this.driverService.GetById(driverId);
+
+            var rating = new Rating()         
+            { 
+              DriverId = driverId, 
+              Value = value
+            };
+
+            this.repository.Add(rating);
+
+            var r = await this.repository.SaveChangesAsync();
+
+            if (r > 0)
+            {
+                 driver.Ratings.Add(rating);
+                var r2 =this.driverService.UpdateDriverRating(driver);
+
+                if (r2)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return false;     
         }
 
         public Task<IEnumerable<DriverViewModel>> Get5TopRated()
