@@ -10,7 +10,7 @@ namespace TravelApp.Services.RatingService
     {
         public Task<bool> AddRating(string driverId, int value);
 
-        public Task<double> GetRatingByDriverId(string driverId);
+        public double GetRatingByDriverId(string driverId);
 
         public Task<IEnumerable<DriverViewModel>> Get5TopRated();
 

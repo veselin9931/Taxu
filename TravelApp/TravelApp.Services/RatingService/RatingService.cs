@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TravelApp.Common.Repositories;
@@ -49,7 +50,8 @@ namespace TravelApp.Services.RatingService
                 }
             }
 
-            return false;     
+            return false;
+     
         }
 
         public Task<IEnumerable<DriverViewModel>> Get5TopRated()
@@ -57,9 +59,13 @@ namespace TravelApp.Services.RatingService
             throw new NotImplementedException();
         }
 
-        public Task<double> GetRatingByDriverId(string driverId)
+        public double GetRatingByDriverId(string driverId)
         {
-            throw new NotImplementedException();
+           var rating = this.repository.All()
+                .Where(a => a.DriverId == driverId)
+                .Select(r => r.Value).Average();
+
+            return rating;
         }
     }
 }
