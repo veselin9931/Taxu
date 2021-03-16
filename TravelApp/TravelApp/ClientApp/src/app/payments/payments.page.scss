@@ -4,7 +4,10 @@ ion-card {
         position: absolute;
         z-index: 1;
     }
-    
+    ion-content{
+        //--background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+        --ion-background-color:#eeeeee;
+    }
     
     ion-toolbar{
         --ion-background-color:#eeeeee;
@@ -21,28 +24,12 @@ ion-card {
         font-size: 3em;
         //--background: url(../../assets/Daco_4674738.png) 0 0/100% 100% no-repeat;
     }
-    
-    .centered{
-        text-align: center;
+
+    .lighted{
+        color: whitesmoke;
     }
     
     .text{  
-        font-size: 2.4em;
+        font-size: 1.3em;
         font-family: Open Sans Light;
-    }
-    
-    i{
-        color:#eeeeee;
-    }
-    
-    
-    .my-custom-class {
-        --background: #e5e5e5;
-      }
-    
-    ion-select{
-        color: rgb(56, 56, 56);
-        background-color: white;
-        border-radius: 10px;
-        border: 3px solid #eeeeee;
     }

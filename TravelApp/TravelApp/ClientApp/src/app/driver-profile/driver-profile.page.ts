@@ -190,41 +190,45 @@ export class DriverProfilePage implements OnInit {
     await alert.present();
   }
 
-  async presentPrompt() {
-    const popup = await this.alertController.create({
-      header: 'Charge cash',
-      inputs: [
-        {
-          name: 'Amount',
-          placeholder: 'Amount'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-        {
-          text: 'Confirm',
-          handler: data => {
-            if(data.Amount != "" && data.Amount > 0){
-              let amount = +data.Amount;
-              this.walletService.chargeWallet(this.user.id, amount)
-              .subscribe(w => {
-                this.chargeAlertSuccess(amount);
-              })
-              console.log(data)
-            } else {
-              this.chargeAlertFail();
-            }
-          }
-        }
-      ]
-    });
-    
-    await popup.present();
-    
+  chargeCash(){
+    this.route.navigate(['menu/payments'])
   }
+
+  // async presentPrompt() {
+  //   const popup = await this.alertController.create({
+  //     header: 'Charge cash',
+  //     inputs: [
+  //       {
+  //         name: 'Amount',
+  //         placeholder: 'Amount'
+  //       }
+  //     ],
+  //     buttons: [
+  //       {
+  //         text: 'Cancel',
+  //         role: 'cancel',
+  //       },
+  //       {
+  //         text: 'Confirm',
+  //         handler: data => {
+  //           if(data.Amount != "" && data.Amount > 0){
+  //             let amount = +data.Amount;
+  //             this.walletService.chargeWallet(this.user.id, amount)
+  //             .subscribe(w => {
+  //               this.chargeAlertSuccess(amount);
+  //             })
+  //             console.log(data)
+  //           } else {
+  //             this.chargeAlertFail();
+  //           }
+  //         }
+  //       }
+  //     ]
+  //   });
+    
+  //   await popup.present();
+    
+  // }
 
   async chargeAlertFail() {
     const alert = await this.alertController.create({

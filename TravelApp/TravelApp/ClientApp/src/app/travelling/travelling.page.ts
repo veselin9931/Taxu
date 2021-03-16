@@ -32,7 +32,6 @@ export class TravellingPage implements OnInit {
   activeCarData: Car;
   orderStatus: string;
   orderTotalPrice = 0;
-  ordercost: string;
   orderTotalDestination: any;
   estimatedDuration: any;
   //Car html properties;
@@ -68,13 +67,11 @@ export class TravellingPage implements OnInit {
 
 
   ngOnInit() {
-    console.log(this.orderService.selectedFavourite)
-    //this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
     this.chatService.retrieveMappedObject()
-      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
-
+    .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
+    
     this.checkorder();
-
+    
     this.form = this.formBuilder.group({
       applicationUserId: [''],
       location: this.orderService.chosenLocation,
@@ -90,59 +87,59 @@ export class TravellingPage implements OnInit {
       status: 'Waiting',
       eta: '',
     })
-
-
+    
     const connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.apiUrl}/orderHub`, {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
-      })
-      .build();
-
+    .configureLogging(signalR.LogLevel.Information)
+    .withUrl(`${environment.apiUrl}/orderHub`, {
+      skipNegotiation: true,
+      transport: signalR.HttpTransportType.WebSockets
+    })
+    .build();
+    
     connection.start().then(function () {
       console.log('signalR Connected in travelling');
     }).catch(function (err) {
       return console.log(err.toString());
     });
-
+    
     connection.on('BroadcastMessage', () => {
       this.checkorder();
     });
-
+    
   }
-
+  
   ionViewDidEnter() {
+    
+
     if (this.orderService.selectedFavourite) {
-      console.log('there is selected')
-      console.log(this.orderService.selectedFavourite.destination)
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
       this.form.get('locationLat').setValue(this.orderService.selectedFavourite.locationLat);
       this.form.get('locationLong').setValue(this.orderService.selectedFavourite.locationLong);
-
+      
       this.form.get('destination').setValue(this.orderService.selectedFavourite.destination);
       this.form.get('destinationLat').setValue(this.orderService.selectedFavourite.destinationLat);
       this.form.get('destinationLong').setValue(this.orderService.selectedFavourite.destinationLong);
-
-      console.log(this.form)
     } else {
-
       this.form.get('location').setValue(this.orderService.chosenLocation);
       this.form.get('locationLat').setValue(this.orderService.userLocationLat);
       this.form.get('locationLong').setValue(this.orderService.userLocationLong);
-
+      
       this.form.get('destination').setValue(this.orderService.chosenDestination);
       this.form.get('destinationLat').setValue(this.orderService.userDestinationLat);
       this.form.get('destinationLong').setValue(this.orderService.userDestinationLong);
     }
 
+    if(this.isCompleted){
+      console.log('should display the loc')
+      console.log(this.order)
+      this.form.get('location').setValue(this.order.location);
+      this.form.get('destination').setValue(this.order.destination);
+    }
+    
     if (this.orderStatus == 'Accepted' && this.order != null) {
       this.loadMap(this.mapRef);
-      this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
     }
-
-
-
+    this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
   }
 
   msgDto: Message = new Message();
@@ -215,7 +212,6 @@ export class TravellingPage implements OnInit {
           this.estimatedDuration = response.routes[0].legs[0].duration.text;
           this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
           this.orderTotalPrice = this.orderTotalDestination * 0.90;
-          this.ordercost = this.orderTotalPrice.toFixed(2);
 
           this.form.value.totalPrice = this.orderTotalPrice;
           this.form.value.tripDistance = this.orderTotalDestination;
@@ -286,7 +282,6 @@ export class TravellingPage implements OnInit {
           this.estimatedDuration = response.routes[0].legs[0].duration.text;
           this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
           this.orderTotalPrice = this.orderTotalDestination * 0.90;
-          this.ordercost = this.orderTotalPrice.toFixed(2);
         } else {
           window.alert("Directions request failed due to " + status);
         }
@@ -424,15 +419,15 @@ export class TravellingPage implements OnInit {
       'destination': '',
       'increaseAmount': '',
       'applicationUserId': '',
-      'locationLat': '',
-      'locationLong': '',
-      'destinationLat': '',
-      'destinationLong': '',
-      'totalPrice': '',
-      'tripDistance': '',
-      'userDistance': '',
-      'increasePrice': '',
-      'status': '',
+      'locationLat': 0,
+      'locationLong': 0,
+      'destinationLat': 0,
+      'destinationLong': 0,
+      'totalPrice': 0,
+      'tripDistance': 0,
+      'userDistance': 0,
+      'increasePrice': 0,
+      'status': 'Waiting',
       'eta': '',
     })
   }

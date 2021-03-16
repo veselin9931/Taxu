@@ -65,7 +65,7 @@ search: any;
 
     var input = document.getElementById('searchTextField').getElementsByTagName('input')[0];
     var searchbox = new google.maps.places.SearchBox(input);
-
+    this.orderService.selectedFavourite = null;
     this.map.addListener("bounds_changed", () => {
       searchbox.setBounds(this.map.getBounds() as google.maps.LatLngBounds);
     });

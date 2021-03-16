@@ -6,7 +6,7 @@
 
 
         <ion-title>
-            <ion-label>TaxiMi</ion-label>
+            <ion-label>Charge your account</ion-label>
         </ion-title>
 
         <ion-buttons slot="end">
@@ -25,24 +25,25 @@
 
 
 <ion-content>
+    <div class="row">
+        <div class="col text-center">
 
-    <ion-text class="ion-text-cente pt-2">
-        <h4>Charge your account</h4>
-        <ion-text class="text-center" color="danger">
+              <ion-text>
+                  <h5 class="mt-2 text">Please top up your account to start driving. For more information on creating a crypto wallet, see here.</h5>
+              </ion-text>
+        </div>
+      </div>
 
-            Please top up your account to start driving. For more information on creating a crypto wallet, see here.
-        </ion-text>
-    </ion-text>
-
+      
     <form action="https://www.alfacoins.com/checkout" method="post" id="alfacoins-checkout-form1">
         <input type="hidden" name="button_id" value="6047847005579">
-        <ion-button onclick="document.getElementById('alfacoins-checkout-form1').submit();" expand="block">
+        <ion-button color="secondary" onclick="document.getElementById('alfacoins-checkout-form1').submit();" expand="block">
             <ion-icon ios="logo-bitcoin" md="logo-bitcoin"></ion-icon> <span> Charge 10 $ </span>
         </ion-button>
     </form>
     <form action="https://www.alfacoins.com/checkout" method="post" id="alfacoins-checkout-form2">
         <input type="hidden" name="button_id" value="604784ce666db">
-        <ion-button onclick="document.getElementById('alfacoins-checkout-form2').submit();" expand="block">
+        <ion-button color="secondary" onclick="document.getElementById('alfacoins-checkout-form2').submit();" expand="block">
             <ion-icon ios="logo-bitcoin" md="logo-bitcoin"></ion-icon> <span>   Charge 15 $ </span>
         </ion-button>
     </form>
@@ -50,23 +51,25 @@
     <form id="alfacoins-checkout-form" method="post" action="https://www.alfacoins.com/checkout"
         id="alfacoins-checkout-form3">
         <input name="button_id" value="60478574cb508" type="hidden">
-        <ion-button onclick="document.getElementById('alfacoins-checkout-form3').submit();" expand="block">
+        <ion-button color="secondary" onclick="document.getElementById('alfacoins-checkout-form3').submit();" expand="block">
             <ion-icon ios="logo-bitcoin" md="logo-bitcoin"></ion-icon> <span> Charge 20 $ </span>
         </ion-button>
     </form>
 
     <form action="https://www.alfacoins.com/checkout" method="post" id="alfacoins-checkout-form4">
         <input type="hidden" name="button_id" value="604f4f78b4f38">
-        <ion-button onclick="document.getElementById('alfacoins-checkout-form4').submit();" expand="block">
+        <ion-button color="secondary" onclick="document.getElementById('alfacoins-checkout-form4').submit();" expand="block">
             <ion-icon ios="logo-bitcoin" md="logo-bitcoin"></ion-icon> <span> Charge 50 $ </span>
         </ion-button>
     </form>
 
+<ion-toolbar>
 
-    <h5 class="ranking my-label text-center pt-2">
-        Wallet ballance: <ion-chip>
+    <h5 class="ranking my-label text-center pt-2 text">
+        Your wallet ballance: <ion-chip>
             <ion-label>{{walletAmount}} $</ion-label>
         </ion-chip>
     </h5>
-
+    
+</ion-toolbar>
 </ion-content>
