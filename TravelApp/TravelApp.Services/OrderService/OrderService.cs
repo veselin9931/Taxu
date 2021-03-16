@@ -17,12 +17,13 @@ namespace TravelApp.Services.OrderService
     {
         private readonly IDeletableEntityRepository<Order> orderRepository;
         private readonly IDeletableEntityRepository<FavouriteOrder> favOrderRepository;
+        private readonly IRepository<OrderOptions> optRepo;
 
-
-        public OrderService(IDeletableEntityRepository<Order> orderRepository, IDeletableEntityRepository<FavouriteOrder> favOrderRepository)
+        public OrderService(IDeletableEntityRepository<Order> orderRepository, IDeletableEntityRepository<FavouriteOrder> favOrderRepository, IRepository<OrderOptions> optRepo)
         {
             this.orderRepository = orderRepository;
             this.favOrderRepository = favOrderRepository;
+            this.optRepo = optRepo;
         }
 
         public async Task<bool> AcceptOrderAsync(string id, string driverId)
@@ -218,5 +219,10 @@ namespace TravelApp.Services.OrderService
 
         public FavouriteOrder GetFavouriteOrderById(string id)
         => this.favOrderRepository.All()?.FirstOrDefault(x => x.Id == id);
+
+        public IEnumerable<OrderOptions> GetOrderOptions()
+        {
+            return this.optRepo.All();
+        }
     }
 }

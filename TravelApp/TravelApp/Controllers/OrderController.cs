@@ -304,5 +304,18 @@ namespace TravelApp.Controllers
             return this.NoContent();
         }
 
+        [HttpGet("options")]
+        public  IActionResult GetOrderOptions()
+        {
+            var options =  this.orderService.GetOrderOptions();
+
+            if (options == null)
+            {
+                return this.NoContent();
+            }
+
+            return this.Ok(options);
+        }
+
     }
 }

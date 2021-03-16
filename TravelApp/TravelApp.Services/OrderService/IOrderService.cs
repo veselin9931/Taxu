@@ -22,6 +22,8 @@ namespace TravelApp.Services.OrderService
 
         public Task<IList<Order>> GetAllAcceptedOrdersAsync(string userId);
 
+        public IEnumerable<OrderOptions> GetOrderOptions();
+
         public Order GetLastAcceptedOrderByUserId(string userId);
 
         public Task<IList<Order>> GetAllOrdersAsync();
