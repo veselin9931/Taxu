@@ -25,9 +25,6 @@ namespace TravelApp.Data
 
         public DbSet<FavouriteOrder> FavouriteOrders { get; set; }
 
-
-        public DbSet<Rating> Ratings { get; set; }
-
         public DbSet<Reservation> Reservations { get; set; }
 
         public DbSet<Trip> Trips { get; set; }

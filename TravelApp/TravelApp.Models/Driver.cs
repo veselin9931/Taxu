@@ -12,7 +12,6 @@ namespace TravelApp.Models
         {
             this.Cars = new List<Car>();
             this.Id = Guid.NewGuid().ToString();
-            this.Ratings = new List<Rating>();
         }
 
         [Required]
@@ -49,7 +48,5 @@ namespace TravelApp.Models
         public int ReferalUsedTimes { get; set; }
 
         public IList<Car> Cars { get; set; }
-
-        public IList<Rating> Ratings { get; set; }
     }
 }
