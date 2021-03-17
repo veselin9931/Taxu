@@ -394,6 +394,7 @@ export class DrivingPage implements OnInit {
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
           .subscribe(data => {
+            
           });
       })
 
