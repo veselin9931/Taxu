@@ -1,168 +1,179 @@
 <ion-content padding
-  *ngIf="orderStatus == 'Waiting' || orderStatus == 'Completed' || orderStatus == null">
-  <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      
-  
-      <ion-title>
-          <ion-label>TaxiMi</ion-label>
-      </ion-title>
-  
-      <ion-buttons slot="end">
-        <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
-  <div class="row mt-2">
-    <div class="col">
-      <div class="row mt-2">
-      </div>
-      <ion-text>
-        
-        <div class="row">
-          <form [formGroup]="form" novalidate class="col">
-            <div class="form-group col mt-5">
-              <ion-input formControlName="location" type="text" class="form-control" placeholder="Choose starting location"
-               (click)="locationMap()"
-                [ngClass]="{ 'is-invalid': isSubmitted && f.location.errors }"></ion-input>
-              <div *ngIf="isSubmitted && f.location.errors" class="invalid-feedback">
-                <div *ngIf="f.location.errors.required">Please choose starting point.</div>
-              </div>
+             *ngIf="orderStatus == 'Waiting' || orderStatus == 'Completed' || orderStatus == null">
+    <ion-header>
+        <ion-toolbar>
+            <ion-buttons slot="start">
+                <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+
+
+            <ion-title>
+                <ion-label>TaxiMi</ion-label>
+            </ion-title>
+
+            <ion-buttons slot="end">
+                <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-header>
+    <div class="row mt-2">
+        <div class="col">
+            <div class="row mt-2">
             </div>
+            <ion-text>
+                <ion-list class="mt-2">
+                    <ion-item *ngFor="let entry of forma">
+                        <ion-label>{{entry.val}}</ion-label>
+                        <ion-checkbox slot="start" [(ngModel)]="entry.isChecked" [disabled]="entry.isChecked" (click)="incrase(entry.val)"></ion-checkbox>
+                    </ion-item>
+                </ion-list>
+                <div class="row">
 
-            <div class="form-group col mt-3">
-              <ion-input formControlName="destination" type="text" class="form-control" placeholder="Choose destination"
-              (click)="destinationMap()"
-                [ngClass]="{ 'is-invalid': isSubmitted && f.destination.errors }"></ion-input>
-              <div *ngIf="isSubmitted && f.destination.errors" class="invalid-feedback">
-                <div *ngIf="f.destination.errors.required">Please choose endpoint.</div>
-              </div>
-            </div>
+                    <form [formGroup]="form" novalidate class="col">
+                        <div class="form-group col mt-5">
+                            <ion-input formControlName="location" type="text" class="form-control" placeholder="Choose starting location"
+                                       (click)="locationMap()"
+                                       [ngClass]="{ 'is-invalid': isSubmitted && f.location.errors }"></ion-input>
+                            <div *ngIf="isSubmitted && f.location.errors" class="invalid-feedback">
+                                <div *ngIf="f.location.errors.required">Please choose starting point.</div>
+                            </div>
+                        </div>
 
-            <div *ngIf="orderStatus == 'Waiting'" class="form-group col mt-3">
-              <ion-label><i>Increase amount</i></ion-label>
-              <ion-select ngModel (ngModelChange)="selector($event)" formControlName="increasePrice"
-                placeholder="Select amount you want to increase">
-                <ion-select-option value="1">1</ion-select-option>
-                <ion-select-option value="2">2</ion-select-option>
-                <ion-select-option value="3">3</ion-select-option>
-                <ion-select-option value="4">4</ion-select-option>
-                <ion-select-option value="5">5</ion-select-option>
-                <ion-select-option value="6">6</ion-select-option>
-                <ion-select-option value="7">7</ion-select-option>
-                <ion-select-option value="8">8</ion-select-option>
-                <ion-select-option value="9">9</ion-select-option>
-                <ion-select-option value="10">10</ion-select-option>
-
-              </ion-select>
-            </div>
+                        <div class="form-group col mt-3">
+                            <ion-input formControlName="destination" type="text" class="form-control" placeholder="Choose destination"
+                                       (click)="destinationMap()"
+                                       [ngClass]="{ 'is-invalid': isSubmitted && f.destination.errors }"></ion-input>
+                            <div *ngIf="isSubmitted && f.destination.errors" class="invalid-feedback">
+                                <div *ngIf="f.destination.errors.required">Please choose endpoint.</div>
+                            </div>
+                        </div>
 
 
-            <ion-row>
-              <ion-col class="ion-align-self-start" offset="0.2">
-                <ion-button [disabled]="isCompleted == true"  (click)="onSubmit()" color="light">Find</ion-button>
-              </ion-col>
-              <ion-col class="ion-align-self-center" pull="0.5">
-                <ion-button color="light"> Cost: {{orderTotalPrice}}$</ion-button>
-              </ion-col>
-              <ion-col class="ion-align-self-end">
-                <ion-button [disabled]="isCompleted == false" (click)="cancelOrder()" color="danger">Cancel</ion-button>
-              </ion-col>
-            </ion-row>
+                        <div *ngIf="orderStatus == 'Waiting'" class="form-group col mt-3">
+                            <ion-label><i>Increase amount</i></ion-label>
+                            <ion-select ngModel (ngModelChange)="selector($event)" formControlName="increasePrice"
+                                        placeholder="Select amount you want to increase">
+                                <ion-select-option value="1">1</ion-select-option>
+                                <ion-select-option value="2">2</ion-select-option>
+                                <ion-select-option value="3">3</ion-select-option>
+                                <ion-select-option value="4">4</ion-select-option>
+                                <ion-select-option value="5">5</ion-select-option>
+                                <ion-select-option value="6">6</ion-select-option>
+                                <ion-select-option value="7">7</ion-select-option>
+                                <ion-select-option value="8">8</ion-select-option>
+                                <ion-select-option value="9">9</ion-select-option>
+                                <ion-select-option value="10">10</ion-select-option>
 
-          </form>
-          <div *ngIf="isCompleted == true" class="blink_me col-md-12 mt-3 text-center">
-            <ion-button type="submit" color="light">Looking for a driver</ion-button>
-          </div>
+                            </ion-select>
+
+                        </div>
+
+
+
+                        <ion-row>
+                            <ion-col class="ion-align-self-start" offset="0.2">
+                                <ion-button [disabled]="isCompleted == true" (click)="onSubmit()" color="light">Find</ion-button>
+                            </ion-col>
+                            <ion-col class="ion-align-self-center" pull="0.5">
+                                <ion-button color="light"> Cost: {{orderTotalPrice}}$</ion-button>
+                            </ion-col>
+                            <ion-col class="ion-align-self-end">
+                                <ion-button [disabled]="isCompleted == false" (click)="cancelOrder()" color="danger">Cancel</ion-button>
+                            </ion-col>
+                        </ion-row>
+
+                    </form>
+                    <div *ngIf="isCompleted == true" class="blink_me col-md-12 mt-3 text-center">
+                        <ion-button type="submit" color="light">Looking for a driver</ion-button>
+                    </div>
+                </div>
+
+            </ion-text>
+
+            
 
         </div>
-
-      </ion-text>
     </div>
-  </div>
-
-
+    
 </ion-content>
 
 
 
-<ion-content padding class="noScroll"  *ngIf="orderStatus == 'Accepted' && order != null">
-  <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      
-  
-      <ion-title>
-          <ion-label class="blink_me">Waiting for the car</ion-label>
-      </ion-title>
-  
-      <ion-buttons slot="end">
-        <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
+<ion-content padding class="noScroll" *ngIf="orderStatus == 'Accepted' && order != null">
+    <ion-header>
+        <ion-toolbar>
+            <ion-buttons slot="start">
+                <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+
+
+            <ion-title>
+                <ion-label class="blink_me">Waiting for the car</ion-label>
+            </ion-title>
+
+            <ion-buttons slot="end">
+                <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-header>
     <div #map id="map"></div>
 </ion-content>
 
-<ion-footer class="ion-no-border"  *ngIf="orderStatus == 'Accepted' && order != null">
-  <ion-toolbar class="text-center">
-    <ion-text class="textTravel">
-      Your driver {{firstName}} {{lastName}}
-      will arrive with {{carColor}} {{carModel}} in about {{estimatedDuration}}
+<ion-footer class="ion-no-border" *ngIf="orderStatus == 'Accepted' && order != null">
+    <ion-toolbar class="text-center">
+        <ion-text class="textTravel">
+            Your driver {{firstName}} {{lastName}}
+            will arrive with {{carColor}} {{carModel}} in about {{estimatedDuration}}
 
-    </ion-text>
-  </ion-toolbar>
+        </ion-text>
+    </ion-toolbar>
 </ion-footer>
 
-<ion-footer class="ion-no-border"  *ngIf="orderStatus == 'Accepted' && order != null">
-  <ion-toolbar class="text-center">
-    <ion-title>Your destination</ion-title>
-    <ion-label >{{destination}}</ion-label>
+<ion-footer class="ion-no-border" *ngIf="orderStatus == 'Accepted' && order != null">
     <ion-toolbar class="text-center">
-      <ion-button (click)="addToFavourite()" type="submit" color="light">
-        Add to favourites</ion-button>
+        <ion-title>Your destination</ion-title>
+        <ion-label>{{destination}}</ion-label>
+        <ion-toolbar class="text-center">
+            <ion-button (click)="addToFavourite()" type="submit" color="light">
+                Add to favourites
+            </ion-button>
+        </ion-toolbar>
     </ion-toolbar>
-  </ion-toolbar>
-  
-  <div class="row chat">
-            
-    <div class="col">
-      <ion-card>
-        <ion-card-header class="text-center">
-          <ion-card-subtitle>Chat</ion-card-subtitle>
-        </ion-card-header>
-      </ion-card>
 
-      <ion-card>
-          
-          <div class="msg-box">
-            <ul *ngFor="let mObj of msgInboxArray">
-              <li [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
-                {{mObj.user}}:  <br />
-                {{mObj.text}}
-                <hr />
-            </li>
-              
-            </ul>
-          </div>
-      </ion-card>
+    <div class="row chat">
 
-      <ion-card>
-        <ion-item>
-          <ion-textarea [(ngModel)]="msgDto.text" placeholder="Type your message...">
+        <div class="col">
+            <ion-card>
+                <ion-card-header class="text-center">
+                    <ion-card-subtitle>Chat</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
 
-          </ion-textarea>
-          <button class="send-btn" (click)="send()">
-            <ion-icon name="pin"></ion-icon>
-          </button>
-        </ion-item>
-      </ion-card>
+            <ion-card>
+
+                <div class="msg-box">
+                    <ul *ngFor="let mObj of msgInboxArray">
+                        <li [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
+                            {{mObj.user}}:  <br />
+                            {{mObj.text}}
+                            <hr />
+                        </li>
+
+                    </ul>
+                </div>
+            </ion-card>
+
+            <ion-card>
+                <ion-item>
+                    <ion-textarea [(ngModel)]="msgDto.text" placeholder="Type your message...">
+
+                    </ion-textarea>
+                    <button class="send-btn" (click)="send()">
+                        <ion-icon name="pin"></ion-icon>
+                    </button>
+                </ion-item>
+            </ion-card>
+        </div>
+
     </div>
-    
-  </div>
 </ion-footer>

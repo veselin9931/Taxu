@@ -34,17 +34,17 @@ namespace TravelApp.Infrastructure
 
         public static class OrderOptions
         {
-            public const string Opt1 = "With stroller";
+            public const string Opt1 = "stroller";
 
-            public const string Opt2 = "With kids";
+            public const string Opt2 = "needs";
 
-            public const string Opt3 = "With pets";
+            public const string Opt3 = "pets";
 
-            public const decimal OptA1 = 1.50m;
+            public const decimal OptA1 = 1.00m;
 
-            public const decimal OptA2 = 2.50m;
+            public const decimal OptA2 = 0m;
 
-            public const decimal OptA3 = 3m;
+            public const decimal OptA3 = 2m;
 
         }
     }

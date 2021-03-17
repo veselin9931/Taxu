@@ -22,6 +22,13 @@ declare var google: any;
   styleUrls: ['./travelling.page.scss'],
 })
 export class TravellingPage implements OnInit {
+
+    public forma = [
+        { val: 'With stroller', isChecked: false },
+        { val: 'Special needs', isChecked: false },
+        { val: 'With pets', isChecked: false }
+    ];  
+
   public currentTrip: Trip;
   isLoggedIn;
   order: Order;
@@ -109,7 +116,6 @@ export class TravellingPage implements OnInit {
     });
 
   }
-
   ionViewDidEnter() {
     if (this.orderService.selectedFavourite) {
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
@@ -211,7 +217,7 @@ export class TravellingPage implements OnInit {
         if (status === "OK") {
           this.estimatedDuration = response.routes[0].legs[0].duration.text;
           this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
-          this.orderTotalPrice = this.orderTotalDestination * 0.90;
+          this.orderTotalPrice += this.orderTotalDestination * 0.90;
 
           this.form.value.totalPrice = this.orderTotalPrice;
           this.form.value.tripDistance = this.orderTotalDestination;
@@ -401,6 +407,7 @@ export class TravellingPage implements OnInit {
             this.orderStatus = null;
             this.orderTotalPrice = 0;
             this.clearForm();
+
           })
       })
   }
@@ -431,6 +438,8 @@ export class TravellingPage implements OnInit {
       'status': 'Waiting',
       'eta': '',
     })
+
+   this.forma.forEach(a => a.isChecked = false);
   }
 
   async completedOrderAlert() {
@@ -501,5 +510,13 @@ export class TravellingPage implements OnInit {
 
     await popup.present();
 
-  }
+    }
+    incrase(val) {
+        if (val == 'With pets') {
+
+            this.orderTotalPrice += 2.20;
+           
+        }
+    }
+    
 }

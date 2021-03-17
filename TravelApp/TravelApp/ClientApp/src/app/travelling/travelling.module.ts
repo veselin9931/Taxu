@@ -18,4 +18,5 @@ import { TravellingPage } from './travelling.page';
   ],
   declarations: [TravellingPage]
 })
-export class TravellingPageModule {}
+export class TravellingPageModule {
+}
