@@ -36,7 +36,7 @@ namespace TravelApp.Controllers
            var result = await this.driverService.VoteUp(driverId);
 
             if (result)
-            {
+            {   
                 await this.hub.Clients.All.BroadcastMessage();
                 return this.Ok();
             }
