@@ -16,5 +16,6 @@ export class Driver {
     wallet: string //make this wallet after that
     comission: number;
     referal: string;
+    rating: number;
     referalUsedTimes: number;
 }

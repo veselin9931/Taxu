@@ -42,6 +42,8 @@ namespace TravelApp.Models
         [Required]
         public string Referal { get; set; }
 
+        public int Rating { get; set; }
+
         [Required]
         [Range(0, 5)]
         public int ReferalUsedTimes { get; set; }

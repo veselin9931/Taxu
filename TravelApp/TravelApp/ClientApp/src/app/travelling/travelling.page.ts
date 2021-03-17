@@ -38,6 +38,7 @@ export class TravellingPage implements OnInit {
   carModel = "";
   carColor = "";
 
+  driverId: string;
   //User html properties
   firstName = "";
   lastName = "";
@@ -68,10 +69,10 @@ export class TravellingPage implements OnInit {
 
   ngOnInit() {
     this.chatService.retrieveMappedObject()
-    .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
-    
+      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
+
     this.checkorder();
-    
+
     this.form = this.formBuilder.group({
       applicationUserId: [''],
       location: this.orderService.chosenLocation,
@@ -87,35 +88,35 @@ export class TravellingPage implements OnInit {
       status: 'Waiting',
       eta: '',
     })
-    
+
     const connection = new signalR.HubConnectionBuilder()
-    .configureLogging(signalR.LogLevel.Information)
-    .withUrl(`${environment.apiUrl}/orderHub`, {
-      skipNegotiation: true,
-      transport: signalR.HttpTransportType.WebSockets
-    })
-    .build();
-    
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl(`${environment.apiUrl}/orderHub`, {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets
+      })
+      .build();
+
     connection.start().then(function () {
       console.log('signalR Connected in travelling');
     }).catch(function (err) {
       return console.log(err.toString());
     });
-    
+
     connection.on('BroadcastMessage', () => {
       this.checkorder();
     });
-    
+
   }
-  
+
   ionViewDidEnter() {
-    
+
 
     if (this.orderService.selectedFavourite) {
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
       this.form.get('locationLat').setValue(this.orderService.selectedFavourite.locationLat);
       this.form.get('locationLong').setValue(this.orderService.selectedFavourite.locationLong);
-      
+
       this.form.get('destination').setValue(this.orderService.selectedFavourite.destination);
       this.form.get('destinationLat').setValue(this.orderService.selectedFavourite.destinationLat);
       this.form.get('destinationLong').setValue(this.orderService.selectedFavourite.destinationLong);
@@ -123,19 +124,19 @@ export class TravellingPage implements OnInit {
       this.form.get('location').setValue(this.orderService.chosenLocation);
       this.form.get('locationLat').setValue(this.orderService.userLocationLat);
       this.form.get('locationLong').setValue(this.orderService.userLocationLong);
-      
+
       this.form.get('destination').setValue(this.orderService.chosenDestination);
       this.form.get('destinationLat').setValue(this.orderService.userDestinationLat);
       this.form.get('destinationLong').setValue(this.orderService.userDestinationLong);
     }
 
-    if(this.isCompleted){
+    if (this.isCompleted) {
       console.log('should display the loc')
       console.log(this.order)
       this.form.get('location').setValue(this.order.location);
       this.form.get('destination').setValue(this.order.destination);
     }
-    
+
     if (this.orderStatus == 'Accepted' && this.order != null) {
       this.loadMap(this.mapRef);
     }
@@ -366,6 +367,7 @@ export class TravellingPage implements OnInit {
       .subscribe(userData => {
         this.firstName = userData.firstName;
         this.lastName = userData.lastName;
+        this.driverId = userData.driverId;
         this.driverService.getDriverActiveCar(userData.driverId)
           .subscribe(car => {
             this.carModel = car.model;
@@ -434,13 +436,32 @@ export class TravellingPage implements OnInit {
 
   async completedOrderAlert() {
     const popup = await this.alertController.create({
-      header: 'You have reached the destination!',
-      message: 'Rate your trip',
+      header: 'Did you like the trip?',
+      //message: '<img src = "../assets/default.png" width="1px" height="1px">',
+
       inputs: [
         {
-          name: 'Rate',
-          placeholder: 'Rate'
-        }
+          name: 'Like',
+          type: 'checkbox',
+          label: 'Yes',
+          handler: () => {
+            this.driverService.voteUp(this.driverId)
+            .subscribe(x => {
+              this.route.navigate(['menu/travelling'])
+            })
+          }
+        },
+        {
+          name: 'Dislike',
+          type: 'checkbox',
+          label: 'No',
+          handler: () => {
+            this.driverService.voteDown(this.driverId)
+            .subscribe(x => {
+              this.route.navigate(['menu/travelling'])
+            })
+          }
+        },
       ],
       buttons: [
         {
@@ -457,6 +478,7 @@ export class TravellingPage implements OnInit {
           text: 'Report a problem', //route to reportpage
           role: 'report',
           handler: () => {
+
             this.route.navigate(['menu/report']);
           }
         }

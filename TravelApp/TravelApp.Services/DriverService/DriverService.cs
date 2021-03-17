@@ -151,5 +151,35 @@ namespace TravelApp.Services.DriverService
 
             return r.Result > 0;
         }
+
+        public async Task<bool> VoteDown(string driverId)
+        {
+            var driver = await this.repository.All().FirstOrDefaultAsync(x => x.Id == driverId);
+
+            if (driver != null && driver.Rating > 0)
+            {
+                driver.Rating -= 1;
+                this.repository.Update(driver);
+                await this.repository.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> VoteUp(string driverId)
+        {
+            var driver = await this.repository.All().FirstOrDefaultAsync(x => x.Id == driverId);
+
+            if (driver != null)
+            {
+                driver.Rating += 1;
+                this.repository.Update(driver);
+                await this.repository.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
     }
 }

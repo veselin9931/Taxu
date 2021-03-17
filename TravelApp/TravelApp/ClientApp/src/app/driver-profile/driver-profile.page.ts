@@ -26,6 +26,7 @@ export class DriverProfilePage implements OnInit {
   walletAmount: number;
   isActiveCar: boolean;
   driver: Driver;
+  rating: number;
   driverCommission: number;
   folderName = "driverFacePic";
   imgPath: string;
@@ -41,10 +42,10 @@ export class DriverProfilePage implements OnInit {
     private imageService: ImageService) { }
 
   ngOnInit() {
+    this.getDriver();
     this.getProfilePicture();
     this.getWalletAmount();
     this.getCars();
-    this.getDriver();
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
@@ -61,6 +62,7 @@ export class DriverProfilePage implements OnInit {
     });
 
     connection.on('BroadcastMessage', () => {
+      this.getDriver();
       this.getCars();
       this.getWalletAmount();
       this.getProfilePicture();
@@ -107,6 +109,7 @@ export class DriverProfilePage implements OnInit {
               return;
             }
             this.driver = d;
+            this.rating = d.rating;
             this.driverCommission = d.comission;
             (Math.round(this.driverCommission * 100) / 100).toFixed(2);
             this.referral = this.driver.referal;

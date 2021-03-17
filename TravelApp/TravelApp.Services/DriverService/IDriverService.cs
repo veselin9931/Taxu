@@ -27,5 +27,10 @@ namespace TravelApp.Services.DriverService
         public bool UpdateDriverRating(Driver driver);
 
         DriverViewModel GetDriver(string id);
+
+        public Task<bool> VoteUp(string driverId);
+
+        public Task<bool> VoteDown(string driverId);
+
     }
 }
