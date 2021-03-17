@@ -16,7 +16,7 @@ export class OrderService {
 
   public driverId: string;
   public completedOrder = false;
-  public alertForcomplete: boolean;
+  public alertForcomplete = false;
 
   public chosenLocation: string;
   public chosenDestination: string;

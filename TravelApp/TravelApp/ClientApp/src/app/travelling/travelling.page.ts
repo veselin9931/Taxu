@@ -65,8 +65,6 @@ export class TravellingPage implements OnInit {
     this.userId = this.accountService.userValue.id;
   }
 
-
-
   ngOnInit() {
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
@@ -105,13 +103,14 @@ export class TravellingPage implements OnInit {
 
     connection.on('BroadcastMessage', () => {
       this.checkorder();
+      if(this.orderStatus == "Completed"){
+        this.completedOrderAlert();
+      }
     });
 
   }
 
   ionViewDidEnter() {
-
-
     if (this.orderService.selectedFavourite) {
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
       this.form.get('locationLat').setValue(this.orderService.selectedFavourite.locationLat);
@@ -309,8 +308,8 @@ export class TravellingPage implements OnInit {
         }
 
         if (this.orderStatus == 'Completed') {
-          this.completedOrderAlert();
           this.orderStatus = null;
+          this.completedOrderAlert();
         }
 
         if (data == null) {
@@ -446,9 +445,9 @@ export class TravellingPage implements OnInit {
           label: 'Yes',
           handler: () => {
             this.driverService.voteUp(this.driverId)
-            .subscribe(x => {
-              this.route.navigate(['menu/travelling'])
-            })
+              .subscribe(x => {
+                this.route.navigate(['menu/travelling'])
+              })
           }
         },
         {
@@ -457,9 +456,9 @@ export class TravellingPage implements OnInit {
           label: 'No',
           handler: () => {
             this.driverService.voteDown(this.driverId)
-            .subscribe(x => {
-              this.route.navigate(['menu/travelling'])
-            })
+              .subscribe(x => {
+                this.route.navigate(['menu/travelling'])
+              })
           }
         },
       ],
