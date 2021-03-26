@@ -66,6 +66,8 @@ export class ReportPage implements OnInit {
               .subscribe(user => {
                 this.userFirstName = user.firstName;
                 this.userLastName = user.lastName;
+                this.suspectedUserId = this.lastOrder.acceptedBy;
+                this.reporterId = this.userId;
               })
             
           });
@@ -113,6 +115,7 @@ export class ReportPage implements OnInit {
             this.clearForm();
           })
       } else {
+        this.form.value.reporterId = this.userId;
         this.reportService.createReport(this.form.value)
           .subscribe(report => {
             console.log("report created:");
