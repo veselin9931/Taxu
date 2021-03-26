@@ -71,8 +71,6 @@ export class DrivingPage implements OnInit {
   }
 
   ngOnInit(): void {
-
-
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
 

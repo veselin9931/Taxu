@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TravelApp.Infrastructure.HubConfig;
 using TravelApp.Infrastructure.InputModels.ImageInput;
 using TravelApp.Services.ImageService;
+using TravelApp.Services.OrderService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,10 +19,12 @@ namespace TravelApp.Controllers
     public class ImageController : ControllerBase
     {
         private readonly IImageService service;
+        private readonly IHubContext<OrderHub, IHubClient> hub;
 
-        public ImageController(IImageService service)
+        public ImageController(IImageService service, IHubContext<OrderHub, IHubClient> hub)
         {
             this.service = service;
+            this.hub = hub;
         }
 
         // GET api/<imageController>/5
@@ -66,6 +71,7 @@ namespace TravelApp.Controllers
 
                     if (result)
                     {
+                        await this.hub.Clients.All.BroadcastMessage();
                         return this.Ok(result);
                     }
 
@@ -88,6 +94,7 @@ namespace TravelApp.Controllers
 
             if (image)
             {
+                await this.hub.Clients.All.BroadcastMessage();
                 return this.Ok(image);
             }
 

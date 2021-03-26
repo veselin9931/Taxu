@@ -23,8 +23,8 @@
             <ion-text>
                 <ion-list class="mt-2">
                     <ion-item *ngFor="let entry of forma">
-                        <ion-label>{{entry.val}}</ion-label>
-                        <ion-checkbox slot="start" [(ngModel)]="entry.isChecked" [disabled]="entry.isChecked" (click)="incrase(entry.val)"></ion-checkbox>
+                        <ion-label color="light">{{entry.val}}</ion-label>
+                        <ion-checkbox class="border" color="light" slot="start" [(ngModel)]="entry.isChecked" [disabled]="entry.isChecked" (click)="incrase(entry.val)"></ion-checkbox>
                     </ion-item>
                 </ion-list>
                 <div class="row">
@@ -68,8 +68,6 @@
 
                         </div>
 
-
-
                         <ion-row>
                             <ion-col class="ion-align-self-start" offset="0.2">
                                 <ion-button [disabled]="isCompleted == true" (click)="onSubmit()" color="light">Find</ion-button>
@@ -83,6 +81,7 @@
                         </ion-row>
 
                     </form>
+                    
                     <div *ngIf="isCompleted == true" class="blink_me col-md-12 mt-3 text-center">
                         <ion-button type="submit" color="light">Looking for a driver</ion-button>
                     </div>
