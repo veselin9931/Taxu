@@ -45,7 +45,7 @@ namespace TravelApp.Controllers
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetProfilePicture(string userId)
         {
-            var image = this.service.GetImageForUserIdAsync(userId);
+            var image = this.service.GetProfileImageForUserIdAsync(userId);
 
             if (image != null)
             {
@@ -55,9 +55,35 @@ namespace TravelApp.Controllers
             return this.BadRequest($"Failed to load image for user id={userId} from db");
         }
 
+        [HttpGet("documents/{userId}")]
+        public async Task<IActionResult> GetDocumentsPictures(string userId)
+        {
+            var image = this.service.GetDocumentsImages(userId);
+
+            if (image != null)
+            {
+                return this.Ok(image.Result);
+            }
+
+            return this.BadRequest($"Failed to load image for user id={userId} from db");
+        }
+
+        [HttpGet("cars/{userId}")]
+        public async Task<IActionResult> GetCarPictures(string userId)
+        {
+            var image = this.service.GetCarImages(userId);
+
+            if (image != null)
+            {
+                return this.Ok(image.Result);
+            }
+
+            return this.BadRequest($"Failed to load image for user id={userId} from db");
+        }
+
         // POST api/<ImageController>
-        [HttpPost("{folderName}/{userId}"), DisableRequestSizeLimit]
-        public async Task<IActionResult> Post(string folderName, string userId)
+        [HttpPost("{folderName}/{userId}/{type}"), DisableRequestSizeLimit]
+        public async Task<IActionResult> Post(string folderName, string userId, string type)
         {
             //input.File = (Microsoft.AspNetCore.Http.IFormFile)Request.Form.Files;
            
@@ -67,7 +93,7 @@ namespace TravelApp.Controllers
                 try
                 {
                     var files = Request.Form.Files;
-                    var result = await this.service.CreateImageAsync(files, userId, folderName);
+                    var result = await this.service.CreateImageAsync(files, userId, folderName, type);
 
                     if (result)
                     {

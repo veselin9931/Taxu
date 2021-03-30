@@ -23,6 +23,12 @@
             <ion-label class="my-label" color="light"> Travel </ion-label>
           </ion-item>
 
+          <ion-item *ngIf="isLoggedIn && documentConfirmed == false" routerLink="/menu/verifying"
+          [class.active.item]="selectedPath">
+          <ion-icon color="light" name="person-outline" slot="start"></ion-icon>
+          <ion-label class="my-label" color="light"> Profile </ion-label>
+        </ion-item>
+
           <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true" routerLink="/menu/driver-profile"
             [class.active.item]="selectedPath">
             <ion-icon color="light" name="person-outline" slot="start"></ion-icon>

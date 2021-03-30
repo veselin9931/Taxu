@@ -9,13 +9,6 @@ namespace TravelApp.Infrastructure.InputModels.DriverInput
     {
         public string ApplicationUserId { get; set; }
 
-
-        [Required]
-        public string DriverLicense { get; set; }
-
-        [Required]
-        public string IDCardNumber { get; set; }
-
         public string CurrentLocation { get; set; }
     }
 }

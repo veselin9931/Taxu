@@ -18,4 +18,6 @@ export class Driver {
     referal: string;
     rating: number;
     referalUsedTimes: number;
+    currentLocationLat: number;
+    currentLocationLong: number;
 }

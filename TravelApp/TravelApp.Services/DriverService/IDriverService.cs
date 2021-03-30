@@ -20,6 +20,9 @@ namespace TravelApp.Services.DriverService
 
         public Task<bool> LowerCommission(string id);
 
+        public Task<bool> ChangeLocation(string id, decimal lat, decimal lng);
+
+
         public Driver GetById(string id);
 
         public Driver GetByReferral(string referral);

@@ -19,5 +19,9 @@ namespace TravelApp.Models
 
         [Required]
         public string Path { get; set; }
+
+        [Required]
+        public string Type { get; set; }
+
     }
 }

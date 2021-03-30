@@ -376,10 +376,6 @@ namespace TravelApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TehnicalReview")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
@@ -433,25 +429,17 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("CurrentLocation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CurrentLocationLat")
-                        .HasColumnType("int");
+                    b.Property<decimal>("CurrentLocationLat")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("CurrentLocationLong")
-                        .HasColumnType("int");
+                    b.Property<decimal>("CurrentLocationLong")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("DocumentConfirmation")
                         .HasColumnType("bit");
-
-                    b.Property<string>("DriverLicense")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IDCardNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -568,6 +556,10 @@ namespace TravelApp.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

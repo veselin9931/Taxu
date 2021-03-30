@@ -131,7 +131,6 @@ namespace TravelApp.Controllers
             {
                 return this.BadRequest();
             }
-
             var result = await this.driverService.AddCarToDriver(input.DriverId, car.Id);
 
             if (!result)

@@ -17,9 +17,6 @@ namespace TravelApp.Models
         public string Model { get; set; }
 
         [Required]
-        public string TehnicalReview { get; set; }
-
-        [Required]
         public string RegistrationNumber { get; set; }
 
         [Required]

@@ -36,13 +36,26 @@
 
           <div class="row">
             <div class="col-md-12">
-              <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
-              <ion-button class="my-label" (click)="file.click()" expand="full" color="light">Upload your driver license</ion-button>
-            </div>
+              <ion-text color="light">
+                <hr>
+                <h5>Click the button below and upload both image for your drivers license and your id card.</h5>
+              </ion-text>
+              
+              <input type="file" #file placeholder="Choose file" (change)="uploadLicense(file.files)" style="display:none;">
+              <ion-button class="my-label mt-3" (click)="file.click()" expand="full" color="light">Upload</ion-button>
+              <div class="col-md-4 mt-2">
+                <div class="progress form-group" *ngIf="progress > 0">
+                  <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
+                  </div>
+              </div>
 
-            <div class="col-md-12">
-              <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
-              <ion-button class="my-label" (click)="file.click()" expand="full" color="light">Upload your id card</ion-button>
+                <span class="upload" *ngIf="progress > 0">
+                  {{progress}}%
+                </span>
+                <span class="upload" *ngIf="message">
+                  {{message}}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -71,6 +84,9 @@
               <ion-button (click)="onSubmit()" type="submit" color="light">Submit</ion-button>
             </div>
           </form> -->
+          <div class="col-md-12 mt-3">
+            <ion-button (click)="onSubmit()" type="submit" color="light">Submit</ion-button>
+          </div>
         </div>
       </div>
     </div>

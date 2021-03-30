@@ -15,21 +15,15 @@ namespace TravelApp.Models
         }
 
         [Required]
-        public string DriverLicense { get; set; }
-
-        [Required]
-        public string IDCardNumber { get; set; }
-
-        [Required]
         public bool DocumentConfirmation { get; set; }
 
         public string LastAdress { get; set; }
 
         public string CurrentLocation { get; set; }
 
-        public int CurrentLocationLat { get; set; }
+        public decimal CurrentLocationLat { get; set; }
 
-        public int CurrentLocationLong { get; set; }
+        public decimal CurrentLocationLong { get; set; }
 
 
         public string WalletId { get; set; }

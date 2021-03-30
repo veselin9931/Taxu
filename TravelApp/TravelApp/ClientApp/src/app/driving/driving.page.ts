@@ -97,23 +97,40 @@ export class DrivingPage implements OnInit {
     connection.on('BroadcastMessage', () => {
       this.getData();
       this.getAcceptedTrip();
+      this.postLocation();
     });
   }
 
   ionViewDidEnter() {
     if (this.isDrivingNow == true) {
+      //have to optimise this
+      //this.postLocation();
       this.getAcceptedTrip()
     }
     if(this.isDrivingNow == true){
       this.loadMap(this.mapRef);
     }
   }
+  
+  async postLocation(){
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
 
+    this.accountService.getById(this.applicationUserId)
+      .subscribe(user => {
+        this.driverService.locateDriver(user.driverId, myLatLng.lat, myLatLng.lng)
+        .subscribe(x => {
+          console.log(x);
+        })
+      })
 
+    
+  }
 
   async loadMap(mapRef: ElementRef) {
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+
 
     const options: google.maps.MapOptions = {
       center: new google.maps.LatLng(myLatLng.lat, myLatLng.lng),

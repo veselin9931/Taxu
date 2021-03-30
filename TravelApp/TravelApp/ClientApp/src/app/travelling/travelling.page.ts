@@ -21,7 +21,7 @@ declare var google: any;
   templateUrl: './travelling.page.html',
   styleUrls: ['./travelling.page.scss'],
 })
-export class TravellingPage implements OnInit { 
+export class TravellingPage implements OnInit {
 
   public currentTrip: Trip;
   isLoggedIn;
@@ -87,7 +87,7 @@ export class TravellingPage implements OnInit {
       status: 'Waiting',
       eta: '',
       withPets: false,
-      withStroller:false,
+      withStroller: false,
       special: false,
     })
 
@@ -107,14 +107,14 @@ export class TravellingPage implements OnInit {
 
     connection.on('BroadcastMessage', () => {
       this.checkorder();
-      if(this.orderStatus == "Completed"){
+      if (this.orderStatus == "Completed") {
         this.completedOrderAlert();
       }
     });
 
   }
   ionViewDidEnter() {
-   
+
     if (this.orderService.selectedFavourite) {
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
       this.form.get('locationLat').setValue(this.orderService.selectedFavourite.locationLat);
@@ -186,29 +186,48 @@ export class TravellingPage implements OnInit {
     this.orderService.userDestinationLat = myLatLng.lat;
     this.orderService.userDestinationLong = myLatLng.lng;
 
-    const options: google.maps.MapOptions = {
-      center: new google.maps.LatLng(myLatLng.lat, myLatLng.lng),
-      zoom: 15,
-      disableDefaultUI: true,
-    };
+    this.driverService.getDriver(this.driverId)
+      .subscribe(data => {
+        const driverLatLng = { lat: data.currentLocationLat, lng: data.currentLocationLong };
 
-    this.map = new google.maps.Map(mapRef.nativeElement, options);
+        const options: google.maps.MapOptions = {
+          center: new google.maps.LatLng(driverLatLng.lat, driverLatLng.lng),
+          zoom: 15,
+          disableDefaultUI: true,
+        };
+    
+        this.map = new google.maps.Map(mapRef.nativeElement, options);
+
+        var icon = {
+          url: 'https://images.vexels.com/media/users/3/154573/isolated/preview/bd08e000a449288c914d851cb9dae110-hatchback-car-top-view-silhouette-by-vexels.png',
+          scaledSize: new window.google.maps.Size(25, 25),
+          anchor: { x: 10, y: 10 }
+        };
+
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(driverLatLng),
+          icon: icon,
+          map: this.map
+        });
+      })
+
+    
 
   }
 
   onSubmit() {
     this.isSubmitted = true;
-    if(this.form.value.location == undefined){
-      this.form.controls['location'].setErrors({'incorrect': true});
+    if (this.form.value.location == undefined) {
+      this.form.controls['location'].setErrors({ 'incorrect': true });
     }
 
-    if(this.form.value.destination == undefined){
-      this.form.controls['destination'].setErrors({'incorrect': true});
+    if (this.form.value.destination == undefined) {
+      this.form.controls['destination'].setErrors({ 'incorrect': true });
     }
 
     if (!this.form.valid) {
       return;
-    }  
+    }
     const directionsService = new google.maps.DirectionsService();
 
     directionsService.route(
@@ -225,11 +244,11 @@ export class TravellingPage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
-          
+
           this.estimatedDuration = response.routes[0].legs[0].duration.text;
           this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
           this.orderTotalPrice = this.orderTotalDestination * 0.90;
-          if(this.form.value.withPets == true){
+          if (this.form.value.withPets == true) {
             this.orderTotalPrice += 2.20;
           }
           this.form.value.totalPrice = this.orderTotalPrice;
@@ -322,6 +341,8 @@ export class TravellingPage implements OnInit {
           (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
           this.orderTotalPrice = data.totalPrice;
           this.estimatedDuration = data.eta;
+
+
         } else {
           this.orderTotalPrice = 0;
         }
@@ -362,6 +383,9 @@ export class TravellingPage implements OnInit {
           if (data.acceptedBy != null) {
             this.getUserById(data.acceptedBy);
             this.getAcceptedTrip(data.acceptedBy);
+
+            //get current drivers location
+
           }
         }
       },
@@ -385,6 +409,7 @@ export class TravellingPage implements OnInit {
         this.firstName = userData.firstName;
         this.lastName = userData.lastName;
         this.driverId = userData.driverId;
+
         this.driverService.getDriverActiveCar(userData.driverId)
           .subscribe(car => {
             this.carModel = car.model;
@@ -523,7 +548,7 @@ export class TravellingPage implements OnInit {
 
     await popup.present();
 
-    }
+  }
 }
 
 

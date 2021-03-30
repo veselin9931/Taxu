@@ -156,6 +156,20 @@ namespace TravelApp.Controllers
             return this.NotFound();
         }
 
+        // PUT api/<DriverController>/5
+        [HttpPut("location/{id}/{lat}/{lng}")]
+        public async Task<IActionResult> ChangeDriverLocation(string id, decimal lat, decimal lng)
+        {
+            var result = await this.driverService.ChangeLocation(id, lat, lng);
+
+            if (result)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok(result);
+            }
+            return this.NotFound();
+        }
+
         // DELETE api/<DriverController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)

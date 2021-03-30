@@ -31,7 +31,6 @@ namespace TravelApp.Services.CarService
                 Confirmation = false,
                 Model = carInputModel.Model,
                 RegistrationNumber = carInputModel.RegistrationNumber,
-                TehnicalReview = carInputModel.TehnicalReview,
                 TypeId = carInputModel.Type,
                 IsActive = false,
                 CreatedOn = DateTime.UtcNow

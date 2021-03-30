@@ -84,18 +84,31 @@
               </div>
             </div>
 
-            <div class="form-group col mt-5 text-center">
-              <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
-              <ion-button class="my-label" (click)="file.click()" expand="block" color="light">Upload car's technical
-                review picture</ion-button>
+            <div class="row">
+              <div class="col-md-12">
+                <ion-text color="light">
+                  <hr>
+                  <h5>Click the button below and upload image of technical review, insurance, and at least 3 pictures of the car.</h5>
+                </ion-text>
+                
+                <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
+                <ion-button class="my-label mt-3" (click)="file.click()" expand="full" color="light">Upload</ion-button>
+                <div class="col-md-4 mt-2">
+                  <div class="progress form-group" *ngIf="progress > 0">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
+                    </div>
+                </div>
+  
+                  <span class="upload" *ngIf="progress > 0">
+                    {{progress}}%
+                  </span>
+                  <span class="upload" *ngIf="message">
+                    {{message}}
+                  </span>
+                </div>
+              </div>
             </div>
-
-            <div class="form-group col mt-5 text-center">
-              <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
-              <ion-button class="my-label" (click)="file.click()" expand="block" color="light">Upload car's
-                insurance picture</ion-button>
-            </div>
-
+            
             <div class="col-md-12 mt-3">
               <ion-button type="submit" (click)="onSubmit()" color="light">Submit</ion-button>
             </div>

@@ -18,20 +18,14 @@
     <div class="row mt-2">
         <div class="col">
             <ion-text>
-
-                <!-- <ion-list class="mt-2">
-                    <ion-item *ngFor="let entry of forma">
-                        <ion-label color="light">{{entry.val}}</ion-label>
-                        <ion-checkbox class="border" color="light" slot="start" [(ngModel)]="entry.isChecked" (click)="incrase(entry)"></ion-checkbox>
-                    </ion-item>
-                </ion-list> -->
-
-
-
                 <div class="row">
                     <form [formGroup]="form" novalidate class="col">
-                        <div class="form-group col mt-5">
-                            <ion-list class="mt-2" *ngIf="isCompleted == false">
+                        <ion-text class="text-center" color="light">
+                            <hr>
+                            <h5>Additional options</h5>
+                          </ion-text>
+                        <div class="form-group col mt-1">
+                            <ion-list *ngIf="isCompleted == false">
                                 <ion-item>
                                     <ion-label color="light">With pets</ion-label>
                                     <ion-checkbox  color="light" slot="start" formControlName="withPets"

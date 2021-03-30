@@ -30,8 +30,11 @@ export class DriverProfilePage implements OnInit {
   driverCommission: number;
   folderName = "driverFacePic";
   imgPath: string;
+  imgType = "profile";
   public progress: number;
   public message: string;
+
+  
 
   constructor(private accountService: AccountService,
     private driverService: DriverService,
@@ -89,7 +92,7 @@ export class DriverProfilePage implements OnInit {
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
 
-    this.imageService.upload(formData, this.folderName, this.user.id)
+    this.imageService.upload(formData, this.folderName, this.user.id, this.imgType)
     .subscribe(event => {
       if (event.type === HttpEventType.UploadProgress)
           this.progress = Math.round(100 * event.loaded / event.total);

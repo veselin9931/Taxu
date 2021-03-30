@@ -13,8 +13,8 @@ export class ImageService {
 
   constructor(private httpClient: HttpClient) { }
 
-  upload(data: any, folderName: string, userId: string): Observable<HttpEvent<any>> {
-    return this.httpClient.post(`${environment.apiUrl}/api/image/${folderName}/${userId}`, data, {
+  upload(data: any, folderName: string, userId: string, type: string): Observable<HttpEvent<any>> {
+    return this.httpClient.post(`${environment.apiUrl}/api/image/${folderName}/${userId}/${type}`, data, {
       reportProgress: true,
       observe: "events"
     }).pipe(
@@ -25,6 +25,18 @@ export class ImageService {
 
   getMyPicture(userId: string): Observable<Image> {
     return this.httpClient.get<Image>(`${environment.apiUrl}/api/image/user/${userId}`)
+      .pipe(
+      );
+  }
+
+  getUserDocuments(userId: string): Observable<Image> {
+    return this.httpClient.get<Image>(`${environment.apiUrl}/api/image/documents/${userId}`)
+      .pipe(
+      );
+  }
+
+  getUserCarPictures(userId: string): Observable<Image> {
+    return this.httpClient.get<Image>(`${environment.apiUrl}/api/image/cars/${userId}`)
       .pipe(
       );
   }

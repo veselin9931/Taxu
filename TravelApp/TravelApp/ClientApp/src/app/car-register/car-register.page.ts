@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { Location } from '@angular/common';
+import { ImageService } from 'src/_services/image/image.service';
+import { HttpEventType } from '@angular/common/http';
 @Component({
   selector: 'app-car-register',
   templateUrl: './car-register.page.html',
@@ -17,16 +19,22 @@ export class CarRegisterPage implements OnInit {
   userId: string;
   driverId: string;
 
+  folderName = "driverFacePic";
+  imgPath: string;
+  imgType = "carImg";
+  public progress: number;
+  public message: string;
+
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private driverService: DriverService,
     private accountService: AccountService,
-    private location: Location) { this.userId = this.accountService.userValue.id; }
+    private location: Location,
+    private imageService: ImageService) { this.userId = this.accountService.userValue.id; }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
       model: ['', Validators.required],
-      tehnicalReview: ['', Validators.required],
       registrationNumber: ['', Validators.required],
       color: ['', Validators.required],
       capacity: ['', Validators.required],
@@ -51,22 +59,19 @@ export class CarRegisterPage implements OnInit {
           this.driverService.createCar(this.form.value)
             .subscribe(data => {
               this.clearForm();
-              console.log(data)
-              console.log('Successfully uploaded your car.')
               this.driverService.getDriverCars(x.driverId)
                 .subscribe(d => {
-                  // if(d.length == 1){
-                  //   this.driverService.activeCar(data, this.driverId)
-                  //   .subscribe(a => {
-                  //     console.log('Will be active after approval')
-                  //   })
-                  // }
                   
                   if (d.length != 0) {
                     this.route.navigateByUrl('menu/driver-profile');
                   } else {
+                    this.imageService.getUserCarPictures(this.userId)
+                    .subscribe(x => {
+                      if(x[2].path){
+                        this.route.navigateByUrl('menu/verifying');
+                      }
+                    })
                     
-                    this.route.navigateByUrl('menu/verifying');
                   }
                 })
             })
@@ -74,6 +79,40 @@ export class CarRegisterPage implements OnInit {
 
 
     }
+  }
+
+  upload(files){
+    if (files.length === 0) {
+      return;
+    }
+
+    let fileToUpload = <File>files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+
+    this.imageService.upload(formData, this.folderName, this.userId, this.imgType)
+    .subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress)
+          this.progress = Math.round(100 * event.loaded / event.total);
+        else if (event.type === HttpEventType.Response) {
+          this.message = 'Documents uploaded successfully.';
+        }
+      switch (event.type) {
+        case HttpEventType.Sent:
+          console.log('Request has been made!');
+          break;
+        case HttpEventType.ResponseHeader:
+          console.log('Response header has been received!');
+          break;
+        case HttpEventType.UploadProgress:
+          this.progress = Math.round(event.loaded / event.total * 100);
+          break;
+        case HttpEventType.Response:
+          setTimeout(() => {
+            this.progress = 0;
+          }, 1500);
+        }
+    })
   }
 
   goBack() {

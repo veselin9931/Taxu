@@ -47,6 +47,24 @@ namespace TravelApp.Services.DriverService
             return result > 0;
         }
 
+        public async Task<bool> ChangeLocation(string id, decimal lat, decimal lng)
+        {
+            var driver = this.repository.All().FirstOrDefault(x => x.Id == id);
+
+            if (driver != null)
+            {
+                driver.CurrentLocationLat = lat;
+                driver.CurrentLocationLong = lng;
+
+                this.repository.Update(driver);
+                await this.repository.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
+        }
+
         public async Task<bool> ConfirmDriver(string driverId)
         {
             var driver = await this.repository.All().FirstOrDefaultAsync(a => a.Id == driverId);
@@ -68,8 +86,6 @@ namespace TravelApp.Services.DriverService
             {
                 Comission = 20,
                 DocumentConfirmation = false,
-                DriverLicense = driverInputModel.DriverLicense,
-                IDCardNumber = driverInputModel.IDCardNumber,
                 CurrentLocation = driverInputModel.CurrentLocation,
                 Referal = Guid.NewGuid().ToString(),
                 ReferalUsedTimes = 0,
@@ -83,7 +99,7 @@ namespace TravelApp.Services.DriverService
 
             var result =  await this.repository.SaveChangesAsync();
 
-            return result > 0 ? new DriverViewModel() { Comission = driver.Comission, DocumentConfirmatiom = driver.DocumentConfirmation, Id = driver.Id, DriverLicanse = driver.DriverLicense, IDCardNumber = driver.IDCardNumber } : null; 
+            return result > 0 ? new DriverViewModel() { Comission = driver.Comission, DocumentConfirmatiom = driver.DocumentConfirmation, Id = driver.Id } : null; 
         }
 
         public IEnumerable<DriverViewModel> GetAllDrivers()
@@ -91,8 +107,7 @@ namespace TravelApp.Services.DriverService
             var drivers = this.repository.All().Where(d => d.DocumentConfirmation !=true).Select(a =>
             new DriverViewModel()
             { 
-                Comission = a.Comission, 
-                DriverLicanse = a.DriverLicense, IDCardNumber = a.IDCardNumber,
+                Comission = a.Comission,
                 DocumentConfirmatiom = a.DocumentConfirmation,
                 Id = a.Id
             });
