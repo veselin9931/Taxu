@@ -66,7 +66,7 @@ namespace TravelApp.Services.OrderService
             throw new InvalidOperationException("Completing a order failed!");
         }
 
-        public async Task<string> CreateOrderAsync(CreateOrderInputModel input)
+        public async Task<Order> CreateOrderAsync(CreateOrderInputModel input)
         {
 
             if (input != null)
@@ -82,22 +82,23 @@ namespace TravelApp.Services.OrderService
                     DestinationLat = input.DestinationLat,
                     DestinationLong = input.DestinationLong,
                     IncreasePrice = input.IncreasePrice,
-                    TotalPrice = input.TotalPrice, //Just temporary
+                    TotalPrice = input.TotalPrice,
                     CreatedOn = DateTime.UtcNow,
                     Status = "Waiting",
                     ETA = input.ETA,
                     UserDistance = input.UserDistance,
                     TripDistance = input.TripDistance,
-                    //IsAccepted = false,
-                    //IsCompleted = false,
+                    WithPets = input.WithPets,
+                    WithStroller = input.WithStroller,
+                    Special = input.Special
                 };
 
                 this.orderRepository.Add(order);
 
                 await this.orderRepository.SaveChangesAsync();
 
-                
-                return order.ToString();
+
+                return order;
             }
 
             throw new InvalidOperationException("Creating order failed!");

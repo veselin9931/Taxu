@@ -49,6 +49,14 @@
               <p class="mb-1 fonted">Destination: {{oldOrder.destination}}</p>
               <div class="row">
                 <div class="col">
+                    <small>Additional options:</small>
+                  <ul>
+                    <li *ngIf="oldOrder.withPets == true">With pet</li>
+                    <li *ngIf="oldOrder.withStroller == true">With stroller</li>
+                    <li *ngIf="oldOrder.special == true">Special needs</li>
+                  </ul>
+
+                
                   <div class="d-flex w-100 justify-content-between">
                     <small>Trip distance: {{oldOrder.tripDistance}} km</small>
                     <ion-button class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">Accept</ion-button>

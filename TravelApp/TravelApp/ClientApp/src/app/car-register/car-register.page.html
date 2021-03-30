@@ -5,7 +5,7 @@
     </ion-buttons>
 
     <ion-title>
-        <ion-label>TaxiMi</ion-label>
+      <ion-label>TaxiMi</ion-label>
     </ion-title>
 
     <ion-buttons slot="end">
@@ -85,17 +85,21 @@
             </div>
 
             <div class="form-group col mt-5 text-center">
-              <ion-input formControlName="tehnicalReview" type="text" class="form-control"
-                placeholder="Technical Review" [ngClass]="{ 'is-invalid': submitted && f.tehnicalReview.errors }">
-              </ion-input>
-              <div *ngIf="submitted && f.tehnicalReview.errors" class="invalid-feedback">
-                <div *ngIf="f.tehnicalReview.errors.required">The field is required!</div>
-              </div>
+              <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
+              <ion-button class="my-label" (click)="file.click()" expand="block" color="light">Upload car's technical
+                review picture</ion-button>
+            </div>
+
+            <div class="form-group col mt-5 text-center">
+              <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
+              <ion-button class="my-label" (click)="file.click()" expand="block" color="light">Upload car's
+                insurance picture</ion-button>
             </div>
 
             <div class="col-md-12 mt-3">
               <ion-button type="submit" (click)="onSubmit()" color="light">Submit</ion-button>
             </div>
+
           </form>
         </div>
       </div>

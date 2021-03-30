@@ -1,5 +1,4 @@
-<ion-content padding
-             *ngIf="orderStatus == 'Waiting' || orderStatus == 'Completed' || orderStatus == null">
+<ion-content padding *ngIf="orderStatus == 'Waiting' || orderStatus == 'Completed' || orderStatus == null">
     <ion-header>
         <ion-toolbar>
             <ion-buttons slot="start">
@@ -18,31 +17,55 @@
     </ion-header>
     <div class="row mt-2">
         <div class="col">
-            <div class="row mt-2">
-            </div>
             <ion-text>
-                <ion-list class="mt-2">
+
+                <!-- <ion-list class="mt-2">
                     <ion-item *ngFor="let entry of forma">
                         <ion-label color="light">{{entry.val}}</ion-label>
-                        <ion-checkbox class="border" color="light" slot="start" [(ngModel)]="entry.isChecked" [disabled]="entry.isChecked" (click)="incrase(entry.val)"></ion-checkbox>
+                        <ion-checkbox class="border" color="light" slot="start" [(ngModel)]="entry.isChecked" (click)="incrase(entry)"></ion-checkbox>
                     </ion-item>
-                </ion-list>
-                <div class="row">
+                </ion-list> -->
 
+
+
+                <div class="row">
                     <form [formGroup]="form" novalidate class="col">
                         <div class="form-group col mt-5">
-                            <ion-input formControlName="location" type="text" class="form-control" placeholder="Choose starting location"
-                                       (click)="locationMap()"
-                                       [ngClass]="{ 'is-invalid': isSubmitted && f.location.errors }"></ion-input>
+                            <ion-list class="mt-2" *ngIf="isCompleted == false">
+                                <ion-item>
+                                    <ion-label color="light">With pets</ion-label>
+                                    <ion-checkbox  color="light" slot="start" formControlName="withPets"
+                                        [disabled]="this.form.value.withPets == true" class="form-group"></ion-checkbox>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label color="light">With stroller</ion-label>
+                                    <ion-checkbox color="light" slot="start" formControlName="withStroller"
+                                        [disabled]="this.form.value.withStroller == true" class="form-group">
+                                    </ion-checkbox>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label color="light">Special needs</ion-label>
+                                    <ion-checkbox color="light" slot="start" formControlName="special"
+                                        [disabled]="this.form.value.special == true" class="form-group"></ion-checkbox>
+                                </ion-item>
+                            </ion-list>
+                        </div>
+
+                        <div class="form-group col mt-5">
+                            <ion-input formControlName="location" type="text" class="form-control"
+                                placeholder="Choose starting location" (click)="locationMap()"
+                                [ngClass]="{ 'is-invalid': isSubmitted && f.location.errors }"></ion-input>
                             <div *ngIf="isSubmitted && f.location.errors" class="invalid-feedback">
                                 <div *ngIf="f.location.errors.required">Please choose starting point.</div>
                             </div>
                         </div>
 
                         <div class="form-group col mt-3">
-                            <ion-input formControlName="destination" type="text" class="form-control" placeholder="Choose destination"
-                                       (click)="destinationMap()"
-                                       [ngClass]="{ 'is-invalid': isSubmitted && f.destination.errors }"></ion-input>
+                            <ion-input formControlName="destination" type="text" class="form-control"
+                                placeholder="Choose destination" (click)="destinationMap()"
+                                [ngClass]="{ 'is-invalid': isSubmitted && f.destination.errors }"></ion-input>
                             <div *ngIf="isSubmitted && f.destination.errors" class="invalid-feedback">
                                 <div *ngIf="f.destination.errors.required">Please choose endpoint.</div>
                             </div>
@@ -52,7 +75,7 @@
                         <div *ngIf="orderStatus == 'Waiting'" class="form-group col mt-3">
                             <ion-label><i>Increase amount</i></ion-label>
                             <ion-select ngModel (ngModelChange)="selector($event)" formControlName="increasePrice"
-                                        placeholder="Select amount you want to increase">
+                                placeholder="Select amount you want to increase">
                                 <ion-select-option value="1">1</ion-select-option>
                                 <ion-select-option value="2">2</ion-select-option>
                                 <ion-select-option value="3">3</ion-select-option>
@@ -68,20 +91,36 @@
 
                         </div>
 
-                        <ion-row>
-                            <ion-col class="ion-align-self-start" offset="0.2">
-                                <ion-button [disabled]="isCompleted == true" (click)="onSubmit()" color="light">Find</ion-button>
-                            </ion-col>
-                            <ion-col class="ion-align-self-center" pull="0.5">
-                                <ion-button color="light"> Cost: {{orderTotalPrice}}$</ion-button>
-                            </ion-col>
-                            <ion-col class="ion-align-self-end">
-                                <ion-button [disabled]="isCompleted == false" (click)="cancelOrder()" color="danger">Cancel</ion-button>
-                            </ion-col>
-                        </ion-row>
-
+                            <div class="row text-center">
+                                <div class="col-md-12">
+                                   
+                                    <ion-button *ngIf="isCompleted == false" (click)="onSubmit()" color="light"> 
+                                        Find
+                                    </ion-button>
+                                </div>
+                                <div class="col-md-12">
+                                    <ion-button *ngIf="isCompleted == true" color="light"> Cost: {{orderTotalPrice}}$</ion-button>
+                                </div>
+                                <div class="col-md-12">
+                                    <ion-button  *ngIf="isCompleted == true" (click)="cancelOrder()"
+                                        color="danger">Cancel</ion-button>
+                                </div>
+                            </div>
+                            <!-- <ion-row>
+                                <ion-col class="ion-align-self-start" offset="0.2">
+                                    <ion-button [disabled]="isCompleted == true" (click)="onSubmit()" color="light">Find
+                                    </ion-button>
+                                </ion-col>
+                                <ion-col class="ion-align-self-center" pull="0.5">
+                                    <ion-button color="light"> Cost: {{orderTotalPrice}}$</ion-button>
+                                </ion-col>
+                                <ion-col class="ion-align-self-end">
+                                    <ion-button [disabled]="isCompleted == false" (click)="cancelOrder()"
+                                        color="danger">Cancel</ion-button>
+                                </ion-col>
+                            </ion-row> -->
                     </form>
-                    
+
                     <div *ngIf="isCompleted == true" class="blink_me col-md-12 mt-3 text-center">
                         <ion-button type="submit" color="light">Looking for a driver</ion-button>
                     </div>
@@ -89,11 +128,11 @@
 
             </ion-text>
 
-            
+
 
         </div>
     </div>
-    
+
 </ion-content>
 
 
@@ -153,7 +192,7 @@
                 <div class="msg-box">
                     <ul *ngFor="let mObj of msgInboxArray">
                         <li [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
-                            {{mObj.user}}:  <br />
+                            {{mObj.user}}: <br />
                             {{mObj.text}}
                             <hr />
                         </li>

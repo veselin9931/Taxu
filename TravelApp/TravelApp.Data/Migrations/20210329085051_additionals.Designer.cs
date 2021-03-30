@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelApp.Data;
 
 namespace TravelApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210329085051_additionals")]
+    partial class additionals
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -588,6 +590,9 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("AcceptedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AdditionalOption")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -629,8 +634,8 @@ namespace TravelApp.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Special")
-                        .HasColumnType("bit");
+                    b.Property<string>("OrderOptionsId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
@@ -644,15 +649,11 @@ namespace TravelApp.Data.Migrations
                     b.Property<decimal>("UserDistance")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("WithPets")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("WithStroller")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("OrderOptionsId");
 
                     b.ToTable("Orders");
                 });
@@ -947,7 +948,13 @@ namespace TravelApp.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
 
+                    b.HasOne("TravelApp.Models.OrderOptions", "OrderOptions")
+                        .WithMany()
+                        .HasForeignKey("OrderOptionsId");
+
                     b.Navigation("ApplicationUser");
+
+                    b.Navigation("OrderOptions");
                 });
 
             modelBuilder.Entity("TravelApp.Models.Report", b =>

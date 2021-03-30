@@ -14,11 +14,17 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content padding class="background">
+  <ion-text *ngIf="favourites.length == 0" class="centered" color="light">
+    <h2>Zero saved trips</h2>
+    <hr />
+  </ion-text>
+
   <div class="row mt-2">
+    
     <div class="col">
       <div class="row">
-
         <div class="col-md-10">
           <div *ngFor="let favourite of favourites" class="list-group mt-2">
 

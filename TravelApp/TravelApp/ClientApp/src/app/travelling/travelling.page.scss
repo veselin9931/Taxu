@@ -66,6 +66,14 @@ i{
     --background: #e5e5e5;
   }
 
+ .checkbox-icon{
+     color:white;
+ }
+
+ ion-checkbox{
+     --border-color: #FFFFFF;
+   }
+
 ion-select{
     color: rgb(56, 56, 56);
     background-color: white;

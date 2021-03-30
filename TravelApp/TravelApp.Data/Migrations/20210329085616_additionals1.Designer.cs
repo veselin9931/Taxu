@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelApp.Data;
 
 namespace TravelApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210329085616_additionals1")]
+    partial class additionals1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -588,6 +590,9 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("AcceptedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AdditionalOption")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -629,9 +634,6 @@ namespace TravelApp.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Special")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
@@ -643,12 +645,6 @@ namespace TravelApp.Data.Migrations
 
                     b.Property<decimal>("UserDistance")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("WithPets")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("WithStroller")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -674,7 +670,12 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OrderId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderOptions");
                 });
@@ -950,6 +951,13 @@ namespace TravelApp.Data.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("TravelApp.Models.OrderOptions", b =>
+                {
+                    b.HasOne("TravelApp.Models.Order", null)
+                        .WithMany("AdditionalOptions")
+                        .HasForeignKey("OrderId");
+                });
+
             modelBuilder.Entity("TravelApp.Models.Report", b =>
                 {
                     b.HasOne("TravelApp.Models.ApplicationUser", "Reporter")
@@ -1012,6 +1020,11 @@ namespace TravelApp.Data.Migrations
             modelBuilder.Entity("TravelApp.Models.Driver", b =>
                 {
                     b.Navigation("Cars");
+                });
+
+            modelBuilder.Entity("TravelApp.Models.Order", b =>
+                {
+                    b.Navigation("AdditionalOptions");
                 });
 #pragma warning restore 612, 618
         }

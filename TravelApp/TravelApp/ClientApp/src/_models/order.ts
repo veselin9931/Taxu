@@ -20,4 +20,6 @@ export class Order {
     eta: string;
     tripDistance: number;
     userDistance: number;
+    withPets: boolean;
+    withStroller: boolean;
 }

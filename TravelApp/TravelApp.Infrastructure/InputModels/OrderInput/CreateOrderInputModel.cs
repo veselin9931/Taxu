@@ -21,6 +21,11 @@ namespace TravelApp.Infrastructure.InputModels.OrderInput
 
         public decimal LocationLong { get; set; }
 
+        public bool WithStroller { get; set; }
+
+        public bool WithPets { get; set; }
+
+        public bool Special { get; set; }
 
         [Required]
         public string Destination { get; set; }
@@ -28,6 +33,7 @@ namespace TravelApp.Infrastructure.InputModels.OrderInput
         public decimal DestinationLat { get; set; }
 
         public decimal DestinationLong { get; set; }
+
 
         public decimal IncreasePrice { get; set; }
 

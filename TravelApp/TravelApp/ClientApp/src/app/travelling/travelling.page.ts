@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { AlertController } from '@ionic/angular';
@@ -21,13 +21,7 @@ declare var google: any;
   templateUrl: './travelling.page.html',
   styleUrls: ['./travelling.page.scss'],
 })
-export class TravellingPage implements OnInit {
-
-    public forma = [
-        { val: 'With stroller', isChecked: false },
-        { val: 'Special needs', isChecked: false },
-        { val: 'With pets', isChecked: false }
-    ];  
+export class TravellingPage implements OnInit { 
 
   public currentTrip: Trip;
   isLoggedIn;
@@ -38,7 +32,7 @@ export class TravellingPage implements OnInit {
   driverData: User;
   activeCarData: Car;
   orderStatus: string;
-  orderTotalPrice = 0;
+  orderTotalPrice: any;
   orderTotalDestination: any;
   estimatedDuration: any;
   //Car html properties;
@@ -92,6 +86,9 @@ export class TravellingPage implements OnInit {
       increasePrice: [0],
       status: 'Waiting',
       eta: '',
+      withPets: false,
+      withStroller:false,
+      special: false,
     })
 
     const connection = new signalR.HubConnectionBuilder()
@@ -117,6 +114,7 @@ export class TravellingPage implements OnInit {
 
   }
   ionViewDidEnter() {
+   
     if (this.orderService.selectedFavourite) {
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
       this.form.get('locationLat').setValue(this.orderService.selectedFavourite.locationLat);
@@ -145,7 +143,7 @@ export class TravellingPage implements OnInit {
     if (this.orderStatus == 'Accepted' && this.order != null) {
       this.loadMap(this.mapRef);
     }
-    this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
+    //this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
   }
 
   msgDto: Message = new Message();
@@ -199,6 +197,18 @@ export class TravellingPage implements OnInit {
   }
 
   onSubmit() {
+    this.isSubmitted = true;
+    if(this.form.value.location == undefined){
+      this.form.controls['location'].setErrors({'incorrect': true});
+    }
+
+    if(this.form.value.destination == undefined){
+      this.form.controls['destination'].setErrors({'incorrect': true});
+    }
+
+    if (!this.form.valid) {
+      return;
+    }  
     const directionsService = new google.maps.DirectionsService();
 
     directionsService.route(
@@ -215,13 +225,16 @@ export class TravellingPage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
+          
           this.estimatedDuration = response.routes[0].legs[0].duration.text;
           this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
-          this.orderTotalPrice += this.orderTotalDestination * 0.90;
-
+          this.orderTotalPrice = this.orderTotalDestination * 0.90;
+          if(this.form.value.withPets == true){
+            this.orderTotalPrice += 2.20;
+          }
           this.form.value.totalPrice = this.orderTotalPrice;
           this.form.value.tripDistance = this.orderTotalDestination;
-          (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
+
           this.form.value.increasePrice = (+this.form.value.increasePrice);
           this.form.value.eta = this.estimatedDuration;
           let userId = this.accountService.userValue.id;
@@ -231,7 +244,7 @@ export class TravellingPage implements OnInit {
             return false;
           } else {
             this.orderService.createOrder(this.form.value)
-              .subscribe(() => {
+              .subscribe(x => {
                 this.alertService.success('You have created an order.', { autoClose: true });
                 this.orderStatus = this.form.value.status;
               })
@@ -333,6 +346,7 @@ export class TravellingPage implements OnInit {
         if (this.orderStatus == "Waiting") {
           this.statusForOrder = false;
           this.isCompleted = true;
+
           // User can increase order price here.
 
           this.selector(0);
@@ -361,10 +375,8 @@ export class TravellingPage implements OnInit {
     if (amount != 0 || $event != "") {
       this.orderService.increaseOrderPrice(this.order.id, amount)
         .subscribe(x => {
-          console.log('Order increased');
         })
     }
-
   }
 
   getUserById(driverId: string) {
@@ -437,9 +449,10 @@ export class TravellingPage implements OnInit {
       'increasePrice': 0,
       'status': 'Waiting',
       'eta': '',
+      'withPets': false,
+      'withStroller': false,
+      'special': false
     })
-
-   this.forma.forEach(a => a.isChecked = false);
   }
 
   async completedOrderAlert() {
@@ -511,12 +524,6 @@ export class TravellingPage implements OnInit {
     await popup.present();
 
     }
-    incrase(val) {
-        if (val == 'With pets') {
-
-            this.orderTotalPrice += 2.20;
-           
-        }
-    }
-    
 }
+
+

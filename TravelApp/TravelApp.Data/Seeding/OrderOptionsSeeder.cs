@@ -20,18 +20,18 @@ namespace TravelApp.Data.Seeding
         private static async Task SeedOptionAsync(DbSet<OrderOptions> orderOpt, string name, decimal increaseAmoun)
         {
 
-            var option = await orderOpt.FirstOrDefaultAsync(t => t.Name == name);
-            if (option == null)
-            {
-                var opt = new OrderOptions() { IncreaseAmmoun = increaseAmoun, Name = name };
+            //var option = await orderOpt.FirstOrDefaultAsync(t => t.Name == name);
+            //if (option == null)
+            //{
+            //    var opt = new OrderOptions() { IncreaseAmmoun = increaseAmoun, Name = name };
 
-                var result = await orderOpt.AddAsync(opt);
+            //    var result = await orderOpt.AddAsync(opt);
 
-                if (result.Entity == null)
-                {
-                  // throw err
-                }
-            }
+            //    if (result.Entity == null)
+            //    {
+            //      // throw err
+            //    }
+            //}
         }
     }
 }
