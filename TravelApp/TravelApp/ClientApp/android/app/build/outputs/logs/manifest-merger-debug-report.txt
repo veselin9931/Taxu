@@ -1,24 +1,24 @@
 -- Merging decision tree log ---
 provider#androidx.core.content.FileProvider
-INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:35:9-43:20
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:35:9-43:20
 	android:grantUriPermissions
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:39:13-47
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:39:13-47
 	android:authorities
-		INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:37:13-64
+		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:37:13-64
 	android:exported
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:38:13-37
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:38:13-37
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:36:13-62
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:36:13-62
 manifest
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
-INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
-INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
-INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
-MERGED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-50:12
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+MERGED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-50:12
 MERGED from [com.google.android.material:material:1.1.0-rc02] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\102b3c44740e06a0c65ab0c577ce7e61\material-1.1.0-rc02\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\d38bcf900577a63e0da310b3fe272179\appcompat-1.1.0\AndroidManifest.xml:17:1-24:12
-MERGED from [:capacitor-cordova-android-plugins] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-18:12
+MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-18:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\61e488a7b48ffc8255adc230dafa50f0\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\283499019944b954344c21ecf1019372\jetified-viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:firebase-messaging:20.1.2] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6fe0f05486c9f14086b1b659ca69db6\jetified-firebase-messaging-20.1.2\AndroidManifest.xml:17:1-44:12
@@ -69,31 +69,31 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\malek\.gradle\ca
 MERGED from [androidx.print:print:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\6320adba18b4d4720bd8695f5fffc52f\print-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [org.apache.cordova:framework:7.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c1ca5d0a1b33de69d3f35337e7942eb8\jetified-framework-7.0.0\AndroidManifest.xml:20:1-27:12
 MERGED from [com.google.android.datatransport:transport-api:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\2915d1d7082de4bb0fb820d3fa381a33\jetified-transport-api-2.2.0\AndroidManifest.xml:15:1-22:12
-INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
-INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
-INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
 	package
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:3:5-31
-		INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-		INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:3:5-31
+		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
-		INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 	android:versionCode
-		INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
-		INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:1-68:12
+		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:2:11-69
 application
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:5:5-44:19
-MERGED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-48:19
-MERGED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-48:19
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:5:5-44:19
+MERGED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-48:19
+MERGED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-48:19
 MERGED from [com.google.android.material:material:1.1.0-rc02] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\102b3c44740e06a0c65ab0c577ce7e61\material-1.1.0-rc02\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.1.0-rc02] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\102b3c44740e06a0c65ab0c577ce7e61\material-1.1.0-rc02\AndroidManifest.xml:22:5-20
-MERGED from [:capacitor-cordova-android-plugins] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-16:19
-MERGED from [:capacitor-cordova-android-plugins] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-16:19
+MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-16:19
+MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-16:19
 MERGED from [com.google.firebase:firebase-messaging:20.1.2] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6fe0f05486c9f14086b1b659ca69db6\jetified-firebase-messaging-20.1.2\AndroidManifest.xml:22:5-42:19
 MERGED from [com.google.firebase:firebase-messaging:20.1.2] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6fe0f05486c9f14086b1b659ca69db6\jetified-firebase-messaging-20.1.2\AndroidManifest.xml:22:5-42:19
 MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\febea47f8deaefcdcab072224acc8dc4\jetified-play-services-location-17.0.0\AndroidManifest.xml:7:5-20
@@ -131,63 +131,63 @@ MERGED from [com.google.android.datatransport:transport-runtime:2.2.0] C:\Users\
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\583d0de7df83d6366d0f0380146cace4\core-1.2.0\AndroidManifest.xml:24:18-86
 	android:supportsRtl
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:10:9-35
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:10:9-35
 	android:label
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:8:9-41
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:8:9-41
 	android:roundIcon
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:9:9-54
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:9:9-54
 	android:icon
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:7:9-43
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:7:9-43
 	android:allowBackup
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:6:9-35
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:6:9-35
 	android:theme
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:11:9-40
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:11:9-40
 	android:usesCleartextTraffic
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:12:9-44
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:12:9-44
 activity#io.ionic.starter.MainActivity
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:14:9-33:20
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:14:9-33:20
 	android:label
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:17:13-56
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:17:13-56
 	android:launchMode
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:19:13-44
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:19:13-44
 	android:configChanges
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:15:13-129
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:15:13-129
 	android:theme
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:18:13-62
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:18:13-62
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:16:13-57
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:16:13-57
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:21:13-24:29
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:21:13-24:29
 action#android.intent.action.MAIN
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:22:17-69
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:22:17-69
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:22:25-66
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:22:25-66
 category#android.intent.category.LAUNCHER
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:23:17-77
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:23:17-77
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:23:27-74
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:23:27-74
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:scheme:@string/custom_url_scheme
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:26:13-31:29
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:26:13-31:29
 action#android.intent.action.VIEW
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:27:17-69
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:27:17-69
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:27:25-66
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:27:25-66
 category#android.intent.category.DEFAULT
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:28:17-76
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:28:17-76
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:28:27-73
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:28:27-73
 category#android.intent.category.BROWSABLE
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:29:17-78
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:29:17-78
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:29:27-75
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:29:27-75
 data
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:30:17-68
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:30:17-68
 	android:scheme
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:30:23-65
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:30:23-65
 uses-permission#android.permission.INTERNET
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:48:5-67
-MERGED from [:capacitor-cordova-android-plugins] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-67
-MERGED from [:capacitor-cordova-android-plugins] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-67
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:48:5-67
+MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-67
+MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-67
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-installations:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\1fc34a2957977e5d72908a2cfd4e5c7c\jetified-firebase-installations-16.0.0\AndroidManifest.xml:11:5-67
@@ -195,31 +195,31 @@ MERGED from [com.google.firebase:firebase-installations:16.0.0] C:\Users\malek\.
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\80740ea671f9509e07d6a34e2b93f75c\jetified-transport-backend-cct-2.2.0\AndroidManifest.xml:26:5-67
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\80740ea671f9509e07d6a34e2b93f75c\jetified-transport-backend-cct-2.2.0\AndroidManifest.xml:26:5-67
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:48:22-64
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:48:22-64
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:50:5-79
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:50:5-79
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:50:22-77
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:50:22-77
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:51:5-81
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:51:5-81
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:51:22-78
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:51:22-78
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:53:5-81
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:53:5-81
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:53:22-78
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:53:22-78
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:54:5-79
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:54:5-79
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:54:22-76
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:54:22-76
 uses-feature#android.hardware.location.gps
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:55:5-66
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:55:5-66
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:55:19-63
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:55:19-63
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:57:5-79
-MERGED from [:capacitor-cordova-android-plugins] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
-MERGED from [:capacitor-cordova-android-plugins] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:57:5-79
+MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
+MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:22:5-79
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:22:5-79
 MERGED from [com.google.firebase:firebase-installations:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\1fc34a2957977e5d72908a2cfd4e5c7c\jetified-firebase-installations-16.0.0\AndroidManifest.xml:10:5-79
@@ -229,37 +229,37 @@ MERGED from [com.google.android.datatransport:transport-backend-cct:2.2.0] C:\Us
 MERGED from [com.google.android.datatransport:transport-runtime:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\65c9f7529c4981d43c925fa693badfa2\jetified-transport-runtime-2.2.0\AndroidManifest.xml:22:5-79
 MERGED from [com.google.android.datatransport:transport-runtime:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\65c9f7529c4981d43c925fa693badfa2\jetified-transport-runtime-2.2.0\AndroidManifest.xml:22:5-79
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:57:22-76
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:57:22-76
 uses-permission#android.permission.CAMERA
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:60:5-65
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:60:5-65
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:60:22-62
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:60:22-62
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:62:5-71
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:62:5-71
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:62:22-68
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:62:22-68
 uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:63:5-79
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:63:5-79
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:63:22-77
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:63:22-77
 uses-feature#0x00020000
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:65:5-67:31
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:65:5-67:31
 	android:glEsVersion
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:66:5-37
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:66:5-37
 	android:required
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:67:5-28
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:67:5-28
 uses-sdk
-INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-MERGED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+MERGED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.android.material:material:1.1.0-rc02] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\102b3c44740e06a0c65ab0c577ce7e61\material-1.1.0-rc02\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.material:material:1.1.0-rc02] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\102b3c44740e06a0c65ab0c577ce7e61\material-1.1.0-rc02\AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\d38bcf900577a63e0da310b3fe272179\appcompat-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\d38bcf900577a63e0da310b3fe272179\appcompat-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [:capacitor-cordova-android-plugins] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-10:41
-MERGED from [:capacitor-cordova-android-plugins] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-10:41
+MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-10:41
+MERGED from [:capacitor-cordova-android-plugins] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-10:41
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\61e488a7b48ffc8255adc230dafa50f0\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\61e488a7b48ffc8255adc230dafa50f0\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\283499019944b954344c21ecf1019372\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
@@ -360,92 +360,92 @@ MERGED from [org.apache.cordova:framework:7.0.0] C:\Users\malek\.gradle\caches\t
 MERGED from [org.apache.cordova:framework:7.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c1ca5d0a1b33de69d3f35337e7942eb8\jetified-framework-7.0.0\AndroidManifest.xml:25:5-44
 MERGED from [com.google.android.datatransport:transport-api:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\2915d1d7082de4bb0fb820d3fa381a33\jetified-transport-api-2.2.0\AndroidManifest.xml:18:5-20:41
 MERGED from [com.google.android.datatransport:transport-api:2.2.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\2915d1d7082de4bb0fb820d3fa381a33\jetified-transport-api-2.2.0\AndroidManifest.xml:18:5-20:41
-INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-		INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
-		INJECTED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:40:13-42:64
+ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:40:13-42:64
 	android:resource
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:42:17-51
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:42:17-51
 	android:name
-		ADDED from G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:41:17-67
+		ADDED from C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:41:17-67
 uses-feature#android.hardware.camera
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-13:36
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-13:36
 	android:required
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:9-33
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:9-33
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-47
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-47
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-81
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-81
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:22-78
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:22-78
 uses-permission#android.permission.WAKE_LOCK
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:5-68
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:5-68
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:24:5-68
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:24:5-68
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:22-65
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:22-65
 service#com.getcapacitor.plugin.background.BackgroundTaskService
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:9-21:40
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:9-21:40
 	android:exported
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:13-37
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:13-37
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:20:13-84
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:20:13-84
 receiver#com.getcapacitor.plugin.notification.TimedNotificationPublisher
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:9-100
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:9-100
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:19-97
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:19-97
 receiver#com.getcapacitor.plugin.notification.NotificationDismissReceiver
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:24:9-101
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:24:9-101
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:24:19-98
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:24:19-98
 meta-data#firebase_messaging_auto_init_enabled
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:26:9-28:37
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:26:9-28:37
 	android:value
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:28:13-34
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:28:13-34
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:13-64
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:13-64
 service#com.getcapacitor.CapacitorFirebaseMessagingService
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:9-36:19
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:9-36:19
 	android:stopWithTask
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:32:13-41
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:32:13-41
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:31:13-78
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:31:13-78
 intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:13-35:29
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:13-35:29
 action#com.google.firebase.MESSAGING_EVENT
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:34:17-78
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:34:17-78
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:34:25-75
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:34:25-75
 receiver#com.getcapacitor.plugin.notification.LocalNotificationRestoreReceiver
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:9-47:20
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:9-47:20
 	android:exported
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:41:13-37
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:41:13-37
 	android:directBootAware
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:13-43
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:13-43
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:13-97
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:13-97
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.LOCKED_BOOT_COMPLETED+action:name:android.intent.action.QUICKBOOT_POWERON
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:42:13-46:29
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:42:13-46:29
 action#android.intent.action.LOCKED_BOOT_COMPLETED
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:43:17-86
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:43:17-86
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:43:25-83
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:43:25-83
 action#android.intent.action.BOOT_COMPLETED
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:44:17-79
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:44:17-79
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:44:25-76
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:44:25-76
 action#android.intent.action.QUICKBOOT_POWERON
-ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:45:17-82
+ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:45:17-82
 	android:name
-		ADDED from [:capacitor-android] G:\Code\TaxiShow\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:45:25-79
+		ADDED from [:capacitor-android] C:\TAXU\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:45:25-79
 service#com.google.firebase.messaging.FirebaseMessagingService
 ADDED from [com.google.firebase:firebase-messaging:20.1.2] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6fe0f05486c9f14086b1b659ca69db6\jetified-firebase-messaging-20.1.2\AndroidManifest.xml:28:9-34:19
 	android:exported

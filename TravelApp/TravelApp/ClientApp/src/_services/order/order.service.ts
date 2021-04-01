@@ -13,6 +13,7 @@ export class OrderService {
 
   public order: Order;
   public orders = [];
+  public currentOrderId : string;
 
   public driverId: string;
   public completedOrder = false;
@@ -90,6 +91,13 @@ export class OrderService {
 
   getMyOrder(userId: string): Observable<Order> {
     return this.http.get<Order>(`${environment.apiUrl}/api/order/${userId}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getOrderForChat(userId: string): Observable<Order> {
+    return this.http.get<Order>(`${environment.apiUrl}/api/order/chat/${userId}`)
       .pipe(
         catchError(this.handleError)
       );

@@ -68,7 +68,7 @@ export class TravellingPage implements OnInit {
 
   ngOnInit() {
     this.chatService.retrieveMappedObject()
-      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
+    .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
 
     this.checkorder();
 
@@ -113,8 +113,8 @@ export class TravellingPage implements OnInit {
     });
 
   }
+  
   ionViewDidEnter() {
-
     if (this.orderService.selectedFavourite) {
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
       this.form.get('locationLat').setValue(this.orderService.selectedFavourite.locationLat);
@@ -143,13 +143,12 @@ export class TravellingPage implements OnInit {
     if (this.orderStatus == 'Accepted' && this.order != null) {
       this.loadMap(this.mapRef);
     }
-    //this.calculateRoutePrice(this.orderService.userLocationLat, this.orderService.userLocationLong, this.orderService.userDestinationLat, this.orderService.userDestinationLong);
   }
 
+
+  //CHAT FUNCTIONALLITY
   msgDto: Message = new Message();
   msgInboxArray: Message[] = [];
-
-  get f() { return this.form.controls; }
 
   send(): void {
     if (this.msgDto) {
@@ -157,8 +156,8 @@ export class TravellingPage implements OnInit {
         window.alert("Text field is required.");
         return;
       } else {
-        this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`
-        this.chatService.broadcastMessage(this.msgDto);                   // Send the message via a service
+        this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
+        this.chatService.broadcastMessage(this.msgDto, 'group1');                   // Send the message via a service
       }
     }
   }
@@ -168,8 +167,10 @@ export class TravellingPage implements OnInit {
     newObj.user = obj.user;
     newObj.text = obj.text;
     this.msgInboxArray.push(newObj);
-
   }
+
+  //GET LOCATION AND DESTINATION AND SEARCH DRIVER
+  get f() { return this.form.controls; }
 
   locationMap() {
     this.route.navigate(['menu/location'])
@@ -179,44 +180,10 @@ export class TravellingPage implements OnInit {
     this.route.navigate(['menu/destination'])
   }
 
-  async loadMap(mapRef: ElementRef) {
-    const coordinates = await Geolocation.getCurrentPosition();
-    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-
-    this.orderService.userDestinationLat = myLatLng.lat;
-    this.orderService.userDestinationLong = myLatLng.lng;
-
-    this.driverService.getDriver(this.driverId)
-      .subscribe(data => {
-        const driverLatLng = { lat: data.currentLocationLat, lng: data.currentLocationLong };
-
-        const options: google.maps.MapOptions = {
-          center: new google.maps.LatLng(driverLatLng.lat, driverLatLng.lng),
-          zoom: 15,
-          disableDefaultUI: true,
-        };
-    
-        this.map = new google.maps.Map(mapRef.nativeElement, options);
-
-        var icon = {
-          url: 'https://images.vexels.com/media/users/3/154573/isolated/preview/bd08e000a449288c914d851cb9dae110-hatchback-car-top-view-silhouette-by-vexels.png',
-          scaledSize: new window.google.maps.Size(25, 25),
-          anchor: { x: 10, y: 10 }
-        };
-
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(driverLatLng),
-          icon: icon,
-          map: this.map
-        });
-      })
-
-    
-
-  }
-
   onSubmit() {
     this.isSubmitted = true;
+
+    //Gets the loc and lng if we come from "Favourites" page
     if (this.form.value.location == undefined) {
       this.form.controls['location'].setErrors({ 'incorrect': true });
     }
@@ -228,6 +195,8 @@ export class TravellingPage implements OnInit {
     if (!this.form.valid) {
       return;
     }
+
+    //Gets information for directions - price, km and etc
     const directionsService = new google.maps.DirectionsService();
 
     directionsService.route(
@@ -244,10 +213,11 @@ export class TravellingPage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
-
           this.estimatedDuration = response.routes[0].legs[0].duration.text;
           this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
           this.orderTotalPrice = this.orderTotalDestination * 0.90;
+
+          //Additional option with additional price
           if (this.form.value.withPets == true) {
             this.orderTotalPrice += 2.20;
           }
@@ -266,16 +236,22 @@ export class TravellingPage implements OnInit {
               .subscribe(x => {
                 this.alertService.success('You have created an order.', { autoClose: true });
                 this.orderStatus = this.form.value.status;
+                this.orderService.getMyOrder(userId)
+                .subscribe(x => {
+                  //The hack for chat service - make new group before each order.
+                  this.chatService.stop();
+                  this.chatService.start();
+                })
               })
           }
-
         } else {
           window.alert("Directions request failed due to " + status);
         }
       }
     );
-
   }
+
+  //Favourites page func
 
   addToFavourite() {
     let data = {
@@ -300,92 +276,57 @@ export class TravellingPage implements OnInit {
     }
   }
 
-  calculateRoutePrice(locLat, locLng, destLat, destLng) {
-    const directionsService = new google.maps.DirectionsService();
-
-    directionsService.route(
-      {
-        origin: {
-          lat: locLat,
-          lng: locLng
-        },
-        destination: {
-          lat: destLat,
-          lng: destLng,
-        },
-        travelMode: google.maps.TravelMode.DRIVING,
-      },
-      (response, status) => {
-        if (status === "OK") {
-          this.estimatedDuration = response.routes[0].legs[0].duration.text;
-          this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
-          this.orderTotalPrice = this.orderTotalDestination * 0.90;
-        } else {
-          window.alert("Directions request failed due to " + status);
-        }
-      }
-    );
-  }
-
   addFavourite() {
     console.log(this.order)
   }
 
+  //Order functionallity - waiting for driver
   checkorder() {
     this.orderService.getMyOrder(this.userId)
       .subscribe(data => {
-
         if (data) {
+          this.orderService.currentOrderId = data.id;
           this.location = data.location;
           this.destination = data.destination;
           (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
           this.orderTotalPrice = data.totalPrice;
           this.estimatedDuration = data.eta;
-
-
         } else {
           this.orderTotalPrice = 0;
         }
 
         if (this.orderStatus == 'Completed') {
+          this.chatService.stop();
           this.orderStatus = null;
           this.completedOrderAlert();
         }
 
         if (data == null) {
-          console.log('Still no order!')
           return;
         }
-        //get accepted by user id
-        this.order = data;
 
-        //this.orderStatus = data.isAccepted
+        this.order = data;
         this.orderStatus = data.status;
 
-        //this.isAccepted = data.isAccepted;
-
         if (this.orderStatus == "Waiting") {
-          this.statusForOrder = false;
           this.isCompleted = true;
 
-          // User can increase order price here.
-
+          // User can increase order price.
           this.selector(0);
-
         }
 
         if (this.orderStatus == "Accepted") {
+          //Reset the data
           this.isCompleted = false;
           this.isSubmitted = false;
+
           this.clearForm();
+
           this.orderService.order = data;
 
           if (data.acceptedBy != null) {
             this.getUserById(data.acceptedBy);
             this.getAcceptedTrip(data.acceptedBy);
-
-            //get current drivers location
-
           }
         }
       },
@@ -394,6 +335,20 @@ export class TravellingPage implements OnInit {
         })
   }
 
+  cancelOrder() {
+    this.orderService.getMyOrder(this.userId)
+      .subscribe(data => {
+        this.orderService.deleteOrder(data.id)
+          .subscribe(() => {
+            this.isCompleted = false;
+            this.orderStatus = null;
+            this.orderTotalPrice = 0;
+            this.clearForm();
+          })
+      })
+  }
+
+  //Increase the price for the order.
   selector($event) {
     let amount = +$event;
     if (amount != 0 || $event != "") {
@@ -403,6 +358,7 @@ export class TravellingPage implements OnInit {
     }
   }
 
+  //Get data for the driver and his car.
   getUserById(driverId: string) {
     this.accountService.getById(driverId)
       .subscribe(userData => {
@@ -418,6 +374,7 @@ export class TravellingPage implements OnInit {
       })
   }
 
+  //Get current trip to manage data.
   getAcceptedTrip(driverId: string) {
     this.tripService.getTrip(driverId)
       .subscribe(x => {
@@ -435,56 +392,46 @@ export class TravellingPage implements OnInit {
 
   }
 
-  cancelOrder() {
-    this.orderService.getMyOrder(this.userId)
+  //MAPS FUNCTIONALLITY
+  async loadMap(mapRef: ElementRef) {
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+
+    this.orderService.userDestinationLat = myLatLng.lat;
+    this.orderService.userDestinationLong = myLatLng.lng;
+
+    this.driverService.getDriver(this.driverId)
       .subscribe(data => {
-        this.orderService.deleteOrder(data.id)
-          .subscribe(order => {
-            this.isCompleted = false;
-            this.orderStatus = null;
-            this.orderTotalPrice = 0;
-            this.clearForm();
+        const driverLatLng = { lat: data.currentLocationLat, lng: data.currentLocationLong };
 
-          })
+        const options: google.maps.MapOptions = {
+          center: new google.maps.LatLng(driverLatLng.lat, driverLatLng.lng),
+          zoom: 15,
+          disableDefaultUI: true,
+        };
+
+        this.map = new google.maps.Map(mapRef.nativeElement, options);
+
+        var icon = {
+          url: 'https://images.vexels.com/media/users/3/154573/isolated/preview/bd08e000a449288c914d851cb9dae110-hatchback-car-top-view-silhouette-by-vexels.png',
+          scaledSize: new window.google.maps.Size(25, 25),
+          anchor: { x: 10, y: 10 }
+        };
+
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(driverLatLng),
+          icon: icon,
+          map: this.map
+        });
       })
   }
 
-  logout() {
-    this.accountService.logout();
-    this.isLoggedIn = "";
-    this.route.navigate(['menu/home'])
-      .then(() => {
-        window.location.reload();
-      })
-  }
 
-  clearForm() {
-    this.form.reset({
-      'location': '',
-      'destination': '',
-      'increaseAmount': '',
-      'applicationUserId': '',
-      'locationLat': 0,
-      'locationLong': 0,
-      'destinationLat': 0,
-      'destinationLong': 0,
-      'totalPrice': 0,
-      'tripDistance': 0,
-      'userDistance': 0,
-      'increasePrice': 0,
-      'status': 'Waiting',
-      'eta': '',
-      'withPets': false,
-      'withStroller': false,
-      'special': false
-    })
-  }
-
+  //ALERTS
   async completedOrderAlert() {
     const popup = await this.alertController.create({
       header: 'Did you like the trip?',
       //message: '<img src = "../assets/default.png" width="1px" height="1px">',
-
       inputs: [
         {
           name: 'Like',
@@ -524,15 +471,12 @@ export class TravellingPage implements OnInit {
           text: 'Report a problem', //route to reportpage
           role: 'report',
           handler: () => {
-
             this.route.navigate(['menu/report']);
           }
         }
       ]
     });
-
     await popup.present();
-
   }
   async successAddedFavourite() {
     const popup = await this.alertController.create({
@@ -545,10 +489,71 @@ export class TravellingPage implements OnInit {
         }
       ]
     });
-
     await popup.present();
-
   }
+  //END ALERTS
+
+  //JUNK
+  logout() {
+    this.accountService.logout();
+    this.isLoggedIn = "";
+    this.route.navigate(['menu/home'])
+      .then(() => {
+        window.location.reload();
+      })
+  }
+
+  clearForm() {
+    this.form.reset({
+      'location': '',
+      'destination': '',
+      'increaseAmount': '',
+      'applicationUserId': '',
+      'locationLat': 0,
+      'locationLong': 0,
+      'destinationLat': 0,
+      'destinationLong': 0,
+      'totalPrice': 0,
+      'tripDistance': 0,
+      'userDistance': 0,
+      'increasePrice': 0,
+      'status': 'Waiting',
+      'eta': '',
+      'withPets': false,
+      'withStroller': false,
+      'special': false
+    })
+  }
+  //END JUNK
 }
+
+
+
+//calculateRoutePrice(locLat, locLng, destLat, destLng) {
+  //   const directionsService = new google.maps.DirectionsService();
+
+  //   directionsService.route(
+  //     {
+  //       origin: {
+  //         lat: locLat,
+  //         lng: locLng
+  //       },
+  //       destination: {
+  //         lat: destLat,
+  //         lng: destLng,
+  //       },
+  //       travelMode: google.maps.TravelMode.DRIVING,
+  //     },
+  //     (response, status) => {
+  //       if (status === "OK") {
+  //         this.estimatedDuration = response.routes[0].legs[0].duration.text;
+  //         this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
+  //         this.orderTotalPrice = this.orderTotalDestination * 0.90;
+  //       } else {
+  //         window.alert("Directions request failed due to " + status);
+  //       }
+  //     }
+  //   );
+  // }
 
 

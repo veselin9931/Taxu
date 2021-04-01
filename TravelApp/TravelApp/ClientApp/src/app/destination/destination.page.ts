@@ -25,23 +25,7 @@ export class DestinationPage implements OnInit {
   }
 
   ngOnInit(): void {
-    const connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.apiUrl}/orderHub`, {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
-      })
-      .build();
-
-    connection.start().then(function () {
-      console.log('signalR Connected in menu');
-    }).catch(function (err) {
-      return console.log(err.toString());
-    });
-
-    connection.on('BroadcastMessage', () => {
-      this.loadMap(this.mapRef);
-    });
+    
   }
 
   ionViewDidEnter() {
@@ -95,7 +79,6 @@ export class DestinationPage implements OnInit {
       var bounds = new google.maps.LatLngBounds();
 
       places.forEach((place) => {
-        console.log(place.geometry.location.lat())
         if (!place.geometry) {
           console.log('No Geometry');
           return;
@@ -154,7 +137,6 @@ export class DestinationPage implements OnInit {
               var infowindow = new google.maps.InfoWindow({
                 content: `${this.address}`
               });
-              console.log(this.address);
               infowindow.open(this.map, marker);
             }
           }

@@ -4,43 +4,66 @@ import { HttpClient } from '@angular/common/http';
 import { Message } from '../../_models'
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AccountService } from '../account.service';
+import { OrderService } from '../order/order.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-
+  private orderId = '';
   private connection: any = new signalR.HubConnectionBuilder()
-  .withUrl(`${environment.apiUrl}/orderHub`, {
+    .withUrl(`${environment.apiUrl}/orderHub`, {
       skipNegotiation: true,
       transport: signalR.HttpTransportType.WebSockets
     })
     .build();
 
-  //readonly POST_URL = "https://localhost:44329/api/chat/send";
-
   readonly POST_URL = `${environment.apiUrl}/api/chat/send`;
-
 
   private receivedMessageObject: Message = new Message();
   private sharedObj = new Subject<Message>();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+    private accountService: AccountService,
+    private orderService: OrderService) {
+
     this.connection.onclose(async () => {
       await this.start();
     });
-    this.connection.on("MessageReceived", (user, message) => { this.mapReceivedMessage(user, message); });
+    this.connection.on("MessageReceived", (user, message) => {
+      this.mapReceivedMessage(user, message);
+    });
     this.start();
   }
 
-  // Strart the connection
+  public async stop() {
+    await this.connection.stop();
+    console.log('Disconnected')
+  }
+
+  // Start the connection
   public async start() {
     try {
       await this.connection.start();
-      console.log("connected");
+
+      await this.orderService.getOrderForChat(this.accountService.userValue.id)
+        .subscribe(x => {
+         if (this.orderService.currentOrderId) {
+            this.connection.invoke("AddToRoom", this.orderService.currentOrderId);
+          } else{
+            if(x == null){
+            }else{
+              this.connection.invoke("AddToRoom", x.id);
+            }
+          }
+        });
+
+      console.log("connected in chat");
     } catch (err) {
       console.log(err);
-      setTimeout(() => this.start(), 5000);
+      console.log("Reoonnecting in 1 sec.");
+      setTimeout(() => this.start(), 100);
     }
   }
 
@@ -50,16 +73,17 @@ export class ChatService {
     this.sharedObj.next(this.receivedMessageObject);
   }
 
-  // /* ****************************** Public Mehods **************************************** */
-
-  // // Calls the controller method
-  public broadcastMessage(msgDto: any) {
-    this.http.post(this.POST_URL, msgDto).subscribe(data => console.log(data));
-    // this.connection.invoke("SendMessage1", msgDto.user, msgDto.msgText).catch(err => console.error(err));    // This can invoke the server method named as "SendMethod1" directly.
+  public broadcastMessage(msgDto: any, groupName: string) {
+    this.orderService.getOrderForChat(this.accountService.userValue.id)
+      .subscribe(x => {
+        if (x.id) {
+          this.http.post(`${this.POST_URL}/${x.id}`, msgDto).subscribe(data => console.log(data));
+        }
+      });
   }
 
-   public retrieveMappedObject(): Observable<Message> {
-     return this.sharedObj.asObservable();
-   }
+  public retrieveMappedObject(): Observable<Message> {
+    return this.sharedObj.asObservable();
+  }
 
 }

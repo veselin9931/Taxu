@@ -17,9 +17,20 @@ namespace TravelApp.Services.OrderService
         {
             this.hub = hub;
         }
-        public async Task SendMessage(string user, string message)
+        
+        public async Task AddToRoom(string groupName)
         {
-            await this.hub.Clients.All.MessageReceived(user, message);
-        }  
+            await this.Groups.AddToGroupAsync(this.Context.ConnectionId, groupName);
+
+            //await this.hub.Clients.Group(groupName).MessageReceived("Send", $"{Context.ConnectionId} has joined the group {groupName}.");
+        }
+
+        public async Task SendMessage(string user, string message, string groupName)
+        {
+            await this.hub.Clients.GroupExcept(groupName, this.Context.ConnectionId).MessageReceived(user, message);
+        }
     }
 }
+
+
+

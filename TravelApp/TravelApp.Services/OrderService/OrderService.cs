@@ -225,5 +225,9 @@ namespace TravelApp.Services.OrderService
         {
             return this.optRepo.All();
         }
+
+        public Order GetCurrentOrder(string userId)
+            => this.orderRepository.All().FirstOrDefault(x => x.Status == "Accepted" && x.ApplicationUserId == userId || x.Status == "Accepted" && x.AcceptedBy == userId);
+        
     }
 }

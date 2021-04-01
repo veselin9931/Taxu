@@ -79,6 +79,9 @@ export class DriverProfilePage implements OnInit {
   getProfilePicture(){
     this.imageService.getMyPicture(this.user.id)
     .subscribe(x => {
+      if(x == null){
+        return;
+      }
       this.imgPath = x.path;
     })
   }

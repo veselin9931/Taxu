@@ -52,7 +52,7 @@ namespace TravelApp.Controllers
                 return this.Ok(image);
             }
 
-            return this.BadRequest($"Failed to load image for user id={userId} from db");
+            return this.NoContent();
         }
 
         [HttpGet("documents/{userId}")]

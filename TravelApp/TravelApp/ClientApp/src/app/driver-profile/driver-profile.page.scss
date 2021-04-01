@@ -44,20 +44,20 @@ hr{
     margin: 0 auto;
 
     .header-transparent {
-        height: 200px;
+        height: 150px;
 
         .avatar {
             width: 160px;
-            height: 160px;
+            height: 120px;
             position: relative;
             margin: 0 auto;
 
             img {
+                height: 120px;
                 display: block;
-                border-radius: 50%;
+                border-radius: 20%;
                 position: absolute;
                 bottom: calc(-1*(80px + 4px));
-                border: 8px solid #eeeeee;
                 background-color: #fff;
             }
         }

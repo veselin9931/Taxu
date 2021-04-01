@@ -80,7 +80,6 @@ search: any;
       var bounds = new google.maps.LatLngBounds();
 
       places.forEach((place) => {
-        console.log(place.geometry.location.lat())
         if (!place.geometry) {
           console.log('No Geometry');
           return;
@@ -126,7 +125,6 @@ search: any;
 
       this.orderService.userLocationLat = myLatLng.lat;
       this.orderService.userLocationLong = myLatLng.lng;
-      console.log(this.orderService.userLocationLat, this.orderService.userLocationLong)
       //Get Location
       geocoder.geocode({ location: myLatLng },
         (
@@ -139,7 +137,6 @@ search: any;
               var infowindow = new google.maps.InfoWindow({
                 content: `${this.address}`
               });
-              console.log(this.address);
               infowindow.open(this.map, marker);
             }
           }

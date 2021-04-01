@@ -58,6 +58,19 @@ namespace TravelApp.Controllers
             return this.Ok(orders);
         }
 
+        [HttpGet("chat/{userId}")]
+        public async Task<IActionResult> GetCurrentOrder(string userId)
+        {
+            var id = this.orderService.GetCurrentOrder(userId);
+
+            if (id == null)
+            {
+                return this.NoContent();
+            }
+
+            return this.Ok(id);
+        }
+
         // GET: api/<OrderController>
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -123,7 +136,6 @@ namespace TravelApp.Controllers
         {
             var order = this.orderService.GetOrderByUserId(userId);
             var user = this.accountService.GetById(userId);
-
 
             if (order != null)
             {

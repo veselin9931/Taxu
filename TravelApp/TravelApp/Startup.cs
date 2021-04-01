@@ -91,7 +91,11 @@ namespace TravelApp
             //services.AddCors();
             services.AddMvc();
 
-            services.AddSignalR();
+            services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = true;
+
+            });
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>

@@ -19,6 +19,9 @@ namespace TravelApp.Services.OrderService
 
         public Task<bool> DeleteFavourite(string orderId);
 
+        public Order GetCurrentOrder(string userId);
+
+
 
         public Task<IList<Order>> GetAllAcceptedOrdersAsync(string userId);
 
