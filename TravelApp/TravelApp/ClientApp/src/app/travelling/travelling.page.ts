@@ -22,8 +22,8 @@ declare var google: any;
   styleUrls: ['./travelling.page.scss'],
 })
 export class TravellingPage implements OnInit {
-
   public currentTrip: Trip;
+
   isLoggedIn;
   order: Order;
   userId: string;
@@ -51,6 +51,9 @@ export class TravellingPage implements OnInit {
   isSubmitted = false;
   isCompleted = false;
   isAccepted = false;
+
+  messages = this.chatService.messages;
+  chatStyle = "";
 
   map: any;
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
@@ -147,6 +150,17 @@ export class TravellingPage implements OnInit {
 
 
   //CHAT FUNCTIONALLITY
+  chat(){
+    var x = document.getElementById("chat");
+    
+    if (x.style.display === "none") {
+      x.style.display = "block";
+      this.chatStyle = 'block';
+    } else {
+      x.style.display = "none";
+      this.chatStyle = 'none';
+    }
+  }
   msgDto: Message = new Message();
   msgInboxArray: Message[] = [];
 
@@ -157,9 +171,13 @@ export class TravellingPage implements OnInit {
         return;
       } else {
         this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
-        this.chatService.broadcastMessage(this.msgDto, 'group1');                   // Send the message via a service
+        this.chatService.broadcastMessage(this.msgDto);                   // Send the message via a service
       }
     }
+  }
+
+  clearMessages(){
+    this.messages.length = 0;
   }
 
   addToInbox(obj: Message) {
@@ -167,6 +185,7 @@ export class TravellingPage implements OnInit {
     newObj.user = obj.user;
     newObj.text = obj.text;
     this.msgInboxArray.push(newObj);
+    this.msgDto.text = '';
   }
 
   //GET LOCATION AND DESTINATION AND SEARCH DRIVER

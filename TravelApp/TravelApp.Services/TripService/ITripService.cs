@@ -11,6 +11,9 @@ namespace TravelApp.Services.TripService
     {
         public Task<bool> CreateTrip(CreateTripInputModel model);
 
+        public Task<IList<Trip>> GetAllCompletedTripsAsync();
+
+
         public Trip GetTripByUserId(string applicationUserId);
 
         public Task<bool> FinishTripAsync(string tripId);

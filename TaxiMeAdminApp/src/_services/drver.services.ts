@@ -23,9 +23,8 @@ export class DriverService {
     }
 
 
-getAll() {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get<Driver>(`${environment.apiUrl}/api/driver`, { headers, responseType: 'json'  });
+  getAll(): Observable<Driver[]> {
+    return this.http.get<Driver[]>(`${environment.apiUrl}/api/driver`);
   }
 
   confirmDriver(id) {

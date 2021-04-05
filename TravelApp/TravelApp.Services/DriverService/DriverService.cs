@@ -104,7 +104,7 @@ namespace TravelApp.Services.DriverService
 
         public IEnumerable<DriverViewModel> GetAllDrivers()
         {
-            var drivers = this.repository.All().Where(d => d.DocumentConfirmation !=true).Select(a =>
+            var drivers = this.repository.All().Where(d => d.DocumentConfirmation != true).Select(a =>
             new DriverViewModel()
             { 
                 Comission = a.Comission,

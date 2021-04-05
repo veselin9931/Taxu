@@ -21,6 +21,8 @@ namespace TravelApp.Data
 
         public DbSet<Driver> Drivers { get; set; }
 
+        public DbSet<Profit> Profits { get; set; }
+
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<FavouriteOrder> FavouriteOrders { get; set; }

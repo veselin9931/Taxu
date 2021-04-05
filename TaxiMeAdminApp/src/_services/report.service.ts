@@ -24,8 +24,7 @@ export class ReportService {
     }
 
 
-getAll() {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get<Report>(`${environment.apiUrl}/api/report`, { headers, responseType: 'json'  });
+getAll(): Observable<Report[]> {
+    return this.http.get<Report[]>(`${environment.apiUrl}/api/report`);
   }
 }

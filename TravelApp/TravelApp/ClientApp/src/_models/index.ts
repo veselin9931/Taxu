@@ -9,5 +9,5 @@ export * from './report';
 export * from './image';
 export * from './map';
 export * from './favouriteOrder';
-
+export * from './profit';
 

@@ -30,9 +30,16 @@ namespace TravelApp.Controllers
 
         // GET: api/<TripController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var trips = await this.tripService.GetAllCompletedTripsAsync();
+
+            if (trips != null)
+            {
+                return this.Ok(trips);
+            }
+
+            return this.NoContent();
         }
         
         // GET api/<TripController>/driverid

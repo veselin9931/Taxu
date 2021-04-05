@@ -49,7 +49,7 @@ export class CarRegisterPage implements OnInit {
     this.submitted = true;
 
     if (!this.form.valid) {
-      console.log('Please provide all the required values!')
+      return;
     } else {
       this.accountService.getById(this.userId)
         .subscribe(x => {

@@ -1,52 +1,3 @@
-<h2>Users:</h2>
-<div class="row">
-  <div class="col">
-    <div class="table-responsive">
-      <table class="table">
-        <thead class=" text-primary">
-          <tr>
-            <th>
-              Name
-            </th>
-            <th>
-              Phone
-            </th>
-            <th>
-              Email
-            </th>
-            <th>
-              Driver settings
-            </th>
-            <th>
-              Action
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of userStatus" >
-            <td>
-              {{user.firstName}}  {{user.lastName}}
-            </td>
-            <td>
-              {{user.phone}}
-            </td>
-            <td class="text-right">
-              {{user.userName}}
-            </td>  
-            <td class="text-right">
-              {{user.isDriver}}
-            </td>
-
-            <td class="text-right">
-              <button class="btn">Some action</button>
-            </td>
-          </tr>
-        </tbody>
-    </table>
-  </div>
-  </div>
-</div>
-
 <h2>Driver for confirmation:</h2>
 <div class="row">
   <div class="col">
@@ -58,15 +9,6 @@
               ID
             </th>
             <th>
-              Licanse
-            </th>
-            <th>
-              IDCard
-            </th>
-            <th>
-              Commision
-            </th>
-            <th>
               Action
             </th>
           </tr>
@@ -76,18 +18,9 @@
             <td>
               {{driver.id}}
             </td>
-            <td>
-              {{driver.driverLicanse}}
-            </td>
-            <td class="text-right">
-              {{driver.idCardNumber}}
-            </td>  
-            <td class="text-right">
-              {{driver.comission}}
-            </td>
 
-            <td class="text-right">
-              <button class="btn" (click)=confirmDriver(driver.id)>Confirm</button>
+            <td>
+              <button class="btn" (click)=confirmDriver(driver.id)>Proceed</button>
             </td>
           </tr>
         </tbody>
@@ -96,6 +29,57 @@
   </div>
 </div>
 
+<h2>Confirmed Drivers:</h2>
+<div class="row">
+  <div class="col">
+    <div class="table-responsive">
+      <table class="table">
+        <thead class=" text-primary">
+          <tr>
+            <th>
+              First Name
+            </th>
+            <th>
+              Last Name
+            </th>
+            <th>
+              Phone
+            </th>
+            <th>
+              Email
+            </th>
+            <th>
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of userStatus" >
+            <td>
+              {{user.firstName}}
+            </td>
+            <td>
+              {{user.lastName}}
+            </td>
+            <td>
+              {{user.phone}}
+            </td>
+            <td>
+              {{user.userName}}
+            </td> 
+
+            <td>
+              <button class="btn">Some action</button>
+            </td>
+          </tr>
+        </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+
+<!-- 
 <h2>Cars for confirmation:</h2>
 <div class="row">
   <div class="col">
@@ -156,4 +140,4 @@
     </table>
   </div>
   </div>
-</div>
+</div> -->

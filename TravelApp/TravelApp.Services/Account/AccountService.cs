@@ -145,5 +145,10 @@ namespace TravelApp.Services.Account
 
             return result.Succeeded;
         }
+
+        public ApplicationUser GetUserByDriverId(string id)
+        {
+            return this.repository.All()?.FirstOrDefault(x => x.DriverId == id);
+        }
     }
 }

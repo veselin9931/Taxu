@@ -143,10 +143,8 @@ export class DriverProfilePage implements OnInit {
               console.log('No cars');
               return;
             }
-
             this.driverCars = d;
             this.carsCount = this.driverCars.length;
-            console.log(this.driverCars)
           })
       })
   }

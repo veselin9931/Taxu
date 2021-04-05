@@ -41,12 +41,32 @@ namespace TravelApp.Controllers
             this.userService = userService;
             this.hub = hub;
         }
+        // GET: api/<AccountController>
+        [HttpGet("user/{userId}")]
+        public async Task<ApplicationUser> GetUser(string userId)
+        {
+            return this.userService.GetById(userId);
+        }
+
+        // GET: api/<AccountController>
+        [HttpGet("driver/{driverId}")]
+        public async Task<ApplicationUser> GetUserByDriverId(string driverId)
+        {
+            return this.userService.GetUserByDriverId(driverId);
+        }
 
         // GET: api/<AccountController>
         [HttpGet("{driverId}")]
         public async Task<ApplicationUser> GetDriver(string driverId)
         {
             return this.userService.GetById(driverId);
+        }
+
+        // GET: api/<AccountController>
+        [HttpGet("user/")]
+        public IEnumerable<ApplicationUser> GetAllUsers()
+        {
+            return this.userService.GetAll().Where(a => a.IsDeleted == false).AsEnumerable();
         }
 
         // GET: api/<AccountController>

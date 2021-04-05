@@ -5,10 +5,11 @@ import { Driver, Message, Order, Trip, User } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
 import { SignalRService } from 'src/_services/signal-r.service';
+import { ProfitService } from 'src/_services/profit/profit.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { Location } from '@angular/common';
 import { WalletService } from 'src/_services/wallet/wallet.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { Observable } from 'rxjs';
 import { ChatService } from 'src/_services/chat/chat.service';
@@ -55,6 +56,9 @@ export class DrivingPage implements OnInit {
 
   userDestinationLat: any;
   userDestinationLng: any;
+
+  messages = this.chatService.messages;
+  chatStyle = "";
   
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
 
@@ -67,7 +71,8 @@ export class DrivingPage implements OnInit {
     private walletService: WalletService,
     private alertController: AlertController,
     private driverService: DriverService,
-    private chatService: ChatService) {
+    private chatService: ChatService,
+    private profitService: ProfitService) {
     if (this.isDrivingNow == true) {
       this.getAcceptedTrip()
     }
@@ -240,6 +245,18 @@ export class DrivingPage implements OnInit {
   }
 
   //CHAT
+  chat(){
+    var x = document.getElementById("chat");
+    
+    if (x.style.display === "none") {
+      x.style.display = "block";
+      this.chatStyle = 'block';
+    } else {
+      x.style.display = "none";
+      this.chatStyle = 'none';
+    }
+  }
+
   msgDto: Message = new Message();
   msgInboxArray: Message[] = [];
 
@@ -250,9 +267,13 @@ export class DrivingPage implements OnInit {
         return;
       } else {
         this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
-        this.chatService.broadcastMessage(this.msgDto, 'group1');
+        var c = this.chatService.broadcastMessage(this.msgDto);
       }
     }
+  }
+
+  clearMessages(){
+    this.messages.length = 0;
   }
 
   addToInbox(obj: Message) {
@@ -260,6 +281,7 @@ export class DrivingPage implements OnInit {
     newObj.user = obj.user;
     newObj.text = obj.text;
     this.msgInboxArray.push(newObj);
+    this.msgDto.text = '';
   }
 
   //Report
@@ -336,6 +358,8 @@ export class DrivingPage implements OnInit {
           this.tripStatus = trip.status;
           this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
             .subscribe(x => {
+              this.profitService.addToProfit(this.tripPriceForDriver)
+              .subscribe(() => {});
             })
         }
       })
@@ -354,10 +378,10 @@ export class DrivingPage implements OnInit {
                   this.NotEnoughCashAlert();
                   return 'No Cash';
                 } else {
-                  this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
-                    .subscribe(x => {
-                      return;
-                    })
+                  // this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
+                  //   .subscribe(x => {
+                  //     return;
+                  //   })
                 }
               })
           })
@@ -427,7 +451,7 @@ export class DrivingPage implements OnInit {
           this.tripStatus = trip.status;
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
-          .subscribe(data => {
+          .subscribe(() => {
 
           });
       })

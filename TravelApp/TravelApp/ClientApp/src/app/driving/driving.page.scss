@@ -7,14 +7,11 @@ ion-toolbar{
     --ion-background-color:#eeeeee;
 }
 
-.noScroll {
-    overflow: hidden;
-    }
-    
     #map {
     height: 100%;
     width: 100%;
     }
+    
 
 ion-title {
     text-align: center;
@@ -42,47 +39,38 @@ hr{
     width: 70% !important;
 }
 
-
-.backIcon {
-    color: rgb(255, 174, 0);
-    font-size: 150%;
-}
-
-.back {
-    color: rgb(255, 174, 0);
-}
-
 //chat
 
+.blink_me {
+    animation: blinker 1s linear infinite;
+  }
+  
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
 
-.chat{
-    background-color: rgb(206, 206, 206);
-}
 
 .msg-box {
     width: 100%;
-    height: calc(100% - 140px); 
-    margin-top: 20px;
+    height: 140px;
     padding: 10px 30px;
     font-size: 14px;
-
+    font-family: Open Sans Light;
     overflow: auto;
 
     ul {
+        margin: -5px;
+
         list-style: none;
-        hr{
-            background:rgb(255, 174, 0);
-            width: 100% !important;
-        }
         .ex-msg {
-            margin-bottom: 10px;
-            text-align: left;
-            
+            text-align: right;
         }
 
         .in-msg {
-            margin-bottom: 10px;
-            text-align: right;
+            text-align: left;
+            margin-left: -60px;
         }
     }
     

@@ -45,15 +45,11 @@
             </div>
 
             <div class="form-group col mt-5 text-center">
-              <select formControlName="type" class="form-control" id="exampleFormControlSelect1"
-                [ngClass]="{ 'is-invalid': submitted && f.categoryType.errors }">
-                <option value="" disabled selected hidden>Choose car type</option>
+              <select formControlName="type" class="form-control" id="exampleFormControlSelect1">
+                <option value="" disabled selected hidden>Click to choose car type</option>
                 <option value="1">Normal</option>
                 <option value="2">Comfort</option>
               </select>
-              <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
-                <div *ngIf="f.type.errors.required">The field is required!</div>
-              </div>
             </div>
 
             <div class="form-group col mt-5 text-center">

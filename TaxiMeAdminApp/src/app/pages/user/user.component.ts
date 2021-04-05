@@ -20,25 +20,18 @@ export class UserComponent implements OnInit{
         public userStatus;
         public driverData;
         public carData;
+        public driverUserData = [];
     ngOnInit(){
-
-
         this.accountService.getAll().subscribe(data => {
            this.userStatus = data
-
-           console.log(data);
           });
 
           this.driverService.getAll().subscribe(data => {
-            this.driverData = data
- 
-            console.log(data);
+            this.driverData = data;
            });
 
            this.carService.getAllForConfirmation().subscribe(data => {
             this.carData = data
- 
-            console.log(this.carData);
            });
       
     }

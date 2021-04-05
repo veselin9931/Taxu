@@ -29,7 +29,8 @@
                               new RolesSeeder(),
                               new CarTypesSeeder(),
                               new ReportTypeSeeder(),
-                              new OrderOptionsSeeder()
+                              new OrderOptionsSeeder(),
+                              new ProfitRecordSeeder(),
                           };
 
             foreach (var seeder in seeders)

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TabsPage } from '../tabs/tabs.page';
 
 import { MenuPage } from './menu.page';
 
@@ -10,8 +9,7 @@ const routes: Routes = [
     component: MenuPage,
     children: [
       {
-        path: 'tabs',
-        component: TabsPage
+        path: 'tabs'
       },
       {
         path: 'location',
@@ -64,10 +62,6 @@ const routes: Routes = [
       {
         path: 'report',
         loadChildren: () => import('../report/report.module').then(m => m.ReportPageModule)
-      },
-      {
-        path: 'passenger-report',
-        loadChildren: () => import('../passenger-report/passenger-report.module').then(m => m.PassengerReportPageModule)
       },
       {
         path: 'verifying',

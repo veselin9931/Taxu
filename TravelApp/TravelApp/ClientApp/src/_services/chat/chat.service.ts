@@ -11,6 +11,7 @@ import { OrderService } from '../order/order.service';
   providedIn: 'root'
 })
 export class ChatService {
+  public messages = [];
   private orderId = '';
   private connection: any = new signalR.HubConnectionBuilder()
     .withUrl(`${environment.apiUrl}/orderHub`, {
@@ -70,14 +71,15 @@ export class ChatService {
   private mapReceivedMessage(user: string, message: string): void {
     this.receivedMessageObject.user = user;
     this.receivedMessageObject.text = message;
+    this.messages.push(this.receivedMessageObject);
     this.sharedObj.next(this.receivedMessageObject);
   }
 
-  public broadcastMessage(msgDto: any, groupName: string) {
+  public broadcastMessage(msgDto: any) {
     this.orderService.getOrderForChat(this.accountService.userValue.id)
       .subscribe(x => {
         if (x.id) {
-          this.http.post(`${this.POST_URL}/${x.id}`, msgDto).subscribe(data => console.log(data));
+          this.http.post(`${this.POST_URL}/${x.id}`, msgDto).subscribe(() => {});
         }
       });
   }
