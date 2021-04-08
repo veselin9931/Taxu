@@ -22,25 +22,26 @@
                     <form [formGroup]="form" novalidate class="col">
                         <ion-text class="text-center" color="light">
                             <hr>
-                            <h5 class="text">Additional options</h5>
+                            <h5 class="text">{{'Additional options' | translate}}</h5>
+                            <!-- <h5 class="text">Additional options</h5> -->
                           </ion-text>
                         <div class="form-group col mt-1">
                             <ion-list *ngIf="isCompleted == false">
                                 <ion-item>
-                                    <ion-label color="light" class="fonted">With pets</ion-label>
+                                    <ion-label color="light" class="fonted">{{'With pets' | translate}}</ion-label>
                                     <ion-checkbox  color="light" slot="start" formControlName="withPets"
                                         [disabled]="this.form.value.withPets == true" class="form-group"></ion-checkbox>
                                 </ion-item>
 
                                 <ion-item>
-                                    <ion-label color="light" class="fonted">With stroller</ion-label>
+                                    <ion-label color="light" class="fonted">{{'With stroller' | translate}}</ion-label>
                                     <ion-checkbox color="light" slot="start" formControlName="withStroller"
                                         [disabled]="this.form.value.withStroller == true" class="form-group">
                                     </ion-checkbox>
                                 </ion-item>
 
                                 <ion-item>
-                                    <ion-label color="light" class="fonted">Special needs</ion-label>
+                                    <ion-label color="light" class="fonted">{{'Special needs' | translate}}</ion-label>
                                     <ion-checkbox color="light" slot="start" formControlName="special"
                                         [disabled]="this.form.value.special == true" class="form-group"></ion-checkbox>
                                 </ion-item>
@@ -48,8 +49,9 @@
                         </div>
 
                         <div class="form-group col mt-5">
+                            <ion-label color="light" class="fonted">{{'Click here to choose starting point' | translate}}</ion-label>
                             <ion-input formControlName="location" type="text" class="form-control"
-                                placeholder="Choose starting location" (click)="locationMap()"
+                                 (click)="locationMap()"
                                 [ngClass]="{ 'is-invalid': isSubmitted && f.location.errors }"></ion-input>
                             <div *ngIf="isSubmitted && f.location.errors" class="invalid-feedback">
                                 <div *ngIf="f.location.errors.required" class="fonted">Please choose starting point.</div>
@@ -57,8 +59,9 @@
                         </div>
 
                         <div class="form-group col mt-3">
+                            <ion-label color="light" class="fonted">{{'Click here to choose destination' | translate}}</ion-label>
                             <ion-input formControlName="destination" type="text" class="form-control"
-                                placeholder="Choose destination" (click)="destinationMap()"
+                                 (click)="destinationMap()"
                                 [ngClass]="{ 'is-invalid': isSubmitted && f.destination.errors }"></ion-input>
                             <div *ngIf="isSubmitted && f.destination.errors" class="invalid-feedback">
                                 <div *ngIf="f.destination.errors.required" class="fonted">Please choose endpoint.</div>
@@ -89,21 +92,21 @@
                                 <div class="col-md-12">
                                    
                                     <ion-button *ngIf="isCompleted == false" (click)="onSubmit()" class="fonted" color="light"> 
-                                        Find
+                                        {{'Find'| translate}}
                                     </ion-button>
                                 </div>
                                 <div class="col-md-12">
-                                    <ion-button *ngIf="isCompleted == true" class="fonted" color="light"> Cost: {{orderTotalPrice}}$</ion-button>
+                                    <ion-button *ngIf="isCompleted == true" class="fonted" color="light">{{'Cost'| translate}} : {{orderTotalPrice}}$</ion-button>
                                 </div>
                                 <div class="col-md-12">
                                     <ion-button  *ngIf="isCompleted == true" class="fonted" (click)="cancelOrder()"
-                                        color="danger">Cancel</ion-button>
+                                        color="danger">{{'Cancel'| translate}}</ion-button>
                                 </div>
                             </div>
                     </form>
 
                     <div *ngIf="isCompleted == true" class="blink_me col-md-12 mt-3 text-center fonted">
-                        <ion-button type="submit" color="light">Looking for a driver</ion-button>
+                        <ion-button type="submit" color="light">{{'Looking for a driver'| translate}}</ion-button>
                     </div>
                 </div>
             </ion-text>
@@ -122,7 +125,7 @@
 
 
             <ion-title>
-                <ion-label class="blink_me">Waiting for the car</ion-label>
+                <ion-label class="blink_me">{{'Waiting for the car'| translate}}</ion-label>
             </ion-title>
 
             <ion-buttons slot="end">
@@ -136,8 +139,8 @@
 <ion-footer class="ion-no-border" *ngIf="orderStatus == 'Accepted' && order != null">
     <ion-toolbar class="text-center">
         <ion-text class="textTravel">
-            Your driver {{firstName}} {{lastName}}
-            will arrive with {{carColor}} {{carModel}} in about {{estimatedDuration}}
+            {{'Your driver' | translate}} {{firstName}} {{lastName}} {{'will arrive with' | translate}} {{carColor}} {{carModel}} {{'in about'| translate}} {{estimatedDuration}}
+
 
         </ion-text>
     </ion-toolbar>
@@ -145,16 +148,16 @@
 
 <ion-footer class="ion-no-border" *ngIf="orderStatus == 'Accepted' && order != null">
     <ion-toolbar class="text-center">
-        <ion-title class="fonted">Your destination</ion-title>
+        <ion-title class="fonted">{{'Your destination' | translate}}</ion-title>
         <ion-label class="fonted">{{destination}}</ion-label>
         <ion-toolbar class="text-center">
             <ion-button class="fonted" (click)="addToFavourite()" type="submit" color="light">
-                Add to favourites
+            {{'Add to favourites' | translate}}
             </ion-button>
             <ion-button (click)="chat()" class="fonted" (click)="clearMessages()" type="submit" color="light">
-                Chat</ion-button>
+                {{'Chat' | translate}}</ion-button>
                 <br />
-        <ion-label class="blink_me fonted" *ngIf="messages.length != 0  && chatStyle == 'none'">You have new message.</ion-label>
+        <ion-label class="blink_me fonted" *ngIf="messages.length != 0  && chatStyle == 'none'">{{'You have new message.' | translate}}</ion-label>
         </ion-toolbar>
         
     </ion-toolbar>
@@ -166,7 +169,7 @@
               
               <div class="msg-box">
                 <ul *ngIf="this.msgInboxArray.length == 0" class="text-center mr-5">
-                    <li class="fonted">No messages for now</li>
+                    <li class="fonted">{{'No messages for now' | translate}}</li>
                   </ul>
                 <ul *ngFor="let mObj of msgInboxArray">
                   <li class="fonted" [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">

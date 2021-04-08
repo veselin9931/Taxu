@@ -81,8 +81,7 @@
               <ion-button class="my-label text" *ngIf="car.isActive == false" (click)="active(car)" expand="full"
                 color="medium">{{car.model}}
                 - {{car.registrationNumber}}</ion-button>
-              <ion-button class="my-label text" *ngIf="car.isActive == true" (click)="active(car)" expand="full"
-                color="success">{{car.model}}
+              <ion-button class="my-label text car" *ngIf="car.isActive == true" (click)="active(car)" expand="full" color="success">{{car.model}}
                 - {{car.registrationNumber}}</ion-button>
             </div>
             <div class="col-2">

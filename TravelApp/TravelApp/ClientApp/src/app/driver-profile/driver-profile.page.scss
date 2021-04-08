@@ -43,6 +43,9 @@ hr{
 .back {
     color: rgb(255, 174, 0);
 }
+ .car {
+     color: green;
+ }
 
 .card-transparent {
     margin: 0 auto;
@@ -57,6 +60,7 @@ hr{
             margin: 0 auto;
 
             img {
+                height: 130px;
                 display: block;
                 border-radius: 50%;
                 position: absolute;

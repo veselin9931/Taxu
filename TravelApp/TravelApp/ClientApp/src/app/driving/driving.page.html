@@ -85,8 +85,11 @@
 <ion-footer class="ion-no-border page-wrap" *ngIf="isDrivingNow == true">
   <ion-toolbar class="text-center">
     <ion-text class="textTravel">
-      <ion-title>Pick up address <ion-label>(..km coming soon)</ion-label></ion-title>
-      <ion-label >{{this.location}}</ion-label>
+      <ion-text class="centered" color="dark">
+        <p class="text">Pick up address (1.5km from you)</p>
+        <p class="text">{{this.location}}</p>
+      </ion-text>
+      <!-- <ion-label>{{this.location}}</ion-label> -->
     </ion-text>
   </ion-toolbar>
 </ion-footer>
@@ -99,9 +102,14 @@
       [disabled]="tripStatus=='Started'" color="primary">Navigate to user</ion-button>
           <ion-button (click)="navigateToPointAndCalculateDistance()" type="submit"
           color="primary" [disabled]="tripStatus=='!Processing'">Start trip</ion-button>
-          <ion-title>Drop off address<ion-label>({{tripDistance}}km total.)</ion-label></ion-title>
-          <ion-label >{{this.destination}}</ion-label>
+          <!-- <ion-title>Drop off address<ion-label>({{tripDistance}}km total.)</ion-label></ion-title> -->
+      <ion-text class="centered" color="dark">
+        <p class="text">Drop off address ({{tripDistance}}km total.)</p>
+        <p class="text">{{this.destination}}</p>
+
     </ion-text>
+  </ion-text>
+
   </ion-toolbar>
 </ion-footer>
 

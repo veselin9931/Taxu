@@ -11,8 +11,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertComponent } from './alert/alert.component';
-
 import { ChartsModule } from 'ng2-charts';
+
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+
 
 const googleMapsParams = {
   apiKey: "AIzaSyAEvlXdM4joG4bNVT5l-tJSk9lUSGhxMNw",
@@ -25,11 +29,11 @@ const googleMapsParams = {
   declarations: [AppComponent, AlertComponent],
   entryComponents: [],
   imports: [BrowserModule,
-    IonicModule.forRoot(), 
-    AppRoutingModule, 
+    IonicModule.forRoot(),
+    AppRoutingModule,
     HttpClientModule,
     ChartsModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule],
   providers: [
     StatusBar,
@@ -38,4 +42,4 @@ const googleMapsParams = {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

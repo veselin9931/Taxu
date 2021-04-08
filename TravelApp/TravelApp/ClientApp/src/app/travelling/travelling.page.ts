@@ -12,7 +12,7 @@ import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { Plugins } from '@capacitor/core';
-
+import { TranslateService } from '@ngx-translate/core';
 const { Geolocation } = Plugins;
 declare var google: any;
 
@@ -65,13 +65,19 @@ export class TravellingPage implements OnInit {
     private tripService: TripService,
     private driverService: DriverService,
     private alertController: AlertController,
-    private chatService: ChatService) {
+    private chatService: ChatService,
+    private translate: TranslateService) {
     this.userId = this.accountService.userValue.id;
+
+    this.translate.setDefaultLang('en');
+    this.translate.use('es');
+
   }
 
   ngOnInit() {
+
     this.chatService.retrieveMappedObject()
-    .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
+      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
 
     this.checkorder();
 
@@ -113,12 +119,12 @@ export class TravellingPage implements OnInit {
       if (this.orderStatus == "Completed") {
         this.completedOrderAlert();
       }
-      
+
 
     });
 
   }
-  
+
   ionViewDidEnter() {
     //this.completedOrderAlert();
     if (this.orderService.selectedFavourite) {
@@ -153,9 +159,9 @@ export class TravellingPage implements OnInit {
 
 
   //CHAT FUNCTIONALLITY
-  chat(){
+  chat() {
     var x = document.getElementById("chat");
-    
+
     if (x.style.display === "none") {
       x.style.display = "block";
       this.chatStyle = 'block';
@@ -179,7 +185,7 @@ export class TravellingPage implements OnInit {
     }
   }
 
-  clearMessages(){
+  clearMessages() {
     this.messages.length = 0;
   }
 
@@ -259,11 +265,11 @@ export class TravellingPage implements OnInit {
                 this.alertService.success('You have created an order.', { autoClose: true });
                 this.orderStatus = this.form.value.status;
                 this.orderService.getMyOrder(userId)
-                .subscribe(x => {
-                  //The hack for chat service - make new group before each order.
-                  this.chatService.stop();
-                  this.chatService.start();
-                })
+                  .subscribe(x => {
+                    //The hack for chat service - make new group before each order.
+                    this.chatService.stop();
+                    this.chatService.start();
+                  })
               })
           }
         } else {
