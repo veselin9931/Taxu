@@ -31,21 +31,21 @@
 
         
         <div class="user-meta ion-text-center">
-          <h3 class="playername my-label">{{user.firstName}} {{user.lastName}}</h3>
-          <h4 class="playername my-label">{{user.phone}}</h4>
+          <h3 class="playername my-label text">{{user.firstName}} {{user.lastName}}</h3>
+          <h4 class="playername my-label text">{{user.phone}}</h4>
 
-          <h6 class="ranking my-label">Wallet ballance: <ion-chip>
+          <h6 class="ranking my-label text">Wallet ballance: <ion-chip>
               <ion-label>{{walletAmount}}$</ion-label>
             </ion-chip>
           </h6>
           <ion-chip (click)="chargeCash()">
-            <ion-label class="my-label">Click to charge your account</ion-label>
+            <ion-label class="my-label text">Click to charge your account</ion-label>
           </ion-chip>
-          <h6 class="ranking my-label">My rating: <ion-chip>
+          <h6 class="ranking my-label text">My rating: <ion-chip>
               <ion-label>{{rating}}</ion-label>
             </ion-chip>
           </h6>
-          <h6 class="ranking my-label">Commission: <ion-chip>
+          <h6 class="ranking my-label text">Commission: <ion-chip>
               <ion-label>{{driverCommission}}%</ion-label>
             </ion-chip>
           </h6>
@@ -62,31 +62,31 @@
             {{message}}
           </span>
         </div>
-        <ion-button class="my-label" (click)="openHistory()" expand="full" color="dark">Drive history</ion-button>
-        <ion-button class="my-label" (click)="addNewCar()" expand="full" color="dark">Add new car</ion-button>
+        <ion-button class="my-label text" (click)="openHistory()" expand="full" color="dark">Drive history</ion-button>
+        <ion-button class="my-label text" (click)="addNewCar()" expand="full" color="dark">Add new car</ion-button>
         <h6 *ngIf="carsCount > 0" class="ranking ion-text-center">
           <ion-chip>
-            <ion-label class="my-label">Choose your car for today:</ion-label>
+            <ion-label class="my-label text">Choose your car for today:</ion-label>
           </ion-chip>
         </h6>
 
         <h6 *ngIf="carsCount == 0" class="ranking ion-text-center">
           <ion-chip>
-            <ion-label class="my-label">You must add car</ion-label>
+            <ion-label class="my-label text">You must add car</ion-label>
           </ion-chip>
         </h6>
         <div *ngFor="let car of driverCars">
           <div class="row">
             <div class="col-10">
-              <ion-button class="my-label" *ngIf="car.isActive == false" (click)="active(car)" expand="full"
+              <ion-button class="my-label text" *ngIf="car.isActive == false" (click)="active(car)" expand="full"
                 color="medium">{{car.model}}
                 - {{car.registrationNumber}}</ion-button>
-              <ion-button class="my-label" *ngIf="car.isActive == true" (click)="active(car)" expand="full"
+              <ion-button class="my-label text" *ngIf="car.isActive == true" (click)="active(car)" expand="full"
                 color="success">{{car.model}}
                 - {{car.registrationNumber}}</ion-button>
             </div>
             <div class="col-2">
-              <ion-button class="my-label" (click)="deleteCar(car.id)" style="float: right" expand="full"
+              <ion-button class="my-label text" (click)="deleteCar(car.id)" style="float: right" expand="full"
                 color="danger">
                 Delete
               </ion-button>
@@ -97,7 +97,7 @@
 
         </div>
 
-        <div class="text-center ranking my-label">
+        <div class="text-center ranking my-label text">
           My referral
           <ion-chip (click)="copy(referral)">
             <ion-label>{{referral}}</ion-label>

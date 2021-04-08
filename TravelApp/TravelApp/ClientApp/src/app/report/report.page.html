@@ -31,7 +31,7 @@
             <form [formGroup]="form" novalidate class="col-md-6">
   
               <div class="form-group col mt-5 text-center">
-                <select (change)="reportType($event.target.value)" formControlName="typeId" class="form-control" id="exampleFormControlSelect1"
+                <select (change)="reportType($event.target.value)" formControlName="typeId" class="form-control text" id="exampleFormControlSelect1"
                   [ngClass]="{ 'is-invalid': submitted && f.typeId.errors }">
                   <option value="" disabled selected hidden>Choose report type</option>
                   <option value="1">Complaint</option>
@@ -39,12 +39,12 @@
                   <option value="3">Other</option>
                 </select>
   
-                <div *ngIf="submitted && f.typeId.errors" class="invalid-feedback">
+                <div *ngIf="submitted && f.typeId.errors" class="invalid-feedback text">
                   <div *ngIf="f.typeId.errors.required">The field is required!</div>
                 </div>
               </div>
   
-              <div *ngIf="selectedReportType == '1' " class="form-group col mt-5 text-center">
+              <div *ngIf="selectedReportType == '1' " class="form-group col mt-5 text-center text">
                 <ion-text class="centered" color="light">
                   <h4 class="text">Last user</h4>
                 </ion-text>
@@ -54,7 +54,7 @@
   
   
               <div class="form-group col mt-5">
-                <ion-input formControlName="title" type="text" class="form-control"
+                <ion-input formControlName="title" type="text" class="form-control text"
                   placeholder="Title" [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
                 </ion-input>
                 <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
@@ -63,7 +63,7 @@
               </div>
   
               <div class="form-group col mt-5">
-                <textarea formControlName="description" type="text" class="form-control"
+                <textarea formControlName="description" type="text" class="form-control text"
                   placeholder="Description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }">
                 </textarea>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">

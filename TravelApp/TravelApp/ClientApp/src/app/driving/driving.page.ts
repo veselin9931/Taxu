@@ -60,6 +60,7 @@ export class DrivingPage implements OnInit {
   messages = this.chatService.messages;
   chatStyle = "";
 
+  orderDiv = document.getElementById("orderDiv");
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
 
   constructor(private route: Router,
@@ -79,11 +80,11 @@ export class DrivingPage implements OnInit {
   }
 
   ngOnInit(): void {
-    var orderDiv = document.getElementById("orderDiv")
+    this.orderDiv = document.getElementById("orderDiv")
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
 
-      
+    this.getData();
 
     if (this.isDrivingNow == true) {
       this.getAcceptedTrip()
@@ -104,15 +105,16 @@ export class DrivingPage implements OnInit {
     });
 
     connection.on('BroadcastMessage', () => {
+      this.orderDiv = document.getElementById("orderDiv");
       this.getData();
       this.getAcceptedTrip();
-      var orderDiv = document.getElementById("orderDiv");
       //this.postLocation();
     });
   }
 
   ionViewDidEnter() {
-    var orderDiv = document.getElementById("orderDiv")
+    this.orderDiv = document.getElementById("orderDiv");
+    this.getData();
     if (this.isDrivingNow == true) {
       //have to optimise this
       //this.postLocation();
@@ -295,33 +297,58 @@ export class DrivingPage implements OnInit {
 
 
   getData() {
+    
     this.driverService.getDriver(this.accountService.userValue.driverId)
       .subscribe(x => {
-        this.orderService.getAllOrders().subscribe(data => {
-          if (data == null) {
-            return;
-          }
-          this.orders = data;
-        })
-
         if (x.rating < 1) {
-          setTimeout(function () {
-            this.orderDiv.style.display = 'block'
-          }, 40000);
+          this.orderService.getAllOrders().subscribe(data => {
+            if (data == null) {
+              return;
+            }
+            setTimeout(() => {
+            var orderDiv = document.getElementById("orderDiv");
+            orderDiv.style.display = 'block'
+            }, 40000);
+            this.orders = data;
+          })
         } else if (x.rating >= 1 && x.rating < 2) {
-          setTimeout(function () {
-            this.orderDiv.style.display = 'block'
-          }, 30000);
+          this.orderService.getAllOrders().subscribe(data => {
+            if (data == null) {
+              return;
+            }
+            setTimeout(() => {
+            var orderDiv = document.getElementById("orderDiv");
+            orderDiv.style.display = 'block'
+            }, 30000);
+            this.orders = data;
+          })
         } else if (x.rating >= 2 && x.rating < 3) {
-          setTimeout(function () {
-            this.orderDiv.style.display = 'block'
-          }, 20000);
+          this.orderService.getAllOrders().subscribe(data => {
+            if (data == null) {
+              return;
+            }
+            setTimeout(() => {
+            var orderDiv = document.getElementById("orderDiv");
+            orderDiv.style.display = 'block'
+            }, 20000);
+            this.orders = data;
+          })
         } else if (x.rating >= 3 && x.rating < 4) {
-          setTimeout(function () {
-            this.orderDiv.style.display = 'block'
-          }, 10000);
+          this.orderService.getAllOrders().subscribe(data => {
+            if (data == null) {
+              return;
+            }
+            setTimeout(() => {
+            var orderDiv = document.getElementById("orderDiv");
+            orderDiv.style.display = 'block'
+            }, 10000);
+            this.orders = data;
+          })
+          
         }
       })
+
+    
   }
 
   //Accept order and manage the data inside
