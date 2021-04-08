@@ -18,9 +18,7 @@ export class ImageService {
       reportProgress: true,
       observe: "events"
     }).pipe(
-     
     )
-
   }
 
   getMyPicture(userId: string): Observable<Image> {

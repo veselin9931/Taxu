@@ -14,6 +14,8 @@ namespace TravelApp.Models
             this.Id = Guid.NewGuid().ToString();
         }
 
+        public string ApplicationUserId { get; set; }
+
         [Required]
         public bool DocumentConfirmation { get; set; }
 
@@ -35,7 +37,7 @@ namespace TravelApp.Models
         [Required]
         public string Referal { get; set; }
 
-        public int Rating { get; set; }
+        public double Rating { get; set; }
 
         [Required]
         [Range(0, 5)]

@@ -5,5 +5,6 @@ export class Car {
     registrationNumber: string;
     color: string;
     capacity: BigInteger;
-    bonfirmation: Boolean;
+    confirmation: Boolean;
+    driverId: string;
 }

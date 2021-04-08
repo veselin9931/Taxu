@@ -80,8 +80,14 @@ namespace TravelApp.Services.CarService
                 return null;
             }
 
-            return new CarViewModel() { Id = carId, Color = car.Color, Capacity = car.Capacity, Model = car.Model, RegistrationNumber = car.RegistrationNumber };
+            return new CarViewModel() { Id = carId, Color = car.Color, Capacity = car.Capacity, Model = car.Model, RegistrationNumber = car.RegistrationNumber, DriverId = car.DriverId, Confirmation = car.Confirmation, TypeId = car.TypeId };
         }
+
+        public async Task<IList<Car>> GetAllCarsAsyncForDriver(string driverId)
+        => await this.repository
+           .All()
+           .Where(x => x.DriverId == driverId)
+           .ToListAsync();
 
         public async Task<IList<Car>> GetAllCarsAsync()
          => await this.repository
@@ -89,10 +95,10 @@ namespace TravelApp.Services.CarService
             .Where(x => x.IsDeleted == false)
             .ToListAsync();
 
-        public async Task<IList<Car>> GetAllCarsAsyncForDriver(string driverId)
+        public async Task<IList<Car>> GetUnconfirmedCarsAsync()
          => await this.repository
             .All()
-            .Where(x => x.DriverId == driverId)
+            .Where(x => x.Confirmation == false) 
             .ToListAsync();
 
         public async Task<bool> ActivateCar(string id, string driverId)
@@ -131,10 +137,10 @@ namespace TravelApp.Services.CarService
 
         }
 
-        public async Task<IList<Car>> GetAllCarsForConfirmationAsync()
+        public async Task<IList<Car>> GetAllCarsForConfirmationAsync(string driverId)
         => await this.repository
             .All()
-            .Where(x => x.IsDeleted == false && x.Confirmation == false)
+            .Where(x => x.IsDeleted == false && x.Confirmation == false && x.DriverId == driverId)
             .ToListAsync();
 
         public async Task<bool> VerifyCar(string id)

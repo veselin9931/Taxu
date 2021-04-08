@@ -39,8 +39,8 @@ namespace TravelApp.Controllers
             {
                 Description = a.Description,
                 ImgUrl = a.ImgUrl, 
-                ReporterId = a.ReporterId, 
-                SuspectedDriverId = a.SuspectedDriverId, 
+                ReporterId = a.ReporterId,
+                SuspectedUserId = a.SuspectedUserId, 
                 Title = a.Title,
                 TypeId = a.TypeId
             });

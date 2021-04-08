@@ -68,7 +68,6 @@ namespace TravelApp.Controllers
         {
             return this.userService.GetAll().Where(a => a.IsDeleted == false).AsEnumerable();
         }
-
         // GET: api/<AccountController>
         [HttpGet]
         public IEnumerable<ApplicationUser> GetAllDrivers()
@@ -140,7 +139,8 @@ namespace TravelApp.Controllers
                 Phone = user.Phone,
                 Username = user.UserName,
                 Token = tokenString,
-                IsDrivingNow = user.IsDrivingNow
+                IsDrivingNow = user.IsDrivingNow,
+                DriverId = user.DriverId
             });
         }
 

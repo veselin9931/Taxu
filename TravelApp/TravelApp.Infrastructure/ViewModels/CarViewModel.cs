@@ -25,5 +25,9 @@ namespace TravelApp.Infrastructure.ViewModels
 
         public string DriverId { get; set; }
 
+        public bool Confirmation { get; set; }
+
+        public int TypeId { get; set; }
+
     }
 }

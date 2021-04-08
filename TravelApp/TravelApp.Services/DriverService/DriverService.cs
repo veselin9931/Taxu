@@ -84,6 +84,7 @@ namespace TravelApp.Services.DriverService
 
             var driver = new Driver()
             {
+                ApplicationUserId = driverInputModel.ApplicationUserId,
                 Comission = 20,
                 DocumentConfirmation = false,
                 CurrentLocation = driverInputModel.CurrentLocation,
@@ -173,10 +174,14 @@ namespace TravelApp.Services.DriverService
 
             if (driver != null && driver.Rating > 0)
             {
-                driver.Rating -= 1;
-                this.repository.Update(driver);
-                await this.repository.SaveChangesAsync();
-                return true;
+                if(driver.Rating != 0)
+                {
+                    driver.Rating -= 0.20;
+                    this.repository.Update(driver);
+                    await this.repository.SaveChangesAsync();
+                    return true;
+                }
+                
             }
 
             return false;
@@ -188,10 +193,13 @@ namespace TravelApp.Services.DriverService
 
             if (driver != null)
             {
-                driver.Rating += 1;
-                this.repository.Update(driver);
-                await this.repository.SaveChangesAsync();
-                return true;
+                if(driver.Rating != 5)
+                {
+                    driver.Rating += 0.10;
+                    this.repository.Update(driver);
+                    await this.repository.SaveChangesAsync();
+                    return true;
+                }
             }
 
             return false;

@@ -113,11 +113,14 @@ export class TravellingPage implements OnInit {
       if (this.orderStatus == "Completed") {
         this.completedOrderAlert();
       }
+      
+
     });
 
   }
   
   ionViewDidEnter() {
+    //this.completedOrderAlert();
     if (this.orderService.selectedFavourite) {
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
       this.form.get('locationLat').setValue(this.orderService.selectedFavourite.locationLat);
@@ -449,6 +452,7 @@ export class TravellingPage implements OnInit {
   //ALERTS
   async completedOrderAlert() {
     const popup = await this.alertController.create({
+      cssClass: 'my-custom-class',
       header: 'Did you like the trip?',
       //message: '<img src = "../assets/default.png" width="1px" height="1px">',
       inputs: [

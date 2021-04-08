@@ -23,11 +23,11 @@
       <td>
         {{report.reporterId}}
       </td>
-      <td *ngIf="report.suspectedDriverId == null">
+      <td *ngIf="report.suspectedUserId == null">
         -
       </td>
-      <td *ngIf="report.suspectedDriverId != null">
-        {{report.suspectedDriverId}}
+      <td *ngIf="report.suspectedUserId != null">
+        {{report.suspectedUserId}}
       </td>
     </tr>
   </tbody>

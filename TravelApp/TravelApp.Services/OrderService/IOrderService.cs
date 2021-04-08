@@ -29,7 +29,16 @@ namespace TravelApp.Services.OrderService
         public Order GetLastAcceptedOrderByUserId(string userId);
 
         public Task<IList<Order>> GetAllOrdersAsync();
+
+        //public Task<IList<Order>> GetOrdersFor01Ratings();
+
+        //public Task<IList<Order>> GetOrdersFor12Ratings();
         
+        //public Task<IList<Order>> GetOrdersFor23Ratings();
+        
+        //public Task<IList<Order>> GetOrdersFor4Ratings();
+
+
         public Order GetOrderByUserId(string userId);
 
 

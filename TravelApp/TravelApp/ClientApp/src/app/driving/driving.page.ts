@@ -28,20 +28,20 @@ export class DrivingPage implements OnInit {
   public currentTrip: Trip;
 
   tripStatus: string;
-  
+
   location: string;
   destination: string;
-  
+
   tripDistance: any;
   tripPriceForDriver: number;
-  
+
   driverId = this.tripService.currentTripDriverId;
   applicationUserId = this.accountService.userValue.id;
   isDrivingNow = this.accountService.userValue.isDrivingNow;
-  
+
   order: Order;
   orders: Order[] = [];
-  
+
   totalPrice: number;
 
   //Map
@@ -59,7 +59,7 @@ export class DrivingPage implements OnInit {
 
   messages = this.chatService.messages;
   chatStyle = "";
-  
+
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
 
   constructor(private route: Router,
@@ -79,10 +79,11 @@ export class DrivingPage implements OnInit {
   }
 
   ngOnInit(): void {
+    var orderDiv = document.getElementById("orderDiv")
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
 
-    this.getData();
+      
 
     if (this.isDrivingNow == true) {
       this.getAcceptedTrip()
@@ -105,11 +106,13 @@ export class DrivingPage implements OnInit {
     connection.on('BroadcastMessage', () => {
       this.getData();
       this.getAcceptedTrip();
+      var orderDiv = document.getElementById("orderDiv");
       //this.postLocation();
     });
   }
 
   ionViewDidEnter() {
+    var orderDiv = document.getElementById("orderDiv")
     if (this.isDrivingNow == true) {
       //have to optimise this
       //this.postLocation();
@@ -245,9 +248,9 @@ export class DrivingPage implements OnInit {
   }
 
   //CHAT
-  chat(){
+  chat() {
     var x = document.getElementById("chat");
-    
+
     if (x.style.display === "none") {
       x.style.display = "block";
       this.chatStyle = 'block';
@@ -272,7 +275,7 @@ export class DrivingPage implements OnInit {
     }
   }
 
-  clearMessages(){
+  clearMessages() {
     this.messages.length = 0;
   }
 
@@ -289,16 +292,36 @@ export class DrivingPage implements OnInit {
     this.route.navigate(['menu/report']);
   }
 
-  //Getting all orders
+
+
   getData() {
-    this.orderService.getAllOrders().subscribe(data => {
+    this.driverService.getDriver(this.accountService.userValue.driverId)
+      .subscribe(x => {
+        this.orderService.getAllOrders().subscribe(data => {
+          if (data == null) {
+            return;
+          }
+          this.orders = data;
+        })
 
-      if (data == null) {
-        return;
-      }
-
-      this.orders = data;
-    })
+        if (x.rating < 1) {
+          setTimeout(function () {
+            this.orderDiv.style.display = 'block'
+          }, 40000);
+        } else if (x.rating >= 1 && x.rating < 2) {
+          setTimeout(function () {
+            this.orderDiv.style.display = 'block'
+          }, 30000);
+        } else if (x.rating >= 2 && x.rating < 3) {
+          setTimeout(function () {
+            this.orderDiv.style.display = 'block'
+          }, 20000);
+        } else if (x.rating >= 3 && x.rating < 4) {
+          setTimeout(function () {
+            this.orderDiv.style.display = 'block'
+          }, 10000);
+        }
+      })
   }
 
   //Accept order and manage the data inside
@@ -359,7 +382,7 @@ export class DrivingPage implements OnInit {
           this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
             .subscribe(x => {
               this.profitService.addToProfit(this.tripPriceForDriver)
-              .subscribe(() => {});
+                .subscribe(() => { });
             })
         }
       })

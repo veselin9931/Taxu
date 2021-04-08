@@ -15,7 +15,6 @@ namespace TravelApp.Services.Account
 
         public ApplicationUser GetUserByDriverId(string id);
 
-
         public ApplicationUser GetById(string id);
 
         public Task<bool> AddDriverSettings(string userId, string driverId);

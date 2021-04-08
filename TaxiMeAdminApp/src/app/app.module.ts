@@ -16,13 +16,17 @@ import { LoginComponent } from './login/login.component';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { UserDetailsComponent } from './pages/user-details/user-details.component';
+import { CarDetailsComponent } from './pages/car-details/car-details.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    LoginComponent
+    LoginComponent,
+    UserDetailsComponent,
+    CarDetailsComponent
   ],
   imports: [ 
     BrowserModule /* or CommonModule */, 

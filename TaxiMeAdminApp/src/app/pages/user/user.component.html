@@ -1,4 +1,4 @@
-<h2>Driver for confirmation:</h2>
+<h2>Drivers for confirmation:</h2>
 <div class="row">
   <div class="col">
     <div class="table-responsive">
@@ -20,9 +20,64 @@
             </td>
 
             <td>
-              <button class="btn" (click)=confirmDriver(driver.id)>Proceed</button>
+              <button class="btn" [routerLink]='["/user-details",driver.id]'>Info</button>
+
+              <!-- <button class="btn" (click)=confirmDriver(driver.id)>Proceed</button> -->
             </td>
           </tr>
+        </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+<h2>Cars for confirmation:</h2>
+<div class="row">
+  <div class="col">
+    <div class="table-responsive">
+      <table class="table">
+        <thead class=" text-primary">
+          <tr>
+            
+            <th>
+              Model
+            </th>
+            <th >
+              Registration number
+            </th>
+            <th>
+              Color
+            </th>
+            <th>
+              Capacity
+            </th>
+            <th>
+              Action
+            </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let car of carData" >
+            <td>
+              {{car.model}}
+            </td>
+            <td>
+              {{car.registrationNumber}}
+            </td>
+            <td>
+              {{car.color}}
+            </td>
+            <td>
+              {{car.capacity}}
+            </td>
+            <td>
+              <button class="btn" [routerLink]='["/car-details",car.id]'>Info</button>
+
+              <!-- <button (click)=confirm(car.id) class="btn" >More info</button  > -->
+            </td>
+          </tr>
+          
         </tbody>
     </table>
   </div>
@@ -77,67 +132,3 @@
   </div>
   </div>
 </div>
-
-
-<!-- 
-<h2>Cars for confirmation:</h2>
-<div class="row">
-  <div class="col">
-    <div class="table-responsive">
-      <table class="table">
-        <thead class=" text-primary">
-          <tr>
-            <th>
-              Id
-            </th>
-            <th>
-              Model
-            </th>
-            <th>
-              Tehnical review
-            </th>
-            <th >
-              Registration number
-            </th>
-            <th>
-              Color
-            </th>
-            <th>
-              Capacity
-            </th>
-            <th>
-              Action
-            </th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let car of carData" >
-            <td>
-              {{car.id}}
-            </td>
-            <td>
-              {{car.model}}
-            </td>
-            <td class="text-right">
-              {{car.tehnicalReview}}
-            </td>
-            <td>
-              {{car.registrationNumber}}
-            </td>
-            <td>
-              {{car.color}}
-            </td>
-            <td>
-              {{car.capacity}}
-            </td>
-            <td>
-              <button (click)=confirm(car.id) class="btn" >Verify</button  >
-            </td>
-          </tr>
-          
-        </tbody>
-    </table>
-  </div>
-  </div>
-</div> -->

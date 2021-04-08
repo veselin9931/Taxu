@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, delay, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { FavouriteOrder, Order } from 'src/_models';
 
@@ -106,6 +106,36 @@ export class OrderService {
   getAllOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
       .pipe(
+        catchError(this.handleError)
+      )
+  }
+
+  get01Orders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+      .pipe(
+        delay(40000),
+        catchError(this.handleError)
+      )
+  }
+
+  get12Orders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+      .pipe(
+        delay(30000),
+        catchError(this.handleError)
+      )
+  }
+  get23Orders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+      .pipe(
+        delay(20000),
+        catchError(this.handleError)
+      )
+  }
+  get4Orders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+      .pipe(
+        delay(1000),
         catchError(this.handleError)
       )
   }

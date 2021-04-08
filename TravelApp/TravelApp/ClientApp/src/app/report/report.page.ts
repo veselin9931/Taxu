@@ -66,7 +66,7 @@ export class ReportPage implements OnInit {
               .subscribe(user => {
                 this.userFirstName = user.firstName;
                 this.userLastName = user.lastName;
-                this.suspectedUserId = this.lastOrder.acceptedBy;
+                this.suspectedUserId = this.lastOrder.applicationUserId;
                 this.reporterId = this.userId;
               })
             

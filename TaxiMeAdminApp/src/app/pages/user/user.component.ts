@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AccountService, AlertService } from '_services';
 import { CarService } from '_services/car.service';
 import { DriverService } from '_services/drver.services';
@@ -14,7 +15,8 @@ export class UserComponent implements OnInit{
         private alertService: AlertService,
         private accountService: AccountService,
         private driverService: DriverService,
-        private carService: CarService
+        private carService: CarService,
+        private route: Router
         ) { }
 
         public userStatus;
@@ -30,21 +32,11 @@ export class UserComponent implements OnInit{
             this.driverData = data;
            });
 
-           this.carService.getAllForConfirmation().subscribe(data => {
-            this.carData = data
-           });
-      
+           this.carService.getAllUnconfirmedCars()
+           .subscribe(cars => {
+             this.carData = cars;
+           })
     }
-
-    confirm(id){ 
-        this.carService.confirm(id).subscribe(data => {
-            console.log(data);
-           });
-    }
-
-    confirmDriver(id){ 
-        this.driverService.confirmDriver(id).subscribe(data => {
-            console.log(data);
-           });
-    }
+    
+    
 }

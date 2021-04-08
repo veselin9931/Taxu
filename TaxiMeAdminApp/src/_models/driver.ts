@@ -4,4 +4,5 @@ export class Driver {
     idCardNumber: string;
     documentConfirmatiom: boolean;
     comission: DoubleRange;
+    applicationUserId: string;
 }

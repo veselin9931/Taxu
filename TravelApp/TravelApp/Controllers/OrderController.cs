@@ -85,6 +85,34 @@ namespace TravelApp.Controllers
             return this.Ok(orders);
         }
 
+        //// GET: api/<OrderController>
+        //[HttpGet("lowest")]
+        //public async Task<IActionResult> GetLowest()
+        //{
+        //    var orders = await this.orderService.GetOrdersForLowestRatings();
+
+        //    if (orders == null)
+        //    {
+        //        return this.NoContent();
+        //    }
+
+        //    return this.Ok(orders);
+        //}
+
+        //// GET: api/<OrderController>
+        //[HttpGet("middle")]
+        //public async Task<IActionResult> GetMiddle()
+        //{
+        //    var orders = await this.orderService.GetOrdersForMiddleRatings();
+
+        //    if (orders == null)
+        //    {
+        //        return this.NoContent();
+        //    }
+
+        //    return this.Ok(orders);
+        //}
+
         //GET ORDER BY ID
         // GET api/<OrderController>/id/{orderId}
         [HttpGet("id/{orderId}")]

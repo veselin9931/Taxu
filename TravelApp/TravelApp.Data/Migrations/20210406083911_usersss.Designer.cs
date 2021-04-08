@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelApp.Data;
 
 namespace TravelApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210406083911_usersss")]
+    partial class usersss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -456,8 +458,8 @@ namespace TravelApp.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
 
                     b.Property<string>("Referal")
                         .IsRequired()
@@ -729,8 +731,8 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("ReporterId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("SuspectedUserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("SuspectedDriverId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -742,6 +744,8 @@ namespace TravelApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ReporterId");
+
+                    b.HasIndex("SuspectedDriverId");
 
                     b.HasIndex("TypeId");
 
@@ -977,6 +981,10 @@ namespace TravelApp.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ReporterId");
 
+                    b.HasOne("TravelApp.Models.Driver", "SuspectedDriver")
+                        .WithMany()
+                        .HasForeignKey("SuspectedDriverId");
+
                     b.HasOne("TravelApp.Models.ReportType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
@@ -984,6 +992,8 @@ namespace TravelApp.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Reporter");
+
+                    b.Navigation("SuspectedDriver");
 
                     b.Navigation("Type");
                 });

@@ -22,6 +22,9 @@ export class DriverService {
       this.user = this.userSubject.asObservable();
     }
 
+  getById(id): Observable<Driver> {
+    return this.http.get<Driver>(`${environment.apiUrl}/api/driver/${id}`);
+  }
 
   getAll(): Observable<Driver[]> {
     return this.http.get<Driver[]>(`${environment.apiUrl}/api/driver`);

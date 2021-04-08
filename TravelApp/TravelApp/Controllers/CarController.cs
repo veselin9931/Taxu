@@ -32,10 +32,10 @@ namespace TravelApp.Controllers
             this.hub = hub;
         }
 
-        [HttpGet("carForConfirmation")]
-        public async Task<IActionResult> ForConfirmation()
+        [HttpGet("carForConfirmation/{driverId}")]
+        public async Task<IActionResult> ForConfirmation(string driverId)
         {
-            var cars = await this.service.GetAllCarsForConfirmationAsync();
+            var cars = await this.service.GetAllCarsForConfirmationAsync(driverId);
 
             if (cars != null)
             {
@@ -73,6 +73,19 @@ namespace TravelApp.Controllers
             return this.NoContent();
         }
 
+
+        [HttpGet("unconfirmed")]
+        public async Task<IActionResult> GetUnconfirmed()
+        {
+            var cars = await this.service.GetUnconfirmedCarsAsync();
+
+            if (cars == null)
+            {
+                return this.StatusCode(204);
+            }
+
+            return this.Ok(cars);
+        }
 
         // GET api/<CarController>/driver/{driverId}
         [HttpGet("driver/{driverId}")]

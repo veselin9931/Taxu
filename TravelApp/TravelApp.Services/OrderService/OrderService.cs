@@ -228,6 +228,19 @@ namespace TravelApp.Services.OrderService
 
         public Order GetCurrentOrder(string userId)
             => this.orderRepository.All().FirstOrDefault(x => x.Status == "Accepted" && x.ApplicationUserId == userId || x.Status == "Accepted" && x.AcceptedBy == userId);
-        
+
+        //public async Task<IList<Order>> GetOrdersFor01Ratings()
+        //=> await this.orderRepository.All()?
+        //    .Where(x => x.Status == "Waiting" && x.IsDeleted == false)
+        //    .Include(x => x.ApplicationUser)
+        //    .OrderBy(x => x.CreatedOn)
+        //    .ToListAsync();
+
+        //public async Task<IList<Order>> GetOrdersForMiddleRatings()
+        //=> await this.orderRepository.All()?
+        //    .Where(x => x.Status == "Waiting" && x.IsDeleted == false)
+        //    .Include(x => x.ApplicationUser)
+        //    .OrderBy(x => x.CreatedOn)
+        //    .ToListAsync();
     }
 }

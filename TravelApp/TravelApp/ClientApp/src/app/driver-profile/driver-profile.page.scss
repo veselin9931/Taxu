@@ -53,9 +53,8 @@ hr{
             margin: 0 auto;
 
             img {
-                height: 120px;
                 display: block;
-                border-radius: 20%;
+                border-radius: 50%;
                 position: absolute;
                 bottom: calc(-1*(80px + 4px));
                 background-color: #fff;
@@ -63,7 +62,6 @@ hr{
         }
     }
 }
-
 .my-custom-class {
     --background: #e5e5e5;
   }
