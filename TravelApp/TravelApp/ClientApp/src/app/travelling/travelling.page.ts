@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { Message, Order, Trip, User } from 'src/_models';
 import { Car } from 'src/_models/car';
@@ -13,9 +13,11 @@ import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { Plugins } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguagePopoverPage } from '../language-popover/language-popover.page';
+
+
 const { Geolocation } = Plugins;
 declare var google: any;
-
 @Component({
   selector: 'app-travelling',
   templateUrl: './travelling.page.html',
@@ -23,7 +25,7 @@ declare var google: any;
 })
 export class TravellingPage implements OnInit {
   public currentTrip: Trip;
-
+  language: string = this.translate.currentLang;
   isLoggedIn;
   order: Order;
   userId: string;
@@ -66,11 +68,11 @@ export class TravellingPage implements OnInit {
     private driverService: DriverService,
     private alertController: AlertController,
     private chatService: ChatService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private popoverController: PopoverController) {
     this.userId = this.accountService.userValue.id;
 
-    this.translate.setDefaultLang('en');
-    this.translate.use('es');
+    this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
 
   }
 
@@ -452,8 +454,15 @@ export class TravellingPage implements OnInit {
           map: this.map
         });
       })
-  }
+  }  
 
+  async openLanguagePopover(ev){
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
+  }
 
   //ALERTS
   async completedOrderAlert() {

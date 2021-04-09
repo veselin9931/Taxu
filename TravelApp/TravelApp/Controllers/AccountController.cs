@@ -92,6 +92,8 @@ namespace TravelApp.Controllers
                 Phone = model.Phone,
                 UserName = model.Username,
                 IsDrivingNow = model.IsDrivingNow,
+                ChoosenLanguage = "en"
+                
             };
 
             var result = await userService.Create(user, model.Password);
@@ -140,7 +142,8 @@ namespace TravelApp.Controllers
                 Username = user.UserName,
                 Token = tokenString,
                 IsDrivingNow = user.IsDrivingNow,
-                DriverId = user.DriverId
+                DriverId = user.DriverId,
+                ChoosenLanguage = user.ChoosenLanguage
             });
         }
 
@@ -149,6 +152,20 @@ namespace TravelApp.Controllers
         public async Task<IActionResult> Put(string id, bool value)
         {
             var result = await this.userService.UpdateUserAsync(id, value);
+
+            if (result)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
+        [HttpPut("{id}/language/{value}")]
+        public async Task<IActionResult> UpdateUserLanguage(string id, string value)
+        {
+            var result = await this.userService.UpdateUserLanguageAsync(id, value);
 
             if (result)
             {

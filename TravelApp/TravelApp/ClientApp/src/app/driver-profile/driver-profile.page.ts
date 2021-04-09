@@ -5,12 +5,14 @@ import { Location } from '@angular/common';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { Car } from 'src/_models/car';
 import * as signalR from '@aspnet/signalr';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import { WalletService } from 'src/_services/wallet/wallet.service';
 import { Driver } from 'src/_models';
 import { ImageService } from 'src/_services/image/image.service';
 import { HttpEventType } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
 @Component({
   selector: 'app-driver-profile',
@@ -34,15 +36,18 @@ export class DriverProfilePage implements OnInit {
   public progress: number;
   public message: string;
 
-  
-
   constructor(private accountService: AccountService,
     private driverService: DriverService,
     private route: Router,
     private location: Location,
     private alertController: AlertController,
     private walletService: WalletService,
-    private imageService: ImageService) { }
+    private imageService: ImageService,
+    private translate: TranslateService,
+    private popoverController: PopoverController) {
+    this.translate.setDefaultLang('en');
+    this.translate.use('es');
+  }
 
   ngOnInit() {
     this.getDriver();
@@ -55,7 +60,7 @@ export class DriverProfilePage implements OnInit {
       .withUrl(`${environment.apiUrl}/orderHub`, {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets,
-        
+
       })
       .build();
     connection.start().then(function () {
@@ -72,21 +77,21 @@ export class DriverProfilePage implements OnInit {
     });
   }
 
-  copy(referral: string){
+  copy(referral: string) {
     console.log(referral)
   }
 
-  getProfilePicture(){
+  getProfilePicture() {
     this.imageService.getMyPicture(this.user.id)
-    .subscribe(x => {
-      if(x == null){
-        return;
-      }
-      this.imgPath = x.path;
-    })
+      .subscribe(x => {
+        if (x == null) {
+          return;
+        }
+        this.imgPath = x.path;
+      })
   }
 
-  upload(files){
+  upload(files) {
     if (files.length === 0) {
       return;
     }
@@ -96,16 +101,16 @@ export class DriverProfilePage implements OnInit {
     formData.append('file', fileToUpload, fileToUpload.name);
 
     this.imageService.upload(formData, this.folderName, this.user.id, this.imgType)
-    .subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress)
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress)
           this.progress = Math.round(100 * event.loaded / event.total);
         else if (event.type === HttpEventType.Response) {
           this.message = 'Upload success.';
         }
-    })
+      })
   }
 
-  getDriver(){
+  getDriver() {
     this.accountService.getById(this.user.id)
       .subscribe(x => {
         this.driverService.getDriver(x.driverId)
@@ -123,15 +128,15 @@ export class DriverProfilePage implements OnInit {
       })
   }
 
-  getWalletAmount(){
+  getWalletAmount() {
     this.walletService.getMyWallet(this.user.id)
-    .subscribe(x => {
-      if(x.ammount){
-        this.walletAmount = x.ammount;
-      }else{
-        this.walletAmount = 0;
-      }
-    })
+      .subscribe(x => {
+        if (x.ammount) {
+          this.walletAmount = x.ammount;
+        } else {
+          this.walletAmount = 0;
+        }
+      })
   }
 
   getCars() {
@@ -186,6 +191,14 @@ export class DriverProfilePage implements OnInit {
     this.location.back();
   }
 
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
+  }
+
   async presentAlert() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -197,7 +210,7 @@ export class DriverProfilePage implements OnInit {
     await alert.present();
   }
 
-  chargeCash(){
+  chargeCash() {
     this.route.navigate(['menu/payments'])
   }
 
@@ -232,9 +245,9 @@ export class DriverProfilePage implements OnInit {
   //       }
   //     ]
   //   });
-    
+
   //   await popup.present();
-    
+
   // }
 
   async chargeAlertFail() {

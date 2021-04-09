@@ -74,6 +74,10 @@ const routes: Routes = [
       {
         path: 'payments',
         loadChildren: () => import('../payments/payments.module').then( m => m.PaymentsPageModule)
+      },
+      {
+        path: 'language-popover',
+        loadChildren: () => import('../language-popover/language-popover.module').then( m => m.LanguagePopoverPageModule)
       }
     ]
   }

@@ -17,6 +17,9 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 const googleMapsParams = {
   apiKey: "AIzaSyAEvlXdM4joG4bNVT5l-tJSk9lUSGhxMNw",
@@ -32,6 +35,13 @@ const googleMapsParams = {
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: (HttpLoaderFactory),
+          deps: [HttpClient]
+      }
+  }),
     ChartsModule,
     FormsModule,
     ReactiveFormsModule],

@@ -11,7 +11,9 @@
             </ion-title>
 
             <ion-buttons slot="end">
-                <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+                <!-- [placeholder]='"tab1.languageChangePlaceholder" | translate' -->
+            
+                  <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
             </ion-buttons>
         </ion-toolbar>
     </ion-header>
@@ -49,9 +51,8 @@
                         </div>
 
                         <div class="form-group col mt-5">
-                            <ion-label color="light" class="fonted">{{'Click here to choose starting point' | translate}}</ion-label>
                             <ion-input formControlName="location" type="text" class="form-control"
-                                 (click)="locationMap()"
+                                 (click)="locationMap()" [placeholder]='"Click here to choose starting point" | translate'
                                 [ngClass]="{ 'is-invalid': isSubmitted && f.location.errors }"></ion-input>
                             <div *ngIf="isSubmitted && f.location.errors" class="invalid-feedback">
                                 <div *ngIf="f.location.errors.required" class="fonted">Please choose starting point.</div>
@@ -59,9 +60,8 @@
                         </div>
 
                         <div class="form-group col mt-3">
-                            <ion-label color="light" class="fonted">{{'Click here to choose destination' | translate}}</ion-label>
                             <ion-input formControlName="destination" type="text" class="form-control"
-                                 (click)="destinationMap()"
+                                 (click)="destinationMap()" [placeholder]='"Click here to choose destination" | translate'
                                 [ngClass]="{ 'is-invalid': isSubmitted && f.destination.errors }"></ion-input>
                             <div *ngIf="isSubmitted && f.destination.errors" class="invalid-feedback">
                                 <div *ngIf="f.destination.errors.required" class="fonted">Please choose endpoint.</div>
@@ -70,7 +70,7 @@
 
 
                         <div *ngIf="orderStatus == 'Waiting'" class="form-group col mt-3">
-                            <ion-label><i>Increase amount</i></ion-label>
+                            <ion-label><i>{{'Increase amount' | translate}</i></ion-label>
                             <ion-select ngModel (ngModelChange)="selector($event)" formControlName="increasePrice"
                                 placeholder="Select amount you want to increase">
                                 <ion-select-option value="1">1</ion-select-option>

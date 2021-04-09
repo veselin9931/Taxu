@@ -9,7 +9,7 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -34,25 +34,25 @@
           <h3 class="playername my-label text">{{user.firstName}} {{user.lastName}}</h3>
           <h4 class="playername my-label text">{{user.phone}}</h4>
 
-          <h6 class="ranking my-label text">Wallet ballance: <ion-chip>
+          <h6 class="ranking my-label text">{{'Wallet ballance' | translate}}: <ion-chip>
               <ion-label>{{walletAmount}}$</ion-label>
             </ion-chip>
           </h6>
           <ion-chip (click)="chargeCash()">
-            <ion-label class="my-label text">Click to charge your account</ion-label>
+            <ion-label class="my-label text">{{'Click to charge your account' | translate}}</ion-label>
           </ion-chip>
-          <h6 class="ranking my-label text">My rating: <ion-chip>
+          <h6 class="ranking my-label text">{{'My rating' | translate}}: <ion-chip>
               <ion-label>{{rating}}</ion-label>
             </ion-chip>
           </h6>
-          <h6 class="ranking my-label text">Commission: <ion-chip>
+          <h6 class="ranking my-label text">{{'Commission' | translate}}: <ion-chip>
               <ion-label>{{driverCommission}}%</ion-label>
             </ion-chip>
           </h6>
         </div>
         
           <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
-          <ion-button class="my-label" (click)="file.click()" expand="full" color="primary">Upload picture</ion-button>
+          <ion-button class="my-label" (click)="file.click()" expand="full" color="primary">{{'Upload picture' | translate}}</ion-button>
 
         <div class="col-md-4">
           <span class="upload" *ngIf="progress > 0">
@@ -62,17 +62,17 @@
             {{message}}
           </span>
         </div>
-        <ion-button class="my-label text" (click)="openHistory()" expand="full" color="dark">Drive history</ion-button>
+        <ion-button class="my-label text" (click)="openHistory()" expand="full" color="dark">{{'Drive history' | translate}}</ion-button>
         <ion-button class="my-label text" (click)="addNewCar()" expand="full" color="dark">Add new car</ion-button>
         <h6 *ngIf="carsCount > 0" class="ranking ion-text-center">
           <ion-chip>
-            <ion-label class="my-label text">Choose your car for today:</ion-label>
+            <ion-label class="my-label text">{{'Choose your car for today' | translate}}:</ion-label>
           </ion-chip>
         </h6>
 
         <h6 *ngIf="carsCount == 0" class="ranking ion-text-center">
           <ion-chip>
-            <ion-label class="my-label text">You must add car</ion-label>
+            <ion-label class="my-label text">{{'You must add car' | translate}}</ion-label>
           </ion-chip>
         </h6>
         <div *ngFor="let car of driverCars">
@@ -87,7 +87,7 @@
             <div class="col-2">
               <ion-button class="my-label text" (click)="deleteCar(car.id)" style="float: right" expand="full"
                 color="danger">
-                Delete
+                {{'Delete'| translate}}
               </ion-button>
 
             </div>
@@ -97,7 +97,7 @@
         </div>
 
         <div class="text-center ranking my-label text">
-          My referral
+          {{'My referral'| translate}}
           <ion-chip (click)="copy(referral)">
             <ion-label>{{referral}}</ion-label>
           </ion-chip>
