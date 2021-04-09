@@ -9,12 +9,14 @@ import { ProfitService } from 'src/_services/profit/profit.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { Location } from '@angular/common';
 import { WalletService } from 'src/_services/wallet/wallet.service';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { Observable } from 'rxjs';
 import { ChatService } from 'src/_services/chat/chat.service';
 import { environment } from 'src/environments/environment';
 import { Plugins } from '@capacitor/core';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
 const { Geolocation } = Plugins;
 declare var google: any;
@@ -73,7 +75,11 @@ export class DrivingPage implements OnInit {
     private alertController: AlertController,
     private driverService: DriverService,
     private chatService: ChatService,
-    private profitService: ProfitService) {
+    private profitService: ProfitService,
+    private translate: TranslateService,
+    private popoverController: PopoverController) {
+    this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+
     if (this.isDrivingNow == true) {
       this.getAcceptedTrip()
     }
@@ -517,8 +523,13 @@ export class DrivingPage implements OnInit {
     this.isDrivingNow = this.accountService.userValue.isDrivingNow;
   }
 
-  goBack() {
-    this.locationPage.back();
+
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
   }
 
   //ALERTS

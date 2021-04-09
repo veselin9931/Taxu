@@ -25,10 +25,13 @@ export class LanguagePopoverPage implements OnInit {
   select(lng) {
     this.translate.use(lng);
     this.selected = lng;
-    this.accountService.userValue.choosenLanguage = lng;
-    this.accountService.updateLanguage(this.accountService.userValue.id, lng)
-    .subscribe(() => {
-    });
+    if (this.accountService.userValue) {
+      this.accountService.userValue.choosenLanguage = lng;
+      this.accountService.updateLanguage(this.accountService.userValue.id, lng)
+        .subscribe(() => {
+        });
+    }
+
     this.popoverController.dismiss();
   }
 }

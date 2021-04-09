@@ -6,11 +6,11 @@
       
   
       <ion-title>
-          <ion-label>Report</ion-label>
+          <ion-label>{{'Report' | translate}}</ion-label>
       </ion-title>
   
       <ion-buttons slot="end">
-        <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+        <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
       </ion-buttons>
     </ion-toolbar>
     
@@ -24,7 +24,7 @@
         <div class="row">
           <div class="col text-center">
             <ion-text class="centered" color="light">
-              <h2 class="text">Report a problem</h2>
+              <h2 class="text">{{'Report a problem' | translate}}</h2>
               <hr>
             </ion-text>
   
@@ -33,20 +33,20 @@
               <div class="form-group col mt-5 text-center">
                 <select (change)="reportType($event.target.value)" formControlName="typeId" class="form-control text" id="exampleFormControlSelect1"
                   [ngClass]="{ 'is-invalid': submitted && f.typeId.errors }">
-                  <option value="" disabled selected hidden>Choose report type</option>
-                  <option value="1">Complaint</option>
-                  <option value="2">Technical</option>
-                  <option value="3">Other</option>
+                  <option value="" disabled selected hidden>{{'Choose report type' | translate}}</option>
+                  <option value="1">{{'Complaint' | translate}}</option>
+                  <option value="2">{{'Technical' | translate}}</option>
+                  <option value="3">{{'Other' | translate}}</option>
                 </select>
   
                 <div *ngIf="submitted && f.typeId.errors" class="invalid-feedback text">
-                  <div *ngIf="f.typeId.errors.required">The field is required!</div>
+                  <div *ngIf="f.typeId.errors.required">{{'The field is required' | translate}}!</div>
                 </div>
               </div>
   
               <div *ngIf="selectedReportType == '1' " class="form-group col mt-5 text-center text">
                 <ion-text class="centered" color="light">
-                  <h4 class="text">Last user</h4>
+                  <h4 class="text">{{'Last user' | translate}}</h4>
                 </ion-text>
                 <ion-input class="form-control" value="{{userFirstName}} {{userLastName}}"> 
                 </ion-input>
@@ -55,24 +55,24 @@
   
               <div class="form-group col mt-5">
                 <ion-input formControlName="title" type="text" class="form-control text"
-                  placeholder="Title" [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+                 [placeholder]='"Title" | translate' [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
                 </ion-input>
                 <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
-                  <div *ngIf="f.title.errors.required">The field is required!</div>
+                  <div *ngIf="f.title.errors.required">{{'The field is required' | translate}}!</div>
                 </div>
               </div>
   
               <div class="form-group col mt-5">
                 <textarea formControlName="description" type="text" class="form-control text"
-                  placeholder="Description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }">
+                  [placeholder]='"Description" | translate' [ngClass]="{ 'is-invalid': submitted && f.description.errors }">
                 </textarea>
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors.required">The field is required!</div>
+                  <div *ngIf="f.description.errors.required">{{'The field is required' | translate}}!</div>
                 </div>
               </div>
   
               <div class="col-md-12 mt-3">
-                <ion-button (click)="onSubmit()" type="submit" color="light">Submit</ion-button>
+                <ion-button (click)="onSubmit()" type="submit" color="light">{{'Submit' | translate}}</ion-button>
               </div>
             </form>
           </div>

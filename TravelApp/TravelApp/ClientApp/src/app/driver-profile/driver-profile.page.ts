@@ -45,8 +45,7 @@ export class DriverProfilePage implements OnInit {
     private imageService: ImageService,
     private translate: TranslateService,
     private popoverController: PopoverController) {
-    this.translate.setDefaultLang('en');
-    this.translate.use('es');
+    this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
 
   ngOnInit() {

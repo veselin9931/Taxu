@@ -9,6 +9,15 @@ import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
 
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguagePopoverPageModule } from '../../language-popover/language-popover.module';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
 @NgModule({
   imports: [
     HttpClientModule,
@@ -16,7 +25,15 @@ import { LoginPage } from './login.page';
     ReactiveFormsModule,
     FormsModule,
     IonicModule,
-    LoginPageRoutingModule
+    LoginPageRoutingModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    LanguagePopoverPageModule
   ],
   declarations: [LoginPage]
 })

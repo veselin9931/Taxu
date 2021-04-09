@@ -129,7 +129,7 @@
             </ion-title>
 
             <ion-buttons slot="end">
-                <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+                <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
             </ion-buttons>
         </ion-toolbar>
     </ion-header>
@@ -157,7 +157,7 @@
             <ion-button (click)="chat()" class="fonted" (click)="clearMessages()" type="submit" color="light">
                 {{'Chat' | translate}}</ion-button>
                 <br />
-        <ion-label class="blink_me fonted" *ngIf="messages.length != 0  && chatStyle == 'none'">{{'You have new message.' | translate}}</ion-label>
+        <ion-label class="blink_me fonted" *ngIf="messages.length != 0  && chatStyle == 'none'">{{'You have new message' | translate}}.</ion-label>
         </ion-toolbar>
         
     </ion-toolbar>
@@ -183,7 +183,7 @@
     
           <ion-card class="type">
             <ion-item >
-              <ion-input  [(ngModel)]="msgDto.text" placeholder="Type your message...">
+              <ion-input  [(ngModel)]="msgDto.text" [placeholder]='"Type your message..." | translate'>
     
               </ion-input>
                 <ion-icon (click)="send()" name="send-outline"></ion-icon>

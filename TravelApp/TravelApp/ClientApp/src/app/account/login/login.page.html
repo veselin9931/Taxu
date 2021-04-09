@@ -9,7 +9,7 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -19,7 +19,7 @@
       <ion-text class="centered" color="light">
         <div class="col mt-3">
           <h1 class="text">TAXI MI</h1>
-          <h4 class="subtitle">Siempre a precio fijo</h4>
+          <h4 class="subtitle">{{'Always at a fixed price' | translate}}</h4>
         </div>
 
       </ion-text>
@@ -31,18 +31,20 @@
       <div class="row">
         <form [formGroup]="form" novalidate class="col-md-6">
           <div class="form-group col mt-5 text-center">
-              <ion-input formControlName="username" type="text" class="form-control" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"></ion-input>
+              <ion-input formControlName="username" type="text" class="form-control"
+              [placeholder]='"Email" | translate' [ngClass]="{ 'is-invalid': submitted && f.username.errors }"></ion-input>
               <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                <div *ngIf="f.username.errors.required">The field is required!</div>
+                <div *ngIf="f.username.errors.required">{{'The field is required' | translate}!</div>
               </div>
           </div>
 
           
           
           <div class="form-group col mt-3 text-center">
-            <ion-input formControlName="password" type="password" class="form-control" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"></ion-input>
+            <ion-input formControlName="password" type="password" class="form-control" 
+            [placeholder]='"Password" | translate' [ngClass]="{ 'is-invalid': submitted && f.password.errors }"></ion-input>
             <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-              <div *ngIf="f.password.errors.required">The field is required!</div>
+              <div *ngIf="f.password.errors.required">{{'The field is required' | translate}!</div>
             </div>
           </div>
 
@@ -50,23 +52,23 @@
 
           <div class="d-flex w-100 justify-content-between">
             <div class="form-group col mt-1 mr-2">
-              <p class="subtitle">Forgot your password?</p>
+              <p class="subtitle">{{'Forgot your password' | translate}}?</p>
             </div>
             <div class="col- mr-3">
               <!-- <img (click)="onSubmit()" src="../../../assets/start-stop.png" width="90" height="90"> -->
-              <ion-button (click)="onSubmit()" type="submit" color="light">Login</ion-button>
+              <ion-button (click)="onSubmit()" type="submit" color="light">{{'Login' | translate}}</ion-button>
             </div>
           </div>
 
          
 
           <div class="form-group col mr-2">
-            <p class="subtitle">Dont have an account?</p>
-            <ion-button class="small" (click)="signUp()" type="submit" color="danger">Register</ion-button>
+            <p class="subtitle">{{'Dont have an account' | translate}}?</p>
+            <ion-button class="small" (click)="signUp()" type="submit" color="danger">{{'Register' | translate}}</ion-button>
           </div>
 
           <div class="form-group col mr-2">
-            <p class="subtitle">Dont have an account?</p>
+            <p class="subtitle">{{'Dont have an account' | translate}}?</p>
           </div>
         </form>
 

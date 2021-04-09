@@ -5,15 +5,15 @@
     </ion-buttons>
 
     <ion-title *ngIf="isDrivingNow == false">
-        <ion-label>Orders</ion-label>
+        <ion-label>{{'Orders' | translate}}</ion-label>
     </ion-title>
 
     <ion-title *ngIf="isDrivingNow == true">
-      <ion-label>Accepted order</ion-label>
+      <ion-label>{{'Accepted order' | translate}}</ion-label>
   </ion-title>
 
     <ion-buttons slot="end">
-      <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -23,13 +23,13 @@
       <div class="row">
         <div class="col-md-12 text-center">
           <ion-text class="centered" color="light">
-            <h2 class="fonted">Driving</h2>
+            <h2 class="fonted">{{'Driving' | translate}}</h2>
             <hr>
           </ion-text>
 
           <div *ngIf="this.orders.length == 0">
             <ion-text class="centered" color="light">
-              <h2 class="text">We are sorry, currently there are no orders!</h2>
+              <h2 class="text">{{'We are sorry, currently there are no orders' | translate}}!</h2>
             </ion-text>
           </div>
         </div>
@@ -41,29 +41,29 @@
 
             <a class="text list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1 fonted">Order</h5>
+                <h5 class="mb-1 fonted">{{'Order' | translate}}</h5>
                 <small>{{oldOrder.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
               </div>
-              <p class="mb-1 fonted">Location: {{oldOrder.location}}</p>
+              <p class="mb-1 fonted">{{'Location' | translate}}: {{oldOrder.location}}</p>
               <hr />
-              <p class="mb-1 fonted">Destination: {{oldOrder.destination}}</p>
+              <p class="mb-1 fonted">{{'Destination' | translate}}: {{oldOrder.destination}}</p>
               <div class="row">
                 <div class="col">
-                    <small>Additional options:</small>
+                    <small>{{'Additional options' | translate}}:</small>
                   <ul>
-                    <li *ngIf="oldOrder.withPets == true">With pet</li>
-                    <li *ngIf="oldOrder.withStroller == true">With stroller</li>
-                    <li *ngIf="oldOrder.special == true">Special needs</li>
+                    <li *ngIf="oldOrder.withPets == true">{{'With pets' | translate}}</li>
+                    <li *ngIf="oldOrder.withStroller == true">{{'With stroller' | translate}}</li>
+                    <li *ngIf="oldOrder.special == true">{{'Special needs' | translate}}</li>
                   </ul>
 
                 
                   <div class="d-flex w-100 justify-content-between">
-                    <small>Trip distance: {{oldOrder.tripDistance}} km</small>
+                    <small>{{'Trip distance' | translate}}: {{oldOrder.tripDistance}} km</small>
                     <ion-button class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">Accept</ion-button>
                   </div>
                 </div>
                 <div class="col-md-12">
-                  <small>Total cost: {{oldOrder.totalPrice}}$</small>
+                  <small>{{'Total cost' | translate}}: {{oldOrder.totalPrice}}$</small>
                 </div>
               </div>
             </a>
@@ -86,7 +86,7 @@
   <ion-toolbar class="text-center">
     <ion-text class="textTravel">
       <ion-text class="centered" color="dark">
-        <p class="text">Pick up address (1.5km from you)</p>
+        <p class="text">{{'Pick up address' | translate}} (1.5km from you)</p>
         <p class="text">{{this.location}}</p>
       </ion-text>
       <!-- <ion-label>{{this.location}}</ion-label> -->
@@ -99,12 +99,12 @@
   <ion-toolbar class="text-center">
     <ion-text class="textTravel">
       <ion-button  (click)="navigateToUserAndCalculateDistance()" type="submit"
-      [disabled]="tripStatus=='Started'" color="primary">Navigate to user</ion-button>
+      [disabled]="tripStatus=='Started'" color="primary">{{'Navigate to user' | translate}}</ion-button>
           <ion-button (click)="navigateToPointAndCalculateDistance()" type="submit"
-          color="primary" [disabled]="tripStatus=='!Processing'">Start trip</ion-button>
+          color="primary" [disabled]="tripStatus=='!Processing'">{{'Start trip' | translate}}</ion-button>
           <!-- <ion-title>Drop off address<ion-label>({{tripDistance}}km total.)</ion-label></ion-title> -->
       <ion-text class="centered" color="dark">
-        <p class="text">Drop off address ({{tripDistance}}km total.)</p>
+        <p class="text">{{'Drop off address' | translate}} ({{tripDistance}}km total.)</p>
         <p class="text">{{this.destination}}</p>
 
     </ion-text>
@@ -116,11 +116,11 @@
 <ion-footer class="ion-no-border site-footer"  *ngIf="isDrivingNow == true">
   <ion-toolbar class="text-center">
     <ion-button [disabled]="tripStatus=='Processing'" (click)="finishTrip()" type="submit" color="light">
-      Finish trip</ion-button>
+      {{'Finish trip' | translate}}</ion-button>
       <ion-button (click)="chat()" type="submit" (click)="clearMessages()" color="light">
-        Chat</ion-button>
+        {{'Chat'| translate}}</ion-button>
         <br />
-        <ion-label class="blink_me" *ngIf="messages.length != 0  && chatStyle == 'none'">You have new message.</ion-label>
+        <ion-label class="blink_me" *ngIf="messages.length != 0  && chatStyle == 'none'">{{'You have new message' | translate}}.</ion-label>
   </ion-toolbar>
   
   <div id="chat" style="display: none;" class="row chat">
@@ -130,7 +130,7 @@
           
           <div class="msg-box">
             <ul *ngIf="this.msgInboxArray.length == 0" class="text-center mr-5">
-              <li>No messages for now</li>
+              <li>{{'No messages for now' | translate}}</li>
             </ul>
             <ul *ngFor="let mObj of msgInboxArray">
               <li [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
@@ -144,7 +144,7 @@
 
       <ion-card class="type">
         <ion-item>
-            <ion-input [(ngModel)]="msgDto.text" placeholder="Type your message...">
+            <ion-input [(ngModel)]="msgDto.text" [placeholder]='"Type your message..." | translate'>
     
           </ion-input>
             <ion-icon (click)="send()" name="send-outline"></ion-icon>

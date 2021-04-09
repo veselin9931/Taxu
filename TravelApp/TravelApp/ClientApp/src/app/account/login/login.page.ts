@@ -3,7 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
+import { PopoverController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { first } from 'rxjs/operators';
+import { LanguagePopoverPage } from 'src/app/language-popover/language-popover.page';
 import { environment } from 'src/environments/environment';
 import { AccountService, AlertService } from 'src/_services';
 
@@ -21,8 +24,11 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder,
     private alertService: AlertService,
     private accountService: AccountService,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private translate: TranslateService,
+    private popoverController: PopoverController) {
     this.isLoggedIn = localStorage.getItem("user");
+    this.translate.setDefaultLang('en');
   }
 
   ngOnInit() {
@@ -92,12 +98,15 @@ export class LoginPage implements OnInit {
     this.route.navigate(['menu/account/register']);
   }
 
-  // ionViewDidLeave() {
-  //   if (this.isLoggedIn == null) {
-  //     window.location.reload();
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
+  }
 
-  //   }
-  // }
+
 
   clearForm() {
     this.form.reset({

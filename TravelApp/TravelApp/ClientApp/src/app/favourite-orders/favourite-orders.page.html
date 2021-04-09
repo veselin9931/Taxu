@@ -5,11 +5,11 @@
     </ion-buttons>
 
     <ion-title>
-      <ion-label>Favourites</ion-label>
+      <ion-label>{{'Favourites' | translate}}</ion-label>
   </ion-title>
 
     <ion-buttons slot="end">
-      <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -17,7 +17,7 @@
 
 <ion-content padding class="background">
   <ion-text *ngIf="favourites.length == 0" class="centered" color="light">
-      <h2 class="fonted mt-2">You dont have saved trips!</h2>
+      <h2 class="fonted mt-2">{{'You dont have saved trips' | translate}}!</h2>
     <hr />
   </ion-text>
 
@@ -29,33 +29,27 @@
           <div *ngFor="let favourite of favourites" class="list-group mt-2">
 
             <a class="text list-group-item list-group-item-action flex-column align-items-start">
-              <p class="mb-1 fonted">Location: {{favourite.location}}</p>
+              <p class="mb-1 fonted">{{'Location' | translate}}: {{favourite.location}}</p>
              
-              <p class="mb-1 fonted">Destination: {{favourite.destination}}</p>
+              <p class="mb-1 fonted">{{'Destination' | translate}}: {{favourite.destination}}</p>
               <div class="row">
                 <div class="col">
                   <div class="d-flex w-100 justify-content-between">
-                    <small>Trip distance: {{favourite.tripDistance}} km</small>
+                    <small>{{'Trip distance' | translate}}: {{favourite.tripDistance}} km</small>
                   </div>
                 </div>
                 <div class="col-md-12">
-                  <small>Total cost: {{favourite.totalPrice}}$</small>
+                  <small>{{'Total cost' | translate}}: {{favourite.totalPrice}}$</small>
                 </div>
                 <hr />
               </div>
-              <!-- <ion-buttons slot="start">
-                <ion-button class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">Accept</ion-button>
-              </ion-buttons>
-              <ion-buttons slot="end">
-                <ion-button class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">Accept</ion-button>
-              </ion-buttons> -->
               <ion-toolbar color="light">
                 <ion-buttons slot="start">
-                  <ion-button class="fonted" (click)="useThis(favourite)" type="submit" color="dark">Use this trip</ion-button>
+                  <ion-button class="fonted" (click)="useThis(favourite)" type="submit" color="dark">{{'Use this trip' | translate}}</ion-button>
                 </ion-buttons>
             
                 <ion-buttons slot="end">
-                  <ion-button class="fonted" (click)="remove(favourite.id)" type="submit" color="danger">Delete</ion-button>
+                  <ion-button class="fonted" (click)="remove(favourite.id)" type="submit" color="danger">{{'Delete' | translate}}</ion-button>
                 </ion-buttons>
               </ion-toolbar>
             </a>

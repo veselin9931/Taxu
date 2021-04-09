@@ -7,7 +7,9 @@ import { ReportService } from 'src/_services/report/report.service';
 import { Location } from '@angular/common';
 import { Driver, Order } from 'src/_models';
 import { OrderService } from 'src/_services/order/order.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
 @Component({
   selector: 'app-report',
@@ -37,7 +39,12 @@ export class ReportPage implements OnInit {
     private accountService: AccountService,
     private location: Location,
     private orderService: OrderService,
-    private alertController: AlertController) { this.userId = this.accountService.userValue.id; }
+    private alertController: AlertController,
+    private translate: TranslateService,
+    private popoverController: PopoverController) { 
+      this.userId = this.accountService.userValue.id; 
+      this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+    }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -128,6 +135,14 @@ export class ReportPage implements OnInit {
 
       console.log(this.form.value);
     }
+  }
+
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
   }
 
   async reportCompleted() {
