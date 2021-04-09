@@ -22,16 +22,16 @@
     <div class="col">
       <div class="row">
         <div class="col-md-12 text-center">
-          <ion-text class="centered" color="light">
-            <h2 class="fonted">{{'Driving' | translate}}</h2>
+          <ion-text  class="centered" color="light">
+            <h2 class="fonted blink_me">{{'Waiting for orders' | translate}}</h2>
             <hr>
           </ion-text>
 
-          <div *ngIf="this.orders.length == 0">
+          <!-- <div *ngIf="this.orders.length == 0">
             <ion-text class="centered" color="light">
               <h2 class="text">{{'We are sorry, currently there are no orders' | translate}}!</h2>
             </ion-text>
-          </div>
+          </div> -->
         </div>
 
        
@@ -59,7 +59,7 @@
                 
                   <div class="d-flex w-100 justify-content-between">
                     <small>{{'Trip distance' | translate}}: {{oldOrder.tripDistance}} km</small>
-                    <ion-button class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">Accept</ion-button>
+                    <ion-button class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">{{'Accept' | translate}}</ion-button>
                   </div>
                 </div>
                 <div class="col-md-12">

@@ -6,17 +6,17 @@
     
 
     <ion-title>
-        <ion-label>Choose starting point</ion-label>
+        <ion-label>{{'Choose starting point' | translate}}</ion-label>
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
   
 </ion-header>
 <ion-item>
-  <ion-input id="searchTextField" type="text" placeholder="Search location" clearInput></ion-input>
+  <ion-input id="searchTextField" type="text" [placeholder]='"Search location" | translate' clearInput></ion-input>
 </ion-item>
 <ion-content class="noScroll">
   <div #map id="map"></div>
@@ -28,7 +28,7 @@
   <ion-toolbar>
     <!-- <ion-title>Choosen location</ion-title> -->
 
-      <ion-button (click)="onSubmit()" color="medium" expand="block">Take me from here</ion-button>
+      <ion-button (click)="onSubmit()" color="medium" expand="block">{{'Take me from here' | translate}}</ion-button>
       <!-- <img class="mr-3" (click)="onSubmit()" src="../../../assets/Daco_4674738.png" width="40" height="40"> -->
 
   </ion-toolbar>

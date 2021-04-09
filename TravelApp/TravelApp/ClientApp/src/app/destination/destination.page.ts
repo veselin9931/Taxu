@@ -2,8 +2,12 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { Plugins } from '@capacitor/core';
+import { PopoverController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
+import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
+import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
 const { Geolocation } = Plugins;
 declare var google: any;
@@ -21,7 +25,11 @@ export class DestinationPage implements OnInit {
   @ViewChild('myButton') myButton: ElementRef;
 
   constructor(private route: Router,
-    private orderService: OrderService) {
+    private orderService: OrderService,
+    private translate: TranslateService,
+    private popoverController: PopoverController,
+    private accountService: AccountService) {
+      this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
 
   ngOnInit(): void {
@@ -163,5 +171,11 @@ export class DestinationPage implements OnInit {
     //Call API
   }
 
-
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
+  }
 }

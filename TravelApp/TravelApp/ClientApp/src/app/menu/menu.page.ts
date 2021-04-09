@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
+import { PopoverController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
+import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
 @Component({
   selector: 'app-menu',
@@ -49,8 +52,15 @@ export class MenuPage implements OnInit {
   selectedPath = '';
   constructor(private router: Router,
     private accountService: AccountService,
-    private driverService: DriverService) {
+    private driverService: DriverService,
+    private translate: TranslateService,
+    private popoverController: PopoverController) {
       this.isLoggedIn = localStorage.getItem("user");
+      if(this.isLoggedIn){
+        this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+      } else {
+        this.translate.setDefaultLang('en');
+      }
     this.router.events.subscribe((event: RouterEvent) => {
       if(event && event.url){
         if(event.url == "/menu/driving"){
@@ -118,5 +128,13 @@ export class MenuPage implements OnInit {
     .then(() => {
       window.location.reload();
     })
+  }
+
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
   }
 }

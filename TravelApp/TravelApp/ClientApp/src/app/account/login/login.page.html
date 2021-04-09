@@ -34,7 +34,7 @@
               <ion-input formControlName="username" type="text" class="form-control"
               [placeholder]='"Email" | translate' [ngClass]="{ 'is-invalid': submitted && f.username.errors }"></ion-input>
               <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                <div *ngIf="f.username.errors.required">{{'The field is required' | translate}!</div>
+                <div *ngIf="f.username.errors.required">{{'The field is required' | translate}}!</div>
               </div>
           </div>
 
@@ -44,7 +44,7 @@
             <ion-input formControlName="password" type="password" class="form-control" 
             [placeholder]='"Password" | translate' [ngClass]="{ 'is-invalid': submitted && f.password.errors }"></ion-input>
             <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-              <div *ngIf="f.password.errors.required">{{'The field is required' | translate}!</div>
+              <div *ngIf="f.password.errors.required">{{'The field is required' | translate}}!</div>
             </div>
           </div>
 

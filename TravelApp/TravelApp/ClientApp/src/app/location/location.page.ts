@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
-import { NavController } from '@ionic/angular';
+import { NavController, PopoverController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
+import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
+import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
 const { Geolocation } = Plugins;
 declare var google: any;
@@ -24,7 +27,11 @@ search: any;
 
   constructor(private route: Router,
     private orderService: OrderService,
-    public navCtrl: NavController) {
+    public navCtrl: NavController,
+    private translate: TranslateService,
+    private popoverController: PopoverController,
+    private accountService: AccountService) {
+      this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
 
   ngOnInit(): void {
@@ -164,6 +171,14 @@ search: any;
   callApi(Longitude: number, Latitude: number) {
     const url = `https://api-adresse.data.gouv.fr/reverse/?lon=${Longitude}&lat=${Latitude}`
     //Call API
+  }
+
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
   }
 
 }

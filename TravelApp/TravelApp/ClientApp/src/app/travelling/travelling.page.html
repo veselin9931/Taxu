@@ -70,9 +70,9 @@
 
 
                         <div *ngIf="orderStatus == 'Waiting'" class="form-group col mt-3">
-                            <ion-label><i>{{'Increase amount' | translate}</i></ion-label>
+                            <ion-label><i>{{'Increase amount' | translate}}</i></ion-label>
                             <ion-select ngModel (ngModelChange)="selector($event)" formControlName="increasePrice"
-                                placeholder="Select amount you want to increase">
+                                [placeholder]='"Select amount you want to increase" | translate'>
                                 <ion-select-option value="1">1</ion-select-option>
                                 <ion-select-option value="2">2</ion-select-option>
                                 <ion-select-option value="3">3</ion-select-option>
