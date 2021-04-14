@@ -84,18 +84,19 @@ namespace TravelApp
 
             });
 
-            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
-                                                             .AllowAnyMethod()
-                                                              .AllowAnyHeader()));
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed((host) => true));
+            });
 
-            //services.AddCors();
             services.AddMvc();
 
-            services.AddSignalR(options =>
-            {
-                options.EnableDetailedErrors = true;
-
-            });
+            services.AddSignalR()
+                    .AddAzureSignalR();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -133,51 +134,68 @@ namespace TravelApp
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors("AllowAll");
+            app.UseCors("CorsPolicy");
 
-            //app.UseCors("corsAllowAllPolicy");
-
-            app.Use(async (context, next) =>
-            {
-                if (context.Request.Path == "/wss")
-                {
-                    if (context.WebSockets.IsWebSocketRequest)
-                    {
-                        using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
-                        {
-                            await Echo(context, webSocket);
-                        }
-                    }
-                    else
-                    {
-                        context.Response.StatusCode = 400;
-                    }
-                }
-                else
-                {
-                    await next();
-                }
-
-            });
+            //app.Use(async (context, next) =>
+            //{
+            //    if (context.Request.Path == "/wss")
+            //    {
+            //        if (context.WebSockets.IsWebSocketRequest)
+            //        {
+            //            using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
+            //            {
+            //                await Echo(context, webSocket);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            context.Response.StatusCode = 400;
+            //        }
+            //    }
+            //    if (context.Request.Path == "/ws")
+            //    {
+            //        if (context.WebSockets.IsWebSocketRequest)
+            //        {
+            //            using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
+            //            {
+            //                await Echo(context, webSocket);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            context.Response.StatusCode = 400;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        await next();
+            //    }
+            //
+            //});
 
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            //app.UseCors(x => x
-              // .AllowAnyMethod()
-               //.AllowAnyHeader()
-               //.SetIsOriginAllowed(origin => true)
-               //.AllowCredentials());
+            app.UseCors(x => x
+               .AllowAnyMethod()
+              .AllowAnyHeader()
+               .SetIsOriginAllowed(origin => true)
+               .AllowCredentials());
 
 
             app.UseAuthorization();
 
+            app.UseAzureSignalR(routes =>
+            {
+                routes.MapHub<OrderHub>("/orderHub");
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<OrderHub>("/orderHub");
+                //endpoints.MapHub<OrderHub>("/orderHub");
             });
         }
 

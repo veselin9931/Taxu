@@ -23,20 +23,9 @@ export class DriverHistoryPage implements OnInit {
   ngOnInit() {
     this.getHistory();
 
-    // const connection = new signalR.HubConnectionBuilder()
-    //   .configureLogging(signalR.LogLevel.Information)
-    //   .withUrl('https://localhost:44329/orderHub', {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets
-    //   })
-    //   .build();
-
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.apiUrl}/orderHub`, {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
-      })
+      .withUrl(`${environment.signalRUrl}/orderHub`)
       .build();
 
     connection.start().then(function () {

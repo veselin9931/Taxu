@@ -98,10 +98,7 @@ export class DrivingPage implements OnInit {
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.apiUrl}/orderHub`, {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
-      })
+      .withUrl(`${environment.signalRUrl}/orderHub`)
       .build();
 
     connection.start().then(function () {

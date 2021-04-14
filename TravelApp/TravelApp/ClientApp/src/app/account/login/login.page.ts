@@ -42,12 +42,9 @@ export class LoginPage implements OnInit {
     }
 
     const connection = new signalR.HubConnectionBuilder()
-    .configureLogging(signalR.LogLevel.Information)
-    .withUrl(`${environment.apiUrl}/orderHub`, {
-      skipNegotiation: true,
-      transport: signalR.HttpTransportType.WebSockets
-    })
-    .build();
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl(`${environment.signalRUrl}/orderHub`)
+      .build();
 
     connection.start().then(function () {
       console.log('signalR Connected in driving');

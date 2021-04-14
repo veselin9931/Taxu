@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "mssql1": {
-      "resourceId": null,
-      "type": "mssql.onprem",
-      "connectionId": "DefaultConnection",
-      "secretStore": "AzureAppSettings"
-    },
     "signalr1": {
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.SignalRService/SignalR/taxu",
       "type": "signalr.azure",

@@ -5,9 +5,11 @@
 export const environment = {
    production: false,
    //apiUrl: 'https://localhost:44357'
-  apiUrl: 'http://192.168.0.3:3000'
+  //apiUrl: 'http://192.168.0.3:3000'
   //apiUrl: 'http://192.168.0.7:3000'
  //apiUrl: 'https://taxu.azurewebsites.net',
+ apiUrl: 'https://taksito.azurewebsites.net',
+ signalRUrl: 'https://taksito.azurewebsites.net',
 };
 
 

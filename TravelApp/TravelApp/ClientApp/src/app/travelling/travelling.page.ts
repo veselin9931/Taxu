@@ -104,16 +104,13 @@ export class TravellingPage implements OnInit {
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.apiUrl}/orderHub`, {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
-      })
+      .withUrl(`${environment.signalRUrl}/orderHub`)
       .build();
 
     connection.start().then(function () {
       console.log('signalR Connected in travelling');
     }).catch(function (err) {
-      return console.log(err.toString());
+      return console.log(err);
     });
 
     connection.on('BroadcastMessage', () => {

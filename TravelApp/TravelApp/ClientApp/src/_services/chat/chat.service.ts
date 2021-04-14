@@ -14,13 +14,10 @@ export class ChatService {
   public messages = [];
   private orderId = '';
   private connection: any = new signalR.HubConnectionBuilder()
-    .withUrl(`${environment.apiUrl}/orderHub`, {
-      skipNegotiation: true,
-      transport: signalR.HttpTransportType.WebSockets
-    })
+    .withUrl(`${environment.signalRUrl}/orderHub`)
     .build();
 
-  readonly POST_URL = `${environment.apiUrl}/api/chat/send`;
+  readonly POST_URL = `${environment.signalRUrl}/api/chat/send`;
 
   private receivedMessageObject: Message = new Message();
   private sharedObj = new Subject<Message>();
