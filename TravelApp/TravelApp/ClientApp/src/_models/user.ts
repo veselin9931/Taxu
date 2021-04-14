@@ -8,5 +8,6 @@
     isDrivingNow: boolean;
     isDriver: boolean;
     driverId: string;
+    phone: number;
     choosenLanguage: string;
 }

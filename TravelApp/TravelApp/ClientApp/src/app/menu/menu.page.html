@@ -25,59 +25,56 @@
           <!-- <ion-item [routerLink]="p.url" routerDirection="root" [class.active.item]="selectedPage">
       <ion-label> {{p.title}} </ion-label>
     </ion-item> -->
-          <ion-item *ngIf="!isLoggedIn" routerLink="/menu/home" [class.active.item]="selectedPage">
+          <ion-item *ngIf="!isLoggedIn" routerLink="/menu/home">
             <ion-icon color="light" slot="start" name="log-in-outline"></ion-icon>
             <ion-label class="my-label" color="light"> {{'Register' | translate}} </ion-label>
           </ion-item>
 
-          <ion-item *ngIf="isLoggedIn" routerLink="/menu/travelling" [class.active.item]="selectedPage">
+          <ion-item *ngIf="isLoggedIn" routerLink="/menu/travelling">
             <ion-icon color="light" slot="start" name="bicycle-outline"></ion-icon>
             <ion-label class="my-label" color="light"> {{'Travel' | translate}} </ion-label>
           </ion-item>
 
-          <ion-item *ngIf="isLoggedIn && documentConfirmed == false" routerLink="/menu/verifying"
-          [class.active.item]="selectedPath">
+          <ion-item *ngIf="isLoggedIn && documentConfirmed == false" routerLink="/menu/verifying">
           <ion-icon color="light" name="person-outline" slot="start"></ion-icon>
           <ion-label class="my-label" color="light"> {{'Profile' | translate}} </ion-label>
         </ion-item>
 
-          <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true" routerLink="/menu/driver-profile"
-            [class.active.item]="selectedPath">
+          <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true" routerLink="/menu/driver-profile">
             <ion-icon color="light" name="person-outline" slot="start"></ion-icon>
             <ion-label class="my-label" color="light"> {{'Profile' | translate}} </ion-label>
           </ion-item>
 
-          <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true" routerLink="/menu/payments"
-            [class.active.item]="selectedPath">
+          <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true" routerLink="/menu/payments">
             <ion-icon color="light" name="card-outline" slot="start"></ion-icon>
             <ion-label class="my-label" color="light"> {{'Payments' | translate}} </ion-label>
           </ion-item>
 
 
           <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true && driverCars.length >= 1"
-            routerLink="/menu/driving" [class.active.item]="selectedPath">
+            routerLink="/menu/driving">
             <ion-icon color="light" name="car-outline" slot="start"></ion-icon>
             <ion-label class="my-label" color="light"> {{'Drive' | translate}} </ion-label>
           </ion-item>
 
           <ion-item *ngIf="isLoggedIn && isVerified == false && documentConfirmed == false"
-            routerLink="/menu/become-driver" [class.active.item]="selectedPath">
+            routerLink="/menu/become-driver" >
             <ion-icon color="light" name="car-outline" slot="start"></ion-icon>
             <ion-label class="my-label" color="light"> {{'Drive' | translate}} </ion-label>
           </ion-item>
 
           <ion-item *ngIf="isLoggedIn && isVerified == true && driverCars.length == 0 && documentConfirmed == false"
-            routerLink="/menu/car-register" [class.active.item]="selectedPage">
+            routerLink="/menu/car-register">
             <ion-icon color="light" name="car-outline" slot="start"></ion-icon>
             <ion-label class="my-label" color="light"> {{'Drive' | translate}} </ion-label>
           </ion-item>
 
-          <ion-item *ngIf="isLoggedIn" routerLink="/menu/favourite-orders" [class.active.item]="selectedPage">
+          <ion-item *ngIf="isLoggedIn" routerLink="/menu/favourite-orders">
             <ion-icon color="light" slot="start" name="star-outline"></ion-icon>
             <ion-label class="my-label" color="light"> {{'Favourites' | translate}} </ion-label>
           </ion-item>
 
-          <ion-item *ngIf="isLoggedIn" routerLink="/menu/report" [class.active.item]="selectedPage">
+          <ion-item *ngIf="isLoggedIn" routerLink="/menu/report">
             <ion-icon color="light" slot="start" name="alert-circle-outline"></ion-icon>
             <ion-label class="my-label" color="light"> {{'Report' | translate}} </ion-label>
           </ion-item>

@@ -347,7 +347,15 @@ export class DrivingPage implements OnInit {
             }, 10000);
             this.orders = data;
           })
-          
+        } else {
+          this.orderService.getAllOrders().subscribe(data => {
+            if (data == null) {
+              return;
+            }
+            var orderDiv = document.getElementById("orderDiv");
+            orderDiv.style.display = 'block';
+            this.orders = data;
+          })
         }
       })
 
