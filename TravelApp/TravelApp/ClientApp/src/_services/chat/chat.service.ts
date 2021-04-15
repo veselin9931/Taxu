@@ -12,7 +12,6 @@ import { OrderService } from '../order/order.service';
 })
 export class ChatService {
   public messages = [];
-  private orderId = '';
   private connection: any = new signalR.HubConnectionBuilder()
     .withUrl(`${environment.signalRUrl}/orderHub`)
     .build();

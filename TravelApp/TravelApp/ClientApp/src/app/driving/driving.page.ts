@@ -297,10 +297,8 @@ export class DrivingPage implements OnInit {
     this.route.navigate(['menu/report']);
   }
 
-
-
   getData() {
-    
+
     this.driverService.getDriver(this.accountService.userValue.driverId)
       .subscribe(x => {
         if (x.rating < 1) {
@@ -309,8 +307,8 @@ export class DrivingPage implements OnInit {
               return;
             }
             setTimeout(() => {
-            var orderDiv = document.getElementById("orderDiv");
-            orderDiv.style.display = 'block'
+              var orderDiv = document.getElementById("orderDiv");
+              orderDiv.style.display = 'block'
             }, 40000);
             this.orders = data;
           })
@@ -320,8 +318,8 @@ export class DrivingPage implements OnInit {
               return;
             }
             setTimeout(() => {
-            var orderDiv = document.getElementById("orderDiv");
-            orderDiv.style.display = 'block'
+              var orderDiv = document.getElementById("orderDiv");
+              orderDiv.style.display = 'block'
             }, 30000);
             this.orders = data;
           })
@@ -331,8 +329,8 @@ export class DrivingPage implements OnInit {
               return;
             }
             setTimeout(() => {
-            var orderDiv = document.getElementById("orderDiv");
-            orderDiv.style.display = 'block'
+              var orderDiv = document.getElementById("orderDiv");
+              orderDiv.style.display = 'block'
             }, 20000);
             this.orders = data;
           })
@@ -342,24 +340,26 @@ export class DrivingPage implements OnInit {
               return;
             }
             setTimeout(() => {
-            var orderDiv = document.getElementById("orderDiv");
-            orderDiv.style.display = 'block'
+              var orderDiv = document.getElementById("orderDiv");
+              orderDiv.style.display = 'block'
             }, 10000);
             this.orders = data;
           })
-        } else {
+        } else if (x.rating >= 4) {
           this.orderService.getAllOrders().subscribe(data => {
             if (data == null) {
               return;
             }
-            var orderDiv = document.getElementById("orderDiv");
-            orderDiv.style.display = 'block';
+            setTimeout(() => {
+              var orderDiv = document.getElementById("orderDiv");
+              orderDiv.style.display = 'block'
+            }, 1000);
             this.orders = data;
           })
         }
       })
 
-    
+
   }
 
   //Accept order and manage the data inside
@@ -393,8 +393,7 @@ export class DrivingPage implements OnInit {
                   //Accepting order
                   this.orderService.acceptOrder(order.id, applicationUserId)
                     .subscribe(() => {
-                      this.chatService.stop();
-                      this.chatService.start();
+
                     })
 
                   let orderId = order.id;
@@ -404,6 +403,8 @@ export class DrivingPage implements OnInit {
                   this.tripService.createTrip(data)
                     .subscribe(() => {
                     })
+                  this.chatService.stop();
+                  this.chatService.start();
                   this.route.navigate(['menu/driving']);
                 }
               })
@@ -500,6 +501,7 @@ export class DrivingPage implements OnInit {
           })
 
         })
+        
         this.route.navigate(['menu/driving']);
       });
   }

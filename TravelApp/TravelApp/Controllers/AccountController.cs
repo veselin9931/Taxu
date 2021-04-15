@@ -143,7 +143,8 @@ namespace TravelApp.Controllers
                 Token = tokenString,
                 IsDrivingNow = user.IsDrivingNow,
                 DriverId = user.DriverId,
-                ChoosenLanguage = user.ChoosenLanguage
+                ChoosenLanguage = user.ChoosenLanguage,
+                Reloaded = false
             });
         }
 
