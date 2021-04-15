@@ -6,4 +6,6 @@
     lastName: string;
     token: string;
     isDriver: boolean;
+    phone: number;
+    email: string;
 }
