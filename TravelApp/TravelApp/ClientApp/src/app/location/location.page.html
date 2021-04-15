@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    
+
+    <ion-title>
+        <ion-label>{{'Choose starting point' | translate}}</ion-label>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+  
+</ion-header>
+<ion-item>
+  <ion-input id="searchTextField" type="text" [placeholder]='"Search location" | translate' clearInput></ion-input>
+</ion-item>
+<ion-content class="noScroll">
+  <div #map id="map"></div>
+  <div #marker id="marker"></div>
+  
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <!-- <ion-title>Choosen location</ion-title> -->
+
+      <ion-button (click)="onSubmit()" color="medium" expand="block">{{'Take me from here' | translate}}</ion-button>
+      <!-- <img class="mr-3" (click)="onSubmit()" src="../../../assets/Daco_4674738.png" width="40" height="40"> -->
+
+  </ion-toolbar>
+</ion-footer>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{address}}</ion-title>
+  </ion-toolbar>
+
+  
+</ion-footer>

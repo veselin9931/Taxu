@@ -14,11 +14,7 @@ namespace TravelApp.Models
             this.Id = Guid.NewGuid().ToString();
         }
 
-        [Required]
-        public string DriverLicense { get; set; }
-
-        [Required]
-        public string IDCardNumber { get; set; }
+        public string ApplicationUserId { get; set; }
 
         [Required]
         public bool DocumentConfirmation { get; set; }
@@ -26,6 +22,11 @@ namespace TravelApp.Models
         public string LastAdress { get; set; }
 
         public string CurrentLocation { get; set; }
+
+        public decimal CurrentLocationLat { get; set; }
+
+        public decimal CurrentLocationLong { get; set; }
+
 
         public string WalletId { get; set; }
         public Wallet Wallet { get; set; }
@@ -36,12 +37,12 @@ namespace TravelApp.Models
         [Required]
         public string Referal { get; set; }
 
+        public double Rating { get; set; }
+
         [Required]
         [Range(0, 5)]
         public int ReferalUsedTimes { get; set; }
 
         public IList<Car> Cars { get; set; }
-
-        //TODO: Rating collection
     }
 }

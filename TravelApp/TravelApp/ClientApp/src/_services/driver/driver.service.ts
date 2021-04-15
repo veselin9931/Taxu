@@ -69,6 +69,27 @@ export class DriverService {
       );
   }
 
+  public locateDriver(driverId: string, lat: number, lng: number): Observable<Driver>{
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Driver>(`${environment.apiUrl}/api/driver/location/${driverId}/${lat}/${lng}`, { headers, responseType: 'json' },)
+    .pipe(
+    );
+  }
+
+  public voteUp(driverId: string): Observable<Driver>{
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Driver>(`${environment.apiUrl}/api/driver/voteUp/${driverId}`, { headers, responseType: 'json' },)
+    .pipe(
+    );
+  }
+
+  public voteDown(driverId: string): Observable<Driver>{
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Driver>(`${environment.apiUrl}/api/driver/voteDown/${driverId}`, { headers, responseType: 'json' },)
+    .pipe(
+    );
+  }
+
   public lowerDriverCommission(driverId: string): Observable<Driver>{
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Driver>(`${environment.apiUrl}/api/driver/${driverId}`, { headers, responseType: 'json' },)

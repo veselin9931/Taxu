@@ -1,21 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>
+      <ion-label>TaxiMi</ion-label>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 <ion-content padding class="background">
-  <div class="row">
+  <div class="row mt-2">
     <div class="col">
-      <div class="row mt-2">
+      <!-- <div class="row mt-2">
         <div class="col-1">
           <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
         </div>
         <div class="col-9">
           <h5 (click)=goBack() class="back">Back</h5>
         </div>
-      </div>
+      </div> -->
 
       <div class="row">
         <div class="col text-center">
-          <ion-text class="centered" color="warning">
+          <ion-text class="centered" color="light">
             <h2 class="text">Become a driver</h2>
             <hr>
-            <h5>Please upload your documents, so we can verify your account</h5>
+            <h5 class="text">Please upload your documents, so we can verify your account</h5>
           </ion-text>
 
           <form [formGroup]="form" novalidate class="col-md-6">
@@ -30,15 +45,11 @@
             </div>
 
             <div class="form-group col mt-5 text-center">
-              <select formControlName="type" class="form-control" id="exampleFormControlSelect1"
-                [ngClass]="{ 'is-invalid': submitted && f.categoryType.errors }">
-                <option value="" disabled selected hidden>Choose car type</option>
+              <select formControlName="type" class="form-control" id="exampleFormControlSelect1">
+                <option value="" disabled selected hidden>Click to choose car type</option>
                 <option value="1">Normal</option>
                 <option value="2">Comfort</option>
               </select>
-              <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
-                <div *ngIf="f.type.errors.required">The field is required!</div>
-              </div>
             </div>
 
             <div class="form-group col mt-5 text-center">
@@ -69,18 +80,35 @@
               </div>
             </div>
 
-            <div class="form-group col mt-5 text-center">
-              <ion-input formControlName="tehnicalReview" type="text" class="form-control"
-                placeholder="Technical Review" [ngClass]="{ 'is-invalid': submitted && f.tehnicalReview.errors }">
-              </ion-input>
-              <div *ngIf="submitted && f.tehnicalReview.errors" class="invalid-feedback">
-                <div *ngIf="f.tehnicalReview.errors.required">The field is required!</div>
+            <div class="row">
+              <div class="col-md-12">
+                <ion-text color="light">
+                  <hr>
+                  <h5 class="text">Click the button below and upload image of technical review, insurance, and at least 3 pictures of the car.</h5>
+                </ion-text>
+                
+                <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
+                <ion-button class="my-label mt-3" (click)="file.click()" expand="full" color="light">Upload</ion-button>
+                <div class="col-md-4 mt-2">
+                  <div class="progress form-group" *ngIf="progress > 0">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
+                    </div>
+                </div>
+  
+                  <span class="upload" *ngIf="progress > 0">
+                    {{progress}}%
+                  </span>
+                  <span class="upload" *ngIf="message">
+                    {{message}}
+                  </span>
+                </div>
               </div>
             </div>
-
+            
             <div class="col-md-12 mt-3">
-              <ion-button type="submit" (click)="onSubmit()" color="warning">Submit</ion-button>
+              <ion-button type="submit" (click)="onSubmit()" color="light">Submit</ion-button>
             </div>
+
           </form>
         </div>
       </div>

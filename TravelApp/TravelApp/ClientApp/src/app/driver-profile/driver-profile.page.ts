@@ -5,11 +5,14 @@ import { Location } from '@angular/common';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { Car } from 'src/_models/car';
 import * as signalR from '@aspnet/signalr';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import { WalletService } from 'src/_services/wallet/wallet.service';
 import { Driver } from 'src/_models';
 import { ImageService } from 'src/_services/image/image.service';
 import { HttpEventType } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
 @Component({
   selector: 'app-driver-profile',
@@ -25,9 +28,11 @@ export class DriverProfilePage implements OnInit {
   walletAmount: number;
   isActiveCar: boolean;
   driver: Driver;
+  rating: number;
   driverCommission: number;
   folderName = "driverFacePic";
   imgPath: string;
+  imgType = "profile";
   public progress: number;
   public message: string;
 
@@ -37,53 +42,52 @@ export class DriverProfilePage implements OnInit {
     private location: Location,
     private alertController: AlertController,
     private walletService: WalletService,
-    private imageService: ImageService) { }
+    private imageService: ImageService,
+    private translate: TranslateService,
+    private popoverController: PopoverController) {
+    this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+  }
 
   ngOnInit() {
+    this.getDriver();
     this.getProfilePicture();
     this.getWalletAmount();
     this.getCars();
-    this.getDriver();
-    // const connection = new signalR.HubConnectionBuilder()
-    //   .configureLogging(signalR.LogLevel.Information)
-    //   .withUrl('https://localhost:44329/orderHub', {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets
-    //   })
-    //   .build();
 
     const connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Information)
-      .withUrl('http://192.168.0.2:3000/orderHub', {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
-      })
-      .build();
+    .configureLogging(signalR.LogLevel.Information)
+    .withUrl(`${environment.signalRUrl}/orderHub`)
+    .build();
+    
     connection.start().then(function () {
       console.log('signalR Connected in profile');
     }).catch(function (err) {
-      return console.log(err.toString());
+      return console.log(err);
     });
 
     connection.on('BroadcastMessage', () => {
+      this.getDriver();
       this.getCars();
       this.getWalletAmount();
       this.getProfilePicture();
     });
   }
 
-  copy(referral: string){
+  copy(referral: string) {
     console.log(referral)
   }
 
-  getProfilePicture(){
+  getProfilePicture() {
     this.imageService.getMyPicture(this.user.id)
-    .subscribe(x => {
-      this.imgPath = x.path;
-    })
+      .subscribe(x => {
+        if (x == null) {
+          return;
+        }
+        this.imgPath = x.path;
+      })
   }
 
-  upload(files){
+  upload(files) {
     if (files.length === 0) {
       return;
     }
@@ -92,17 +96,17 @@ export class DriverProfilePage implements OnInit {
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
 
-    this.imageService.upload(formData, this.folderName, this.user.id)
-    .subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress)
+    this.imageService.upload(formData, this.folderName, this.user.id, this.imgType)
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress)
           this.progress = Math.round(100 * event.loaded / event.total);
         else if (event.type === HttpEventType.Response) {
           this.message = 'Upload success.';
         }
-    })
+      })
   }
 
-  getDriver(){
+  getDriver() {
     this.accountService.getById(this.user.id)
       .subscribe(x => {
         this.driverService.getDriver(x.driverId)
@@ -112,6 +116,7 @@ export class DriverProfilePage implements OnInit {
               return;
             }
             this.driver = d;
+            this.rating = d.rating;
             this.driverCommission = d.comission;
             (Math.round(this.driverCommission * 100) / 100).toFixed(2);
             this.referral = this.driver.referal;
@@ -119,15 +124,15 @@ export class DriverProfilePage implements OnInit {
       })
   }
 
-  getWalletAmount(){
+  getWalletAmount() {
     this.walletService.getMyWallet(this.user.id)
-    .subscribe(x => {
-      if(x.ammount){
-        this.walletAmount = x.ammount;
-      }else{
-        this.walletAmount = 0;
-      }
-    })
+      .subscribe(x => {
+        if (x.ammount) {
+          this.walletAmount = x.ammount;
+        } else {
+          this.walletAmount = 0;
+        }
+      })
   }
 
   getCars() {
@@ -139,20 +144,18 @@ export class DriverProfilePage implements OnInit {
               console.log('No cars');
               return;
             }
-
             this.driverCars = d;
             this.carsCount = this.driverCars.length;
-            console.log(this.driverCars)
           })
       })
   }
 
   openHistory() {
-    this.route.navigate(['tabs/driver-history']);
+    this.route.navigate(['menu/driver-history']);
   }
 
   addNewCar() {
-    this.route.navigate(['tabs/car-register'])
+    this.route.navigate(['menu/car-register'])
   }
 
   active(car: Car) {
@@ -184,6 +187,14 @@ export class DriverProfilePage implements OnInit {
     this.location.back();
   }
 
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
+  }
+
   async presentAlert() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -195,41 +206,45 @@ export class DriverProfilePage implements OnInit {
     await alert.present();
   }
 
-  async presentPrompt() {
-    const popup = await this.alertController.create({
-      header: 'Charge cash',
-      inputs: [
-        {
-          name: 'Amount',
-          placeholder: 'Amount'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-        {
-          text: 'Confirm',
-          handler: data => {
-            if(data.Amount != "" && data.Amount > 0){
-              let amount = +data.Amount;
-              this.walletService.chargeWallet(this.user.id, amount)
-              .subscribe(w => {
-                this.chargeAlertSuccess(amount);
-              })
-              console.log(data)
-            } else {
-              this.chargeAlertFail();
-            }
-          }
-        }
-      ]
-    });
-    
-    await popup.present();
-    
+  chargeCash() {
+    this.route.navigate(['menu/payments'])
   }
+
+  // async presentPrompt() {
+  //   const popup = await this.alertController.create({
+  //     header: 'Charge cash',
+  //     inputs: [
+  //       {
+  //         name: 'Amount',
+  //         placeholder: 'Amount'
+  //       }
+  //     ],
+  //     buttons: [
+  //       {
+  //         text: 'Cancel',
+  //         role: 'cancel',
+  //       },
+  //       {
+  //         text: 'Confirm',
+  //         handler: data => {
+  //           if(data.Amount != "" && data.Amount > 0){
+  //             let amount = +data.Amount;
+  //             this.walletService.chargeWallet(this.user.id, amount)
+  //             .subscribe(w => {
+  //               this.chargeAlertSuccess(amount);
+  //             })
+  //             console.log(data)
+  //           } else {
+  //             this.chargeAlertFail();
+  //           }
+  //         }
+  //       }
+  //     ]
+  //   });
+
+  //   await popup.present();
+
+  // }
 
   async chargeAlertFail() {
     const alert = await this.alertController.create({

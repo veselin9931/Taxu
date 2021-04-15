@@ -2,6 +2,7 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,7 +26,7 @@ namespace TravelApp.Services.ImageService
             this.cloudinaryUtility = cloudinaryUtility;
         }
         
-        public async Task<bool> CreateImageAsync(IFormFileCollection inputModel, string userId, string folderName)
+        public async Task<bool> CreateImageAsync(IFormFileCollection inputModel, string userId, string folderName, string type)
         {
             if (inputModel == null)
             {
@@ -41,7 +42,8 @@ namespace TravelApp.Services.ImageService
                 {
                     CreatedOn = DateTime.UtcNow,
                     userId = userId,
-                    Path = fileUrl
+                    Path = fileUrl,
+                    Type = type,
 
                 };
                 this.repository.Add(img);
@@ -69,8 +71,8 @@ namespace TravelApp.Services.ImageService
             return true;
         }
 
-        public Image GetImageForUserIdAsync(string id)
-        => this.repository.All().OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.userId == id);
+        public Image GetProfileImageForUserIdAsync(string id)
+        => this.repository.All().OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.userId == id && x.Type == "profile");
 
 
         public async Task<Image> GetImagelByIdAsync(string id)
@@ -111,5 +113,17 @@ namespace TravelApp.Services.ImageService
 
             return uploadResult?.SecureUri.AbsoluteUri;
         }
+
+        public async Task<IList<Image>> GetDocumentsImages(string userId)
+         => await this.repository.All()
+            .Where(x => x.userId == userId && x.Type == "personalImg")
+            .OrderByDescending(x => x.CreatedOn)
+            .ToListAsync();
+
+        public async Task<IList<Image>> GetCarImages(string userId)
+         => await this.repository.All()
+            .Where(x => x.userId == userId && x.Type == "carImg")
+            .OrderByDescending(x => x.CreatedOn)
+            .ToListAsync();
     }
 }

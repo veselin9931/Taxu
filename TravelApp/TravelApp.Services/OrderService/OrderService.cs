@@ -12,13 +12,18 @@ using TravelApp.Services.EmailSender;
 
 namespace TravelApp.Services.OrderService
 {
+
     public class OrderService : IOrderService
     {
         private readonly IDeletableEntityRepository<Order> orderRepository;
+        private readonly IDeletableEntityRepository<FavouriteOrder> favOrderRepository;
+        private readonly IRepository<OrderOptions> optRepo;
 
-        public OrderService(IDeletableEntityRepository<Order> orderRepository)
+        public OrderService(IDeletableEntityRepository<Order> orderRepository, IDeletableEntityRepository<FavouriteOrder> favOrderRepository, IRepository<OrderOptions> optRepo)
         {
             this.orderRepository = orderRepository;
+            this.favOrderRepository = favOrderRepository;
+            this.optRepo = optRepo;
         }
 
         public async Task<bool> AcceptOrderAsync(string id, string driverId)
@@ -61,7 +66,7 @@ namespace TravelApp.Services.OrderService
             throw new InvalidOperationException("Completing a order failed!");
         }
 
-        public async Task<string> CreateOrderAsync(CreateOrderInputModel input)
+        public async Task<Order> CreateOrderAsync(CreateOrderInputModel input)
         {
 
             if (input != null)
@@ -71,21 +76,29 @@ namespace TravelApp.Services.OrderService
                     ApplicationUser = input.ApplicationUser,
                     ApplicationUserId = input.ApplicationUserId,
                     Location = input.Location,
+                    LocationLat = input.LocationLat,
+                    LocationLong = input.LocationLong,
                     Destination = input.Destination,
+                    DestinationLat = input.DestinationLat,
+                    DestinationLong = input.DestinationLong,
                     IncreasePrice = input.IncreasePrice,
-                    TotalPrice = 10, //Just temporary
+                    TotalPrice = input.TotalPrice,
                     CreatedOn = DateTime.UtcNow,
-                    Status = "Waiting"
-                    //IsAccepted = false,
-                    //IsCompleted = false,
+                    Status = "Waiting",
+                    ETA = input.ETA,
+                    UserDistance = input.UserDistance,
+                    TripDistance = input.TripDistance,
+                    WithPets = input.WithPets,
+                    WithStroller = input.WithStroller,
+                    Special = input.Special
                 };
 
                 this.orderRepository.Add(order);
 
                 await this.orderRepository.SaveChangesAsync();
 
-                
-                return order.ToString();
+
+                return order;
             }
 
             throw new InvalidOperationException("Creating order failed!");
@@ -94,7 +107,7 @@ namespace TravelApp.Services.OrderService
         public async Task<bool> Delete(string orderId)
         {
            var order =  this.GetOrderById(orderId);
-
+            order.Status = "Completed";
             this.orderRepository.Delete(order);
 
             var result = await this.orderRepository.SaveChangesAsync();
@@ -147,5 +160,87 @@ namespace TravelApp.Services.OrderService
 
             return false;
         }
+
+        public async Task<string> AddToFavouriteOrder(CreateOrderInputModel input)
+        {
+            if (input != null)
+            {
+                var order = new FavouriteOrder()
+                {
+                    ApplicationUser = input.ApplicationUser,
+                    ApplicationUserId = input.ApplicationUserId,
+                    Location = input.Location,
+                    LocationLat = input.LocationLat,
+                    LocationLong = input.LocationLong,
+                    Destination = input.Destination,
+                    DestinationLat = input.DestinationLat,
+                    DestinationLong = input.DestinationLong,
+                    IncreasePrice = input.IncreasePrice,
+                    TotalPrice = input.TotalPrice,
+                    CreatedOn = DateTime.UtcNow
+                };
+
+                this.favOrderRepository.Add(order);
+
+                await this.favOrderRepository.SaveChangesAsync();
+
+
+                return order.ToString();
+            }
+
+            throw new InvalidOperationException("Creating order failed!");
+        }
+
+        public async Task<IList<FavouriteOrder>> GetAllFavouriteOrdersAsync()
+        => await this.favOrderRepository
+            .All()
+            .Where(x => x.IsDeleted == false)
+            .Include(x => x.ApplicationUser)
+            .OrderBy(x => x.CreatedOn)
+            .ToListAsync();
+
+        public async Task<IList<FavouriteOrder>> GetAllFavouriteOrdersForUserAsync(string userId)
+         => await this.favOrderRepository
+            .All()
+            .Where(x => x.IsDeleted == false && x.ApplicationUserId == userId)
+            .Include(x => x.ApplicationUser)
+            .OrderBy(x => x.CreatedOn)
+            .ToListAsync();
+
+        public async Task<bool> DeleteFavourite(string orderId)
+        {
+            var favOrder = this.GetFavouriteOrderById(orderId);
+
+            this.favOrderRepository.Delete(favOrder);
+
+            var result = await this.favOrderRepository.SaveChangesAsync();
+
+            return result > 0;
+        }
+
+        public FavouriteOrder GetFavouriteOrderById(string id)
+        => this.favOrderRepository.All()?.FirstOrDefault(x => x.Id == id);
+
+        public IEnumerable<OrderOptions> GetOrderOptions()
+        {
+            return this.optRepo.All();
+        }
+
+        public Order GetCurrentOrder(string userId)
+            => this.orderRepository.All().FirstOrDefault(x => x.Status == "Accepted" && x.ApplicationUserId == userId || x.Status == "Accepted" && x.AcceptedBy == userId);
+
+        //public async Task<IList<Order>> GetOrdersFor01Ratings()
+        //=> await this.orderRepository.All()?
+        //    .Where(x => x.Status == "Waiting" && x.IsDeleted == false)
+        //    .Include(x => x.ApplicationUser)
+        //    .OrderBy(x => x.CreatedOn)
+        //    .ToListAsync();
+
+        //public async Task<IList<Order>> GetOrdersForMiddleRatings()
+        //=> await this.orderRepository.All()?
+        //    .Where(x => x.Status == "Waiting" && x.IsDeleted == false)
+        //    .Include(x => x.ApplicationUser)
+        //    .OrderBy(x => x.CreatedOn)
+        //    .ToListAsync();
     }
 }

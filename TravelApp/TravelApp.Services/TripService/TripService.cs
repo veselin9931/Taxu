@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,6 +58,9 @@ namespace TravelApp.Services.TripService
 
             throw new InvalidOperationException("Completing a trip failed!");
         }
+
+        public async Task<IList<Trip>> GetAllCompletedTripsAsync()
+        => await this.tripRepository.All()?.Where(x => x.Status == "Completed").ToListAsync();
 
         public Trip GetTripById(string id)
        => this.tripRepository.All()?.FirstOrDefault(x => x.Id == id);

@@ -16,6 +16,6 @@ namespace TravelApp.Infrastructure.ViewModels
 
         public string ReporterId { get; set; }
 
-        public string SuspectedDriverId { get; set; }
+        public string SuspectedUserId { get; set; }
     }
 }

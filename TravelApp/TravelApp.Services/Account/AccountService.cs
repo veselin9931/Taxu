@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -133,6 +134,24 @@ namespace TravelApp.Services.Account
             return false;
         }
 
+        public async Task<bool> UpdateUserLanguageAsync(string id, string lng)
+        {
+            var currentUser = this.GetById(id);
+
+            currentUser.ChoosenLanguage = lng;
+
+            this.repository.Update(currentUser);
+
+            var result = await this.repository.SaveChangesAsync();
+
+            if (result != 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public async Task<bool> AddDriverSettings(string userId, string driverId)
         {
             var user = this.GetById(userId);
@@ -144,6 +163,11 @@ namespace TravelApp.Services.Account
             var result = await this.userRepository.UpdateAsync(user);
 
             return result.Succeeded;
+        }
+
+        public ApplicationUser GetUserByDriverId(string id)
+        {
+            return this.repository.All()?.FirstOrDefault(x => x.DriverId == id);
         }
     }
 }

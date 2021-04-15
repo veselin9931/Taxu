@@ -46,13 +46,24 @@ export class AccountService {
     return this.http.post(`${environment.apiUrl}/api/account`, user);
   }
 
+  //Drivers
   getAll() {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get<User>(`${environment.apiUrl}/api/account`, { headers, responseType: 'json' });
+    return this.http.get<User[]>(`${environment.apiUrl}/api/account`, { headers, responseType: 'json' });
+  }
+
+  //Users
+  getAllUsers() {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get<User[]>(`${environment.apiUrl}/api/account/user/`, { headers, responseType: 'json' });
+  }
+
+  getUserByDriverId(id: string) {
+    return this.http.get<User>(`${environment.apiUrl}/api/account/driver/${id}`);
   }
 
   getById(id: string) {
-    return this.http.get<User>(`${environment.apiUrl}/api/account/get/${id}`);
+    return this.http.get<User>(`${environment.apiUrl}/api/account/user/${id}`);
   }
 
   updateDriving(id, value): Observable<User>{

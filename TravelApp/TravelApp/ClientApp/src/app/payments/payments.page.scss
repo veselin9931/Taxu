@@ -1,0 +1,35 @@
+ion-card {
+        max-height: 200px;
+        overflow: scroll;
+        position: absolute;
+        z-index: 1;
+    }
+    ion-content{
+        //--background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+        --ion-background-color:#eeeeee;
+    }
+    
+    ion-toolbar{
+        --ion-background-color:#eeeeee;
+    }
+    
+    ion-title {
+        text-align: center;
+    }
+    
+    #toolbarIcon{
+        font-size: 1.7em;
+    }
+    #toolbarIcon1{
+        font-size: 3em;
+        //--background: url(../../assets/Daco_4674738.png) 0 0/100% 100% no-repeat;
+    }
+
+    .lighted{
+        color: whitesmoke;
+    }
+    
+    .text{  
+        font-size: 1.3em;
+        font-family: Open Sans Light;
+    }

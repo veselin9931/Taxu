@@ -30,6 +30,34 @@ namespace TravelApp.Controllers
             this.hub = hub;
         }
 
+        [HttpPut("voteUp/{driverId}")]
+        public async Task<IActionResult> VoteUp(string driverId)
+        {
+           var result = await this.driverService.VoteUp(driverId);
+
+            if (result)
+            {   
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.NotFound();
+        }
+
+        [HttpPut("voteDown/{driverId}")]
+        public async Task<IActionResult> VoteDown(string driverId)
+        {
+            var result = await this.driverService.VoteDown(driverId);
+
+            if (result)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.NotFound();
+        }
+
         [HttpGet("referral/{referral}")]
         public async Task<IActionResult> GetDriverByReferral(string referral)
         {
@@ -121,9 +149,24 @@ namespace TravelApp.Controllers
 
             if (driver)
             {
+                await this.hub.Clients.All.BroadcastMessage();
                 return this.Ok(driver);
             }
 
+            return this.NotFound();
+        }
+
+        // PUT api/<DriverController>/5
+        [HttpPut("location/{id}/{lat}/{lng}")]
+        public async Task<IActionResult> ChangeDriverLocation(string id, decimal lat, decimal lng)
+        {
+            var result = await this.driverService.ChangeLocation(id, lat, lng);
+
+            if (result)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok(result);
+            }
             return this.NotFound();
         }
 

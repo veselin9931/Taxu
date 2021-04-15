@@ -45,22 +45,6 @@ namespace TravelApp.Controllers
             //this.emailSender = emailSender;
         }
 
-        //// GET: api/<OrderController>/{userId}
-        //[HttpGet("completed/{userId}")]
-        //public async Task<IActionResult> GetCompleted(string userId)
-        //{
-        //    var order = this.orderService.GetLastCompletedOrderByUserId(userId);
-
-        //    if (order == null)
-        //    {
-        //        return this.NoContent();
-        //    }
-
-        //    return this.Ok(order);
-        //}
-
-        //GET ACCEPTED ORDERS BY USER
-        // GET: api/<OrderController>/{userId}
         [HttpGet("history/{userId}")]
         public async Task<IActionResult> GetAccepted(string userId)
         {
@@ -72,6 +56,19 @@ namespace TravelApp.Controllers
             }
 
             return this.Ok(orders);
+        }
+
+        [HttpGet("chat/{userId}")]
+        public async Task<IActionResult> GetCurrentOrder(string userId)
+        {
+            var id = this.orderService.GetCurrentOrder(userId);
+
+            if (id == null)
+            {
+                return this.NoContent();
+            }
+
+            return this.Ok(id);
         }
 
         // GET: api/<OrderController>
@@ -87,6 +84,34 @@ namespace TravelApp.Controllers
 
             return this.Ok(orders);
         }
+
+        //// GET: api/<OrderController>
+        //[HttpGet("lowest")]
+        //public async Task<IActionResult> GetLowest()
+        //{
+        //    var orders = await this.orderService.GetOrdersForLowestRatings();
+
+        //    if (orders == null)
+        //    {
+        //        return this.NoContent();
+        //    }
+
+        //    return this.Ok(orders);
+        //}
+
+        //// GET: api/<OrderController>
+        //[HttpGet("middle")]
+        //public async Task<IActionResult> GetMiddle()
+        //{
+        //    var orders = await this.orderService.GetOrdersForMiddleRatings();
+
+        //    if (orders == null)
+        //    {
+        //        return this.NoContent();
+        //    }
+
+        //    return this.Ok(orders);
+        //}
 
         //GET ORDER BY ID
         // GET api/<OrderController>/id/{orderId}
@@ -140,7 +165,6 @@ namespace TravelApp.Controllers
             var order = this.orderService.GetOrderByUserId(userId);
             var user = this.accountService.GetById(userId);
 
-
             if (order != null)
             {
                 order.ApplicationUser = user;
@@ -174,6 +198,39 @@ namespace TravelApp.Controllers
                     //await emailSender.SendEmailAsync(new Message(new List<string>() { "veselin@gmail.com" }, "aaaaaadsfaf", "asasassasas", null));
 
                 }
+                catch (Exception e) 
+                {
+                    return this.BadRequest(e.Message);
+                }
+
+            }
+            return this.BadRequest("Failed to create order");
+        }
+
+        // POST api/<OrderController>
+        [HttpPost("favourites")]
+        public async Task<IActionResult> AddToFavourites([FromBody] CreateOrderInputModel input)
+        {
+            if (this.ModelState.IsValid)
+            {
+                try
+                {
+                    var user = this.accountService.GetById(input.ApplicationUserId);
+
+                    input.ApplicationUser = user;
+
+                    var result = await this.orderService.AddToFavouriteOrder(input);
+
+                    if (result != null)
+                    {
+                        await this.hub.Clients.All.BroadcastMessage();
+                        return this.Ok(result);
+                        //return this.Ok(result);
+                    }
+
+                    //await emailSender.SendEmailAsync(new Message(new List<string>() { "veselin@gmail.com" }, "aaaaaadsfaf", "asasassasas", null));
+
+                }
                 catch (Exception e)
                 {
                     return this.BadRequest(e.Message);
@@ -181,6 +238,49 @@ namespace TravelApp.Controllers
 
             }
             return this.BadRequest("Failed to create order");
+        }
+
+        // GET: api/<OrderController>
+        [HttpGet("favourites")]
+        public async Task<IActionResult> GetAllFavourites()
+        {
+            var orders = await this.orderService.GetAllFavouriteOrdersAsync();
+
+            if (orders == null)
+            {
+                return this.NoContent();
+            }
+
+            return this.Ok(orders);
+        }
+
+        // GET: api/<OrderController>
+        [HttpGet("favourites/{userId}")]
+        public async Task<IActionResult> GetMyFavourites(string userId)
+        {
+            var orders = await this.orderService.GetAllFavouriteOrdersForUserAsync(userId);
+
+            if (orders == null)
+            {
+                return this.NoContent();
+            }
+
+            return this.Ok(orders);
+        }
+
+        // DELETE api/<OrderController>/5
+        [HttpDelete("favourites/{id}")]
+        public async Task<IActionResult> DeleteFavourite(string id)
+        {
+            var order = await this.orderService.DeleteFavourite(id);
+
+            if (order)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.NoContent();
         }
 
         // PUT api/<OrderController>/orderId/driverId
@@ -242,6 +342,19 @@ namespace TravelApp.Controllers
             }
 
             return this.NoContent();
+        }
+
+        [HttpGet("options")]
+        public  IActionResult GetOrderOptions()
+        {
+            var options =  this.orderService.GetOrderOptions();
+
+            if (options == null)
+            {
+                return this.NoContent();
+            }
+
+            return this.Ok(options);
         }
 
     }

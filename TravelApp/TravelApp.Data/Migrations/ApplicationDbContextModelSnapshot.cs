@@ -240,6 +240,9 @@ namespace TravelApp.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("ChoosenLanguage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -251,6 +254,9 @@ namespace TravelApp.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DriverId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DriverId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
@@ -322,7 +328,7 @@ namespace TravelApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DriverId");
+                    b.HasIndex("DriverId1");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -376,10 +382,6 @@ namespace TravelApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TehnicalReview")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
@@ -424,6 +426,9 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Comission")
                         .HasColumnType("float");
 
@@ -433,19 +438,17 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("CurrentLocation")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("CurrentLocationLat")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("CurrentLocationLong")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("DocumentConfirmation")
                         .HasColumnType("bit");
-
-                    b.Property<string>("DriverLicense")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IDCardNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -455,6 +458,9 @@ namespace TravelApp.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<string>("Referal")
                         .IsRequired()
@@ -471,6 +477,74 @@ namespace TravelApp.Data.Migrations
                     b.HasIndex("WalletId");
 
                     b.ToTable("Drivers");
+                });
+
+            modelBuilder.Entity("TravelApp.Models.FavouriteOrder", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AcceptedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Destination")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("DestinationLat")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("DestinationLong")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ETA")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("IncreasePrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("LocationLat")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("LocationLong")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TripDistance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("UserDistance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("FavouriteOrders");
                 });
 
             modelBuilder.Entity("TravelApp.Models.Image", b =>
@@ -491,6 +565,10 @@ namespace TravelApp.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -524,6 +602,15 @@ namespace TravelApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("DestinationLat")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("DestinationLong")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ETA")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("IncreasePrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -534,14 +621,35 @@ namespace TravelApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("LocationLat")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("LocationLong")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Special")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TripDistance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("UserDistance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("WithPets")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("WithStroller")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -550,7 +658,29 @@ namespace TravelApp.Data.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("TravelApp.Models.Rating", b =>
+            modelBuilder.Entity("TravelApp.Models.OrderOptions", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("IncreaseAmmoun")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderOptions");
+                });
+
+            modelBuilder.Entity("TravelApp.Models.Profit", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -561,24 +691,18 @@ namespace TravelApp.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DriverId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Value")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DriverId");
-
-                    b.ToTable("Ratings");
+                    b.ToTable("Profits");
                 });
 
             modelBuilder.Entity("TravelApp.Models.Report", b =>
@@ -608,8 +732,8 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("ReporterId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("SuspectedDriverId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("SuspectedUserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -621,8 +745,6 @@ namespace TravelApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ReporterId");
-
-                    b.HasIndex("SuspectedDriverId");
 
                     b.HasIndex("TypeId");
 
@@ -811,7 +933,7 @@ namespace TravelApp.Data.Migrations
                 {
                     b.HasOne("TravelApp.Models.Driver", "Driver")
                         .WithMany()
-                        .HasForeignKey("DriverId");
+                        .HasForeignKey("DriverId1");
 
                     b.Navigation("Driver");
                 });
@@ -834,6 +956,15 @@ namespace TravelApp.Data.Migrations
                     b.Navigation("Wallet");
                 });
 
+            modelBuilder.Entity("TravelApp.Models.FavouriteOrder", b =>
+                {
+                    b.HasOne("TravelApp.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("TravelApp.Models.Order", b =>
                 {
                     b.HasOne("TravelApp.Models.ApplicationUser", "ApplicationUser")
@@ -843,26 +974,11 @@ namespace TravelApp.Data.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("TravelApp.Models.Rating", b =>
-                {
-                    b.HasOne("TravelApp.Models.Driver", "Driver")
-                        .WithMany()
-                        .HasForeignKey("DriverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Driver");
-                });
-
             modelBuilder.Entity("TravelApp.Models.Report", b =>
                 {
                     b.HasOne("TravelApp.Models.ApplicationUser", "Reporter")
                         .WithMany()
                         .HasForeignKey("ReporterId");
-
-                    b.HasOne("TravelApp.Models.Driver", "SuspectedDriver")
-                        .WithMany()
-                        .HasForeignKey("SuspectedDriverId");
 
                     b.HasOne("TravelApp.Models.ReportType", "Type")
                         .WithMany()
@@ -871,8 +987,6 @@ namespace TravelApp.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Reporter");
-
-                    b.Navigation("SuspectedDriver");
 
                     b.Navigation("Type");
                 });

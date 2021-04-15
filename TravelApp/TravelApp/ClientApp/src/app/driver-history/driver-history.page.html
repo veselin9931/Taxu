@@ -1,28 +1,27 @@
-<ion-content padding class="background">
-  <div class="row">
-    <div class="col">
-      <div class="row mt-2">
-        <div class="col-1">
-          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
-        </div>
-        <div class="col-9">
-          <h5 (click)=goBack() class="back">Back</h5>
-        </div>
-      </div>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
 
-      
+    <ion-title>
+        <ion-label>TaxiMi</ion-label>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding class="background">
+  <div class="row mt-2">
+    <div class="col">
       <div class="row">
         <div class="col-md-12 text-center">
-          <ion-text class="centered" color="warning">
+          <ion-text class="centered" color="light">
             <h2 class="text">My history</h2>
             <hr>
           </ion-text>
-
-          <!-- <div *ngIf="this.orders.length == 0">
-            <ion-text class="centered" color="warning">
-              <h2 class="text">We are sorry, currently there are no orders!</h2>
-            </ion-text>
-          </div> -->
         </div>
 
         <div class="col-md-10">
@@ -30,17 +29,17 @@
 
             <a class="text list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Order details</h5>
+                <h5 class="text mb-1">Order details</h5>
                 <small>{{order.createdOn |  date:'MM/dd/yyyy h:mm'}}</small>
               </div>
-              <p class="mb-1">Passenger: {{order.applicationUser.firstName}} {{order.applicationUser.lastName}}</p>
-              <p class="mb-1">Phone number: {{order.applicationUser.phone}}</p>
-              <p class="mb-1">Location: {{order.location}}</p>
-              <p class="mb-1">Destination: {{order.destination}}</p>
+              <p class="mb-1 text">Passenger: {{order.applicationUser.firstName}} {{order.applicationUser.lastName}}</p>
+              <p class="mb-1 text">Phone number: {{order.applicationUser.phone}}</p>
+              <p class="mb-1 text">Location: {{order.location}}</p>
+              <p class="mb-1 text">Destination: {{order.destination}}</p>
 
               <div class="row">
                 <div class="col-md-12">
-                  <small>Profit: {{order.totalPrice}}$</small>
+                  <small class="text">Profit: {{order.totalPrice}}$</small>
                 </div>
               </div>
             </a>

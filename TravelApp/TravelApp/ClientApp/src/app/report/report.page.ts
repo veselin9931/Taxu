@@ -7,7 +7,9 @@ import { ReportService } from 'src/_services/report/report.service';
 import { Location } from '@angular/common';
 import { Driver, Order } from 'src/_models';
 import { OrderService } from 'src/_services/order/order.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
 @Component({
   selector: 'app-report',
@@ -37,7 +39,12 @@ export class ReportPage implements OnInit {
     private accountService: AccountService,
     private location: Location,
     private orderService: OrderService,
-    private alertController: AlertController) { this.userId = this.accountService.userValue.id; }
+    private alertController: AlertController,
+    private translate: TranslateService,
+    private popoverController: PopoverController) { 
+      this.userId = this.accountService.userValue.id; 
+      this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+    }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -66,6 +73,8 @@ export class ReportPage implements OnInit {
               .subscribe(user => {
                 this.userFirstName = user.firstName;
                 this.userLastName = user.lastName;
+                this.suspectedUserId = this.lastOrder.applicationUserId;
+                this.reporterId = this.userId;
               })
             
           });
@@ -113,6 +122,7 @@ export class ReportPage implements OnInit {
             this.clearForm();
           })
       } else {
+        this.form.value.reporterId = this.userId;
         this.reportService.createReport(this.form.value)
           .subscribe(report => {
             console.log("report created:");
@@ -127,6 +137,14 @@ export class ReportPage implements OnInit {
     }
   }
 
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
+  }
+
   async reportCompleted() {
     const popup = await this.alertController.create({
       header: 'Report',
@@ -136,10 +154,10 @@ export class ReportPage implements OnInit {
           text: 'Confirm',
           handler: data => {
             if(this.isDriver == true){
-              this.route.navigate(['tabs/driving']);
+              this.route.navigate(['menu/driving']);
 
             } else {
-              this.route.navigate(['tabs/travelling']);
+              this.route.navigate(['menu/travelling']);
             }
           }
         }

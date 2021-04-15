@@ -28,7 +28,9 @@
                           {
                               new RolesSeeder(),
                               new CarTypesSeeder(),
-                              new ReportTypeSeeder()
+                              new ReportTypeSeeder(),
+                              new OrderOptionsSeeder(),
+                              new ProfitRecordSeeder(),
                           };
 
             foreach (var seeder in seeders)

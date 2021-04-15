@@ -15,6 +15,12 @@ using TravelApp.Services.OrderService;
 using TravelApp.Infrastructure;
 using TravelApp.Data.Seeding;
 using CloudinaryDotNet;
+using Microsoft.AspNetCore.Http.Features;
+using System;
+using System.Net.WebSockets;
+using System.Threading.Tasks;
+using System.Threading;
+using Microsoft.AspNetCore.Http;
 
 namespace TravelApp
 {
@@ -30,9 +36,16 @@ namespace TravelApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection services)
         {
+            services.Configure<FormOptions>(o => {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("MSSQL")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(cfg =>
             {
@@ -71,13 +84,19 @@ namespace TravelApp
 
             });
 
-            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
-                                                             .AllowAnyMethod()
-                                                              .AllowAnyHeader()));
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed((host) => true));
+            });
 
-            //services.AddCors();
+            services.AddMvc();
 
-            services.AddSignalR();
+            services.AddSignalR()
+                    .AddAzureSignalR();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -86,7 +105,7 @@ namespace TravelApp
             services.RegisterRepositoryServices();
 
             services.RegisterCloudinary(Configuration);
-
+        
             services.RegisterCustomServices();
 
 
@@ -115,31 +134,86 @@ namespace TravelApp
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors("AllowAll");
+            app.UseCors("CorsPolicy");
 
-            //app.UseCors("corsAllowAllPolicy");
+            //app.Use(async (context, next) =>
+            //{
+            //    if (context.Request.Path == "/wss")
+            //    {
+            //        if (context.WebSockets.IsWebSocketRequest)
+            //        {
+            //            using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
+            //            {
+            //                await Echo(context, webSocket);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            context.Response.StatusCode = 400;
+            //        }
+            //    }
+            //    if (context.Request.Path == "/ws")
+            //    {
+            //        if (context.WebSockets.IsWebSocketRequest)
+            //        {
+            //            using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
+            //            {
+            //                await Echo(context, webSocket);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            context.Response.StatusCode = 400;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        await next();
+            //    }
+            //
+            //});
 
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            //app.UseCors(x => x
-              // .AllowAnyMethod()
-               //.AllowAnyHeader()
-               //.SetIsOriginAllowed(origin => true)
-               //.AllowCredentials());
+            app.UseCors(x => x
+               .AllowAnyMethod()
+              .AllowAnyHeader()
+               .SetIsOriginAllowed(origin => true)
+               .AllowCredentials());
 
 
             app.UseAuthorization();
 
+            app.UseAzureSignalR(routes =>
+            {
+                routes.MapHub<OrderHub>("/orderHub");
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<OrderHub>("/orderHub");
+                //endpoints.MapHub<OrderHub>("/orderHub");
             });
-        }      
+        }
+
+        private async Task Echo(HttpContext context, WebSocket webSocket)
+        {
+            var buffer = new byte[1024 * 4];
+            WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            while (!result.CloseStatus.HasValue)
+            {
+                await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);
+
+                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            }
+            await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+        }
     }
+
+   
 
 
 }

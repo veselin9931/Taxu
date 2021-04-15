@@ -21,9 +21,11 @@ namespace TravelApp.Data
 
         public DbSet<Driver> Drivers { get; set; }
 
+        public DbSet<Profit> Profits { get; set; }
+
         public DbSet<Order> Orders { get; set; }
 
-        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<FavouriteOrder> FavouriteOrders { get; set; }
 
         public DbSet<Reservation> Reservations { get; set; }
 
@@ -36,6 +38,8 @@ namespace TravelApp.Data
         public DbSet<Report> Reports { get; set; }
 
         public DbSet<ReportType> ReportTypes { get; set; }
+
+        public DbSet<OrderOptions> OrderOptions { get; set; }
 
 
 

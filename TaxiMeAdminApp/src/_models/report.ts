@@ -4,5 +4,5 @@ export class Report {
     imgUrl: string;
     typId: BigInteger;
     reporterId: string;
-    suspectedId: string;
+    suspectedUserId: string;
 }

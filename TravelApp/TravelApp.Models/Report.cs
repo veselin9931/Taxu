@@ -29,7 +29,6 @@ namespace TravelApp.Models
         public string ReporterId { get; set; }
         public ApplicationUser Reporter { get; set; }
 
-        public string SuspectedDriverId { get; set; }
-        public Driver SuspectedDriver { get; set; }
+        public string SuspectedUserId { get; set; }
     }
 }

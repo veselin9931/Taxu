@@ -1,20 +1,32 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, delay, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Order } from 'src/_models';
+import { FavouriteOrder, Order } from 'src/_models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
+  public selectedFavourite: FavouriteOrder;
+
   public order: Order;
   public orders = [];
+  public currentOrderId : string;
+
   public driverId: string;
   public completedOrder = false;
-  public alertForcomplete: boolean;
-  private readonly getOrdersAction$ = new Subject();
+  public alertForcomplete = false;
+
+  public chosenLocation: string;
+  public chosenDestination: string;
+
+  public userLocationLat: number;
+  public userLocationLong: number;
+
+  public userDestinationLat: number;
+  public userDestinationLong: number;
 
 
   constructor(private http: HttpClient) { }
@@ -26,6 +38,38 @@ export class OrderService {
       .pipe(
         catchError(this.handleError)
       );
+  }
+
+  addToFavourites(data){
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(`${environment.apiUrl}/api/order/favourites`, data, { headers, responseType: 'text' })
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getMyFavourites(userId: string): Observable<FavouriteOrder[]> {
+    return this.http.get<FavouriteOrder[]>(`${environment.apiUrl}/api/order/favourites/${userId}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  deleteFavouriteOrder(orderId: string): Observable<FavouriteOrder> {
+    return this.http.delete<FavouriteOrder>(`${environment.apiUrl}/api/order/favourites/${orderId}`)
+      .pipe(
+        tap(data => console.log('deleted favourite order: ', JSON.stringify(data))),
+      );
+  }
+
+  public getDirections(locationLat, locationLng, destinationLat, destinationLng){
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(`https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${locationLat},${locationLng}&destinations=${destinationLat}%2C${destinationLng}%7C&key=AIzaSyAEvlXdM4joG4bNVT5l-tJSk9lUSGhxMNw`, { headers, responseType: 'text' })
+    .pipe(
+      catchError(this.handleError)
+    );
   }
 
   getOrderById(id: string): Observable<Order> {
@@ -52,9 +96,46 @@ export class OrderService {
       );
   }
 
+  getOrderForChat(userId: string): Observable<Order> {
+    return this.http.get<Order>(`${environment.apiUrl}/api/order/chat/${userId}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   getAllOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
       .pipe(
+        catchError(this.handleError)
+      )
+  }
+
+  get01Orders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+      .pipe(
+        delay(40000),
+        catchError(this.handleError)
+      )
+  }
+
+  get12Orders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+      .pipe(
+        delay(30000),
+        catchError(this.handleError)
+      )
+  }
+  get23Orders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+      .pipe(
+        delay(20000),
+        catchError(this.handleError)
+      )
+  }
+  get4Orders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+      .pipe(
+        delay(1000),
         catchError(this.handleError)
       )
   }
@@ -93,6 +174,8 @@ export class OrderService {
         tap(data => console.log('deleted order: ', JSON.stringify(data))),
       );
   }
+
+  
 
   handleError(error) {
     let errorMessage = '';

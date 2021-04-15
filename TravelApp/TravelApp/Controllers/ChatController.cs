@@ -37,11 +37,12 @@ namespace TravelApp.Controllers
         }
 
         // POST api/<ChatController>
-        [Route("send")] //path looks like this: /api/chat/send
+        [Route("send/{groupName}")] //path looks like this: /api/chat/send
         [HttpPost]
-        public async Task<IActionResult> SendRequest([FromBody] Message msg)
+        public async Task<IActionResult> SendRequest([FromBody] Message msg, string groupName)
         {
-            await this.hubContext.Clients.All.MessageReceived(msg.User, msg.Text);
+            //await this.hubContext.Clients.All.MessageReceived(msg.User, msg.Text);
+            await this.hubContext.Clients.GroupExcept(groupName, "123213123").MessageReceived(msg.User, msg.Text);
             return Ok();
         }
 

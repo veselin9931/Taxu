@@ -30,6 +30,9 @@ namespace TravelApp.Models
 
         public string CurrentLocation { get; set; }
 
+        public string ChoosenLanguage { get; set; }
+
+
         public string LastLocation { get; set; }
 
         public Driver Driver { get; set; }

@@ -41,6 +41,19 @@ namespace TravelApp.Controllers
             this.userService = userService;
             this.hub = hub;
         }
+        // GET: api/<AccountController>
+        [HttpGet("user/{userId}")]
+        public async Task<ApplicationUser> GetUser(string userId)
+        {
+            return this.userService.GetById(userId);
+        }
+
+        // GET: api/<AccountController>
+        [HttpGet("driver/{driverId}")]
+        public async Task<ApplicationUser> GetUserByDriverId(string driverId)
+        {
+            return this.userService.GetUserByDriverId(driverId);
+        }
 
         // GET: api/<AccountController>
         [HttpGet("{driverId}")]
@@ -49,6 +62,12 @@ namespace TravelApp.Controllers
             return this.userService.GetById(driverId);
         }
 
+        // GET: api/<AccountController>
+        [HttpGet("user/")]
+        public IEnumerable<ApplicationUser> GetAllUsers()
+        {
+            return this.userService.GetAll().Where(a => a.IsDeleted == false).AsEnumerable();
+        }
         // GET: api/<AccountController>
         [HttpGet]
         public IEnumerable<ApplicationUser> GetAllDrivers()
@@ -73,6 +92,8 @@ namespace TravelApp.Controllers
                 Phone = model.Phone,
                 UserName = model.Username,
                 IsDrivingNow = model.IsDrivingNow,
+                ChoosenLanguage = "en"
+                
             };
 
             var result = await userService.Create(user, model.Password);
@@ -120,7 +141,9 @@ namespace TravelApp.Controllers
                 Phone = user.Phone,
                 Username = user.UserName,
                 Token = tokenString,
-                IsDrivingNow = user.IsDrivingNow
+                IsDrivingNow = user.IsDrivingNow,
+                DriverId = user.DriverId,
+                ChoosenLanguage = user.ChoosenLanguage
             });
         }
 
@@ -129,6 +152,20 @@ namespace TravelApp.Controllers
         public async Task<IActionResult> Put(string id, bool value)
         {
             var result = await this.userService.UpdateUserAsync(id, value);
+
+            if (result)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
+        [HttpPut("{id}/language/{value}")]
+        public async Task<IActionResult> UpdateUserLanguage(string id, string value)
+        {
+            var result = await this.userService.UpdateUserLanguageAsync(id, value);
 
             if (result)
             {

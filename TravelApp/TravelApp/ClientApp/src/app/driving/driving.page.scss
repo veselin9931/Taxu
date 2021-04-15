@@ -1,5 +1,28 @@
-ion-content.background{
-    --background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+ion-content{
+    //--background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+    --ion-background-color:#353535;
+}
+
+ion-toolbar{
+    --ion-background-color:#eeeeee;
+}
+
+    #map {
+    height: 100%;
+    width: 100%;
+    }
+    
+
+ion-title {
+    text-align: center;
+}
+
+#toolbarIcon{
+    font-size: 1.7em;
+}
+
+.fonted{
+    font-family: Open Sans Light;
 }
 
 .centered{
@@ -8,54 +31,46 @@ ion-content.background{
 
 .text{  
     //font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-family: cursive;
+    font-family: Open Sans Light;
 }
 
 hr{
-    background:rgb(255, 174, 0);
+    background:#eeeeee;
     width: 70% !important;
-}
-
-
-.backIcon {
-    color: rgb(255, 174, 0);
-    font-size: 150%;
-}
-
-.back {
-    color: rgb(255, 174, 0);
 }
 
 //chat
 
-.chat{
-    background-color: wheat;
-}
+.blink_me {
+    animation: blinker 1s linear infinite;
+  }
+  
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+
 
 .msg-box {
     width: 100%;
-    height: calc(100% - 140px); 
-    margin-top: 20px;
+    height: 140px;
     padding: 10px 30px;
     font-size: 14px;
-
+    font-family: Open Sans Light;
     overflow: auto;
 
     ul {
+        margin: -5px;
+
         list-style: none;
-        hr{
-            background:rgb(255, 174, 0);
-            width: 100% !important;
-        }
         .ex-msg {
-            margin-bottom: 10px;
-            text-align: left;
-            
+            text-align: right;
         }
 
         .in-msg {
-            margin-bottom: 10px;
-            text-align: right;
+            text-align: left;
+            margin-left: -60px;
         }
     }
     

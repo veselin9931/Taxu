@@ -2,7 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as signalR from '@aspnet/signalr';
+import { PopoverController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { first } from 'rxjs/operators';
+import { LanguagePopoverPage } from 'src/app/language-popover/language-popover.page';
+import { environment } from 'src/environments/environment';
 import { AccountService, AlertService } from 'src/_services';
 
 @Component({
@@ -19,8 +24,11 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder,
     private alertService: AlertService,
     private accountService: AccountService,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private translate: TranslateService,
+    private popoverController: PopoverController) {
     this.isLoggedIn = localStorage.getItem("user");
+    this.translate.setDefaultLang('en');
   }
 
   ngOnInit() {
@@ -28,6 +36,25 @@ export class LoginPage implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     })
+
+    if(this.isLoggedIn){
+      this.route.navigate(['menu/travelling'])
+    }
+
+    const connection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl(`${environment.signalRUrl}/orderHub`)
+      .build();
+
+    connection.start().then(function () {
+      console.log('signalR Connected in driving');
+    }).catch(function (err) {
+      return console.log(err.toString());
+    });
+
+    connection.on('BroadcastMessage', () => {
+      this.onSubmit();
+    });
   }
 
   get f() { return this.form.controls; }
@@ -55,9 +82,7 @@ export class LoginPage implements OnInit {
             .subscribe(data => {
               console.log('success')
             });
-          window.location.reload();
-          this.route.navigate(['tabs/travelling']);
-
+          this.route.navigate(['menu/travelling']);
         },
         error => {
           this.alertService.error(error);
@@ -67,15 +92,18 @@ export class LoginPage implements OnInit {
   }
 
   signUp() {
-    this.route.navigate(['tabs/account/register']);
+    this.route.navigate(['menu/account/register']);
   }
 
-  // ionViewDidLeave() {
-  //   if (this.isLoggedIn == null) {
-  //     window.location.reload();
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
+  }
 
-  //   }
-  // }
+
 
   clearForm() {
     this.form.reset({

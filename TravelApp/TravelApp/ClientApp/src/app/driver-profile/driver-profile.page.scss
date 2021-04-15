@@ -1,21 +1,39 @@
-ion-content.background{
-    --background: url(../../assets/TaxiMi-homeback1.jpg) 0 0/100% 100% no-repeat;
+ion-content{
+    //--background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+    --ion-background-color:#353535;
 }
+
+ion-toolbar{
+    --ion-background-color:#eeeeee;
+}
+
+ion-title {
+    text-align: center;
+}
+
+#toolbarIcon{
+    font-size: 1.7em;
+}
+
 
 .centered{
     text-align: center;
 }
 
-.text{  
-    //font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-family: cursive;
+.text {
+    font-family: Open Sans Light;
 }
 
+
 hr{
-    background:rgb(255, 174, 0);
+    background:#eeeeee;
     width: 70% !important;
 }
 
+
+.my-label{
+    font-family: Open Sans Light;
+}
 
 .backIcon {
     color: rgb(255, 174, 0);
@@ -25,31 +43,33 @@ hr{
 .back {
     color: rgb(255, 174, 0);
 }
+ .car {
+     color: green;
+ }
 
 .card-transparent {
     margin: 0 auto;
 
     .header-transparent {
-        height: 200px;
+        height: 150px;
 
         .avatar {
             width: 160px;
-            height: 160px;
+            height: 120px;
             position: relative;
             margin: 0 auto;
 
             img {
+                height: 130px;
                 display: block;
                 border-radius: 50%;
                 position: absolute;
                 bottom: calc(-1*(80px + 4px));
-                border: 8px solid rgb(255, 174, 0);
                 background-color: #fff;
             }
         }
     }
 }
-
 .my-custom-class {
     --background: #e5e5e5;
   }

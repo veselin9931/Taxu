@@ -22,10 +22,12 @@ export class DriverService {
       this.user = this.userSubject.asObservable();
     }
 
+  getById(id): Observable<Driver> {
+    return this.http.get<Driver>(`${environment.apiUrl}/api/driver/${id}`);
+  }
 
-getAll() {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get<Driver>(`${environment.apiUrl}/api/driver`, { headers, responseType: 'json'  });
+  getAll(): Observable<Driver[]> {
+    return this.http.get<Driver[]>(`${environment.apiUrl}/api/driver`);
   }
 
   confirmDriver(id) {

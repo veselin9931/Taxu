@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Content Include="..\TravelApp\appsettings.json" Link="appsettings.json" />
+    <Content Include="..\TravelApp\ClientApp\src\assets\Daco_4674738.png" Link="Daco_4674738.png" />
   </ItemGroup>
 
   <ItemGroup>

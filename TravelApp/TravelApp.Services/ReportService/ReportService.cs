@@ -32,7 +32,7 @@ namespace TravelApp.Services.ReportService
                 Description = model.Description,
                 Title = model.Title,
                 ReporterId = model.ReporterId,
-                SuspectedDriverId = model.SuspectedDriverId,
+                SuspectedUserId = model.SuspectedUserId,
                 ImgUrl = model.ImgUrl,
                 TypeId = model.TypeId
             };

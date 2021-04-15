@@ -8,10 +8,14 @@ import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
+import { UserDetailsComponent } from 'app/pages/user-details/user-details.component';
+import { CarDetailsComponent } from 'app/pages/car-details/car-details.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'user',           component: UserComponent },
+    { path: `user-details/:id`,component: UserDetailsComponent },
+    { path: `car-details/:id`,component: CarDetailsComponent },
     { path: 'table',          component: TableComponent },
     { path: 'reports',     component: ReportComponent },
     { path: 'icons',          component: IconsComponent },

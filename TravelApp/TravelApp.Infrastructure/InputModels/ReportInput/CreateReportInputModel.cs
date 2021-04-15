@@ -18,7 +18,7 @@ namespace TravelApp.Infrastructure.InputModels.ReportInput
         public int TypeId { get; set; }
 
         public string ReporterId { get; set; }
-
-        public string SuspectedDriverId { get; set; }
+        
+        public string SuspectedUserId { get; set; }
     }
 }

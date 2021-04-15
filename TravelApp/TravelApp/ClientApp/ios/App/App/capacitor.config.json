@@ -1,0 +1,20 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "TaxiMi",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "android": {
+    "allowMixedContent": true
+  },
+  "cordova": {},
+  "server": {
+    "url": "http://localhost:8100",
+    "cleartext": true
+  }
+}

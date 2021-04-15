@@ -9,22 +9,25 @@
       <th scope="col">Title</th>
       <th scope="col">Problem description</th>
       <th scope="col">Reported by</th>
-      <th scope="col">Driver id</th>
+      <th scope="col">Suspected</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let report of reports" >
       <td>
-        {{repot.Title}}
+        {{report.title}}
       </td>
       <td>
-        {{repot.Description}}
+        {{report.description}}
       </td>
       <td>
         {{report.reporterId}}
       </td>
-      <td>
-        {{report.suspectedId}}
+      <td *ngIf="report.suspectedUserId == null">
+        -
+      </td>
+      <td *ngIf="report.suspectedUserId != null">
+        {{report.suspectedUserId}}
       </td>
     </tr>
   </tbody>

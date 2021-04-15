@@ -1,31 +1,5 @@
 <div class="row">
-  <div class="col-lg-3 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-body ">
-        <div class="row">
-          <div class="col-5 col-md-4">
-            <div class="icon-big text-center icon-warning">
-              <i class="nc-icon nc-calendar-60 text-warning"></i>
-            </div>
-          </div>
-          <div class="col-7 col-md-8">
-            <div class="numbers">
-              <p class="card-category">
-                Daily profit</p>
-              <p class="card-title">150 BTC
-                <p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer ">
-        <hr>
-        <div class="stats">
-          <i class="fa fa-refresh"></i> Update Now
-        </div>
-      </div>
-    </div>
-  </div>
+  
   <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-body ">
@@ -38,7 +12,7 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">Profit</p>
-              <p class="card-title"> 1,345 BTC
+              <p class="card-title"> {{totalProfit}}$
                 <p>
             </div>
           </div>
@@ -47,7 +21,7 @@
       <div class="card-footer ">
         <hr>
         <div class="stats">
-          <i class="fa fa-calendar-o"></i> Last mounth
+          <i class="fa fa-money"></i> Total profit
         </div>
       </div>
     </div>
@@ -64,7 +38,7 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">Travels</p>
-              <p class="card-title">23
+              <p class="card-title">{{totalTrips}}
                 <p>
             </div>
           </div>
@@ -73,7 +47,7 @@
       <div class="card-footer ">
         <hr>
         <div class="stats">
-          <i class="fa fa-calendar-o"></i> Last mounth
+          <i class="fa fa-road"></i> Total trips
         </div>
       </div>
     </div>
@@ -90,7 +64,7 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">Users</p>
-              <p class="card-title">225
+              <p class="card-title">{{totalUsers}}
                 <p>
             </div>
           </div>
@@ -99,7 +73,34 @@
       <div class="card-footer ">
         <hr>
         <div class="stats">
-          <i class="fa fa-user"></i> Active now
+          <i class="fa fa-user"></i> Total users
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-world-2 text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">
+                Drivers</p>
+              <p class="card-title">{{totalDrivers}}
+                <p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+        <hr>
+        <div class="stats">
+          <i class="fa fa-taxi"></i> Total drivers
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-   production: true,
+   production: false,
    //apiUrl: 'https://localhost:44357'
   //apiUrl: 'http://192.168.0.3:3000'
   //apiUrl: 'http://192.168.0.7:3000'
@@ -11,6 +11,7 @@ export const environment = {
  apiUrl: 'https://taksito.azurewebsites.net',
  signalRUrl: 'https://taksito.azurewebsites.net',
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file
