@@ -308,7 +308,9 @@ export class DrivingPage implements OnInit {
             }
             setTimeout(() => {
               var orderDiv = document.getElementById("orderDiv");
-              orderDiv.style.display = 'block'
+              if(orderDiv != null){
+                orderDiv.style.display = 'block'
+              }
             }, 40000);
             this.orders = data;
           })
@@ -319,7 +321,9 @@ export class DrivingPage implements OnInit {
             }
             setTimeout(() => {
               var orderDiv = document.getElementById("orderDiv");
-              orderDiv.style.display = 'block'
+              if(orderDiv != null){
+                orderDiv.style.display = 'block'
+              }
             }, 30000);
             this.orders = data;
           })
@@ -330,7 +334,9 @@ export class DrivingPage implements OnInit {
             }
             setTimeout(() => {
               var orderDiv = document.getElementById("orderDiv");
-              orderDiv.style.display = 'block'
+              if(orderDiv != null){
+                orderDiv.style.display = 'block'
+              }
             }, 20000);
             this.orders = data;
           })
@@ -341,7 +347,9 @@ export class DrivingPage implements OnInit {
             }
             setTimeout(() => {
               var orderDiv = document.getElementById("orderDiv");
-              orderDiv.style.display = 'block'
+              if(orderDiv != null){
+                orderDiv.style.display = 'block'
+              }
             }, 10000);
             this.orders = data;
           })
@@ -352,7 +360,9 @@ export class DrivingPage implements OnInit {
             }
             setTimeout(() => {
               var orderDiv = document.getElementById("orderDiv");
-              orderDiv.style.display = 'block'
+              if(orderDiv != null){
+                orderDiv.style.display = 'block'
+              }
             }, 1000);
             this.orders = data;
           })
@@ -405,7 +415,6 @@ export class DrivingPage implements OnInit {
                       this.loadMap(this.mapRef);
                     })
                   this.chatService.stop();
-                  this.chatService.start();
                   // if(this.accountService.userValue.reloaded == false){
                   //   this.accountService.userValue.reloaded = true;
                   //   this.accountService.updateReload(this.applicationUserId, true)

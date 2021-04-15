@@ -122,8 +122,7 @@ export class TravellingPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.loadMap(this.mapRef);
-    //this.completedOrderAlert();
+    this.checkorder();
     if (this.orderService.selectedFavourite) {
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
       this.form.get('locationLat').setValue(this.orderService.selectedFavourite.locationLat);
@@ -148,10 +147,7 @@ export class TravellingPage implements OnInit {
       this.form.get('location').setValue(this.order.location);
       this.form.get('destination').setValue(this.order.destination);
     }
-
-    if (this.order.status == 'Accepted' && this.order != null) {
-      this.loadMap(this.mapRef);
-    }
+    
   }
 
 
@@ -264,8 +260,7 @@ export class TravellingPage implements OnInit {
                 this.orderService.getMyOrder(userId)
                   .subscribe(x => {
                     //The hack for chat service - make new group before each order.
-                    this.chatService.stop();
-                    this.chatService.start();
+                    
                   })
               })
           }
@@ -351,6 +346,7 @@ export class TravellingPage implements OnInit {
           this.orderStatus = data.status;
           
           this.loadMap(this.mapRef);
+          this.chatService.stop();
           if (data.acceptedBy != null) {
             this.getUserById(data.acceptedBy);
             this.getAcceptedTrip(data.acceptedBy);
@@ -421,11 +417,11 @@ export class TravellingPage implements OnInit {
 
   //MAPS FUNCTIONALLITY
   async loadMap(mapRef: ElementRef) {
-    const coordinates = await Geolocation.getCurrentPosition();
-    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+    // const coordinates = await Geolocation.getCurrentPosition();
+    // const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
 
-    this.orderService.userDestinationLat = myLatLng.lat;
-    this.orderService.userDestinationLong = myLatLng.lng;
+    // this.orderService.userDestinationLat = myLatLng.lat;
+    // this.orderService.userDestinationLong = myLatLng.lng;
     this.accountService.getById(this.order.acceptedBy)
       .subscribe(driver => {
         this.driverService.getDriver(driver.driverId)
@@ -438,7 +434,11 @@ export class TravellingPage implements OnInit {
               disableDefaultUI: true,
             };
 
-            this.map = new google.maps.Map(mapRef.nativeElement, options);
+            if(mapRef != null){
+              this.map = new google.maps.Map(mapRef.nativeElement, options);
+
+            }
+
 
             var icon = {
               url: 'https://images.vexels.com/media/users/3/154573/isolated/preview/bd08e000a449288c914d851cb9dae110-hatchback-car-top-view-silhouette-by-vexels.png',
