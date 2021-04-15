@@ -18,6 +18,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
 import { CarDetailsComponent } from './pages/car-details/car-details.component';
+import { PaymentsComponent } from './pages/payments/payments.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { CarDetailsComponent } from './pages/car-details/car-details.component';
     AdminLayoutComponent,
     LoginComponent,
     UserDetailsComponent,
-    CarDetailsComponent
+    CarDetailsComponent,
+    PaymentsComponent
   ],
   imports: [ 
     BrowserModule /* or CommonModule */, 

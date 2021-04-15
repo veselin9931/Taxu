@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AccountService } from '_services';
 import { ReportService } from '_services/report.service';
 
@@ -8,18 +9,23 @@ import { ReportService } from '_services/report.service';
     templateUrl: 'report.component.html'
 })
 
-export class ReportComponent{
+export class ReportComponent {
+    isLoggedIn;
     reports = [];
     users = [];
     firstName: string;
     lastName: string;
     constructor(private repotService: ReportService,
-        private accountService: AccountService) {}
+        private route: Router) { }
 
-    ngOnInit(){
+    ngOnInit() {
+        this.isLoggedIn = localStorage.getItem("user");
+        if (!this.isLoggedIn) {
+            this.route.navigate(['/login'])
+        }
         this.repotService.getAll().subscribe(data => {
-           this.reports = data
+            this.reports = data
             console.log(data)
-          });
+        });
     }
 }

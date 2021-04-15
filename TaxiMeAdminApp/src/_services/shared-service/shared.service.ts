@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
-import { Profit, Trip, Image } from '_models';
+import { Profit, Trip, Image, Wallet } from '_models';
 import { Car } from '_models/car';
 
 @Injectable({
@@ -32,6 +32,12 @@ export class SharedService {
 
   public getCarsImages(userId: string): Observable<Image[]>{
     return this.http.get<Image[]>(`${environment.apiUrl}/api/image/cars/${userId}`)
+      .pipe(
+      );
+  }
+
+  public getMyWallet(userId: string): Observable<Wallet> {
+    return this.http.get<Wallet>(`${environment.apiUrl}/api/wallet/${userId}`)
       .pipe(
       );
   }
