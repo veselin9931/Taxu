@@ -364,7 +364,7 @@ export class DrivingPage implements OnInit {
 
   //Accept order and manage the data inside
   acceptOrder(order) {
-
+    
     //Get user's id to get drivers data
     this.accountService.getById(this.applicationUserId)
       .subscribe(user => {
@@ -402,9 +402,15 @@ export class DrivingPage implements OnInit {
                   //Creating trip to manage data
                   this.tripService.createTrip(data)
                     .subscribe(() => {
+                      this.loadMap(this.mapRef);
                     })
                   this.chatService.stop();
                   this.chatService.start();
+                  // if(this.accountService.userValue.reloaded == false){
+                  //   this.accountService.userValue.reloaded = true;
+                  //   this.accountService.updateReload(this.applicationUserId, true)
+                  //   .subscribe(() => location.reload())
+                  // }
                   this.route.navigate(['menu/driving']);
                 }
               })
@@ -499,9 +505,10 @@ export class DrivingPage implements OnInit {
                 this.tripPriceForDriver = (order.totalPrice * (s.comission / 100));
               })
           })
+          
 
         })
-        
+
         this.route.navigate(['menu/driving']);
       });
   }
@@ -515,7 +522,11 @@ export class DrivingPage implements OnInit {
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
           .subscribe(() => {
-
+            if(this.accountService.userValue.reloaded == true){
+              this.accountService.userValue.reloaded = false;
+              this.accountService.updateReload(this.applicationUserId, false)
+              .subscribe(() => location.reload())
+            }
           });
       })
 

@@ -9,5 +9,6 @@
     isDriver: boolean;
     driverId: string;
     phone: number;
+    reloaded: boolean;
     choosenLanguage: string;
 }

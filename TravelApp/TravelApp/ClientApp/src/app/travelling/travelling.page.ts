@@ -77,7 +77,6 @@ export class TravellingPage implements OnInit {
   }
 
   ngOnInit() {
-
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
 
@@ -118,13 +117,12 @@ export class TravellingPage implements OnInit {
       if (this.orderStatus == "Completed") {
         this.completedOrderAlert();
       }
-
-
     });
 
   }
 
   ionViewDidEnter() {
+    this.loadMap(this.mapRef);
     //this.completedOrderAlert();
     if (this.orderService.selectedFavourite) {
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
@@ -151,7 +149,7 @@ export class TravellingPage implements OnInit {
       this.form.get('destination').setValue(this.order.destination);
     }
 
-    if (this.orderStatus == 'Accepted' && this.order != null) {
+    if (this.order.status == 'Accepted' && this.order != null) {
       this.loadMap(this.mapRef);
     }
   }
@@ -346,11 +344,13 @@ export class TravellingPage implements OnInit {
           //Reset the data
           this.isCompleted = false;
           this.isSubmitted = false;
-
           this.clearForm();
-
+          
           this.orderService.order = data;
-
+          this.order = data;
+          this.orderStatus = data.status;
+          
+          this.loadMap(this.mapRef);
           if (data.acceptedBy != null) {
             this.getUserById(data.acceptedBy);
             this.getAcceptedTrip(data.acceptedBy);
@@ -426,34 +426,36 @@ export class TravellingPage implements OnInit {
 
     this.orderService.userDestinationLat = myLatLng.lat;
     this.orderService.userDestinationLong = myLatLng.lng;
+    this.accountService.getById(this.order.acceptedBy)
+      .subscribe(driver => {
+        this.driverService.getDriver(driver.driverId)
+          .subscribe(data => {
+            const driverLatLng = { lat: data.currentLocationLat, lng: data.currentLocationLong };
 
-    this.driverService.getDriver(this.driverId)
-      .subscribe(data => {
-        const driverLatLng = { lat: data.currentLocationLat, lng: data.currentLocationLong };
+            const options: google.maps.MapOptions = {
+              center: new google.maps.LatLng(driverLatLng.lat, driverLatLng.lng),
+              zoom: 15,
+              disableDefaultUI: true,
+            };
 
-        const options: google.maps.MapOptions = {
-          center: new google.maps.LatLng(driverLatLng.lat, driverLatLng.lng),
-          zoom: 15,
-          disableDefaultUI: true,
-        };
+            this.map = new google.maps.Map(mapRef.nativeElement, options);
 
-        this.map = new google.maps.Map(mapRef.nativeElement, options);
+            var icon = {
+              url: 'https://images.vexels.com/media/users/3/154573/isolated/preview/bd08e000a449288c914d851cb9dae110-hatchback-car-top-view-silhouette-by-vexels.png',
+              scaledSize: new window.google.maps.Size(25, 25),
+              anchor: { x: 10, y: 10 }
+            };
 
-        var icon = {
-          url: 'https://images.vexels.com/media/users/3/154573/isolated/preview/bd08e000a449288c914d851cb9dae110-hatchback-car-top-view-silhouette-by-vexels.png',
-          scaledSize: new window.google.maps.Size(25, 25),
-          anchor: { x: 10, y: 10 }
-        };
-
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(driverLatLng),
-          icon: icon,
-          map: this.map
-        });
+            var marker = new google.maps.Marker({
+              position: new google.maps.LatLng(driverLatLng),
+              icon: icon,
+              map: this.map
+            });
+          })
       })
-  }  
+  }
 
-  async openLanguagePopover(ev){
+  async openLanguagePopover(ev) {
     const popover = await this.popoverController.create({
       component: LanguagePopoverPage,
       event: ev

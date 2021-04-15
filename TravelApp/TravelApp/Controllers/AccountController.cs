@@ -177,6 +177,20 @@ namespace TravelApp.Controllers
             return this.BadRequest();
         }
 
+        [HttpPut("{id}/reload/{value}")]
+        public async Task<IActionResult> UpdateUserReload(string id, bool value)
+        {
+            var result = await this.userService.UpdateUserReloadAsync(id, value);
+
+            if (result)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
         // DELETE api/<AccountController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
