@@ -92,9 +92,9 @@ export class DrivingPage implements OnInit {
 
 
   ngOnInit(): void {
-    const source = interval(3000);
-    this.subscription = source.subscribe(val => this.postLocation());
-    
+    // const source = interval(5000);
+    // this.subscription = source.subscribe(val => this.postLocation());
+
     this.categoryType = this.driverService.categoryType;
     this.orderDiv = document.getElementById("orderDiv")
     this.chatService.retrieveMappedObject()
@@ -709,6 +709,7 @@ export class DrivingPage implements OnInit {
             this.driverService.getDriver(driver.driverId)
               .subscribe(s => {
                 this.tripPriceForDriver = (order.totalPrice * (s.comission / 100));
+                
               })
           })
         })

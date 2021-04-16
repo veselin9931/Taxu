@@ -347,7 +347,7 @@ export class TravellingPage implements OnInit {
           this.orderStatus = data.status;
           
           this.loadMap(this.mapRef);
-          this.chatService.stop();
+          // this.chatService.stop();
           if (data.acceptedBy != null) {
             this.getUserById(data.acceptedBy);
             this.getAcceptedTrip(data.acceptedBy);
