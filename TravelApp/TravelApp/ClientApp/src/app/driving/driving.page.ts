@@ -7,7 +7,6 @@ import { OrderService } from 'src/_services/order/order.service';
 import { SignalRService } from 'src/_services/signal-r.service';
 import { ProfitService } from 'src/_services/profit/profit.service';
 import { TripService } from 'src/_services/trip/trip.service';
-import { Location } from '@angular/common';
 import { WalletService } from 'src/_services/wallet/wallet.service';
 import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { DriverService } from 'src/_services/driver/driver.service';
@@ -16,7 +15,7 @@ import { environment } from 'src/environments/environment';
 import { Plugins } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
-import { ReturnStatement } from '@angular/compiler';
+import { interval, Subscription } from 'rxjs';
 
 const { Geolocation } = Plugins;
 declare var google: any;
@@ -46,6 +45,8 @@ export class DrivingPage implements OnInit {
   orders: Order[] = [];
 
   totalPrice: number;
+
+  subscription: Subscription;
 
   //Map
   map: any;
@@ -89,7 +90,11 @@ export class DrivingPage implements OnInit {
     }
   }
 
+
   ngOnInit(): void {
+    const source = interval(3000);
+    this.subscription = source.subscribe(val => this.postLocation());
+    
     this.categoryType = this.driverService.categoryType;
     this.orderDiv = document.getElementById("orderDiv")
     this.chatService.retrieveMappedObject()
@@ -116,7 +121,7 @@ export class DrivingPage implements OnInit {
       this.orderDiv = document.getElementById("orderDiv");
       this.getData();
       this.getAcceptedTrip();
-      //this.postLocation();
+
     });
   }
 
@@ -127,7 +132,6 @@ export class DrivingPage implements OnInit {
     this.getData();
     if (this.isDrivingNow == true) {
       //have to optimise this
-      //this.postLocation();
       this.getAcceptedTrip()
     }
 
@@ -314,7 +318,7 @@ export class DrivingPage implements OnInit {
           this.getAllOrders(x.rating);
         }
       })
-      
+
   }
 
   //Get all orders based by rating
@@ -590,7 +594,7 @@ export class DrivingPage implements OnInit {
                         this.orderService.acceptOrder(order.id, applicationUserId)
                           .subscribe(() => {
                             this.orderService.updateOrderEta(orderId, this.eta)
-                            .subscribe((x) => console.log(x))
+                              .subscribe((x) => console.log(x))
                           })
 
                         let orderId = order.id;
@@ -601,7 +605,7 @@ export class DrivingPage implements OnInit {
                           .subscribe(() => {
                             this.loadMap(this.mapRef);
                           })
-                        
+
 
                         this.chatService.stop();
                         this.route.navigate(['menu/driving']);
