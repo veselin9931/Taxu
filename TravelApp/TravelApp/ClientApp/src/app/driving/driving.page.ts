@@ -301,6 +301,9 @@ export class DrivingPage implements OnInit {
   }
 
   getData() {
+    this.orders.forEach(order => {
+      this.calculateEta(order);
+    });
     this.driverService.getDriver(this.accountService.userValue.driverId)
       .subscribe(x => {
         if (this.driverService.categoryType == 'Normal') {
@@ -310,10 +313,8 @@ export class DrivingPage implements OnInit {
         } else {
           this.getAllOrders(x.rating);
         }
-        this.orders.forEach(order => {
-          this.calculateEta(order);
-        });
       })
+      
   }
 
   //Get all orders based by rating
@@ -522,12 +523,12 @@ export class DrivingPage implements OnInit {
           }
         }, 1000);
         this.orders = data;
-        
+
       })
     }
   }
 
-  async calculateEta(order){
+  async calculateEta(order) {
     const directionsService = new google.maps.DirectionsService();
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
@@ -544,7 +545,7 @@ export class DrivingPage implements OnInit {
         travelMode: google.maps.TravelMode.DRIVING,
       },
       (response, status) => {
-        if (status === "OK"){
+        if (status === "OK") {
           this.distanceToUser = response.routes[0].legs[0].distance.value / 1000;
           this.distance = this.distanceToUser.toFixed(2);
           this.eta = response.routes[0].legs[0].duration.text;
@@ -588,7 +589,8 @@ export class DrivingPage implements OnInit {
                         //Accepting order
                         this.orderService.acceptOrder(order.id, applicationUserId)
                           .subscribe(() => {
-
+                            this.orderService.updateOrderEta(orderId, this.eta)
+                            .subscribe((x) => console.log(x))
                           })
 
                         let orderId = order.id;
@@ -599,10 +601,7 @@ export class DrivingPage implements OnInit {
                           .subscribe(() => {
                             this.loadMap(this.mapRef);
                           })
-
-                          //update ETA in order
-                          this.orderService.updateOrderEta(orderId, this.eta)
-                          .subscribe((x)=> console.log(x))
+                        
 
                         this.chatService.stop();
                         this.route.navigate(['menu/driving']);
@@ -722,10 +721,10 @@ export class DrivingPage implements OnInit {
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
           .subscribe(() => {
-              this.accountService.userValue.reloaded = false;
-              this.accountService.updateReload(this.applicationUserId, false)
-                .subscribe(() => location.reload())
-            
+            this.accountService.userValue.reloaded = false;
+            this.accountService.updateReload(this.applicationUserId, false)
+              .subscribe(() => location.reload())
+
           });
       })
 

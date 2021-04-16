@@ -65,15 +65,15 @@
               <p class="mb-1 fonted">{{'Destination' | translate}}: {{oldOrder.destination}}</p>
               <div class="row">
                 <div class="col">
-                    <small>{{'Additional options' | translate}}:</small>
+                    <small *ngIf="oldOrder.withPets == true || oldOrder.withStroller == true || oldOrder.special == true" >{{'Additional options' | translate}}:</small>
                   <ul>
                     <li *ngIf="oldOrder.withPets == true">{{'With pets' | translate}}</li>
                     <li *ngIf="oldOrder.withStroller == true">{{'With stroller' | translate}}</li>
                     <li *ngIf="oldOrder.special == true">{{'Special needs' | translate}}</li>
                   </ul>
 
-                  <small>Desired car type:</small>
-                  <ul>
+                  <small *ngIf="oldOrder.carType" >Desired car type:</small>
+                  <ul *ngIf="oldOrder.carType">
                     <li>{{oldOrder.carType}}</li>
                   </ul>
                 
