@@ -99,6 +99,7 @@ export class TravellingPage implements OnInit {
       withPets: false,
       withStroller: false,
       special: false,
+      carType: ''
     })
 
     const connection = new signalR.HubConnectionBuilder()
@@ -234,7 +235,7 @@ export class TravellingPage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
-          this.estimatedDuration = response.routes[0].legs[0].duration.text;
+          // this.estimatedDuration = response.routes[0].legs[0].duration.text;
           this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
           this.orderTotalPrice = this.orderTotalDestination * 0.90;
 

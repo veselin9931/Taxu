@@ -22,7 +22,23 @@
     <div class="col">
       <div class="row">
         <div class="col-md-12 text-center">
-          <ion-text  class="centered" color="light">
+          <ion-text *ngIf="categoryType == 'Closest'" class="centered" color="light">
+            <h4 class="fonted">Category: Closest</h4>
+            <hr>
+          </ion-text>
+          <ion-text *ngIf="categoryType == 'Normal'" class="centered" color="light">
+            <h4 class="fonted">Category: Normal</h4>
+            <hr>
+          </ion-text>
+          <ion-text *ngIf="categoryType == 'Comfort'" class="centered" color="light">
+            <h4 class="fonted">Category: Comfort</h4>
+            <hr>
+          </ion-text>
+          <ion-text *ngIf="categoryType == 'All' || categoryType == null" class="centered" color="light">
+            <h4 class="fonted">Category: All</h4>
+            <hr>
+          </ion-text>
+          <ion-text class="centered" color="light">
             <h2 class="fonted blink_me">{{'Waiting for orders' | translate}}</h2>
             <hr>
           </ion-text>
@@ -56,9 +72,14 @@
                     <li *ngIf="oldOrder.special == true">{{'Special needs' | translate}}</li>
                   </ul>
 
+                  <small>Desired car type:</small>
+                  <ul>
+                    <li>{{oldOrder.carType}}</li>
+                  </ul>
                 
                   <div class="d-flex w-100 justify-content-between">
                     <small>{{'Trip distance' | translate}}: {{oldOrder.tripDistance}} km</small>
+                    <small>Distance to user: {{distance}}km</small>
                     <ion-button class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">{{'Accept' | translate}}</ion-button>
                   </div>
                 </div>
@@ -86,7 +107,7 @@
   <ion-toolbar class="text-center">
     <ion-text class="textTravel">
       <ion-text class="centered" color="dark">
-        <p class="text">{{'Pick up address' | translate}} (1.5km from you)</p>
+        <p class="text">{{'Pick up address' | translate}} ({{distance}}km)</p>
         <p class="text">{{this.location}}</p>
       </ion-text>
       <!-- <ion-label>{{this.location}}</ion-label> -->
@@ -104,7 +125,7 @@
           color="primary" [disabled]="tripStatus=='!Processing'">{{'Start trip' | translate}}</ion-button>
           <!-- <ion-title>Drop off address<ion-label>({{tripDistance}}km total.)</ion-label></ion-title> -->
       <ion-text class="centered" color="dark">
-        <p class="text">{{'Drop off address' | translate}} ({{tripDistance}}km total.)</p>
+        <p class="text">{{'Drop off address' | translate}} ({{tripDistance}}km)</p>
         <p class="text">{{this.destination}}</p>
 
     </ion-text>

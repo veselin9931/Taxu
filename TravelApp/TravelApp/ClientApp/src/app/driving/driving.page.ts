@@ -11,12 +11,12 @@ import { Location } from '@angular/common';
 import { WalletService } from 'src/_services/wallet/wallet.service';
 import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { DriverService } from 'src/_services/driver/driver.service';
-import { Observable } from 'rxjs';
 import { ChatService } from 'src/_services/chat/chat.service';
 import { environment } from 'src/environments/environment';
 import { Plugins } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
+import { ReturnStatement } from '@angular/compiler';
 
 const { Geolocation } = Plugins;
 declare var google: any;
@@ -28,6 +28,7 @@ declare var google: any;
 })
 export class DrivingPage implements OnInit {
   public currentTrip: Trip;
+  categoryType;
 
   tripStatus: string;
 
@@ -59,6 +60,10 @@ export class DrivingPage implements OnInit {
   userDestinationLat: any;
   userDestinationLng: any;
 
+  distanceToUser: number;
+  distance: string;
+  eta: string;
+
   messages = this.chatService.messages;
   chatStyle = "";
 
@@ -70,7 +75,6 @@ export class DrivingPage implements OnInit {
     private accountService: AccountService,
     private tripService: TripService,
     public signalRService: SignalRService,
-    private locationPage: Location,
     private walletService: WalletService,
     private alertController: AlertController,
     private driverService: DriverService,
@@ -86,6 +90,7 @@ export class DrivingPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.categoryType = this.driverService.categoryType;
     this.orderDiv = document.getElementById("orderDiv")
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
@@ -116,6 +121,8 @@ export class DrivingPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.categoryType = this.driverService.categoryType;
+
     this.orderDiv = document.getElementById("orderDiv");
     this.getData();
     if (this.isDrivingNow == true) {
@@ -141,8 +148,6 @@ export class DrivingPage implements OnInit {
             console.log(x);
           })
       })
-
-
   }
 
   //MAP FUNCTIONALLITY
@@ -159,8 +164,6 @@ export class DrivingPage implements OnInit {
     };
 
     this.map = new google.maps.Map(mapRef.nativeElement, options);
-
-
     let geocoder = new google.maps.Geocoder;
 
     google.maps.event.addListener(this.map, 'idle', async () => {
@@ -298,133 +301,318 @@ export class DrivingPage implements OnInit {
   }
 
   getData() {
-
     this.driverService.getDriver(this.accountService.userValue.driverId)
       .subscribe(x => {
-        if (x.rating < 1) {
-          this.orderService.getAllOrders().subscribe(data => {
-            if (data == null) {
-              return;
-            }
-            setTimeout(() => {
-              var orderDiv = document.getElementById("orderDiv");
-              if(orderDiv != null){
-                orderDiv.style.display = 'block'
-              }
-            }, 40000);
-            this.orders = data;
-          })
-        } else if (x.rating >= 1 && x.rating < 2) {
-          this.orderService.getAllOrders().subscribe(data => {
-            if (data == null) {
-              return;
-            }
-            setTimeout(() => {
-              var orderDiv = document.getElementById("orderDiv");
-              if(orderDiv != null){
-                orderDiv.style.display = 'block'
-              }
-            }, 30000);
-            this.orders = data;
-          })
-        } else if (x.rating >= 2 && x.rating < 3) {
-          this.orderService.getAllOrders().subscribe(data => {
-            if (data == null) {
-              return;
-            }
-            setTimeout(() => {
-              var orderDiv = document.getElementById("orderDiv");
-              if(orderDiv != null){
-                orderDiv.style.display = 'block'
-              }
-            }, 20000);
-            this.orders = data;
-          })
-        } else if (x.rating >= 3 && x.rating < 4) {
-          this.orderService.getAllOrders().subscribe(data => {
-            if (data == null) {
-              return;
-            }
-            setTimeout(() => {
-              var orderDiv = document.getElementById("orderDiv");
-              if(orderDiv != null){
-                orderDiv.style.display = 'block'
-              }
-            }, 10000);
-            this.orders = data;
-          })
-        } else if (x.rating >= 4) {
-          this.orderService.getAllOrders().subscribe(data => {
-            if (data == null) {
-              return;
-            }
-            setTimeout(() => {
-              var orderDiv = document.getElementById("orderDiv");
-              if(orderDiv != null){
-                orderDiv.style.display = 'block'
-              }
-            }, 1000);
-            this.orders = data;
-          })
+        if (this.driverService.categoryType == 'Normal') {
+          this.getNormalOrders(x.rating);
+        } else if (this.driverService.categoryType == 'Comfort') {
+          this.getComfortOrders(x.rating);
+        } else {
+          this.getAllOrders(x.rating);
         }
+        this.orders.forEach(order => {
+          this.calculateEta(order);
+        });
       })
+  }
 
+  //Get all orders based by rating
+  getAllOrders(rating) {
+    if (rating < 1) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 40000);
+        this.orders = data;
+      })
+    } else if (rating >= 1 && rating < 2) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 30000);
+        this.orders = data;
+      })
+    } else if (rating >= 2 && rating < 3) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 20000);
+        this.orders = data;
+      })
+    } else if (rating >= 3 && rating < 4) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 10000);
+        this.orders = data;
+      })
+    } else if (rating >= 4) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 1000);
+        this.orders = data;
+      })
+    }
+  }
 
+  //Get normal orders based by rating
+  getNormalOrders(rating) {
+    if (rating < 1) {
+      this.orderService.getNormalOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 40000);
+        this.orders = data;
+      })
+    } else if (rating >= 1 && rating < 2) {
+      this.orderService.getNormalOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 30000);
+        this.orders = data;
+      })
+    } else if (rating >= 2 && rating < 3) {
+      this.orderService.getNormalOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 20000);
+        this.orders = data;
+      })
+    } else if (rating >= 3 && rating < 4) {
+      this.orderService.getNormalOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 10000);
+        this.orders = data;
+      })
+    } else if (rating >= 4) {
+      this.orderService.getNormalOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 1000);
+        this.orders = data;
+      })
+    }
+  }
+
+  //Get comfort orders based by rating
+  getComfortOrders(rating) {
+    if (rating < 1) {
+      this.orderService.getComfortOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 40000);
+        this.orders = data;
+      })
+    } else if (rating >= 1 && rating < 2) {
+      this.orderService.getComfortOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 30000);
+        this.orders = data;
+      })
+    } else if (rating >= 2 && rating < 3) {
+      this.orderService.getComfortOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 20000);
+        this.orders = data;
+      })
+    } else if (rating >= 3 && rating < 4) {
+      this.orderService.getComfortOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 10000);
+        this.orders = data;
+      })
+    } else if (rating >= 4) {
+      this.orderService.getComfortOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        setTimeout(() => {
+          var orderDiv = document.getElementById("orderDiv");
+          if (orderDiv != null) {
+            orderDiv.style.display = 'block'
+          }
+        }, 1000);
+        this.orders = data;
+        
+      })
+    }
+  }
+
+  async calculateEta(order){
+    const directionsService = new google.maps.DirectionsService();
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+    directionsService.route(
+      {
+        origin: {
+          lat: myLatLng.lat,
+          lng: myLatLng.lng
+        },
+        destination: {
+          lat: order.locationLat,
+          lng: order.locationLong,
+        },
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (response, status) => {
+        if (status === "OK"){
+          this.distanceToUser = response.routes[0].legs[0].distance.value / 1000;
+          this.distance = this.distanceToUser.toFixed(2);
+          this.eta = response.routes[0].legs[0].duration.text;
+        }
+      }
+    );
   }
 
   //Accept order and manage the data inside
   acceptOrder(order) {
-    
-    //Get user's id to get drivers data
-    this.accountService.getById(this.applicationUserId)
-      .subscribe(user => {
+    this.driverService.getDriverActiveCar(this.accountService.userValue.driverId)
+      .subscribe(car => {
+        if (car.typeId == 1 && order.carType == 'Comfort') {
+          return this.WrongCarAlert();
+        } else {
+          //Get user's id to get drivers data
+          this.accountService.getById(this.applicationUserId)
+            .subscribe(user => {
 
-        //Get driver's data
-        this.driverService.getDriver(user.driverId)
-          .subscribe(driver => {
-            this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
+              //Get driver's data
+              this.driverService.getDriver(user.driverId)
+                .subscribe(driver => {
+                  this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
 
-            //Get drivers wallet
-            this.walletService.getMyWallet(this.applicationUserId)
-              .subscribe(wallet => {
-                if (wallet.ammount < this.tripPriceForDriver) {
-                  this.NotEnoughCashAlert();
-                  return;
-                } else {
-                  let applicationUserId = this.accountService.userValue.id;
-                  this.accountService.userValue.isDrivingNow = true;
-                  this.accountService.updateDriving(applicationUserId, true)
-                    .subscribe(() => {
-                    });
+                  //Get drivers wallet
+                  this.walletService.getMyWallet(this.applicationUserId)
+                    .subscribe(wallet => {
+                      if (wallet.ammount < this.tripPriceForDriver) {
+                        this.NotEnoughCashAlert();
+                        return;
+                      } else {
+                        let applicationUserId = this.accountService.userValue.id;
+                        this.accountService.userValue.isDrivingNow = true;
+                        this.accountService.updateDriving(applicationUserId, true)
+                          .subscribe(() => {
+                          });
 
-                  this.isDrivingNow = this.accountService.userValue.isDrivingNow;
-                  order.acceptedBy = applicationUserId;
+                        this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+                        order.acceptedBy = applicationUserId;
 
-                  //Accepting order
-                  this.orderService.acceptOrder(order.id, applicationUserId)
-                    .subscribe(() => {
+                        //Accepting order
+                        this.orderService.acceptOrder(order.id, applicationUserId)
+                          .subscribe(() => {
 
+                          })
+
+                        let orderId = order.id;
+                        let data = { orderId, applicationUserId, order };
+
+                        //Creating trip to manage data
+                        this.tripService.createTrip(data)
+                          .subscribe(() => {
+                            this.loadMap(this.mapRef);
+                          })
+
+                          //update ETA in order
+                          this.orderService.updateOrderEta(orderId, this.eta)
+                          .subscribe((x)=> console.log(x))
+
+                        this.chatService.stop();
+                        this.route.navigate(['menu/driving']);
+                      }
                     })
-
-                  let orderId = order.id;
-                  let data = { orderId, applicationUserId, order };
-
-                  //Creating trip to manage data
-                  this.tripService.createTrip(data)
-                    .subscribe(() => {
-                      this.loadMap(this.mapRef);
-                    })
-                  this.chatService.stop();
-                  // if(this.accountService.userValue.reloaded == false){
-                  //   this.accountService.userValue.reloaded = true;
-                  //   this.accountService.updateReload(this.applicationUserId, true)
-                  //   .subscribe(() => location.reload())
-                  // }
-                  this.route.navigate(['menu/driving']);
-                }
-              })
-          })
+                })
+            })
+        }
       })
+
   }
 
   //Navigate to user and discharge his wallet.
@@ -500,24 +688,27 @@ export class DrivingPage implements OnInit {
         this.orderService.getOrderById(x.orderId).subscribe(order => {
           x.order = order;
           this.order = x.order;
+
           this.location = order.location;
           this.destination = order.destination;
+
           this.totalPrice = order.totalPrice;
+
           this.userLatitude = order.locationLat;
           this.userLongitude = order.locationLong;
+
           this.userDestinationLat = order.destinationLat;
           this.userDestinationLng = order.destinationLong;
+
           this.tripDistance = order.tripDistance;
+          this.calculateEta(order);
           this.accountService.getById(this.driverId).subscribe(driver => {
             this.driverService.getDriver(driver.driverId)
               .subscribe(s => {
                 this.tripPriceForDriver = (order.totalPrice * (s.comission / 100));
               })
           })
-          
-
         })
-
         this.route.navigate(['menu/driving']);
       });
   }
@@ -531,11 +722,10 @@ export class DrivingPage implements OnInit {
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
           .subscribe(() => {
-            if(this.accountService.userValue.reloaded == true){
               this.accountService.userValue.reloaded = false;
               this.accountService.updateReload(this.applicationUserId, false)
-              .subscribe(() => location.reload())
-            }
+                .subscribe(() => location.reload())
+            
           });
       })
 
@@ -565,6 +755,17 @@ export class DrivingPage implements OnInit {
       cssClass: 'my-custom-class',
       header: 'Balance',
       message: 'Your wallet balance is not enough for this order!',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+  async WrongCarAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Order information',
+      message: 'Your car is of type "Normal" but the order desired car type is "Comfort"! ',
       buttons: ['OK']
     });
 

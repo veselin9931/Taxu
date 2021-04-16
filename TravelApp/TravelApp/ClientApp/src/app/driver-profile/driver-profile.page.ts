@@ -53,7 +53,6 @@ export class DriverProfilePage implements OnInit {
     this.getProfilePicture();
     this.getWalletAmount();
     this.getCars();
-
     const connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Information)
     .withUrl(`${environment.signalRUrl}/orderHub`)

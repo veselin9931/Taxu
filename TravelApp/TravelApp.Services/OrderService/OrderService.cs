@@ -33,7 +33,6 @@ namespace TravelApp.Services.OrderService
             if (currentOrder != null)
             {
                 currentOrder.Status = "Accepted";
-                //currentOrder.IsAccepted = true;
                 currentOrder.AcceptedBy = driverId;
 
                 this.orderRepository.Update(currentOrder);
@@ -86,6 +85,7 @@ namespace TravelApp.Services.OrderService
                     CreatedOn = DateTime.UtcNow,
                     Status = "Waiting",
                     ETA = input.ETA,
+                    CarType = input.CarType,
                     UserDistance = input.UserDistance,
                     TripDistance = input.TripDistance,
                     WithPets = input.WithPets,
@@ -228,6 +228,41 @@ namespace TravelApp.Services.OrderService
 
         public Order GetCurrentOrder(string userId)
             => this.orderRepository.All().FirstOrDefault(x => x.Status == "Accepted" && x.ApplicationUserId == userId || x.Status == "Accepted" && x.AcceptedBy == userId);
+
+        public async Task<IList<Order>> GetNormalOrdersAsync()
+        => await this.orderRepository
+            .All()
+            .Where(x => x.Status == "Waiting" && x.IsDeleted == false && x.CarType == "Normal")
+            .Include(x => x.ApplicationUser)
+            .OrderBy(x => x.CreatedOn)
+            .ToListAsync();
+
+        public async Task<IList<Order>> GetComfortOrdersAsync()
+         => await this.orderRepository
+            .All()
+            .Where(x => x.Status == "Waiting" && x.IsDeleted == false && x.CarType == "Comfort")
+            .Include(x => x.ApplicationUser)
+            .OrderBy(x => x.CreatedOn)
+            .ToListAsync();
+
+        public async Task<bool> UpdateEtaAsync(string id, string value)
+        {
+            var currentOrder = this.GetOrderById(id);
+
+            if (currentOrder != null)
+            {
+                currentOrder.ETA = value;
+
+                this.orderRepository.Update(currentOrder);
+
+                await this.orderRepository.SaveChangesAsync();
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Updating a order failed!");
+
+        }
 
         //public async Task<IList<Order>> GetOrdersFor01Ratings()
         //=> await this.orderRepository.All()?

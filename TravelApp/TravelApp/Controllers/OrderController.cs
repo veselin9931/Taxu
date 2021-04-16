@@ -32,11 +32,11 @@ namespace TravelApp.Controllers
 
         //private readonly IEmailSender emailSender;
 
-        public OrderController(IOrderService orderService, 
+        public OrderController(IOrderService orderService,
             IDeletableEntityRepository<Order> orderRepository,
             IHubContext<OrderHub, IHubClient> hub,
             IAccountService accountService)
-            //IEmailSender emailSender)
+        //IEmailSender emailSender)
         {
             this.orderService = orderService;
             this.orderRepository = orderRepository;
@@ -49,7 +49,7 @@ namespace TravelApp.Controllers
         public async Task<IActionResult> GetAccepted(string userId)
         {
             var orders = await this.orderService.GetAllAcceptedOrdersAsync(userId);
-            
+
             if (orders == null)
             {
                 return this.NoContent();
@@ -76,6 +76,34 @@ namespace TravelApp.Controllers
         public async Task<IActionResult> Get()
         {
             var orders = await this.orderService.GetAllOrdersAsync();
+
+            if (orders == null)
+            {
+                return this.NoContent();
+            }
+
+            return this.Ok(orders);
+        }
+
+        // GET: api/<OrderController>/normal
+        [HttpGet("normal")]
+        public async Task<IActionResult> GetNormal()
+        {
+            var orders = await this.orderService.GetNormalOrdersAsync();
+
+            if (orders == null)
+            {
+                return this.NoContent();
+            }
+
+            return this.Ok(orders);
+        }
+
+        // GET: api/<OrderController>/comfort
+        [HttpGet("comfort")]
+        public async Task<IActionResult> GetComfort()
+        {
+            var orders = await this.orderService.GetComfortOrdersAsync();
 
             if (orders == null)
             {
@@ -289,6 +317,22 @@ namespace TravelApp.Controllers
         {
             var accepted = await this.orderService.AcceptOrderAsync(orderId, driverId);
 
+
+            if (accepted)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
+
+        // PUT api/<OrderController>/eta/orderId/value
+        [HttpPut("eta/{orderId}/{value}")]
+        public async Task<IActionResult> UpdateEta(string orderId, string value)
+        {
+            var accepted = await this.orderService.UpdateEtaAsync(orderId, value);
 
             if (accepted)
             {

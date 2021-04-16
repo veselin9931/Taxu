@@ -78,11 +78,16 @@
         <div *ngFor="let car of driverCars">
           <div class="row">
             <div class="col-10">
-              <ion-button class="my-label text" *ngIf="car.isActive == false" (click)="active(car)" expand="full"
+              <ion-button class="my-label text" *ngIf="car.isActive == false && car.typeId == 2" (click)="active(car)" expand="full"
                 color="medium">{{car.model}}
-                - {{car.registrationNumber}}</ion-button>
-              <ion-button class="my-label text car" *ngIf="car.isActive == true" (click)="active(car)" expand="full" color="success">{{car.model}}
-                - {{car.registrationNumber}}</ion-button>
+                - Comfort</ion-button>
+                <ion-button class="my-label text" *ngIf="car.isActive == false && car.typeId == 1" (click)="active(car)" expand="full"
+                color="medium">{{car.model}}
+                - Normal</ion-button>
+              <ion-button class="my-label text car" *ngIf="car.isActive == true && car.typeId == 2" (click)="active(car)" expand="full" color="success">{{car.model}}
+                - Comfort</ion-button>
+                <ion-button class="my-label text car" *ngIf="car.isActive == true && car.typeId == 1" (click)="active(car)" expand="full" color="success">{{car.model}}
+                  - Normal</ion-button>
             </div>
             <div class="col-2">
               <ion-button class="my-label text" (click)="deleteCar(car.id)" style="float: right" expand="full"

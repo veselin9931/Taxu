@@ -23,6 +23,8 @@ namespace TravelApp.Infrastructure.InputModels.OrderInput
 
         public bool WithStroller { get; set; }
 
+        public string CarType { get; set; }
+
         public bool WithPets { get; set; }
 
         public bool Special { get; set; }

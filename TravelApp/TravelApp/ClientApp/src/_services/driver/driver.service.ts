@@ -14,7 +14,7 @@ export class DriverService {
   public driver: Driver;
   public drivers = [];
   public applicationUserId: string;
-
+  public categoryType: string;
 
   constructor(private http: HttpClient) { }
 
