@@ -37,6 +37,8 @@ namespace TravelApp.Services.OrderService
 
         public Order GetOrderByUserId(string userId);
 
+        public Task<bool> RateOrderAsync(string id);
+
 
         public Order GetLastCompletedOrderByUserId(string userId);
 

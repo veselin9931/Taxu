@@ -49,6 +49,9 @@ export class DrivingPage implements OnInit {
   subscription: Subscription;
 
   //Map
+  coordinates: any;
+  myLatLng: any;
+
   map: any;
   latitude: any;
   longitude: any;
@@ -92,6 +95,7 @@ export class DrivingPage implements OnInit {
 
 
   ngOnInit(): void {
+    // for pinging location of driver
     // const source = interval(5000);
     // this.subscription = source.subscribe(val => this.postLocation());
 
@@ -127,7 +131,7 @@ export class DrivingPage implements OnInit {
 
   ionViewDidEnter() {
     this.categoryType = this.driverService.categoryType;
-
+    this.orders.forEach(order => this.calculateEta(order));
     this.orderDiv = document.getElementById("orderDiv");
     this.getData();
     if (this.isDrivingNow == true) {
@@ -158,8 +162,6 @@ export class DrivingPage implements OnInit {
   async loadMap(mapRef: ElementRef) {
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-
-
     const options: google.maps.MapOptions = {
       center: new google.maps.LatLng(myLatLng.lat, myLatLng.lng),
       zoom: 15,
@@ -305,35 +307,35 @@ export class DrivingPage implements OnInit {
   }
 
   getData() {
-    this.orders.forEach(order => {
-      this.calculateEta(order);
-    });
     this.driverService.getDriver(this.accountService.userValue.driverId)
       .subscribe(x => {
         if (this.driverService.categoryType == 'Normal') {
           this.getNormalOrders(x.rating);
         } else if (this.driverService.categoryType == 'Comfort') {
           this.getComfortOrders(x.rating);
+        } else if (this.driverService.categoryType == 'Closest') {
+          this.getClosestOrders(x.rating);
         } else {
           this.getAllOrders(x.rating);
         }
       })
-
+    
   }
 
   //Get all orders based by rating
+  // setTimeout(() => {
+        //   var orderDiv = document.getElementById("orderDiv");
+        //   if (orderDiv != null) {
+        //     orderDiv.style.display = 'block'
+        //   }
+        // }, 40000);
+        // here sets the time for distributing orders.
   getAllOrders(rating) {
     if (rating < 1) {
       this.orderService.getAllOrders().subscribe(data => {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 40000);
         this.orders = data;
       })
     } else if (rating >= 1 && rating < 2) {
@@ -341,12 +343,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 30000);
         this.orders = data;
       })
     } else if (rating >= 2 && rating < 3) {
@@ -354,12 +350,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 20000);
         this.orders = data;
       })
     } else if (rating >= 3 && rating < 4) {
@@ -367,12 +357,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 10000);
         this.orders = data;
       })
     } else if (rating >= 4) {
@@ -380,12 +364,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 1000);
         this.orders = data;
       })
     }
@@ -398,12 +376,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 40000);
         this.orders = data;
       })
     } else if (rating >= 1 && rating < 2) {
@@ -411,12 +383,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 30000);
         this.orders = data;
       })
     } else if (rating >= 2 && rating < 3) {
@@ -424,12 +390,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 20000);
         this.orders = data;
       })
     } else if (rating >= 3 && rating < 4) {
@@ -437,12 +397,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 10000);
         this.orders = data;
       })
     } else if (rating >= 4) {
@@ -450,12 +404,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 1000);
         this.orders = data;
       })
     }
@@ -468,12 +416,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 40000);
         this.orders = data;
       })
     } else if (rating >= 1 && rating < 2) {
@@ -481,12 +423,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 30000);
         this.orders = data;
       })
     } else if (rating >= 2 && rating < 3) {
@@ -494,12 +430,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 20000);
         this.orders = data;
       })
     } else if (rating >= 3 && rating < 4) {
@@ -507,12 +437,6 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 10000);
         this.orders = data;
       })
     } else if (rating >= 4) {
@@ -520,14 +444,48 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        setTimeout(() => {
-          var orderDiv = document.getElementById("orderDiv");
-          if (orderDiv != null) {
-            orderDiv.style.display = 'block'
-          }
-        }, 1000);
         this.orders = data;
 
+      })
+    }
+  }
+
+  getClosestOrders(rating) {
+    if (rating < 1) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 1 && rating < 2) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 2 && rating < 3) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 3 && rating < 4) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 4) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        data.sort((a, b) => a.tripDistance - b.tripDistance);
+        this.orders = data;
       })
     }
   }
@@ -551,8 +509,8 @@ export class DrivingPage implements OnInit {
       (response, status) => {
         if (status === "OK") {
           this.distanceToUser = response.routes[0].legs[0].distance.value / 1000;
-          this.distance = this.distanceToUser.toFixed(2);
           this.eta = response.routes[0].legs[0].duration.text;
+          this.distance = this.distanceToUser.toFixed(2);
         }
       }
     );
@@ -593,8 +551,9 @@ export class DrivingPage implements OnInit {
                         //Accepting order
                         this.orderService.acceptOrder(order.id, applicationUserId)
                           .subscribe(() => {
+                            this.orderService.alertForcomplete = 'Accepted';
                             this.orderService.updateOrderEta(orderId, this.eta)
-                              .subscribe((x) => console.log(x))
+                              .subscribe()
                           })
 
                         let orderId = order.id;
@@ -645,11 +604,6 @@ export class DrivingPage implements OnInit {
                 if (wallet.ammount < this.tripPriceForDriver) {
                   this.NotEnoughCashAlert();
                   return 'No Cash';
-                } else {
-                  // this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
-                  //   .subscribe(x => {
-                  //     return;
-                  //   })
                 }
               })
           })
@@ -664,16 +618,14 @@ export class DrivingPage implements OnInit {
           this.tripStatus = trip.status;
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
-          .subscribe(data => {
-          });
+          .subscribe();
       })
 
     let driverId = this.accountService.userValue.id;
     let value = this.accountService.userValue.isDrivingNow = false;
 
     this.accountService.updateDriving(driverId, value)
-      .subscribe(() => {
-      });
+      .subscribe();
 
     this.isDrivingNow = this.accountService.userValue.isDrivingNow;
   }
@@ -725,12 +677,7 @@ export class DrivingPage implements OnInit {
           this.tripStatus = trip.status;
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
-          .subscribe(() => {
-            this.accountService.userValue.reloaded = false;
-            this.accountService.updateReload(this.applicationUserId, false)
-              .subscribe(() => location.reload())
-
-          });
+          .subscribe();
       })
 
     //trigger the driver's driving now property to false
@@ -738,9 +685,7 @@ export class DrivingPage implements OnInit {
     let value = this.accountService.userValue.isDrivingNow = false;
 
     this.accountService.updateDriving(driverId, value)
-      .subscribe(data => {
-      });
-
+      .subscribe();
     this.isDrivingNow = this.accountService.userValue.isDrivingNow;
   }
 

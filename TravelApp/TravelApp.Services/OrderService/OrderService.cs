@@ -264,6 +264,24 @@ namespace TravelApp.Services.OrderService
 
         }
 
+        public async Task<bool> RateOrderAsync(string id)
+        {
+            var order = this.GetOrderById(id);
+
+            if (order != null)
+            {
+                order.IsRated = true;
+                this.orderRepository.Update(order);
+
+                await this.orderRepository.SaveChangesAsync();
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Updating a order failed!");
+
+        }
+
         //public async Task<IList<Order>> GetOrdersFor01Ratings()
         //=> await this.orderRepository.All()?
         //    .Where(x => x.Status == "Waiting" && x.IsDeleted == false)

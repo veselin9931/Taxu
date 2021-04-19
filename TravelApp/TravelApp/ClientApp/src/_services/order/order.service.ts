@@ -17,7 +17,7 @@ export class OrderService {
 
   public driverId: string;
   public completedOrder = false;
-  public alertForcomplete = false;
+  public alertForcomplete: string;
 
   public chosenLocation: string;
   public chosenDestination: string;
@@ -170,6 +170,14 @@ export class OrderService {
       );
   }
 
+  rateOrder(orderId: string): Observable<Order> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Order>(`${environment.apiUrl}/api/order/rate/${orderId}`, { headers, responseType: 'json' },)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   increaseOrderPrice(id: string, amount: number): Observable<Order> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Order>(`${environment.apiUrl}/api/order/increase/${id}/${amount}`, { headers, responseType: 'json' },)
@@ -182,7 +190,6 @@ export class OrderService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}`, { headers, responseType: 'json' },)
       .pipe(
-        tap(x => this.alertForcomplete = true),
         catchError(this.handleError)
       );
 

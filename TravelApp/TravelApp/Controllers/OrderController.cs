@@ -358,6 +358,21 @@ namespace TravelApp.Controllers
             return this.BadRequest();
         }
 
+        // PUT api/<OrderController>/rate/orderId
+        [HttpPut("rate/{orderId}")]
+        public async Task<IActionResult> RateOrder(string orderId)
+        {
+            var rate = await this.orderService.RateOrderAsync(orderId);
+
+            if (rate)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
         // PUT api/<OrderController>/orderId/increaseAmount
         [HttpPut("increase/{orderId}/{amount}")]
         public async Task<IActionResult> IncreaseAmount(string orderId, decimal amount)

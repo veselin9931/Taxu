@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { AlertController, PopoverController } from '@ionic/angular';
@@ -71,16 +71,12 @@ export class TravellingPage implements OnInit {
     private translate: TranslateService,
     private popoverController: PopoverController) {
     this.userId = this.accountService.userValue.id;
-
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
-
   }
 
   ngOnInit() {
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
-
-    this.checkorder();
 
     this.form = this.formBuilder.group({
       applicationUserId: [''],
@@ -115,9 +111,6 @@ export class TravellingPage implements OnInit {
 
     connection.on('BroadcastMessage', () => {
       this.checkorder();
-      if (this.orderStatus == "Completed") {
-        this.completedOrderAlert();
-      }
     });
 
   }
@@ -148,7 +141,7 @@ export class TravellingPage implements OnInit {
       this.form.get('location').setValue(this.order.location);
       this.form.get('destination').setValue(this.order.destination);
     }
-    
+
   }
 
 
@@ -259,10 +252,7 @@ export class TravellingPage implements OnInit {
                 this.alertService.success('You have created an order.', { autoClose: true });
                 this.orderStatus = this.form.value.status;
                 this.orderService.getMyOrder(userId)
-                  .subscribe(x => {
-                    //The hack for chat service - make new group before each order.
-                    
-                  })
+                  .subscribe();
               })
           }
         } else {
@@ -288,17 +278,13 @@ export class TravellingPage implements OnInit {
 
     if (data) {
       this.orderService.addToFavourites(data)
-        .subscribe(x => {
+        .subscribe(() => {
           this.successAddedFavourite();
         });
 
     } else {
       console.log('Problem with data occured')
     }
-  }
-
-  addFavourite() {
-    console.log(this.order)
   }
 
   //Order functionallity - waiting for driver
@@ -311,47 +297,48 @@ export class TravellingPage implements OnInit {
           this.destination = data.destination;
           (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
           this.orderTotalPrice = data.totalPrice;
-          this.estimatedDuration = data.eta;
-        } else {
-          this.orderTotalPrice = 0;
-        }
-
-        if (this.orderStatus == 'Completed') {
-          this.chatService.stop();
-          this.orderStatus = null;
-          this.completedOrderAlert();
-        }
-
-        if (data == null) {
-          return;
-        }
-
-        this.order = data;
-        this.orderStatus = data.status;
-
-        if (this.orderStatus == "Waiting") {
-          this.isCompleted = true;
-
-          // User can increase order price.
-          this.selector(0);
-        }
-
-        if (this.orderStatus == "Accepted") {
-          //Reset the data
-          this.isCompleted = false;
-          this.isSubmitted = false;
-          this.clearForm();
-          
-          this.orderService.order = data;
           this.order = data;
           this.orderStatus = data.status;
-          
-          this.loadMap(this.mapRef);
-          // this.chatService.stop();
-          if (data.acceptedBy != null) {
-            this.getUserById(data.acceptedBy);
-            this.getAcceptedTrip(data.acceptedBy);
+          this.estimatedDuration = data.eta;
+          } else {
+            this.orderTotalPrice = 0;
           }
+
+          if (this.orderStatus == "Waiting" && data != null) {
+            this.isCompleted = true;
+  
+            // User can increase order price.
+            this.selector(0);
+          }
+  
+          if (this.orderStatus == "Accepted" && data != null) {
+            //Reset the data
+            this.isCompleted = false;
+            this.isSubmitted = false;
+            this.clearForm();
+  
+            this.orderService.order = data;
+            this.order = data;
+  
+            this.loadMap(this.mapRef);
+            this.chatService.stop();
+  
+            if (data.acceptedBy != null) {
+              this.getUserById(data.acceptedBy);
+              this.getAcceptedTrip(data.acceptedBy);
+              this.driverId = data.acceptedBy;
+            }
+        } 
+
+        if (data == null) {
+          this.orderService.getLastCompletedOrder(this.userId)
+          .subscribe(x => {
+            if(x.isRated == false){
+              this.orderService.rateOrder(x.id)
+              .subscribe();
+              return this.completedOrderAlert();
+            }
+          })
         }
       },
         error => {
@@ -377,8 +364,7 @@ export class TravellingPage implements OnInit {
     let amount = +$event;
     if (amount != 0 || $event != "") {
       this.orderService.increaseOrderPrice(this.order.id, amount)
-        .subscribe(x => {
-        })
+        .subscribe()
     }
   }
 
@@ -412,17 +398,10 @@ export class TravellingPage implements OnInit {
         }
         this.currentTrip = x;
       });
-
-
   }
 
   //MAPS FUNCTIONALLITY
   async loadMap(mapRef: ElementRef) {
-    // const coordinates = await Geolocation.getCurrentPosition();
-    // const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-
-    // this.orderService.userDestinationLat = myLatLng.lat;
-    // this.orderService.userDestinationLong = myLatLng.lng;
     this.accountService.getById(this.order.acceptedBy)
       .subscribe(driver => {
         this.driverService.getDriver(driver.driverId)
@@ -435,11 +414,9 @@ export class TravellingPage implements OnInit {
               disableDefaultUI: true,
             };
 
-            if(mapRef != null){
+            if (mapRef != null) {
               this.map = new google.maps.Map(mapRef.nativeElement, options);
-
             }
-
 
             var icon = {
               url: 'https://images.vexels.com/media/users/3/154573/isolated/preview/bd08e000a449288c914d851cb9dae110-hatchback-car-top-view-silhouette-by-vexels.png',
@@ -468,7 +445,7 @@ export class TravellingPage implements OnInit {
   async completedOrderAlert() {
     const popup = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: 'Did you like the trip?',
+      header: 'You have reached the final destination! Did you enjoyed the trip?',
       //message: '<img src = "../assets/default.png" width="1px" height="1px">',
       inputs: [
         {
@@ -478,7 +455,7 @@ export class TravellingPage implements OnInit {
           handler: () => {
             this.driverService.voteUp(this.driverId)
               .subscribe(x => {
-                this.route.navigate(['menu/travelling'])
+                window.location.reload();
               })
           }
         },
@@ -489,22 +466,12 @@ export class TravellingPage implements OnInit {
           handler: () => {
             this.driverService.voteDown(this.driverId)
               .subscribe(x => {
-                this.route.navigate(['menu/travelling'])
+                window.location.reload();
               })
           }
         },
       ],
       buttons: [
-        {
-          text: 'Confirm',
-          handler: data => {
-
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
         {
           text: 'Report a problem', //route to reportpage
           role: 'report',

@@ -50,6 +50,8 @@ namespace TravelApp.Models
 
         public string Status { get; set; }
 
+        public bool IsRated { get; set; }
+
         public bool WithStroller { get; set; }
 
         public bool WithPets { get; set; }
