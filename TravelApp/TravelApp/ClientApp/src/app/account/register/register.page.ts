@@ -65,15 +65,14 @@ export class RegisterPage implements OnInit {
 
     if (!this.form.valid) {
       return;
-    } 
-    
+      }
 
     this.loading = true;
 
     this.accountService.register(this.form.value)
     .pipe(first())
     .subscribe(
-      data => {
+        data => {
         this.alertService.success('Successful registration', { keepAfterRouteChange: true });
         this.driverService.getDriverByReferral(this.form.value.referral)
         .subscribe(driver => {
