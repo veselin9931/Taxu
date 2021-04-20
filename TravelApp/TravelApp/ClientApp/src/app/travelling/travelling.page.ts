@@ -25,10 +25,11 @@ declare var google: any;
 })
 export class TravellingPage implements OnInit {
   public currentTrip: Trip;
+  private user = this.accountService.userValue;
+  private driverId = this.accountService.userValue.driverId;
   language: string = this.translate.currentLang;
   isLoggedIn;
   order: Order;
-  userId: string;
   form: FormGroup;
   lastOrder: Order;
   driverData: User;
@@ -41,7 +42,6 @@ export class TravellingPage implements OnInit {
   carModel = "";
   carColor = "";
 
-  driverId: string;
   //User html properties
   firstName = "";
   lastName = "";
@@ -70,7 +70,6 @@ export class TravellingPage implements OnInit {
     private chatService: ChatService,
     private translate: TranslateService,
     private popoverController: PopoverController) {
-    this.userId = this.accountService.userValue.id;
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
 
@@ -241,8 +240,7 @@ export class TravellingPage implements OnInit {
 
           this.form.value.increasePrice = (+this.form.value.increasePrice);
           this.form.value.eta = this.estimatedDuration;
-          let userId = this.accountService.userValue.id;
-          this.form.value.applicationUserId = userId;
+          this.form.value.applicationUserId = this.user.id;
           this.isSubmitted = true;
           if (!this.form.valid) {
             return false;
@@ -251,7 +249,7 @@ export class TravellingPage implements OnInit {
               .subscribe(x => {
                 this.alertService.success('You have created an order.', { autoClose: true });
                 this.orderStatus = this.form.value.status;
-                this.orderService.getMyOrder(userId)
+                this.orderService.getMyOrder(this.user.id)
                   .subscribe();
               })
           }
@@ -289,16 +287,16 @@ export class TravellingPage implements OnInit {
 
   //Order functionallity - waiting for driver
   checkorder() {
-    this.orderService.getMyOrder(this.userId)
+    this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
+          this.orderStatus = data.status;
           this.orderService.currentOrderId = data.id;
           this.location = data.location;
           this.destination = data.destination;
           (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
           this.orderTotalPrice = data.totalPrice;
           this.order = data;
-          this.orderStatus = data.status;
           this.estimatedDuration = data.eta;
           } else {
             this.orderTotalPrice = 0;
@@ -312,6 +310,7 @@ export class TravellingPage implements OnInit {
           }
   
           if (this.orderStatus == "Accepted" && data != null) {
+            this.loadMap(this.mapRef);
             //Reset the data
             this.isCompleted = false;
             this.isSubmitted = false;
@@ -320,7 +319,6 @@ export class TravellingPage implements OnInit {
             this.orderService.order = data;
             this.order = data;
   
-            this.loadMap(this.mapRef);
             this.chatService.stop();
   
             if (data.acceptedBy != null) {
@@ -331,7 +329,7 @@ export class TravellingPage implements OnInit {
         } 
 
         if (data == null) {
-          this.orderService.getLastCompletedOrder(this.userId)
+          this.orderService.getLastCompletedOrder(this.user.id)
           .subscribe(x => {
             if(x.isRated == false){
               this.orderService.rateOrder(x.id)
@@ -347,7 +345,7 @@ export class TravellingPage implements OnInit {
   }
 
   cancelOrder() {
-    this.orderService.getMyOrder(this.userId)
+    this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         this.orderService.deleteOrder(data.id)
           .subscribe(() => {
@@ -397,6 +395,7 @@ export class TravellingPage implements OnInit {
           this.orderStatus = "Completed";
         }
         this.currentTrip = x;
+        this.loadMap(this.mapRef);
       });
   }
 
@@ -473,7 +472,11 @@ export class TravellingPage implements OnInit {
       ],
       buttons: [
         {
-          text: 'Report a problem', //route to reportpage
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Report a problem',
           role: 'report',
           handler: () => {
             this.route.navigate(['menu/report']);
@@ -498,16 +501,6 @@ export class TravellingPage implements OnInit {
   }
   //END ALERTS
 
-  //JUNK
-  logout() {
-    this.accountService.logout();
-    this.isLoggedIn = "";
-    this.route.navigate(['menu/home'])
-      .then(() => {
-        window.location.reload();
-      })
-  }
-
   clearForm() {
     this.form.reset({
       'location': '',
@@ -531,34 +524,5 @@ export class TravellingPage implements OnInit {
   }
   //END JUNK
 }
-
-
-
-//calculateRoutePrice(locLat, locLng, destLat, destLng) {
-  //   const directionsService = new google.maps.DirectionsService();
-
-  //   directionsService.route(
-  //     {
-  //       origin: {
-  //         lat: locLat,
-  //         lng: locLng
-  //       },
-  //       destination: {
-  //         lat: destLat,
-  //         lng: destLng,
-  //       },
-  //       travelMode: google.maps.TravelMode.DRIVING,
-  //     },
-  //     (response, status) => {
-  //       if (status === "OK") {
-  //         this.estimatedDuration = response.routes[0].legs[0].duration.text;
-  //         this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
-  //         this.orderTotalPrice = this.orderTotalDestination * 0.90;
-  //       } else {
-  //         window.alert("Directions request failed due to " + status);
-  //       }
-  //     }
-  //   );
-  // }
 
 

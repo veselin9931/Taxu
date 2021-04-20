@@ -60,7 +60,7 @@ export class ChatService {
     } catch (err) {
       console.log(err);
       console.log("Reoonnecting in 1 sec.");
-      setTimeout(() => this.start(), 100);
+      setTimeout(() => this.start(), 1000);
     }
   }
 

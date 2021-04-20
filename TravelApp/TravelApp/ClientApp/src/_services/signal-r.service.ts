@@ -1,40 +1,30 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 import { EventEmitter } from '@angular/core';
-import { from } from 'rxjs';
+import { from, Subject } from 'rxjs';
 import { Order } from '../_models';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignalRService {
-  public data: Order[];
-  private hubConnection: signalR.HubConnection
-  signalReceived = new EventEmitter<Order>();
+  // public data: Order[];
+  // private hubConnection: signalR.HubConnection;
+  // private componentMethodCallSource = new Subject<any>();
+  // componentMethodCalled$ = this.componentMethodCallSource.asObservable();
 
-//   public startConnection = () => {
-//     this.hubConnection = new signalR.HubConnectionBuilder()
-//     .withUrl('https://localhost:44329/orderHub', {
-//       skipNegotiation: true,
-//       transport: signalR.HttpTransportType.WebSockets
-//     })
-// .build();
+  // public startConnection = () => {
+  //   this.hubConnection = new signalR.HubConnectionBuilder()
+  //     .withUrl(`${environment.signalRUrl}/orderHub`)
+  //     .build();
 
-// this.hubConnection
-//       .start()
-//       .then(() => console.log('Connection started'))
-//       .catch(err => console.log('Error while starting connection: ' + err))
-//   }
-
-//   public transferOrdersListener = () => {
-//     this.hubConnection.on('BroadcastMessage', (data) => {
-//       this.data = data;
-//       console.log(data);
-//     });
-//   }
+  //   this.hubConnection
+  //     .start()
+  //     .then(() => console.log('Connection started'))
+  //     .catch(err => console.log('Error while starting connection: ' + err))
+  // }
 }
-
-
 
 
 

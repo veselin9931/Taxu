@@ -79,7 +79,7 @@
                 
                   <div class="d-flex w-100 justify-content-between">
                     <small>{{'Trip distance' | translate}}: {{oldOrder.tripDistance}} km</small>
-                    <small>Distance to user: {{distance}}km</small>
+                    <small>Distance to user: {{oldOrder.distanceText}}</small>
                     <ion-button class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">{{'Accept' | translate}}</ion-button>
                   </div>
                 </div>
@@ -107,7 +107,7 @@
   <ion-toolbar class="text-center">
     <ion-text class="textTravel">
       <ion-text class="centered" color="dark">
-        <p class="text">{{'Pick up address' | translate}} ({{distance}}km)</p>
+        <p class="text">{{'Pick up address' | translate}} ({{distance}})</p>
         <p class="text">{{this.location}}</p>
       </ion-text>
       <!-- <ion-label>{{this.location}}</ion-label> -->

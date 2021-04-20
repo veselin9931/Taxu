@@ -21,7 +21,7 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 })
 export class DriverProfilePage implements OnInit {
   user = this.accountService.userValue;
-  driverId: string;
+  private driverId = this.user.driverId;
   referral: string;
   driverCars: Car[];
   carsCount = 0;
@@ -54,10 +54,10 @@ export class DriverProfilePage implements OnInit {
     this.getWalletAmount();
     this.getCars();
     const connection = new signalR.HubConnectionBuilder()
-    .configureLogging(signalR.LogLevel.Information)
-    .withUrl(`${environment.signalRUrl}/orderHub`)
-    .build();
-    
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl(`${environment.signalRUrl}/orderHub`)
+      .build();
+
     connection.start().then(function () {
       console.log('signalR Connected in profile');
     }).catch(function (err) {
@@ -106,20 +106,17 @@ export class DriverProfilePage implements OnInit {
   }
 
   getDriver() {
-    this.accountService.getById(this.user.id)
-      .subscribe(x => {
-        this.driverService.getDriver(x.driverId)
-          .subscribe(d => {
-            if (d == null) {
-              console.log('No driver');
-              return;
-            }
-            this.driver = d;
-            this.rating = d.rating.toFixed(2);
-            this.driverCommission = d.comission;
-            (Math.round(this.driverCommission * 100) / 100).toFixed(2);
-            this.referral = this.driver.referal;
-          })
+    this.driverService.getDriver(this.driverId)
+      .subscribe(d => {
+        if (d == null) {
+          console.log('No driver');
+          return;
+        }
+        this.driver = d;
+        this.rating = d.rating.toFixed(2);
+        this.driverCommission = d.comission;
+        (Math.round(this.driverCommission * 100) / 100).toFixed(2);
+        this.referral = this.driver.referal;
       })
   }
 
@@ -135,17 +132,14 @@ export class DriverProfilePage implements OnInit {
   }
 
   getCars() {
-    this.accountService.getById(this.user.id)
-      .subscribe(x => {
-        this.driverService.getDriverCars(x.driverId)
-          .subscribe(d => {
-            if (d == null) {
-              console.log('No cars');
-              return;
-            }
-            this.driverCars = d;
-            this.carsCount = this.driverCars.length;
-          })
+    this.driverService.getDriverCars(this.driverId)
+      .subscribe(d => {
+        if (d == null) {
+          console.log('No cars');
+          return;
+        }
+        this.driverCars = d;
+        this.carsCount = this.driverCars.length;
       })
   }
 
@@ -169,7 +163,6 @@ export class DriverProfilePage implements OnInit {
 
     this.driverService.activeCar(car.id, car.driverId)
       .subscribe(x => {
-
         this.isActiveCar = x.isActive;
         console.log(x);
       })
@@ -207,63 +200,5 @@ export class DriverProfilePage implements OnInit {
 
   chargeCash() {
     this.route.navigate(['menu/payments'])
-  }
-
-  // async presentPrompt() {
-  //   const popup = await this.alertController.create({
-  //     header: 'Charge cash',
-  //     inputs: [
-  //       {
-  //         name: 'Amount',
-  //         placeholder: 'Amount'
-  //       }
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: 'Cancel',
-  //         role: 'cancel',
-  //       },
-  //       {
-  //         text: 'Confirm',
-  //         handler: data => {
-  //           if(data.Amount != "" && data.Amount > 0){
-  //             let amount = +data.Amount;
-  //             this.walletService.chargeWallet(this.user.id, amount)
-  //             .subscribe(w => {
-  //               this.chargeAlertSuccess(amount);
-  //             })
-  //             console.log(data)
-  //           } else {
-  //             this.chargeAlertFail();
-  //           }
-  //         }
-  //       }
-  //     ]
-  //   });
-
-  //   await popup.present();
-
-  // }
-
-  async chargeAlertFail() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Error',
-      message: 'Amount must be more than 0$',
-      buttons: ['OK']
-    });
-
-    await alert.present();
-  }
-
-  async chargeAlertSuccess(amount: number) {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Success',
-      message: `You have successfully charged your wallet with ${amount}$.`,
-      buttons: ['OK']
-    });
-
-    await alert.present();
   }
 }

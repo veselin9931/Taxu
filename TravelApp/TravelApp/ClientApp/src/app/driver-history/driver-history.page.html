@@ -23,7 +23,24 @@
             <hr>
           </ion-text>
         </div>
+        <div class="col-md-10">
+        <div class="list-group mt-2">
 
+          <a class="text list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="text mb-1">Daily earnings</h5>
+              <small>Today: {{currentDate |  date:'MM/dd/yyyy h:mm'}}</small>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <h5 class="text">Profit: {{dailyProfit}}$</h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
         <div class="col-md-10">
           <div *ngFor="let order of orders" class="list-group mt-2">
 
