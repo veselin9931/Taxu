@@ -10,5 +10,7 @@ namespace TravelApp.Common.ErrMsg
 
         public const string InvalidPassword = "Invalid password. Try again!";
 
+        public const string RequiredPass = "Password is required";
+
     }
 }

@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TravelApp.Common;
+using TravelApp.Common.ErrMsg;
 using TravelApp.Common.Repositories;
 using TravelApp.Models;
 
@@ -31,11 +32,11 @@ namespace TravelApp.Services.Account
 
             // check if username exists
             if (user == null)
-                return null;
+                 throw new ArgumentException(RegisterErrs.ExistingUser);
 
             // check if password is correct
             if (!VerifyPasswordHash(password, Convert.FromBase64String(user.PasswordHash), Convert.FromBase64String(user.PasswordSalt)))
-                return null;
+                throw new ArgumentException(RegisterErrs.InvalidPassword);
 
 
             // authentication successful
@@ -46,10 +47,10 @@ namespace TravelApp.Services.Account
         {
             // validation
             if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentException("Password is required");
+                throw new ArgumentException(RegisterErrs.RequiredPass);
 
             if (userRepository.Users.Any(x => x.UserName == user.UserName))
-                throw new ArgumentException("Username \"" + user.UserName + "\" is already taken");
+                throw new ArgumentException("Username \"" + user.UserName + "\" is already taken.");
 
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);

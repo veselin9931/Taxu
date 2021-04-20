@@ -81,7 +81,7 @@ namespace TravelApp.Controllers
         {
             if (model == null || !this.ModelState.IsValid)
             {
-                return this.BadRequest("Failed to register");
+                return this.BadRequest(this.ModelState);
             }
 
             var user = new ApplicationUser()
