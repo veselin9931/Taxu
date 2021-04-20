@@ -17,7 +17,7 @@ export class OrderService {
 
   public driverId: string;
   public completedOrder = false;
-  public alertForcomplete = false;
+  public alertForcomplete: string;
 
   public chosenLocation: string;
   public chosenDestination: string;
@@ -87,8 +87,6 @@ export class OrderService {
       );
   }
 
-  
-
   getMyOrder(userId: string): Observable<Order> {
     return this.http.get<Order>(`${environment.apiUrl}/api/order/${userId}`)
       .pipe(
@@ -110,35 +108,49 @@ export class OrderService {
       )
   }
 
-  get01Orders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+  getNormalOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order/normal`)
       .pipe(
-        delay(40000),
         catchError(this.handleError)
       )
   }
 
-  get12Orders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+  getComfortOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order/comfort`)
       .pipe(
-        delay(30000),
         catchError(this.handleError)
       )
   }
-  get23Orders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
-      .pipe(
-        delay(20000),
-        catchError(this.handleError)
-      )
-  }
-  get4Orders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
-      .pipe(
-        delay(1000),
-        catchError(this.handleError)
-      )
-  }
+
+  // get01Orders(): Observable<Order[]> {
+  //   return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+  //     .pipe(
+  //       delay(40000),
+  //       catchError(this.handleError)
+  //     )
+  // }
+
+  // get12Orders(): Observable<Order[]> {
+  //   return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+  //     .pipe(
+  //       delay(30000),
+  //       catchError(this.handleError)
+  //     )
+  // }
+  // get23Orders(): Observable<Order[]> {
+  //   return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+  //     .pipe(
+  //       delay(20000),
+  //       catchError(this.handleError)
+  //     )
+  // }
+  // get4Orders(): Observable<Order[]> {
+  //   return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+  //     .pipe(
+  //       delay(1000),
+  //       catchError(this.handleError)
+  //     )
+  // }
 
   acceptOrder(orderId: string, driverId: string): Observable<Order> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -148,6 +160,22 @@ export class OrderService {
         catchError(this.handleError)
       );
 
+  }
+
+  updateOrderEta(orderId: string, value: string): Observable<Order> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Order>(`${environment.apiUrl}/api/order/eta/${orderId}/${value}`, { headers, responseType: 'json' },)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  rateOrder(orderId: string): Observable<Order> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Order>(`${environment.apiUrl}/api/order/rate/${orderId}`, { headers, responseType: 'json' },)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   increaseOrderPrice(id: string, amount: number): Observable<Order> {
@@ -162,7 +190,6 @@ export class OrderService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}`, { headers, responseType: 'json' },)
       .pipe(
-        tap(x => this.alertForcomplete = true),
         catchError(this.handleError)
       );
 

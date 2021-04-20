@@ -51,21 +51,21 @@ hr{
     margin: 0 auto;
 
     .header-transparent {
-        height: 150px;
+        height: 150px;  
 
         .avatar {
             width: 160px;
             height: 120px;
             position: relative;
             margin: 0 auto;
-
             img {
                 height: 130px;
                 display: block;
                 border-radius: 50%;
                 position: absolute;
-                bottom: calc(-1*(80px + 4px));
+                bottom: calc(-1*(80px + 8px));
                 background-color: #fff;
+                margin-left: 20px;
             }
         }
     }

@@ -7,5 +7,5 @@ export class Car{
     registrationNumber: string;
     color: string;
     capacity: number;
-    type: number;
+    typeId: number;
 }

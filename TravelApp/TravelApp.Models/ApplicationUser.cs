@@ -32,6 +32,8 @@ namespace TravelApp.Models
 
         public string ChoosenLanguage { get; set; }
 
+        public bool Reloaded { get; set; }
+
 
         public string LastLocation { get; set; }
 

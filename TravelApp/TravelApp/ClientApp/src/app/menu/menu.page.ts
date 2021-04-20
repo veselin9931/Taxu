@@ -33,7 +33,7 @@ export class MenuPage implements OnInit {
     },
     {
       title: "Drive",
-      url: '/menu/driving'
+      url: '/menu/categories'
     },
     {
       title: "Report",
@@ -43,10 +43,10 @@ export class MenuPage implements OnInit {
       title: "Favourites",
       url: '/menu/favourite-orders'
     },
-    {
-      title: "Payments",
-      url: '/menu/payments'
-    }
+    // {
+    //   title: "Payments",
+    //   url: '/menu/payments'
+    // }
   ];
 
   selectedPath = '';

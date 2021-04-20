@@ -7,4 +7,5 @@ export class Car {
     capacity: BigInteger;
     confirmation: Boolean;
     driverId: string;
+    typeId: number;
 }

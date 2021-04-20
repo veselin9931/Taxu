@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import Chart from 'chart.js';
 import { AccountService } from '_services';
 import { SharedService } from '_services/shared-service/shared.service';
@@ -11,6 +12,7 @@ import { SharedService } from '_services/shared-service/shared.service';
 })
 
 export class DashboardComponent implements OnInit {
+  isLoggedIn;
   totalProfit: number;
   totalTrips: number;
   totalUsers: number;
@@ -22,14 +24,19 @@ export class DashboardComponent implements OnInit {
   public chartHours;
 
   constructor(private sharedService: SharedService,
-    private accountService: AccountService) { }
+    private accountService: AccountService,
+    private route: Router) { }
 
   ngOnInit() {
+    this.isLoggedIn = localStorage.getItem("user");
+    if (!this.isLoggedIn) {
+      this.route.navigate(['/login'])
+    }
     this.getTotalProfit();
     this.getAllTrips();
     this.getAllUsers();
     this.getAllDrivers();
-    
+
     this.chartColor = "#FFFFFF";
 
     this.canvas = document.getElementById("chartHours");
@@ -234,17 +241,17 @@ export class DashboardComponent implements OnInit {
       })
   }
 
-  getAllUsers() { 
+  getAllUsers() {
     this.accountService.getAllUsers()
-    .subscribe(x => {
-      this.totalUsers = x.length;
-    })
+      .subscribe(x => {
+        this.totalUsers = x.length;
+      })
   }
 
   getAllDrivers() {
     this.accountService.getAll()
-    .subscribe(x => {
-      this.totalDrivers = x.length;
-    })
+      .subscribe(x => {
+        this.totalDrivers = x.length;
+      })
   }
 }

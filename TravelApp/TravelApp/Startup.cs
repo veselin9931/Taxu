@@ -136,43 +136,6 @@ namespace TravelApp
             }
             app.UseCors("CorsPolicy");
 
-            //app.Use(async (context, next) =>
-            //{
-            //    if (context.Request.Path == "/wss")
-            //    {
-            //        if (context.WebSockets.IsWebSocketRequest)
-            //        {
-            //            using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
-            //            {
-            //                await Echo(context, webSocket);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            context.Response.StatusCode = 400;
-            //        }
-            //    }
-            //    if (context.Request.Path == "/ws")
-            //    {
-            //        if (context.WebSockets.IsWebSocketRequest)
-            //        {
-            //            using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
-            //            {
-            //                await Echo(context, webSocket);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            context.Response.StatusCode = 400;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        await next();
-            //    }
-            //
-            //});
-
 
             app.UseHttpsRedirection();
 

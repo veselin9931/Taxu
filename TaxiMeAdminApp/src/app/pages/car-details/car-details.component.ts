@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '_models';
 import { Car } from '_models/car';
 import { Driver } from '_models/driver';
@@ -14,6 +14,7 @@ import { SharedService } from '_services/shared-service/shared.service';
   styleUrls: ['./car-details.component.css']
 })
 export class CarDetailsComponent implements OnInit {
+  isLoggedIn;
   carId = this.route.snapshot.params.id;
   car: Car;
   images = [];
@@ -22,9 +23,14 @@ export class CarDetailsComponent implements OnInit {
     private carService: CarService,
     private driverService: DriverService,
     private accountService: AccountService,
-    private sharedService: SharedService) { }
+    private sharedService: SharedService,
+    private router: Router) { }
 
   ngOnInit(): void {
+    this.isLoggedIn = localStorage.getItem("user");
+    if (!this.isLoggedIn) {
+      this.router.navigate(['/login'])
+    }
     this.carService.getCar(this.carId)
       .subscribe(car => {
         this.car = car;

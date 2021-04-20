@@ -10,6 +10,8 @@ import { NotificationsComponent } from '../../pages/notifications/notifications.
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 import { UserDetailsComponent } from 'app/pages/user-details/user-details.component';
 import { CarDetailsComponent } from 'app/pages/car-details/car-details.component';
+import { LoginComponent } from 'app/login/login.component';
+import { PaymentsComponent } from 'app/pages/payments/payments.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -21,5 +23,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },
     { path: 'notifications',  component: NotificationsComponent },
-    { path: 'upgrade',        component: UpgradeComponent }
+    { path: 'upgrade',        component: UpgradeComponent },
+    { path: 'login',        component: LoginComponent },
+    { path: 'payments',        component: PaymentsComponent }
+
 ];

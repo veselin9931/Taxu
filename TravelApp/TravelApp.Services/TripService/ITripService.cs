@@ -20,6 +20,7 @@ namespace TravelApp.Services.TripService
 
         public Task<bool> StartTripAsync(string tripId);
 
+
         public Trip GetTripById(string id);
     }
 }

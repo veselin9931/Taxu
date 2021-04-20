@@ -10,33 +10,38 @@ import { DriverService } from '_services/drver.services';
 })
 
 
-export class UserComponent implements OnInit{
+export class UserComponent implements OnInit {
+    isLoggedIn;
     constructor(
         private alertService: AlertService,
         private accountService: AccountService,
         private driverService: DriverService,
         private carService: CarService,
         private route: Router
-        ) { }
+    ) { }
 
-        public userStatus;
-        public driverData;
-        public carData;
-        public driverUserData = [];
-    ngOnInit(){
+    public userStatus;
+    public driverData;
+    public carData;
+    public driverUserData = [];
+    ngOnInit() {
+        this.isLoggedIn = localStorage.getItem("user");
+        if (!this.isLoggedIn) {
+            this.route.navigate(['/login'])
+        }
         this.accountService.getAll().subscribe(data => {
-           this.userStatus = data
-          });
+            this.userStatus = data
+        });
 
-          this.driverService.getAll().subscribe(data => {
+        this.driverService.getAll().subscribe(data => {
             this.driverData = data;
-           });
+        });
 
-           this.carService.getAllUnconfirmedCars()
-           .subscribe(cars => {
-             this.carData = cars;
-           })
+        this.carService.getAllUnconfirmedCars()
+            .subscribe(cars => {
+                this.carData = cars;
+            })
     }
-    
-    
+
+
 }

@@ -7,16 +7,15 @@ import { OrderService } from 'src/_services/order/order.service';
 import { SignalRService } from 'src/_services/signal-r.service';
 import { ProfitService } from 'src/_services/profit/profit.service';
 import { TripService } from 'src/_services/trip/trip.service';
-import { Location } from '@angular/common';
 import { WalletService } from 'src/_services/wallet/wallet.service';
 import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { DriverService } from 'src/_services/driver/driver.service';
-import { Observable } from 'rxjs';
 import { ChatService } from 'src/_services/chat/chat.service';
 import { environment } from 'src/environments/environment';
 import { Plugins } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
+import { interval, Subscription } from 'rxjs';
 
 const { Geolocation } = Plugins;
 declare var google: any;
@@ -28,6 +27,7 @@ declare var google: any;
 })
 export class DrivingPage implements OnInit {
   public currentTrip: Trip;
+  categoryType;
 
   tripStatus: string;
 
@@ -46,7 +46,12 @@ export class DrivingPage implements OnInit {
 
   totalPrice: number;
 
+  subscription: Subscription;
+
   //Map
+  coordinates: any;
+  myLatLng: any;
+
   map: any;
   latitude: any;
   longitude: any;
@@ -59,6 +64,10 @@ export class DrivingPage implements OnInit {
   userDestinationLat: any;
   userDestinationLng: any;
 
+  distanceToUser: number;
+  distance: string;
+  eta: string;
+
   messages = this.chatService.messages;
   chatStyle = "";
 
@@ -70,7 +79,6 @@ export class DrivingPage implements OnInit {
     private accountService: AccountService,
     private tripService: TripService,
     public signalRService: SignalRService,
-    private locationPage: Location,
     private walletService: WalletService,
     private alertController: AlertController,
     private driverService: DriverService,
@@ -85,7 +93,13 @@ export class DrivingPage implements OnInit {
     }
   }
 
+
   ngOnInit(): void {
+    // for pinging location of driver
+    // const source = interval(5000);
+    // this.subscription = source.subscribe(val => this.postLocation());
+
+    this.categoryType = this.driverService.categoryType;
     this.orderDiv = document.getElementById("orderDiv")
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
@@ -111,16 +125,17 @@ export class DrivingPage implements OnInit {
       this.orderDiv = document.getElementById("orderDiv");
       this.getData();
       this.getAcceptedTrip();
-      //this.postLocation();
+
     });
   }
 
   ionViewDidEnter() {
+    this.categoryType = this.driverService.categoryType;
+    this.orders.forEach(order => this.calculateEta(order));
     this.orderDiv = document.getElementById("orderDiv");
     this.getData();
     if (this.isDrivingNow == true) {
       //have to optimise this
-      //this.postLocation();
       this.getAcceptedTrip()
     }
 
@@ -141,16 +156,12 @@ export class DrivingPage implements OnInit {
             console.log(x);
           })
       })
-
-
   }
 
   //MAP FUNCTIONALLITY
   async loadMap(mapRef: ElementRef) {
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-
-
     const options: google.maps.MapOptions = {
       center: new google.maps.LatLng(myLatLng.lat, myLatLng.lng),
       zoom: 15,
@@ -159,8 +170,6 @@ export class DrivingPage implements OnInit {
     };
 
     this.map = new google.maps.Map(mapRef.nativeElement, options);
-
-
     let geocoder = new google.maps.Geocoder;
 
     google.maps.event.addListener(this.map, 'idle', async () => {
@@ -297,110 +306,275 @@ export class DrivingPage implements OnInit {
     this.route.navigate(['menu/report']);
   }
 
-
-
   getData() {
-    
     this.driverService.getDriver(this.accountService.userValue.driverId)
       .subscribe(x => {
-        if (x.rating < 1) {
-          this.orderService.getAllOrders().subscribe(data => {
-            if (data == null) {
-              return;
-            }
-            setTimeout(() => {
-            var orderDiv = document.getElementById("orderDiv");
-            orderDiv.style.display = 'block'
-            }, 40000);
-            this.orders = data;
-          })
-        } else if (x.rating >= 1 && x.rating < 2) {
-          this.orderService.getAllOrders().subscribe(data => {
-            if (data == null) {
-              return;
-            }
-            setTimeout(() => {
-            var orderDiv = document.getElementById("orderDiv");
-            orderDiv.style.display = 'block'
-            }, 30000);
-            this.orders = data;
-          })
-        } else if (x.rating >= 2 && x.rating < 3) {
-          this.orderService.getAllOrders().subscribe(data => {
-            if (data == null) {
-              return;
-            }
-            setTimeout(() => {
-            var orderDiv = document.getElementById("orderDiv");
-            orderDiv.style.display = 'block'
-            }, 20000);
-            this.orders = data;
-          })
-        } else if (x.rating >= 3 && x.rating < 4) {
-          this.orderService.getAllOrders().subscribe(data => {
-            if (data == null) {
-              return;
-            }
-            setTimeout(() => {
-            var orderDiv = document.getElementById("orderDiv");
-            orderDiv.style.display = 'block'
-            }, 10000);
-            this.orders = data;
-          })
-          
+        if (this.driverService.categoryType == 'Normal') {
+          this.getNormalOrders(x.rating);
+        } else if (this.driverService.categoryType == 'Comfort') {
+          this.getComfortOrders(x.rating);
+        } else if (this.driverService.categoryType == 'Closest') {
+          this.getClosestOrders(x.rating);
+        } else {
+          this.getAllOrders(x.rating);
         }
       })
-
     
+  }
+
+  //Get all orders based by rating
+  // setTimeout(() => {
+        //   var orderDiv = document.getElementById("orderDiv");
+        //   if (orderDiv != null) {
+        //     orderDiv.style.display = 'block'
+        //   }
+        // }, 40000);
+        // here sets the time for distributing orders.
+  getAllOrders(rating) {
+    if (rating < 1) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 1 && rating < 2) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 2 && rating < 3) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 3 && rating < 4) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 4) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    }
+  }
+
+  //Get normal orders based by rating
+  getNormalOrders(rating) {
+    if (rating < 1) {
+      this.orderService.getNormalOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 1 && rating < 2) {
+      this.orderService.getNormalOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 2 && rating < 3) {
+      this.orderService.getNormalOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 3 && rating < 4) {
+      this.orderService.getNormalOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 4) {
+      this.orderService.getNormalOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    }
+  }
+
+  //Get comfort orders based by rating
+  getComfortOrders(rating) {
+    if (rating < 1) {
+      this.orderService.getComfortOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 1 && rating < 2) {
+      this.orderService.getComfortOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 2 && rating < 3) {
+      this.orderService.getComfortOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 3 && rating < 4) {
+      this.orderService.getComfortOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 4) {
+      this.orderService.getComfortOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+
+      })
+    }
+  }
+
+  getClosestOrders(rating) {
+    if (rating < 1) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 1 && rating < 2) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 2 && rating < 3) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 3 && rating < 4) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        this.orders = data;
+      })
+    } else if (rating >= 4) {
+      this.orderService.getAllOrders().subscribe(data => {
+        if (data == null) {
+          return;
+        }
+        data.sort((a, b) => a.tripDistance - b.tripDistance);
+        this.orders = data;
+      })
+    }
+  }
+
+  async calculateEta(order) {
+    const directionsService = new google.maps.DirectionsService();
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+    directionsService.route(
+      {
+        origin: {
+          lat: myLatLng.lat,
+          lng: myLatLng.lng
+        },
+        destination: {
+          lat: order.locationLat,
+          lng: order.locationLong,
+        },
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (response, status) => {
+        if (status === "OK") {
+          this.distanceToUser = response.routes[0].legs[0].distance.value / 1000;
+          this.eta = response.routes[0].legs[0].duration.text;
+          this.distance = this.distanceToUser.toFixed(2);
+        }
+      }
+    );
   }
 
   //Accept order and manage the data inside
   acceptOrder(order) {
+    this.driverService.getDriverActiveCar(this.accountService.userValue.driverId)
+      .subscribe(car => {
+        if (car.typeId == 1 && order.carType == 'Comfort') {
+          return this.WrongCarAlert();
+        } else {
+          //Get user's id to get drivers data
+          this.accountService.getById(this.applicationUserId)
+            .subscribe(user => {
 
-    //Get user's id to get drivers data
-    this.accountService.getById(this.applicationUserId)
-      .subscribe(user => {
+              //Get driver's data
+              this.driverService.getDriver(user.driverId)
+                .subscribe(driver => {
+                  this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
 
-        //Get driver's data
-        this.driverService.getDriver(user.driverId)
-          .subscribe(driver => {
-            this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
+                  //Get drivers wallet
+                  this.walletService.getMyWallet(this.applicationUserId)
+                    .subscribe(wallet => {
+                      if (wallet.ammount < this.tripPriceForDriver) {
+                        this.NotEnoughCashAlert();
+                        return;
+                      } else {
+                        let applicationUserId = this.accountService.userValue.id;
+                        this.accountService.userValue.isDrivingNow = true;
+                        this.accountService.updateDriving(applicationUserId, true)
+                          .subscribe(() => {
+                          });
 
-            //Get drivers wallet
-            this.walletService.getMyWallet(this.applicationUserId)
-              .subscribe(wallet => {
-                if (wallet.ammount < this.tripPriceForDriver) {
-                  this.NotEnoughCashAlert();
-                  return;
-                } else {
-                  let applicationUserId = this.accountService.userValue.id;
-                  this.accountService.userValue.isDrivingNow = true;
-                  this.accountService.updateDriving(applicationUserId, true)
-                    .subscribe(() => {
-                    });
+                        this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+                        order.acceptedBy = applicationUserId;
 
-                  this.isDrivingNow = this.accountService.userValue.isDrivingNow;
-                  order.acceptedBy = applicationUserId;
+                        //Accepting order
+                        this.orderService.acceptOrder(order.id, applicationUserId)
+                          .subscribe(() => {
+                            this.orderService.alertForcomplete = 'Accepted';
+                            this.orderService.updateOrderEta(orderId, this.eta)
+                              .subscribe()
+                          })
 
-                  //Accepting order
-                  this.orderService.acceptOrder(order.id, applicationUserId)
-                    .subscribe(() => {
-                      this.chatService.stop();
-                      this.chatService.start();
+                        let orderId = order.id;
+                        let data = { orderId, applicationUserId, order };
+
+                        //Creating trip to manage data
+                        this.tripService.createTrip(data)
+                          .subscribe(() => {
+                            this.loadMap(this.mapRef);
+                          })
+
+
+                        this.chatService.stop();
+                        this.route.navigate(['menu/driving']);
+                      }
                     })
-
-                  let orderId = order.id;
-                  let data = { orderId, applicationUserId, order };
-
-                  //Creating trip to manage data
-                  this.tripService.createTrip(data)
-                    .subscribe(() => {
-                    })
-                  this.route.navigate(['menu/driving']);
-                }
-              })
-          })
+                })
+            })
+        }
       })
+
   }
 
   //Navigate to user and discharge his wallet.
@@ -430,11 +604,6 @@ export class DrivingPage implements OnInit {
                 if (wallet.ammount < this.tripPriceForDriver) {
                   this.NotEnoughCashAlert();
                   return 'No Cash';
-                } else {
-                  // this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
-                  //   .subscribe(x => {
-                  //     return;
-                  //   })
                 }
               })
           })
@@ -449,16 +618,14 @@ export class DrivingPage implements OnInit {
           this.tripStatus = trip.status;
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
-          .subscribe(data => {
-          });
+          .subscribe();
       })
 
     let driverId = this.accountService.userValue.id;
     let value = this.accountService.userValue.isDrivingNow = false;
 
     this.accountService.updateDriving(driverId, value)
-      .subscribe(() => {
-      });
+      .subscribe();
 
     this.isDrivingNow = this.accountService.userValue.isDrivingNow;
   }
@@ -476,21 +643,27 @@ export class DrivingPage implements OnInit {
         this.orderService.getOrderById(x.orderId).subscribe(order => {
           x.order = order;
           this.order = x.order;
+
           this.location = order.location;
           this.destination = order.destination;
+
           this.totalPrice = order.totalPrice;
+
           this.userLatitude = order.locationLat;
           this.userLongitude = order.locationLong;
+
           this.userDestinationLat = order.destinationLat;
           this.userDestinationLng = order.destinationLong;
+
           this.tripDistance = order.tripDistance;
+          this.calculateEta(order);
           this.accountService.getById(this.driverId).subscribe(driver => {
             this.driverService.getDriver(driver.driverId)
               .subscribe(s => {
                 this.tripPriceForDriver = (order.totalPrice * (s.comission / 100));
+                
               })
           })
-
         })
         this.route.navigate(['menu/driving']);
       });
@@ -504,9 +677,7 @@ export class DrivingPage implements OnInit {
           this.tripStatus = trip.status;
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
-          .subscribe(() => {
-
-          });
+          .subscribe();
       })
 
     //trigger the driver's driving now property to false
@@ -514,9 +685,7 @@ export class DrivingPage implements OnInit {
     let value = this.accountService.userValue.isDrivingNow = false;
 
     this.accountService.updateDriving(driverId, value)
-      .subscribe(data => {
-      });
-
+      .subscribe();
     this.isDrivingNow = this.accountService.userValue.isDrivingNow;
   }
 
@@ -535,6 +704,17 @@ export class DrivingPage implements OnInit {
       cssClass: 'my-custom-class',
       header: 'Balance',
       message: 'Your wallet balance is not enough for this order!',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+  async WrongCarAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Order information',
+      message: 'Your car is of type "Normal" but the order desired car type is "Comfort"! ',
       buttons: ['OK']
     });
 

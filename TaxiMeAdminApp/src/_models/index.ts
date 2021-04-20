@@ -4,5 +4,6 @@ export * from './order';
 export * from './trip';
 export * from './profit';
 export * from './image';
+export * from './wallet';
 
 

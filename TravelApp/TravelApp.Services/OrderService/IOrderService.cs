@@ -29,17 +29,15 @@ namespace TravelApp.Services.OrderService
         public Order GetLastAcceptedOrderByUserId(string userId);
 
         public Task<IList<Order>> GetAllOrdersAsync();
-
-        //public Task<IList<Order>> GetOrdersFor01Ratings();
-
-        //public Task<IList<Order>> GetOrdersFor12Ratings();
         
-        //public Task<IList<Order>> GetOrdersFor23Ratings();
-        
-        //public Task<IList<Order>> GetOrdersFor4Ratings();
+        public Task<IList<Order>> GetNormalOrdersAsync();
+
+        public Task<IList<Order>> GetComfortOrdersAsync();
 
 
         public Order GetOrderByUserId(string userId);
+
+        public Task<bool> RateOrderAsync(string id);
 
 
         public Order GetLastCompletedOrderByUserId(string userId);
@@ -47,6 +45,9 @@ namespace TravelApp.Services.OrderService
         public Order GetOrderById(string id);
 
         public Task<bool> AcceptOrderAsync(string id, string driverId);
+
+        public Task<bool> UpdateEtaAsync(string id, string value);
+
 
         public Task<bool> IncreaseOrderPriceAsync(string id, decimal amount);
 

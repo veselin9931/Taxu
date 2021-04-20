@@ -22,4 +22,6 @@ export class Order {
     userDistance: number;
     withPets: boolean;
     withStroller: boolean;
+    carType: string;
+    isRated: boolean;
 }

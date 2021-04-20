@@ -28,7 +28,7 @@ export class DriverProfilePage implements OnInit {
   walletAmount: number;
   isActiveCar: boolean;
   driver: Driver;
-  rating: number;
+  rating: string;
   driverCommission: number;
   folderName = "driverFacePic";
   imgPath: string;
@@ -53,7 +53,6 @@ export class DriverProfilePage implements OnInit {
     this.getProfilePicture();
     this.getWalletAmount();
     this.getCars();
-
     const connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Information)
     .withUrl(`${environment.signalRUrl}/orderHub`)
@@ -116,7 +115,7 @@ export class DriverProfilePage implements OnInit {
               return;
             }
             this.driver = d;
-            this.rating = d.rating;
+            this.rating = d.rating.toFixed(2);
             this.driverCommission = d.comission;
             (Math.round(this.driverCommission * 100) / 100).toFixed(2);
             this.referral = this.driver.referal;

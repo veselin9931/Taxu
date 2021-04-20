@@ -23,6 +23,8 @@ namespace TravelApp.Services.Account
 
         public Task<bool> UpdateUserLanguageAsync(string id, string lng);
 
+        public Task<bool> UpdateUserReloadAsync(string id, bool value);
+
         Task<ApplicationUser> Create(ApplicationUser user, string password);
 
         void Delete(string id);

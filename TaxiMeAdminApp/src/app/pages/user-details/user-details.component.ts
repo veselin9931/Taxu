@@ -14,6 +14,7 @@ import { SharedService } from '_services/shared-service/shared.service';
   templateUrl: 'user-details.component.html'
 })
 export class UserDetailsComponent implements OnInit {
+  isLoggedIn;
   driverId = this.route.snapshot.params.id;
   driver: Driver;
   user: User;
@@ -29,6 +30,10 @@ export class UserDetailsComponent implements OnInit {
     private sharedService: SharedService) { }
 
   ngOnInit(): void {
+    this.isLoggedIn = localStorage.getItem("user");
+    if (!this.isLoggedIn) {
+      this.router.navigate(['/login'])
+    }
     this.getDriver();
     this.getDriverCars();
     this.getDriverDocuments();
