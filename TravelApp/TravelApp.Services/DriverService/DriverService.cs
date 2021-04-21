@@ -193,7 +193,7 @@ namespace TravelApp.Services.DriverService
 
             if (driver != null)
             {
-                if(driver.Rating != 5)
+                if(driver.Rating <= 9.90)
                 {
                     driver.Rating += 0.10;
                     this.repository.Update(driver);

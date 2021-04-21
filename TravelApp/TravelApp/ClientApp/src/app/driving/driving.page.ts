@@ -99,6 +99,9 @@ export class DrivingPage implements OnInit {
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
 
+      // this.signalRService.retrieveMappedObject()
+      // .subscribe((receivedObj: Order[]) => { this.addOrders(receivedObj); });  // calls the service method to get the new messages sent
+
     this.getData();
 
     if (this.isDrivingNow == true) {
@@ -118,9 +121,9 @@ export class DrivingPage implements OnInit {
 
     connection.on('BroadcastMessage', () => {
       // this.orderDiv = document.getElementById("orderDiv");
-      this.getData();
       this.getAcceptedTrip();
-
+      
+      this.getData();
     });
   }
 
@@ -193,7 +196,6 @@ export class DrivingPage implements OnInit {
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
     let usetLat = this.order.locationLat
     let userLng = this.order.locationLong;
-    let order = this.order;
     directionsService.route(
       {
         origin: {
@@ -291,6 +293,10 @@ export class DrivingPage implements OnInit {
     this.msgInboxArray.push(newObj);
     this.msgDto.text = '';
   }
+
+  // addOrders(obj: Order[]) {
+  //   this.orders = obj;
+  // }
 
   //Report
   reportProblem() {

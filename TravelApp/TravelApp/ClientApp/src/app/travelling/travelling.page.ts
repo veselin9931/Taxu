@@ -76,7 +76,7 @@ export class TravellingPage implements OnInit {
   ngOnInit() {
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
-
+      
     this.form = this.formBuilder.group({
       applicationUserId: [''],
       location: this.orderService.chosenLocation,

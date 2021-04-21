@@ -21,19 +21,19 @@
     <div class="col-md-12">
       <ion-list>
         <ion-item (click)='all()'>
-          <ion-label>All</ion-label>
+          <ion-label>{{'All' | translate}}</ion-label>
           <ion-chip>{{allCount}}</ion-chip>
         </ion-item>
         <ion-item (click)='closest()'>
-          <ion-label>Closest</ion-label>
+          <ion-label>{{'Closest' | translate}}</ion-label>
           <ion-chip>{{allCount}}</ion-chip>
         </ion-item>
         <ion-item (click)='normal()'>
-          <ion-label>Normal</ion-label>
+          <ion-label>{{'Normal' | translate}}</ion-label>
           <ion-chip>{{normalCount}}</ion-chip>
         </ion-item>
         <ion-item (click)='comfort()'>
-          <ion-label>Comfort</ion-label>
+          <ion-label>{{'Comfort' | translate}}</ion-label>
           <ion-chip>{{comfortCount}}</ion-chip>
         </ion-item>
       </ion-list>

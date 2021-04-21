@@ -87,5 +87,10 @@
     "Drive" : "Drive",
     "Logout" : "Logout",
     "Accept" : "Accept",
-    "Waiting for orders": "Waiting for orders"
+    "Waiting for orders": "Waiting for orders",
+    "Normal": "Normal",
+    "Comfort": "Comfort",
+    "Choose car type": "Choose car type",
+    "Closest": "Closest",
+    "All": "All"
   }

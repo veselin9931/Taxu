@@ -122,35 +122,12 @@ export class OrderService {
       )
   }
 
-  // get01Orders(): Observable<Order[]> {
-  //   return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
-  //     .pipe(
-  //       delay(40000),
-  //       catchError(this.handleError)
-  //     )
-  // }
-
-  // get12Orders(): Observable<Order[]> {
-  //   return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
-  //     .pipe(
-  //       delay(30000),
-  //       catchError(this.handleError)
-  //     )
-  // }
-  // get23Orders(): Observable<Order[]> {
-  //   return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
-  //     .pipe(
-  //       delay(20000),
-  //       catchError(this.handleError)
-  //     )
-  // }
-  // get4Orders(): Observable<Order[]> {
-  //   return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
-  //     .pipe(
-  //       delay(1000),
-  //       catchError(this.handleError)
-  //     )
-  // }
+   get45Orders(): Observable<Order[]> {
+     return this.http.get<Order[]>(`${environment.apiUrl}/api/order/highest`)
+       .pipe(
+         catchError(this.handleError)
+       )
+   }
 
   acceptOrder(orderId: string, driverId: string): Observable<Order> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

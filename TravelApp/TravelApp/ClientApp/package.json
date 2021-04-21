@@ -44,6 +44,7 @@
     "ionic-custom-alert": "0.0.2",
     "leaflet": "^1.7.1",
     "mapbox-gl": "^2.1.1",
+    "ng-starrating": "^1.0.20",
     "ng2-charts": "^2.4.2",
     "ngx-google-places-autocomplete": "^2.0.5",
     "rxjs": "~6.5.5",

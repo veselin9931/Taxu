@@ -113,34 +113,6 @@ namespace TravelApp.Controllers
             return this.Ok(orders);
         }
 
-        //// GET: api/<OrderController>
-        //[HttpGet("lowest")]
-        //public async Task<IActionResult> GetLowest()
-        //{
-        //    var orders = await this.orderService.GetOrdersForLowestRatings();
-
-        //    if (orders == null)
-        //    {
-        //        return this.NoContent();
-        //    }
-
-        //    return this.Ok(orders);
-        //}
-
-        //// GET: api/<OrderController>
-        //[HttpGet("middle")]
-        //public async Task<IActionResult> GetMiddle()
-        //{
-        //    var orders = await this.orderService.GetOrdersForMiddleRatings();
-
-        //    if (orders == null)
-        //    {
-        //        return this.NoContent();
-        //    }
-
-        //    return this.Ok(orders);
-        //}
-
         //GET ORDER BY ID
         // GET api/<OrderController>/id/{orderId}
         [HttpGet("id/{orderId}")]
@@ -416,5 +388,15 @@ namespace TravelApp.Controllers
             return this.Ok(options);
         }
 
+        [HttpGet("highest")]
+        public async Task<IActionResult> Get4to5Rating()
+        {
+            var orders = await this.orderService.Get4to5RatingOrdersAsync();
+            if (orders != null)
+            {
+                return this.Ok(orders);
+            }
+            return this.NoContent();
+        }
     }
 }
