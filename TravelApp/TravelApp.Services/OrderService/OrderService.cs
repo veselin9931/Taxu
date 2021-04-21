@@ -282,6 +282,12 @@ namespace TravelApp.Services.OrderService
 
         }
 
+        public async Task<IList<Order>> Get4to5RatingOrdersAsync()
+        => await this.orderRepository.All()?
+            .Where(x => x.IsDeleted == false && x.Status == "Waiting" &&x.CreatedOn <= DateTime.UtcNow.AddSeconds(-5))
+            .Include(x => x.ApplicationUser)
+            .OrderBy(x => x.CreatedOn)
+            .ToListAsync();
         //public async Task<IList<Order>> GetOrdersFor01Ratings()
         //=> await this.orderRepository.All()?
         //    .Where(x => x.Status == "Waiting" && x.IsDeleted == false)

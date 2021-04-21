@@ -87,5 +87,10 @@
     "Drive" : "Manejar",
     "Logout" : "Cerrar sesión",
     "Accept" : "Aceptar",
-    "Waiting for orders": "Esperando pedidos"
+    "Waiting for orders": "Esperando pedidos",
+    "Normal": "Normal",
+    "Comfort": "Comodidad",
+    "Choose car type": "Elige el tipo de coche",
+    "Closest": "Mas cercana",
+    "All": "Todas"
   }

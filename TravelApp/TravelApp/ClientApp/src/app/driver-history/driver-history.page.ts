@@ -15,10 +15,11 @@ export class DriverHistoryPage implements OnInit {
   orders: Order[] = [];
   userId = this.accountService.userValue.id;
   orderer : User;
-
+  dailyProfit: string;
+  currentDate = new Date();
   constructor(private driverService: DriverService,
     private accountService: AccountService,
-    private locationPage: Location) { }
+    private locationPage: Location,) {}
 
   ngOnInit() {
     this.getHistory();
@@ -50,6 +51,11 @@ export class DriverHistoryPage implements OnInit {
         return;
       }
       this.orders = x;
+      let sum: number = 0;
+      x.forEach(order => {
+        sum += order.totalPrice;
+      });
+      this.dailyProfit = sum.toFixed(2);
     })
   }
 

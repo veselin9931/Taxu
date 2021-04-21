@@ -43,18 +43,14 @@ export class DrivingPage implements OnInit {
 
   order: Order;
   orders: Order[] = [];
+  closestOrders: Order[] = [];
 
   totalPrice: number;
 
   subscription: Subscription;
 
   //Map
-  coordinates: any;
-  myLatLng: any;
-
   map: any;
-  latitude: any;
-  longitude: any;
 
   address: string;
 
@@ -64,7 +60,6 @@ export class DrivingPage implements OnInit {
   userDestinationLat: any;
   userDestinationLng: any;
 
-  distanceToUser: number;
   distance: string;
   eta: string;
 
@@ -98,11 +93,14 @@ export class DrivingPage implements OnInit {
     // for pinging location of driver
     // const source = interval(5000);
     // this.subscription = source.subscribe(val => this.postLocation());
+    // this.orderDiv = document.getElementById("orderDiv")
 
     this.categoryType = this.driverService.categoryType;
-    this.orderDiv = document.getElementById("orderDiv")
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
+
+      // this.signalRService.retrieveMappedObject()
+      // .subscribe((receivedObj: Order[]) => { this.addOrders(receivedObj); });  // calls the service method to get the new messages sent
 
     this.getData();
 
@@ -122,25 +120,21 @@ export class DrivingPage implements OnInit {
     });
 
     connection.on('BroadcastMessage', () => {
-      this.orderDiv = document.getElementById("orderDiv");
-      this.getData();
+      // this.orderDiv = document.getElementById("orderDiv");
       this.getAcceptedTrip();
-
+      
+      this.getData();
     });
   }
 
   ionViewDidEnter() {
+    // this.orderDiv = document.getElementById("orderDiv");
     this.categoryType = this.driverService.categoryType;
-    this.orders.forEach(order => this.calculateEta(order));
-    this.orderDiv = document.getElementById("orderDiv");
     this.getData();
     if (this.isDrivingNow == true) {
       //have to optimise this
-      this.getAcceptedTrip()
-    }
-
-    if (this.isDrivingNow == true) {
       this.loadMap(this.mapRef);
+      this.getAcceptedTrip()
     }
   }
 
@@ -202,7 +196,6 @@ export class DrivingPage implements OnInit {
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
     let usetLat = this.order.locationLat
     let userLng = this.order.locationLong;
-    let order = this.order;
     directionsService.route(
       {
         origin: {
@@ -301,6 +294,10 @@ export class DrivingPage implements OnInit {
     this.msgDto.text = '';
   }
 
+  // addOrders(obj: Order[]) {
+  //   this.orders = obj;
+  // }
+
   //Report
   reportProblem() {
     this.route.navigate(['menu/report']);
@@ -319,175 +316,60 @@ export class DrivingPage implements OnInit {
           this.getAllOrders(x.rating);
         }
       })
-    
+
   }
 
-  //Get all orders based by rating
-  // setTimeout(() => {
-        //   var orderDiv = document.getElementById("orderDiv");
-        //   if (orderDiv != null) {
-        //     orderDiv.style.display = 'block'
-        //   }
-        // }, 40000);
-        // here sets the time for distributing orders.
   getAllOrders(rating) {
-    if (rating < 1) {
-      this.orderService.getAllOrders().subscribe(data => {
+    this.orderService.getAllOrders()
+      .subscribe(data => {
         if (data == null) {
           return;
         }
         this.orders = data;
+        this.orders.forEach(order => this.calculateEta(order));
+        this.orders.sort((a, b) => {
+          return <any>new Date(b.createdOn) - <any>new Date(a.createdOn);
+        });
+
       })
-    } else if (rating >= 1 && rating < 2) {
-      this.orderService.getAllOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    } else if (rating >= 2 && rating < 3) {
-      this.orderService.getAllOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    } else if (rating >= 3 && rating < 4) {
-      this.orderService.getAllOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    } else if (rating >= 4) {
-      this.orderService.getAllOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    }
+
   }
 
   //Get normal orders based by rating
   getNormalOrders(rating) {
-    if (rating < 1) {
-      this.orderService.getNormalOrders().subscribe(data => {
+    this.orderService.getNormalOrders()
+      .subscribe(data => {
         if (data == null) {
           return;
         }
         this.orders = data;
+        this.orders.forEach(order => this.calculateEta(order));
       })
-    } else if (rating >= 1 && rating < 2) {
-      this.orderService.getNormalOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    } else if (rating >= 2 && rating < 3) {
-      this.orderService.getNormalOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    } else if (rating >= 3 && rating < 4) {
-      this.orderService.getNormalOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    } else if (rating >= 4) {
-      this.orderService.getNormalOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    }
   }
 
   //Get comfort orders based by rating
   getComfortOrders(rating) {
-    if (rating < 1) {
-      this.orderService.getComfortOrders().subscribe(data => {
+    this.orderService.getComfortOrders()
+      .subscribe(data => {
         if (data == null) {
           return;
         }
         this.orders = data;
+        this.orders.forEach(order => this.calculateEta(order));
       })
-    } else if (rating >= 1 && rating < 2) {
-      this.orderService.getComfortOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    } else if (rating >= 2 && rating < 3) {
-      this.orderService.getComfortOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    } else if (rating >= 3 && rating < 4) {
-      this.orderService.getComfortOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    } else if (rating >= 4) {
-      this.orderService.getComfortOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
 
-      })
-    }
   }
 
   getClosestOrders(rating) {
-    if (rating < 1) {
-      this.orderService.getAllOrders().subscribe(data => {
+    this.orderService.getAllOrders()
+      .subscribe(data => {
         if (data == null) {
           return;
         }
-        this.orders = data;
+
+        data.sort((a, b) => a.km - b.km);
+        this.orders.forEach(order => this.calculateEta(order));
       })
-    } else if (rating >= 1 && rating < 2) {
-      this.orderService.getAllOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    } else if (rating >= 2 && rating < 3) {
-      this.orderService.getAllOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    } else if (rating >= 3 && rating < 4) {
-      this.orderService.getAllOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        this.orders = data;
-      })
-    } else if (rating >= 4) {
-      this.orderService.getAllOrders().subscribe(data => {
-        if (data == null) {
-          return;
-        }
-        data.sort((a, b) => a.tripDistance - b.tripDistance);
-        this.orders = data;
-      })
-    }
   }
 
   async calculateEta(order) {
@@ -508,9 +390,11 @@ export class DrivingPage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
-          this.distanceToUser = response.routes[0].legs[0].distance.value / 1000;
           this.eta = response.routes[0].legs[0].duration.text;
-          this.distance = this.distanceToUser.toFixed(2);
+          order.km = response.routes[0].legs[0].distance.value / 1000;
+          order.distanceText = response.routes[0].legs[0].distance.text;
+          order.eta = response.routes[0].legs[0].duration.text;
+          this.distance = order.distanceText;
         }
       }
     );
@@ -524,57 +408,50 @@ export class DrivingPage implements OnInit {
           return this.WrongCarAlert();
         } else {
           //Get user's id to get drivers data
-          this.accountService.getById(this.applicationUserId)
-            .subscribe(user => {
 
-              //Get driver's data
-              this.driverService.getDriver(user.driverId)
-                .subscribe(driver => {
-                  this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
+          //Get driver's data
+          this.driverService.getDriver(this.accountService.userValue.driverId)
+            .subscribe(driver => {
+              this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
 
-                  //Get drivers wallet
-                  this.walletService.getMyWallet(this.applicationUserId)
-                    .subscribe(wallet => {
-                      if (wallet.ammount < this.tripPriceForDriver) {
-                        this.NotEnoughCashAlert();
-                        return;
-                      } else {
-                        let applicationUserId = this.accountService.userValue.id;
-                        this.accountService.userValue.isDrivingNow = true;
-                        this.accountService.updateDriving(applicationUserId, true)
-                          .subscribe(() => {
-                          });
+              //Get drivers wallet
+              this.walletService.getMyWallet(this.applicationUserId)
+                .subscribe(wallet => {
+                  if (wallet.ammount < this.tripPriceForDriver) {
+                    this.NotEnoughCashAlert();
+                    return;
+                  } else {
+                    let applicationUserId = this.accountService.userValue.id;
+                    this.accountService.userValue.isDrivingNow = true;
+                    this.accountService.updateDriving(this.applicationUserId, true)
+                      .subscribe(() => {
+                      });
 
-                        this.isDrivingNow = this.accountService.userValue.isDrivingNow;
-                        order.acceptedBy = applicationUserId;
+                    this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+                    order.acceptedBy = applicationUserId;
 
-                        //Accepting order
-                        this.orderService.acceptOrder(order.id, applicationUserId)
-                          .subscribe(() => {
-                            this.orderService.alertForcomplete = 'Accepted';
-                            this.orderService.updateOrderEta(orderId, this.eta)
-                              .subscribe()
-                          })
+                    //Accepting order
+                    this.orderService.acceptOrder(order.id, applicationUserId)
+                      .subscribe(() => {
+                        this.orderService.updateOrderEta(orderId, this.eta)
+                          .subscribe();
+                      });
 
-                        let orderId = order.id;
-                        let data = { orderId, applicationUserId, order };
+                    let orderId = order.id;
+                    let data = { orderId, applicationUserId, order };
 
-                        //Creating trip to manage data
-                        this.tripService.createTrip(data)
-                          .subscribe(() => {
-                            this.loadMap(this.mapRef);
-                          })
+                    //Creating trip to manage data
+                    this.tripService.createTrip(data)
+                      .subscribe(() => {
+                        this.loadMap(this.mapRef);
+                      });
 
-
-                        this.chatService.stop();
-                        this.route.navigate(['menu/driving']);
-                      }
-                    })
-                })
-            })
+                    this.chatService.stop();
+                  }
+                });
+            });
         }
-      })
-
+      });
   }
 
   //Navigate to user and discharge his wallet.
@@ -592,43 +469,25 @@ export class DrivingPage implements OnInit {
       })
   }
 
-  //Check drivers wallet before gettin an order
-  checkIfDriverHasMoney(order: Order) {
-    this.accountService.getById(this.applicationUserId)
-      .subscribe(user => {
-        this.driverService.getDriver(user.driverId)
-          .subscribe(driver => {
-            this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
-            this.walletService.getMyWallet(this.applicationUserId)
-              .subscribe(wallet => {
-                if (wallet.ammount < this.tripPriceForDriver) {
-                  this.NotEnoughCashAlert();
-                  return 'No Cash';
-                }
-              })
-          })
-      })
-  }
+  // //Cancelling the accepted trip
+  // cancelTrip() {
+  //   this.tripService.completeTrip(this.currentTrip.id)
+  //     .subscribe(trip => {
+  //       if (trip) {
+  //         this.tripStatus = trip.status;
+  //       }
+  //       this.orderService.completeOrder(this.currentTrip.orderId)
+  //         .subscribe();
+  //     })
 
-  //Cancelling the accepted trip
-  cancelTrip() {
-    this.tripService.completeTrip(this.currentTrip.id)
-      .subscribe(trip => {
-        if (trip) {
-          this.tripStatus = trip.status;
-        }
-        this.orderService.completeOrder(this.currentTrip.orderId)
-          .subscribe();
-      })
+  //   let driverId = this.accountService.userValue.id;
+  //   let value = this.accountService.userValue.isDrivingNow = false;
 
-    let driverId = this.accountService.userValue.id;
-    let value = this.accountService.userValue.isDrivingNow = false;
+  //   this.accountService.updateDriving(driverId, value)
+  //     .subscribe();
 
-    this.accountService.updateDriving(driverId, value)
-      .subscribe();
-
-    this.isDrivingNow = this.accountService.userValue.isDrivingNow;
-  }
+  //   this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+  // }
 
   //Get data for accepted trip
   getAcceptedTrip() {
@@ -657,15 +516,12 @@ export class DrivingPage implements OnInit {
 
           this.tripDistance = order.tripDistance;
           this.calculateEta(order);
-          this.accountService.getById(this.driverId).subscribe(driver => {
-            this.driverService.getDriver(driver.driverId)
-              .subscribe(s => {
-                this.tripPriceForDriver = (order.totalPrice * (s.comission / 100));
-                
-              })
-          })
+
+          this.driverService.getDriver(this.accountService.userValue.driverId)
+            .subscribe(s => {
+              this.tripPriceForDriver = (order.totalPrice * (s.comission / 100));
+            })
         })
-        this.route.navigate(['menu/driving']);
       });
   }
 
@@ -681,10 +537,10 @@ export class DrivingPage implements OnInit {
       })
 
     //trigger the driver's driving now property to false
-    let driverId = this.accountService.userValue.id;
+    let userId = this.accountService.userValue.id;
     let value = this.accountService.userValue.isDrivingNow = false;
 
-    this.accountService.updateDriving(driverId, value)
+    this.accountService.updateDriving(userId, value)
       .subscribe();
     this.isDrivingNow = this.accountService.userValue.isDrivingNow;
   }
@@ -722,3 +578,53 @@ export class DrivingPage implements OnInit {
   }
 
 }
+
+//RATING BASED ORDERS .. FOR LATER
+
+// getNormalOrders(rating) {
+//   if (rating < 1) {
+//     this.orderService.getNormalOrders().subscribe(data => {
+//       if (data == null) {
+//         return;
+//       }
+//       this.orders = data;
+//     })
+//   } else if (rating >= 1 && rating < 2) {
+//     this.orderService.getNormalOrders().subscribe(data => {
+//       if (data == null) {
+//         return;
+//       }
+//       this.orders = data;
+//     })
+//   } else if (rating >= 2 && rating < 3) {
+//     this.orderService.getNormalOrders().subscribe(data => {
+//       if (data == null) {
+//         return;
+//       }
+//       this.orders = data;
+//     })
+//   } else if (rating >= 3 && rating < 4) {
+//     this.orderService.getNormalOrders().subscribe(data => {
+//       if (data == null) {
+//         return;
+//       }
+//       this.orders = data;
+//     })
+//   } else if (rating >= 4) {
+//     this.orderService.getNormalOrders().subscribe(data => {
+//       if (data == null) {
+//         return;
+//       }
+//       this.orders = data;
+//     })
+//   }
+// }
+
+  //Get all orders based by rating
+  // setTimeout(() => {
+        //   var orderDiv = document.getElementById("orderDiv");
+        //   if (orderDiv != null) {
+        //     orderDiv.style.display = 'block'
+        //   }
+        // }, 40000);
+        // here sets the time for distributing orders.

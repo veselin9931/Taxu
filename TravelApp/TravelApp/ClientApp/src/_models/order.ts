@@ -24,4 +24,5 @@ export class Order {
     withStroller: boolean;
     carType: string;
     isRated: boolean;
+    km: any;
 }

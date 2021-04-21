@@ -70,15 +70,15 @@
 
                         <ion-radio-group formControlName="carType" value="Normal">
                             <ion-list-header>
-                                <ion-label color='light'>Choose car type</ion-label>
+                                <ion-label color='light'>{{'Choose car type' | translate}}</ion-label>
                               </ion-list-header>
                             <ion-item>
-                              <ion-label color='light'>Normal</ion-label>
+                              <ion-label color='light'>{{'Normal' | translate}}</ion-label>
                               <ion-radio [disabled]="this.form.value.carType == 'Comfort'" color='light' slot="start" value="Normal"></ion-radio>
                             </ion-item>
                         
                             <ion-item>
-                              <ion-label color='light'>Comfort</ion-label>
+                              <ion-label color='light'>{{'Comfort' | translate}}</ion-label>
                               <ion-radio [disabled]="this.form.value.carType == 'Normal'" color='light' slot="start" value="Comfort"></ion-radio>
                             </ion-item>
                           </ion-radio-group>
