@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { ok } from 'assert';
 import { first } from 'rxjs/operators';
 import { LanguagePopoverPage } from 'src/app/language-popover/language-popover.page';
 import { environment } from 'src/environments/environment';
@@ -18,7 +19,8 @@ import { DriverService } from 'src/_services/driver/driver.service';
 export class RegisterPage implements OnInit {
   submitted = false;
   loading = false;
-  form: FormGroup;
+    form: FormGroup;
+    err = '';
 
   constructor(private route: Router,
     private formBuilder: FormBuilder,
@@ -39,9 +41,12 @@ export class RegisterPage implements OnInit {
       confirmPassword: ['', Validators.required],
       phone: ['', Validators.required],
       referral: ['']
+
     },{
       validators: this.ConfirmedValidator('password', 'confirmPassword')
     })
+
+    
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
@@ -68,7 +73,6 @@ export class RegisterPage implements OnInit {
       }
 
     this.loading = true;
-
     this.accountService.register(this.form.value)
     .pipe(first())
     .subscribe(
@@ -89,8 +93,11 @@ export class RegisterPage implements OnInit {
         this.route.navigate(['menu/home']);
         console.log(data)
       },
-      error => {
-        console.log(error);
+        error => {
+
+            console.log(error.error);
+            this.err = error.error;
+
         this.loading = false;
       }
     )

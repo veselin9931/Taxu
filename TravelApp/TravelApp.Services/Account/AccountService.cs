@@ -32,7 +32,7 @@ namespace TravelApp.Services.Account
 
             // check if username exists
             if (user == null)
-                 throw new ArgumentException(RegisterErrs.ExistingUser);
+                 throw new ArgumentException(RegisterErrs.InvalidPassword);
 
             // check if password is correct
             if (!VerifyPasswordHash(password, Convert.FromBase64String(user.PasswordHash), Convert.FromBase64String(user.PasswordSalt)))

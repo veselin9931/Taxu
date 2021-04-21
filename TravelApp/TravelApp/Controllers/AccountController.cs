@@ -81,7 +81,7 @@ namespace TravelApp.Controllers
         {
             if (model == null || !this.ModelState.IsValid)
             {
-                return this.BadRequest(this.ModelState);
+                return this.BadRequest(this.ModelState.SelectMany(x => x.Value.Errors));
             }
 
             var user = new ApplicationUser()
@@ -96,7 +96,19 @@ namespace TravelApp.Controllers
                 
             };
 
-            var result = await userService.Create(user, model.Password);
+            ApplicationUser result;
+
+            try
+            {
+                 result = await userService.Create(user, model.Password);
+            }
+            catch (Exception e)
+            {
+
+                return this.BadRequest(e.Message);
+            }
+
+           
 
             if (result != null)
             {
@@ -112,7 +124,17 @@ namespace TravelApp.Controllers
         [Route("/authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] LoginViewModel userDto)
         {
-            var user = await userService.Authenticate(userDto.Username, userDto.Password);
+            ApplicationUser user;
+            try
+            {
+                user = await userService.Authenticate(userDto.Username, userDto.Password);
+            }
+            catch (Exception e)
+            {
+
+                return this.BadRequest(new {message  = e.Message} );
+            }
+            
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });

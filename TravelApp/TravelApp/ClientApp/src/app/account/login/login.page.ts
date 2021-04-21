@@ -16,10 +16,12 @@ import { AccountService, AlertService } from 'src/_services';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  submitted = false;
+    submitted = false;
+    err = '';
   form: FormGroup;
   loading = false;
   isLoggedIn;
+
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
@@ -84,8 +86,9 @@ export class LoginPage implements OnInit {
             });
           this.route.navigate(['menu/travelling']);
         },
-        error => {
-          this.alertService.error(error);
+          error => {
+              console.log(error.error.message);
+              this.err = error.error.message
           this.loading = false;
         });
 
