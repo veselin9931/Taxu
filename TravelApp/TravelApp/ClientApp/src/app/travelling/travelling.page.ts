@@ -64,9 +64,7 @@ export class TravellingPage implements OnInit {
     private orderService: OrderService,
     private alertService: AlertService,
     private accountService: AccountService,
-    private tripService: TripService,
     private driverService: DriverService,
-    private alertController: AlertController,
     private chatService: ChatService,
     private translate: TranslateService,
     private popoverController: PopoverController) {
@@ -74,9 +72,8 @@ export class TravellingPage implements OnInit {
   }
 
   ngOnInit() {
-    this.chatService.retrieveMappedObject()
-      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
-      
+    this.chatService.stop();
+    
     this.form = this.formBuilder.group({
       applicationUserId: [''],
       location: this.orderService.chosenLocation,
@@ -115,6 +112,10 @@ export class TravellingPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.chatService.stop();
+    if(this.accountService.userValue.isTravellingNow == true){
+      this.route.navigate(['menu/travel-mode'])
+    }
     this.checkorder();
     if (this.orderService.selectedFavourite) {
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
@@ -135,52 +136,9 @@ export class TravellingPage implements OnInit {
     }
 
     if (this.isCompleted) {
-      console.log('should display the loc')
-      console.log(this.order)
       this.form.get('location').setValue(this.order.location);
       this.form.get('destination').setValue(this.order.destination);
     }
-
-  }
-
-
-  //CHAT FUNCTIONALLITY
-  chat() {
-    var x = document.getElementById("chat");
-
-    if (x.style.display === "none") {
-      x.style.display = "block";
-      this.chatStyle = 'block';
-    } else {
-      x.style.display = "none";
-      this.chatStyle = 'none';
-    }
-  }
-  msgDto: Message = new Message();
-  msgInboxArray: Message[] = [];
-
-  send(): void {
-    if (this.msgDto) {
-      if (this.msgDto.text.length == 0) {
-        window.alert("Text field is required.");
-        return;
-      } else {
-        this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
-        this.chatService.broadcastMessage(this.msgDto);                   // Send the message via a service
-      }
-    }
-  }
-
-  clearMessages() {
-    this.messages.length = 0;
-  }
-
-  addToInbox(obj: Message) {
-    let newObj = new Message();
-    newObj.user = obj.user;
-    newObj.text = obj.text;
-    this.msgInboxArray.push(newObj);
-    this.msgDto.text = '';
   }
 
   //GET LOCATION AND DESTINATION AND SEARCH DRIVER
@@ -260,46 +218,22 @@ export class TravellingPage implements OnInit {
     );
   }
 
-  //Favourites page func
-
-  addToFavourite() {
-    let data = {
-      applicationUserId: this.order.applicationUserId,
-      location: this.order.location,
-      locationLat: this.order.locationLat,
-      locationLong: this.order.locationLong,
-      destination: this.order.destination,
-      destinationLat: this.order.destinationLat,
-      destinationLong: this.order.destinationLong,
-      totalPrice: this.order.totalPrice
-    };
-
-    if (data) {
-      this.orderService.addToFavourites(data)
-        .subscribe(() => {
-          this.successAddedFavourite();
-        });
-
-    } else {
-      console.log('Problem with data occured')
-    }
-  }
-
   //Order functionallity - waiting for driver
   checkorder() {
     this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
-          this.orderStatus = data.status;
           this.orderService.currentOrderId = data.id;
           this.location = data.location;
           this.destination = data.destination;
           (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
           this.orderTotalPrice = data.totalPrice;
-          this.order = data;
           this.estimatedDuration = data.eta;
-          } else {
-            this.orderTotalPrice = 0;
+          
+          if (data.status == "Accepted" && data != null) {
+            this.accountService.userValue.isTravellingNow = true;
+                this.accountService.updateTravel(this.user.id, true)
+                .subscribe(() => this.route.navigate(['menu/travel-mode']));
           }
 
           if (this.orderStatus == "Waiting" && data != null) {
@@ -308,35 +242,8 @@ export class TravellingPage implements OnInit {
             // User can increase order price.
             this.selector(0);
           }
-  
-          if (this.orderStatus == "Accepted" && data != null) {
-            this.loadMap(this.mapRef);
-            //Reset the data
-            this.isCompleted = false;
-            this.isSubmitted = false;
-            this.clearForm();
-  
-            this.orderService.order = data;
-            this.order = data;
-  
-            this.chatService.stop();
-  
-            if (data.acceptedBy != null) {
-              this.getUserById(data.acceptedBy);
-              this.getAcceptedTrip(data.acceptedBy);
-              this.driverId = data.acceptedBy;
-            }
-        } 
-
-        if (data == null) {
-          this.orderService.getLastCompletedOrder(this.user.id)
-          .subscribe(x => {
-            if(x.isRated == false){
-              this.orderService.rateOrder(x.id)
-              .subscribe();
-              return this.completedOrderAlert();
-            }
-          })
+        } else {
+          this.orderTotalPrice = 0;
         }
       },
         error => {
@@ -366,72 +273,6 @@ export class TravellingPage implements OnInit {
     }
   }
 
-  //Get data for the driver and his car.
-  getUserById(driverId: string) {
-    this.accountService.getById(driverId)
-      .subscribe(userData => {
-        this.firstName = userData.firstName;
-        this.lastName = userData.lastName;
-        this.driverId = userData.driverId;
-
-        this.driverService.getDriverActiveCar(userData.driverId)
-          .subscribe(car => {
-            this.carModel = car.model;
-            this.carColor = car.color;
-          })
-      })
-  }
-
-  //Get current trip to manage data.
-  getAcceptedTrip(driverId: string) {
-    this.tripService.getTrip(driverId)
-      .subscribe(x => {
-        if (x == null) {
-          this.orderStatus = "Completed";
-          console.log("No trip!");
-          return;
-        }
-        if (x.status == "Completed") {
-          this.orderStatus = "Completed";
-        }
-        this.currentTrip = x;
-        this.loadMap(this.mapRef);
-      });
-  }
-
-  //MAPS FUNCTIONALLITY
-  async loadMap(mapRef: ElementRef) {
-    this.accountService.getById(this.order.acceptedBy)
-      .subscribe(driver => {
-        this.driverService.getDriver(driver.driverId)
-          .subscribe(data => {
-            const driverLatLng = { lat: data.currentLocationLat, lng: data.currentLocationLong };
-
-            const options: google.maps.MapOptions = {
-              center: new google.maps.LatLng(driverLatLng.lat, driverLatLng.lng),
-              zoom: 15,
-              disableDefaultUI: true,
-            };
-
-            if (mapRef != null) {
-              this.map = new google.maps.Map(mapRef.nativeElement, options);
-            }
-
-            var icon = {
-              url: 'https://images.vexels.com/media/users/3/154573/isolated/preview/bd08e000a449288c914d851cb9dae110-hatchback-car-top-view-silhouette-by-vexels.png',
-              scaledSize: new window.google.maps.Size(25, 25),
-              anchor: { x: 10, y: 10 }
-            };
-
-            var marker = new google.maps.Marker({
-              position: new google.maps.LatLng(driverLatLng),
-              icon: icon,
-              map: this.map
-            });
-          })
-      })
-  }
-
   async openLanguagePopover(ev) {
     const popover = await this.popoverController.create({
       component: LanguagePopoverPage,
@@ -440,65 +281,6 @@ export class TravellingPage implements OnInit {
     await popover.present();
   }
 
-  //ALERTS
-  async completedOrderAlert() {
-    const popup = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'You have reached the final destination! Did you enjoyed the trip?',
-      //message: '<img src = "../assets/default.png" width="1px" height="1px">',
-      inputs: [
-        {
-          name: 'Like',
-          type: 'checkbox',
-          label: 'Yes',
-          handler: () => {
-            this.driverService.voteUp(this.driverId)
-              .subscribe(x => {
-                window.location.reload();
-              })
-          }
-        },
-        {
-          name: 'Dislike',
-          type: 'checkbox',
-          label: 'No',
-          handler: () => {
-            this.driverService.voteDown(this.driverId)
-              .subscribe(x => {
-                window.location.reload();
-              })
-          }
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-        {
-          text: 'Report a problem',
-          role: 'report',
-          handler: () => {
-            this.route.navigate(['menu/report']);
-          }
-        }
-      ]
-    });
-    await popup.present();
-  }
-  async successAddedFavourite() {
-    const popup = await this.alertController.create({
-      header: 'Successfully added to favourites!',
-
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        }
-      ]
-    });
-    await popup.present();
-  }
   //END ALERTS
 
   clearForm() {

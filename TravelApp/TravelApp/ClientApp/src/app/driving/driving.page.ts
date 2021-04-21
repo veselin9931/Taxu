@@ -84,7 +84,7 @@ export class DrivingPage implements OnInit {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
 
     if (this.isDrivingNow == true) {
-      this.getAcceptedTrip()
+      this.getAcceptedTrip();
     }
   }
 
@@ -99,8 +99,8 @@ export class DrivingPage implements OnInit {
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
 
-      // this.signalRService.retrieveMappedObject()
-      // .subscribe((receivedObj: Order[]) => { this.addOrders(receivedObj); });  // calls the service method to get the new messages sent
+    // this.signalRService.retrieveMappedObject()
+    // .subscribe((receivedObj: Order[]) => { this.addOrders(receivedObj); });  // calls the service method to get the new messages sent
 
     this.getData();
 
@@ -122,7 +122,7 @@ export class DrivingPage implements OnInit {
     connection.on('BroadcastMessage', () => {
       // this.orderDiv = document.getElementById("orderDiv");
       this.getAcceptedTrip();
-      
+
       this.getData();
     });
   }
@@ -134,7 +134,10 @@ export class DrivingPage implements OnInit {
     if (this.isDrivingNow == true) {
       //have to optimise this
       this.loadMap(this.mapRef);
-      this.getAcceptedTrip()
+      this.getAcceptedTrip();
+      
+      this.chatService.stop();
+      this.chatService.start();
     }
   }
 
@@ -445,8 +448,6 @@ export class DrivingPage implements OnInit {
                       .subscribe(() => {
                         this.loadMap(this.mapRef);
                       });
-
-                    this.chatService.stop();
                   }
                 });
             });
@@ -468,26 +469,6 @@ export class DrivingPage implements OnInit {
         }
       })
   }
-
-  // //Cancelling the accepted trip
-  // cancelTrip() {
-  //   this.tripService.completeTrip(this.currentTrip.id)
-  //     .subscribe(trip => {
-  //       if (trip) {
-  //         this.tripStatus = trip.status;
-  //       }
-  //       this.orderService.completeOrder(this.currentTrip.orderId)
-  //         .subscribe();
-  //     })
-
-  //   let driverId = this.accountService.userValue.id;
-  //   let value = this.accountService.userValue.isDrivingNow = false;
-
-  //   this.accountService.updateDriving(driverId, value)
-  //     .subscribe();
-
-  //   this.isDrivingNow = this.accountService.userValue.isDrivingNow;
-  // }
 
   //Get data for accepted trip
   getAcceptedTrip() {

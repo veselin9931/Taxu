@@ -82,7 +82,11 @@ const routes: Routes = [
       {
         path: 'categories',
         loadChildren: () => import('../categories/categories.module').then( m => m.CategoriesPageModule)
-      }
+      },
+      {
+        path: 'travel-mode',
+        loadChildren: () => import('../travel-mode/travel-mode.module').then( m => m.TravelModePageModule)
+      },
     ]
   }
 ];

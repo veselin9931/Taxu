@@ -106,6 +106,23 @@ export class AccountService {
       }));
   }
 
+  updateTravel(id, value): Observable<User> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<User>(`${environment.apiUrl}/api/account/${id}/travel/${value}`, { headers, responseType: 'json' },)
+      .pipe(map(x => {
+        // update stored user if the logged in user updated their own record
+        if (id == this.userValue.id) {
+          // update local storage
+          const user = { ...this.userValue, value };
+          localStorage.setItem('user', JSON.stringify(user));
+
+          // publish updated user to subscribers
+          this.userSubject.next(user);
+        }
+        return x;
+      }));
+  }
+
   update(id, params) {
     return this.http.put(`${environment.apiUrl}/api/${id}`, params)
       .pipe(map(x => {

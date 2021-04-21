@@ -25,6 +25,9 @@ namespace TravelApp.Services.Account
 
         public Task<bool> UpdateUserReloadAsync(string id, bool value);
 
+        public Task<bool> UpdateUserTravelAsync(string id, bool value);
+
+
         Task<ApplicationUser> Create(ApplicationUser user, string password);
 
         void Delete(string id);

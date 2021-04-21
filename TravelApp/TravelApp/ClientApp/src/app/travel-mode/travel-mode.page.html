@@ -1,0 +1,78 @@
+<ion-content padding class="noScroll">
+  <ion-header>
+      <ion-toolbar>
+          <ion-buttons slot="start">
+              <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+
+
+          <ion-title>
+              <ion-label class="blink_me">{{'Waiting for the car'| translate}}</ion-label>
+          </ion-title>
+
+          <ion-buttons slot="end">
+              <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
+          </ion-buttons>
+      </ion-toolbar>
+  </ion-header>
+  <div #map id="map"></div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="text-center">
+      <ion-text class="textTravel">
+          {{'Your driver' | translate}} {{firstName}} {{lastName}} {{'will arrive with' | translate}} {{carColor}} {{carModel}} {{'in about'| translate}} {{estimatedDuration}}
+
+
+      </ion-text>
+  </ion-toolbar>
+</ion-footer>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="text-center">
+      <ion-title class="fonted">{{'Your destination' | translate}}</ion-title>
+      <ion-label class="fonted">{{destination}}</ion-label>
+      <ion-toolbar class="text-center">
+          <ion-button class="fonted" (click)="addToFavourite()" type="submit" color="light">
+          {{'Add to favourites' | translate}}
+          </ion-button>
+          <ion-button (click)="chat()" class="fonted" (click)="clearMessages()" type="submit" color="light">
+              {{'Chat' | translate}}</ion-button>
+              <br />
+      <ion-label class="blink_me fonted" *ngIf="messages.length != 0  && chatStyle == 'none'">{{'You have new message' | translate}}.</ion-label>
+      </ion-toolbar>
+      
+  </ion-toolbar>
+
+  <div id="chat" style="display: none;" class="row chat">
+          
+      <div class="col">
+        <ion-card>
+            
+            <div class="msg-box">
+              <ul *ngIf="this.msgInboxArray.length == 0" class="text-center mr-5">
+                  <li class="fonted">{{'No messages for now' | translate}}</li>
+                </ul>
+              <ul *ngFor="let mObj of msgInboxArray">
+                <li class="fonted" [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
+                  {{mObj.user}}:  
+                  {{mObj.text}}
+              </li>
+                
+              </ul>
+            </div>
+        </ion-card>
+  
+        <ion-card class="type">
+          <ion-item >
+            <ion-input  [(ngModel)]="msgDto.text" [placeholder]='"Type your message..." | translate'>
+  
+            </ion-input>
+              <ion-icon (click)="send()" name="send-outline"></ion-icon>
+         
+          </ion-item>
+        </ion-card>
+      </div>
+      
+    </div>
+</ion-footer>

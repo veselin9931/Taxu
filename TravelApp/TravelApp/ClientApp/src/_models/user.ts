@@ -6,6 +6,7 @@
     lastName: string;
     token: string;
     isDrivingNow: boolean;
+    isTravellingNow: boolean;
     isDriver: boolean;
     driverId: string;
     phone: number;

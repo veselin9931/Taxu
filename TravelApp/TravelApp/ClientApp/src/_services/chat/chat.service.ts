@@ -25,13 +25,12 @@ export class ChatService {
     private accountService: AccountService,
     private orderService: OrderService) {
 
-    this.connection.onclose(async () => {
-      await this.start();
-    });
+    // this.connection.onclose(async () => {
+    //   await this.start();
+    // });
     this.connection.on("MessageReceived", (user, message) => {
       this.mapReceivedMessage(user, message);
     });
-    this.start();
   }
 
   public async stop() {
