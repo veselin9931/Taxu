@@ -1,23 +1,16 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { AlertController, PopoverController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
-import { Message, Order, Trip, User } from 'src/_models';
-import { Car } from 'src/_models/car';
+import { Message, Order, Trip } from 'src/_models';
 import { AccountService, AlertService } from 'src/_services';
-import { ChatService } from 'src/_services/chat/chat.service';
-import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
-import { TripService } from 'src/_services/trip/trip.service';
-import { Plugins } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
 
-const { Geolocation } = Plugins;
-declare var google: any;
 @Component({
   selector: 'app-travelling',
   templateUrl: './travelling.page.html',
@@ -26,14 +19,9 @@ declare var google: any;
 export class TravellingPage implements OnInit {
   public currentTrip: Trip;
   private user = this.accountService.userValue;
-  private driverId = this.accountService.userValue.driverId;
-  language: string = this.translate.currentLang;
   isLoggedIn;
   order: Order;
   form: FormGroup;
-  lastOrder: Order;
-  driverData: User;
-  activeCarData: Car;
   orderStatus: string;
   orderTotalPrice: any;
   orderTotalDestination: any;
@@ -49,31 +37,21 @@ export class TravellingPage implements OnInit {
   location: string;
   destination: string;
 
-  statusForOrder = false;
   isSubmitted = false;
   isCompleted = false;
-  isAccepted = false;
 
-  messages = this.chatService.messages;
-  chatStyle = "";
-
-  map: any;
-  @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
   constructor(private formBuilder: FormBuilder,
     private route: Router,
     private orderService: OrderService,
     private alertService: AlertService,
     private accountService: AccountService,
-    private driverService: DriverService,
-    private chatService: ChatService,
     private translate: TranslateService,
     private popoverController: PopoverController) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
 
   ngOnInit() {
-    this.chatService.stop();
-    
+      
     this.form = this.formBuilder.group({
       applicationUserId: [''],
       location: this.orderService.chosenLocation,
@@ -112,10 +90,6 @@ export class TravellingPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.chatService.stop();
-    if(this.accountService.userValue.isTravellingNow == true){
-      this.route.navigate(['menu/travel-mode'])
-    }
     this.checkorder();
     if (this.orderService.selectedFavourite) {
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
@@ -139,7 +113,9 @@ export class TravellingPage implements OnInit {
       this.form.get('location').setValue(this.order.location);
       this.form.get('destination').setValue(this.order.destination);
     }
+
   }
+
 
   //GET LOCATION AND DESTINATION AND SEARCH DRIVER
   get f() { return this.form.controls; }
@@ -228,19 +204,19 @@ export class TravellingPage implements OnInit {
           this.destination = data.destination;
           (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
           this.orderTotalPrice = data.totalPrice;
+          this.order = data;
           this.estimatedDuration = data.eta;
-          
-          if (data.status == "Accepted" && data != null) {
-            this.accountService.userValue.isTravellingNow = true;
-                this.accountService.updateTravel(this.user.id, true)
-                .subscribe(() => this.route.navigate(['menu/travel-mode']));
-          }
 
-          if (this.orderStatus == "Waiting" && data != null) {
+          if (data.status == "Waiting" && data != null) {
             this.isCompleted = true;
-  
+            
             // User can increase order price.
             this.selector(0);
+          }
+          
+          if (data.status == "Accepted" && data != null) {
+                this.route.navigate(['menu/travel-mode']);
+                this.isCompleted = false;
           }
         } else {
           this.orderTotalPrice = 0;
@@ -272,7 +248,7 @@ export class TravellingPage implements OnInit {
         .subscribe()
     }
   }
-
+  
   async openLanguagePopover(ev) {
     const popover = await this.popoverController.create({
       component: LanguagePopoverPage,
@@ -281,7 +257,6 @@ export class TravellingPage implements OnInit {
     await popover.present();
   }
 
-  //END ALERTS
 
   clearForm() {
     this.form.reset({
@@ -306,5 +281,3 @@ export class TravellingPage implements OnInit {
   }
   //END JUNK
 }
-
-

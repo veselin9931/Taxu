@@ -5,9 +5,8 @@ import { Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
-import { Message, Order, Trip, User } from 'src/_models';
-import { Car } from 'src/_models/car';
-import { AccountService, AlertService } from 'src/_services';
+import { Message, Order, Trip } from 'src/_models';
+import { AccountService } from 'src/_services';
 import { ChatService } from 'src/_services/chat/chat.service';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
@@ -26,15 +25,10 @@ export class TravelModePage implements OnInit {
   public currentTrip: Trip;
   private user = this.accountService.userValue;
   private driverId = this.accountService.userValue.driverId;
-  language: string = this.translate.currentLang;
   isLoggedIn;
   order: Order;
-  lastOrder: Order;
-  driverData: User;
-  activeCarData: Car;
   orderStatus: string;
   orderTotalPrice: any;
-  orderTotalDestination: any;
   estimatedDuration: any;
   //Car html properties;
   carModel = "";
@@ -47,11 +41,6 @@ export class TravelModePage implements OnInit {
   location: string;
   destination: string;
 
-  statusForOrder = false;
-  isSubmitted = false;
-  isCompleted = false;
-  isAccepted = false;
-
   messages = this.chatService.messages;
   chatStyle = "";
 
@@ -60,21 +49,22 @@ export class TravelModePage implements OnInit {
 
   constructor(private route: Router,
     private orderService: OrderService,
-    private alertService: AlertService,
     private accountService: AccountService,
     private tripService: TripService,
     private driverService: DriverService,
     private alertController: AlertController,
     private chatService: ChatService,
     private translate: TranslateService,
-    private popoverController: PopoverController) { }
+    private popoverController: PopoverController) { 
+      this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+    }
 
   ngOnInit() {
-    this.chatService.stop();
-    this.chatService.start();
-    this.chatService.retrieveMappedObject()
-    .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
     this.checkorder();
+
+    this.chatService.retrieveMappedObject()
+      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
+
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
       .withUrl(`${environment.signalRUrl}/orderHub`)
@@ -90,6 +80,12 @@ export class TravelModePage implements OnInit {
       this.checkorder();
     });
   }
+
+  ionViewDidEnter() {
+    this.chatService.stop();
+    this.chatService.start();
+  }
+
   //CHAT FUNCTIONALLITY
   chat() {
     var x = document.getElementById("chat");
@@ -130,14 +126,9 @@ export class TravelModePage implements OnInit {
   }
 
   checkorder() {
-    if (this.accountService.userValue.isTravellingNow == false) {
-      this.route.navigate(['menu/travelling'])
-    }
     this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
-          this.loadMap(this.mapRef);
-
           this.orderStatus = data.status;
           this.orderService.currentOrderId = data.id;
           this.location = data.location;
@@ -146,25 +137,14 @@ export class TravelModePage implements OnInit {
           this.orderTotalPrice = data.totalPrice;
           this.order = data;
           this.estimatedDuration = data.eta;
-        } else {
-          this.orderTotalPrice = 0;
-        }
-
-        if (this.orderStatus == "Accepted" && data != null) {
-
-          //Reset the data
-          this.isCompleted = false;
-          this.isSubmitted = false;
-
-          this.orderService.order = data;
-          this.order = data;
-
 
           if (data.acceptedBy != null) {
             this.getUserById(data.acceptedBy);
             this.getAcceptedTrip(data.acceptedBy);
             this.driverId = data.acceptedBy;
           }
+        } else {
+          this.orderTotalPrice = 0;
         }
 
         if (data == null) {
@@ -212,7 +192,7 @@ export class TravelModePage implements OnInit {
           this.orderStatus = "Completed";
         }
         this.currentTrip = x;
-        this.loadMap(this.mapRef);
+        this.loadMap(this.mapRef, driverId);
       });
   }
 
@@ -240,8 +220,8 @@ export class TravelModePage implements OnInit {
   }
 
   //MAPS FUNCTIONALLITY
-  async loadMap(mapRef: ElementRef) {
-    this.accountService.getById(this.order.acceptedBy)
+  async loadMap(mapRef: ElementRef, driverId: string) {
+    this.accountService.getById(driverId)
       .subscribe(driver => {
         this.driverService.getDriver(driver.driverId)
           .subscribe(data => {
@@ -290,26 +270,20 @@ export class TravelModePage implements OnInit {
       buttons: [
         {
           text: 'Yes',
-          role: 'cancel',
+          role: 'yes',
           handler: () => {
             this.driverService.voteUp(this.driverId)
               .subscribe(x => {
-                this.accountService.userValue.isTravellingNow = false;
-                this.accountService.updateTravel(this.user.id, false)
-                  .subscribe(() => console.log("Trip finished"));
                 this.route.navigate(['menu/travelling']);
               });
           }
         },
         {
           text: 'No',
-          role: 'cancel',
+          role: 'no',
           handler: () => {
             this.driverService.voteDown(this.driverId)
               .subscribe(x => {
-                this.accountService.userValue.isTravellingNow = false;
-                this.accountService.updateTravel(this.user.id, false)
-                  .subscribe(() => console.log("Trip finished"));
                 this.route.navigate(['menu/travelling']);
               });
           }
@@ -317,13 +291,16 @@ export class TravelModePage implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
+          handler: () => {
+            this.route.navigate(['menu/travelling']);
+          }
         },
         {
           text: 'Report a problem',
           role: 'report',
           handler: () => {
             this.route.navigate(['menu/report']);
-          }
+          },
         }
       ]
     });

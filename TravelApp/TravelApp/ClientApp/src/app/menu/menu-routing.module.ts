@@ -69,24 +69,28 @@ const routes: Routes = [
       },
       {
         path: 'payments-sucsses',
-        loadChildren: () => import('../payments-sucsses/payments-sucsses.module').then( m => m.PaymentsSucssesPageModule)
+        loadChildren: () => import('../payments-sucsses/payments-sucsses.module').then(m => m.PaymentsSucssesPageModule)
       },
       {
         path: 'payments',
-        loadChildren: () => import('../payments/payments.module').then( m => m.PaymentsPageModule)
+        loadChildren: () => import('../payments/payments.module').then(m => m.PaymentsPageModule)
       },
       {
         path: 'language-popover',
-        loadChildren: () => import('../language-popover/language-popover.module').then( m => m.LanguagePopoverPageModule)
+        loadChildren: () => import('../language-popover/language-popover.module').then(m => m.LanguagePopoverPageModule)
       },
       {
         path: 'categories',
-        loadChildren: () => import('../categories/categories.module').then( m => m.CategoriesPageModule)
+        loadChildren: () => import('../categories/categories.module').then(m => m.CategoriesPageModule)
       },
       {
         path: 'travel-mode',
-        loadChildren: () => import('../travel-mode/travel-mode.module').then( m => m.TravelModePageModule)
+        loadChildren: () => import('../travel-mode/travel-mode.module').then(m => m.TravelModePageModule)
       },
+      {
+        path: 'driving-mode',
+        loadChildren: () => import('../driving-mode/driving-mode.module').then(m => m.DrivingModePageModule)
+      }
     ]
   }
 ];

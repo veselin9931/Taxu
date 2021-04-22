@@ -164,7 +164,7 @@ namespace TravelApp.Controllers
 
             if (result)
             {
-                await this.hub.Clients.All.BroadcastMessage();
+                //await this.hub.Clients.All.BroadcastMessage();
                 return this.Ok(result);
             }
             return this.NotFound();

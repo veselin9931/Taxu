@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>
+      <ion-label>{{'Accepted order' | translate}}</ion-label>
+  </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="noScroll"> 
+  <div #map id="map"></div>
+</ion-content>
+
+
+<ion-footer class="ion-no-border page-wrap">
+  <ion-toolbar class="text-center">
+    <ion-text class="textTravel">
+      <ion-text class="centered" color="dark">
+        <p class="text">{{'Pick up address' | translate}} ({{distance}})</p>
+        <p class="text">{{this.location}}</p>
+      </ion-text>
+    </ion-text>
+  </ion-toolbar>
+</ion-footer>
+
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="text-center">
+    <ion-text class="textTravel">
+      <ion-button (click)="navigateToUserAndCalculateDistance()" type="submit" [disabled]="tripStatus=='Started'"
+        color="primary">{{'Navigate to user' | translate}}</ion-button>
+      <ion-button (click)="navigateToPointAndCalculateDistance()" type="submit" color="primary"
+        [disabled]="tripStatus=='!Processing'">{{'Start trip' | translate}}</ion-button>
+      <ion-text class="centered" color="dark">
+        <p class="text">{{'Drop off address' | translate}} ({{tripDistance}}km)</p>
+        <p class="text">{{this.destination}}</p>
+
+      </ion-text>
+    </ion-text>
+
+  </ion-toolbar>
+</ion-footer>
+
+<ion-footer class="ion-no-border site-footer">
+  <ion-toolbar class="text-center">
+    <ion-button [disabled]="tripStatus=='Processing'" (click)="finishTrip()" type="submit" color="light">
+      {{'Finish trip' | translate}}</ion-button>
+    <ion-button (click)="chat()" type="submit" (click)="clearMessages()" color="light">
+      {{'Chat'| translate}}</ion-button>
+    <br />
+    <ion-label class="blink_me" *ngIf="messages.length != 0  && chatStyle == 'none'">{{'You have new message' |
+      translate}}.</ion-label>
+  </ion-toolbar>
+
+  <div id="chat" style="display: none;" class="row chat">
+
+    <div class="col">
+      <ion-card>
+
+        <div class="msg-box">
+          <ul *ngIf="this.msgInboxArray.length == 0" class="text-center mr-5">
+            <li>{{'No messages for now' | translate}}</li>
+          </ul>
+          <ul *ngFor="let mObj of msgInboxArray">
+            <li [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
+              {{mObj.user}}:
+              {{mObj.text}}
+            </li>
+
+          </ul>
+        </div>
+      </ion-card>
+
+      <ion-card class="type">
+        <ion-item>
+          <ion-input [(ngModel)]="msgDto.text" [placeholder]='"Type your message..." | translate'>
+
+          </ion-input>
+          <ion-icon (click)="send()" name="send-outline"></ion-icon>
+
+        </ion-item>
+      </ion-card>
+    </div>
+
+  </div>
+</ion-footer>

@@ -1,4 +1,4 @@
-<ion-content padding *ngIf="orderStatus == 'Waiting' || orderStatus == 'Completed' || orderStatus == null">
+<ion-content padding>
     <ion-header>
         <ion-toolbar>
             <ion-buttons slot="start">
@@ -11,7 +11,6 @@
             </ion-title>
 
             <ion-buttons slot="end">
-                <!-- [placeholder]='"tab1.languageChangePlaceholder" | translate' -->
             
                   <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
             </ion-buttons>
@@ -25,7 +24,6 @@
                         <ion-text class="text-center" color="light">
                             <hr>
                             <h5 class="text">{{'Additional options' | translate}}</h5>
-                            <!-- <h5 class="text">Additional options</h5> -->
                           </ion-text>
                         <div class="form-group col mt-1">
                             <ion-list *ngIf="isCompleted == false">
@@ -132,7 +130,7 @@
 </ion-content>
 
 
-
+<!-- here -->
 <!-- <ion-content padding class="noScroll" *ngIf="orderStatus == 'Accepted' && order != null">
     <ion-header>
         <ion-toolbar>
