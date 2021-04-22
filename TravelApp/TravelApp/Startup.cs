@@ -155,11 +155,11 @@ namespace TravelApp
                 routes.MapHub<OrderHub>("/orderHub");
             });
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //    endpoints.MapHub<OrderHub>("/orderHub");
-            //});
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                //endpoints.MapHub<OrderHub>("/orderHub");
+            });
         }
 
         private async Task Echo(HttpContext context, WebSocket webSocket)

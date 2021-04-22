@@ -49,7 +49,7 @@ export class LoginPage implements OnInit {
       .build();
 
     connection.start().then(function () {
-      console.log('signalR Connected in driving');
+      console.log('signalR Connected in login');
     }).catch(function (err) {
       return console.log(err.toString());
     });

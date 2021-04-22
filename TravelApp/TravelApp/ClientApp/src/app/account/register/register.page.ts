@@ -53,7 +53,7 @@ export class RegisterPage implements OnInit {
       .withUrl(`${environment.signalRUrl}/orderHub`)
       .build();
     connection.start().then(function () {
-      console.log('signalR Connected in driving');
+      console.log('signalR Connected in register');
     }).catch(function (err) {
       return console.log(err.toString());
     });
