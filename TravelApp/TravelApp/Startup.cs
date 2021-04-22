@@ -95,8 +95,8 @@ namespace TravelApp
 
             services.AddMvc();
 
-            services.AddSignalR()
-                    .AddAzureSignalR();
+            services.AddSignalR();
+                    //.AddAzureSignalR();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -150,16 +150,16 @@ namespace TravelApp
 
             app.UseAuthorization();
 
-            app.UseAzureSignalR(routes =>
-            {
-                routes.MapHub<OrderHub>("/orderHub");
-            });
-
-            //app.UseEndpoints(endpoints =>
+            //app.UseAzureSignalR(routes =>
             //{
-            //    endpoints.MapControllers();
-            //    endpoints.MapHub<OrderHub>("/orderHub");
+            //    routes.MapHub<OrderHub>("/orderHub");
             //});
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<OrderHub>("/orderHub");
+            });
         }
 
         private async Task Echo(HttpContext context, WebSocket webSocket)

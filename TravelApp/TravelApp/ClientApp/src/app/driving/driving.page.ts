@@ -117,8 +117,8 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
+        data.forEach(order => this.calculateEta(order));
         this.orders = data;
-        this.orders.forEach(order => this.calculateEta(order));
         this.orders.sort((a, b) => {
           return <any>new Date(b.createdOn) - <any>new Date(a.createdOn);
         });
@@ -158,7 +158,8 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-
+        
+        this.orders = data;
         data.sort((a, b) => a.km - b.km);
         this.orders.forEach(order => this.calculateEta(order));
       })

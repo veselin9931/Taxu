@@ -165,9 +165,7 @@ namespace TravelApp.Controllers
                 Token = tokenString,
                 IsDrivingNow = user.IsDrivingNow,
                 DriverId = user.DriverId,
-                ChoosenLanguage = user.ChoosenLanguage,
-                Reloaded = false,
-                IsTravellingNow = user.IsTravellingNow
+                ChoosenLanguage = user.ChoosenLanguage
             });
         }
 
@@ -190,34 +188,6 @@ namespace TravelApp.Controllers
         public async Task<IActionResult> UpdateUserLanguage(string id, string value)
         {
             var result = await this.userService.UpdateUserLanguageAsync(id, value);
-
-            if (result)
-            {
-                await this.hub.Clients.All.BroadcastMessage();
-                return this.Ok();
-            }
-
-            return this.BadRequest();
-        }
-
-        [HttpPut("{id}/reload/{value}")]
-        public async Task<IActionResult> UpdateUserReload(string id, bool value)
-        {
-            var result = await this.userService.UpdateUserReloadAsync(id, value);
-
-            if (result)
-            {
-                await this.hub.Clients.All.BroadcastMessage();
-                return this.Ok();
-            }
-
-            return this.BadRequest();
-        }
-
-        [HttpPut("{id}/travel/{value}")]
-        public async Task<IActionResult> UpdateUserTravel(string id, bool value)
-        {
-            var result = await this.userService.UpdateUserTravelAsync(id, value);
 
             if (result)
             {

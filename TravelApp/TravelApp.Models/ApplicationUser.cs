@@ -22,8 +22,6 @@ namespace TravelApp.Models
 
         public bool IsDrivingNow { get; set; }
 
-        public bool IsTravellingNow { get; set; }
-
 
         public bool IsDriver { get; set; }
 
@@ -34,8 +32,6 @@ namespace TravelApp.Models
         public string CurrentLocation { get; set; }
 
         public string ChoosenLanguage { get; set; }
-
-        public bool Reloaded { get; set; }
 
 
         public string LastLocation { get; set; }
