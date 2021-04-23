@@ -25,4 +25,5 @@ export class Order {
     carType: string;
     isRated: boolean;
     km: any;
+    distanceText: any;
 }

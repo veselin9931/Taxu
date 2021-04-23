@@ -33,7 +33,7 @@ export class DrivingPage implements OnInit {
   isDrivingNow = this.accountService.userValue.isDrivingNow;
 
   orders: Order[] = [];
-
+  closeOrders: Order[] = [];
   //Map
   distance: string;
   eta: string;
@@ -53,8 +53,6 @@ export class DrivingPage implements OnInit {
 
 
   ngOnInit(): void {
-    this.categoryType = this.driverService.categoryType;
-    this.getData();
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
@@ -75,25 +73,12 @@ export class DrivingPage implements OnInit {
   ionViewDidEnter() {
     this.categoryType = this.driverService.categoryType;
     this.getData();
+
   }
-
-  //Actively get the driver's location to illustrate the car img on traveller's phone
-  // async postLocation() {
-  //   const coordinates = await Geolocation.getCurrentPosition();
-  //   const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-
-  //   this.accountService.getById(this.applicationUserId)
-  //     .subscribe(user => {
-  //       this.driverService.locateDriver(user.driverId, myLatLng.lat, myLatLng.lng)
-  //         .subscribe(x => {
-  //           console.log(x);
-  //         })
-  //     })
-  // }
 
 
   getData() {
-    if(this.accountService.userValue.isDrivingNow === true){
+    if (this.accountService.userValue.isDrivingNow === true) {
       this.route.navigate(['menu/driving-mode'])
     }
     this.driverService.getDriver(this.accountService.userValue.driverId)
@@ -104,7 +89,10 @@ export class DrivingPage implements OnInit {
           this.getComfortOrders(x.rating);
         } else if (this.driverService.categoryType == 'Closest') {
           this.getClosestOrders(x.rating);
-        } else {
+        } else if (this.driverService.categoryType == 'All') {
+          this.getAllOrders(x.rating);
+        } else if (this.driverService.categoryType == undefined) {
+          this.driverService.categoryType == 'All';
           this.getAllOrders(x.rating);
         }
       })
@@ -117,12 +105,14 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        data.forEach(order => this.calculateEta(order));
-        this.orders = data;
-        this.orders.sort((a, b) => {
+        data.sort((a, b) => {
           return <any>new Date(b.createdOn) - <any>new Date(a.createdOn);
         });
-
+        data.forEach(order => {
+          order.distanceText = 'Calculating...'
+          this.calculateEta(order)
+        });
+        this.orders = data;
       })
 
   }
@@ -158,12 +148,12 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        
-        this.orders = data;
-        data.sort((a, b) => a.km - b.km);
-        this.orders.forEach(order => this.calculateEta(order));
+        data.forEach(order => this.calculateEta(order));
+        this.orders = this.orders.filter((order) => order.km <= 5)
+        this.driverService.categoryCloseCount = this.orders.length;
       })
   }
+
 
   async calculateEta(order) {
     const directionsService = new google.maps.DirectionsService();
@@ -237,7 +227,7 @@ export class DrivingPage implements OnInit {
                     this.tripService.createTrip(data)
                       .subscribe(() => {
                       });
-                      this.route.navigate(['menu/driving-mode'])
+                    this.route.navigate(['menu/driving-mode'])
                   }
                 });
             });
