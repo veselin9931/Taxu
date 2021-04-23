@@ -55,6 +55,7 @@ export class CategoriesPage implements OnInit {
   }
 
   all() {
+    this.driverService.categoryType = 'All';
     this.route.navigate(['menu/driving'])
   }
 

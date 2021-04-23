@@ -153,41 +153,6 @@ namespace TravelApp.Services.Account
             return false;
         }
 
-        public async Task<bool> UpdateUserReloadAsync(string id, bool value)
-        {
-            var currentUser = this.GetById(id);
-
-            currentUser.Reloaded = value;
-
-            this.repository.Update(currentUser);
-
-            var result = await this.repository.SaveChangesAsync();
-
-            if (result != 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public async Task<bool> UpdateUserTravelAsync(string id, bool value)
-        {
-            var currentUser = this.GetById(id);
-
-            currentUser.IsTravellingNow = value;
-
-            this.repository.Update(currentUser);
-
-            var result = await this.repository.SaveChangesAsync();
-
-            if (result != 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
 
         public async Task<bool> AddDriverSettings(string userId, string driverId)
         {

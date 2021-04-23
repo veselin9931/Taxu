@@ -15,7 +15,7 @@ export class DriverService {
   public drivers = [];
   public applicationUserId: string;
   public categoryType: string;
-
+  public categoryCloseCount: number;
   constructor(private http: HttpClient) { }
 
   public getDriverHistory(userId: string): Observable<Order[]> {

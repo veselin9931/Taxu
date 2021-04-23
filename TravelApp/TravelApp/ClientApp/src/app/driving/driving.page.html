@@ -5,7 +5,7 @@
     </ion-buttons>
 
     <ion-title>
-        <ion-label>{{'Orders' | translate}}</ion-label>
+      <ion-label>{{'Orders' | translate}}</ion-label>
     </ion-title>
 
     <ion-buttons slot="end">
@@ -26,7 +26,7 @@
 
         <!-- style="display: none;" -- for distributing orders -->
 
-        <div class="col-md-10" >
+        <div class="col-md-10">
           <div *ngFor="let oldOrder of orders" id="orderDiv" class="list-group mt-2">
 
             <a class="text list-group-item list-group-item-action flex-column align-items-start">
@@ -39,27 +39,37 @@
               <p class="mb-1 fonted">{{'Destination' | translate}}: {{oldOrder.destination}}</p>
               <div class="row">
                 <div class="col">
-                    <small *ngIf="oldOrder.withPets == true || oldOrder.withStroller == true || oldOrder.special == true" >{{'Additional options' | translate}}:</small>
+                  <small
+                    *ngIf="oldOrder.withPets == true || oldOrder.withStroller == true || oldOrder.special == true">{{'Additional
+                    options' | translate}}:</small>
                   <ul>
                     <li *ngIf="oldOrder.withPets == true">{{'With pets' | translate}}</li>
                     <li *ngIf="oldOrder.withStroller == true">{{'With stroller' | translate}}</li>
                     <li *ngIf="oldOrder.special == true">{{'Special needs' | translate}}</li>
                   </ul>
 
-                  <small *ngIf="oldOrder.carType" >Desired car type:</small>
+                  <small *ngIf="oldOrder.carType">Desired car type:</small>
                   <ul *ngIf="oldOrder.carType">
                     <li>{{oldOrder.carType}}</li>
                   </ul>
-                
+
+                  <div class="w-100">
+                    <h5>{{'Trip distance' | translate}}: {{oldOrder.tripDistance}} km</h5>
+                    <br>
+                    <h5 class="fonted">Distance to user: 
+                      <small *ngIf="oldOrder.distanceText == 'Calculating...'" class="blink_me fonted">{{oldOrder.distanceText}}</small> 
+                      <small *ngIf="oldOrder.distanceText != 'Calculating...'" class="fonted">{{oldOrder.distanceText}}</small>
+                    </h5>
+                  </div>
+
                   <div class="d-flex w-100 justify-content-between">
-                    <small>{{'Trip distance' | translate}}: {{oldOrder.tripDistance}} km</small>
-                    <small>Distance to user: {{oldOrder.distanceText}}</small>
-                    <ion-button class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">{{'Accept' | translate}}</ion-button>
+
+                    <small class="fonted">{{'Total cost' | translate}}: {{oldOrder.totalPrice}}$</small>
+                    <ion-button class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">{{'Accept' |
+                      translate}}</ion-button>
                   </div>
                 </div>
-                <div class="col-md-12">
-                  <small>{{'Total cost' | translate}}: {{oldOrder.totalPrice}}$</small>
-                </div>
+
               </div>
             </a>
           </div>
