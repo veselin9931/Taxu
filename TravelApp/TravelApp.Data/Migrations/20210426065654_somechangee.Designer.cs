@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelApp.Data;
 
 namespace TravelApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210426065654_somechangee")]
+    partial class somechangee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -438,11 +440,11 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("CurrentLocation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CurrentLocationLat")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("CurrentLocationLat")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("CurrentLocationLong")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("CurrentLocationLong")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");

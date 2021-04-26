@@ -20,17 +20,17 @@ namespace TravelApp.Models
         [Required]
         public string Location { get; set; }
 
-        public decimal LocationLat { get; set; }
+        public string LocationLat { get; set; }
 
-        public decimal LocationLong { get; set; }
+        public string LocationLong { get; set; }
         
 
         [Required]
         public string Destination { get; set; }
 
-        public decimal DestinationLat { get; set; }
+        public string DestinationLat { get; set; }
 
-        public decimal DestinationLong { get; set; } 
+        public string DestinationLong { get; set; } 
 
         public decimal IncreasePrice { get; set; }
 

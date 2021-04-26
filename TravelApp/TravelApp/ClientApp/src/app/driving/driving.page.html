@@ -65,7 +65,7 @@
                   <div class="d-flex w-100 justify-content-between">
 
                     <small class="fonted">{{'Total cost' | translate}}: {{oldOrder.totalPrice}}$</small>
-                    <ion-button class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">{{'Accept' |
+                    <ion-button [disabled]="oldOrder.distanceText == 'Calculating...'" class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">{{'Accept' |
                       translate}}</ion-button>
                   </div>
                 </div>

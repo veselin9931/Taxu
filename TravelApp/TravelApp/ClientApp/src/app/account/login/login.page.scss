@@ -14,6 +14,11 @@ ion-toolbar{
     --ion-background-color:#eeeeee;
 }
 
+.fonted{
+    font-family: Open Sans Light;
+}
+
+
 ion-title {
     text-align: center;
 }
@@ -25,7 +30,6 @@ ion-title {
 
 .subtitle{
     font-size: 1em;
-    font-family: cursive;
     color: #eeeeee;
 }
 
@@ -38,7 +42,7 @@ ion-item {
 
   .iconsText{
     color: #eeeeee;
-    font-family: cursive;
+    font-family: Open Sans Light;;
     font-size: 1em;
 }
 

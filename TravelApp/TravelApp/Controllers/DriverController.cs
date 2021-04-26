@@ -158,13 +158,13 @@ namespace TravelApp.Controllers
 
         // PUT api/<DriverController>/5
         [HttpPut("location/{id}/{lat}/{lng}")]
-        public async Task<IActionResult> ChangeDriverLocation(string id, decimal lat, decimal lng)
+        public async Task<IActionResult> ChangeDriverLocation(string id, string lat, string lng)
         {
             var result = await this.driverService.ChangeLocation(id, lat, lng);
 
             if (result)
             {
-                //await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.BroadcastMessage();
                 return this.Ok(result);
             }
             return this.NotFound();

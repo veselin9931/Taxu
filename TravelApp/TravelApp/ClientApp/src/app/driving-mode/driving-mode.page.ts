@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { Message, Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { ChatService } from 'src/_services/chat/chat.service';
@@ -57,6 +57,9 @@ export class DrivingModePage implements OnInit {
   userDestinationLat: any;
   userDestinationLng: any;
 
+  myLat: string;
+  myLng: string;
+
   distance: string;
   eta: string;
 
@@ -82,53 +85,95 @@ export class DrivingModePage implements OnInit {
   }
 
   ngOnInit() {
+    const source = interval(5000);
+    this.subscription = source.subscribe(val => this.getMyLocation());
+
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
     this.getAcceptedTrip();
   }
+  
 
   ionViewDidEnter() {
+    
     if (this.accountService.userValue.isDrivingNow == true) {
       this.getAcceptedTrip();
       this.chatService.stop();
       this.chatService.start();
     }
+  }
 
+  async getMyLocation() {
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+
+    this.myLat = myLatLng.lat.toString();
+    this.myLng = myLatLng.lng.toString();
+
+    this.driverService.locateDriver(this.accountService.userValue.driverId, this.myLat, this.myLng)
+    .subscribe(x => {});
   }
 
   async loadMap(mapRef: ElementRef) {
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+
+    // const directionsService = new google.maps.DirectionsService();
+    // const directionsRenderer = new google.maps.DirectionsRenderer();
+
+    const userLocationLatLng = { lat: +this.order.locationLat, lng: +this.order.locationLong };
+
+    // const userDestinationLatLng = { lat: this.order.destinationLat, lng: this.order.destinationLong };
+    // let userDestLat = +userDestinationLatLng.lat;
+    // let userDestLng = +userDestinationLatLng.lng;
+
     const options: google.maps.MapOptions = {
-      center: new google.maps.LatLng(myLatLng.lat, myLatLng.lng),
+      center: new google.maps.LatLng(userLocationLatLng.lat, userLocationLatLng.lng),
       zoom: 15,
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
+    
+    if (mapRef != null) {
+      this.map = new google.maps.Map(mapRef.nativeElement, options);
+    }
 
-    this.map = new google.maps.Map(mapRef.nativeElement, options);
-    let geocoder = new google.maps.Geocoder;
+    var icon = {
+      url: 'https://www.freeiconspng.com/uploads/-human-male-man-people-person-profile-red-user-icon--icon--23.png',
+      scaledSize: new window.google.maps.Size(25, 25),
+      anchor: { x: 10, y: 10 }
+    };
 
-    google.maps.event.addListener(this.map, 'idle', async () => {
-      var center = this.map.getCenter();
-      var lat = center.lat();
-      var lng = center.lng();
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(userLocationLatLng),
+      icon: icon,
+      map: this.map
+    });
 
-      const myLatLng = { lat: lat, lng: lng };
 
-      //Get Location
-      geocoder.geocode({ location: myLatLng },
-        (
-          results: google.maps.GeocoderResult[],
-          status: google.maps.GeocoderStatus
-        ) => {
-          if (status == "OK") {
-            if (results[0]) {
-              this.address = results[0].formatted_address;
-            }
-          }
-        })
-    })
+    // directionsService.route(
+    //   {
+    //     origin: {
+    //       lat: userDestLat,
+    //       lng: userDestLng
+    //     },
+    //     destination: {
+    //       lat: userLocLat,
+    //       lng: userLocLng,
+    //     },
+    //     travelMode: google.maps.TravelMode.DRIVING,
+    //   },
+    //   (response, status) => {
+    //     if (status === "OK") {
+    //       directionsRenderer.setDirections(response);
+
+    //     } else {
+    //       window.alert("Directions request failed due to " + status);
+    //     }
+    //   }
+    // );
+    // directionsRenderer.setMap(this.map);
+
   }
 
   async navigateToUserAndCalculateDistance() {
@@ -136,8 +181,9 @@ export class DrivingModePage implements OnInit {
     const directionsRenderer = new google.maps.DirectionsRenderer();
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-    let usetLat = this.order.locationLat
-    let userLng = this.order.locationLong;
+    const userLatLng = {lat: this.order.locationLat, lng: this.order.locationLong};
+    let userLat = +userLatLng.lat;
+    let userLng = +userLatLng.lng;
     directionsService.route(
       {
         origin: {
@@ -145,7 +191,7 @@ export class DrivingModePage implements OnInit {
           lng: myLatLng.lng
         },
         destination: {
-          lat: usetLat,
+          lat: userLat,
           lng: userLng,
         },
         travelMode: google.maps.TravelMode.DRIVING,
@@ -154,7 +200,7 @@ export class DrivingModePage implements OnInit {
         if (status === "OK") {
 
           directionsRenderer.setDirections(response);
-          window.open(`https://www.google.com/maps/dir/?api=1&destination=${this.userLatitude},${this.userLongitude}&travelmode=driving`);
+          window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
 
         } else {
           window.alert("Directions request failed due to " + status);
@@ -170,7 +216,9 @@ export class DrivingModePage implements OnInit {
     const directionsRenderer = new google.maps.DirectionsRenderer();
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-
+    const userLatLng = {lat: this.order.destinationLat, lng: this.order.destinationLong};
+    let userLat = +userLatLng.lat;
+    let userLng = +userLatLng.lng;
     directionsService.route(
       {
         origin: {
@@ -178,8 +226,8 @@ export class DrivingModePage implements OnInit {
           lng: myLatLng.lng
         },
         destination: {
-          lat: this.userDestinationLat,
-          lng: this.userDestinationLng,
+          lat: userLat,
+          lng: userLng,
         },
         travelMode: google.maps.TravelMode.DRIVING,
       },
@@ -187,7 +235,7 @@ export class DrivingModePage implements OnInit {
         if (status === "OK") {
           this.startTrip();
           directionsRenderer.setDirections(response);
-          window.open(`https://www.google.com/maps/dir/?api=1&destination=${this.userDestinationLat},${this.userDestinationLng}&travelmode=driving`);
+          window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
         } else {
           window.alert("Directions request failed due to " + status);
         }
@@ -291,8 +339,8 @@ export class DrivingModePage implements OnInit {
           lng: myLatLng.lng
         },
         destination: {
-          lat: order.locationLat,
-          lng: order.locationLong,
+          lat: +order.locationLat,
+          lng: +order.locationLong,
         },
         travelMode: google.maps.TravelMode.DRIVING,
       },
@@ -314,13 +362,13 @@ export class DrivingModePage implements OnInit {
         if (x == null) {
           return;
         }
-        this.loadMap(this.mapRef);
         this.tripStatus = x.status;
         this.currentTrip = x;
-
+        
         this.orderService.getOrderById(x.orderId).subscribe(order => {
           x.order = order;
           this.order = x.order;
+          this.loadMap(this.mapRef);
 
           this.location = order.location;
           this.destination = order.destination;

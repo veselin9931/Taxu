@@ -47,7 +47,7 @@ namespace TravelApp.Services.DriverService
             return result > 0;
         }
 
-        public async Task<bool> ChangeLocation(string id, decimal lat, decimal lng)
+        public async Task<bool> ChangeLocation(string id, string lat, string lng)
         {
             var driver = this.repository.All().FirstOrDefault(x => x.Id == id);
 
@@ -58,7 +58,7 @@ namespace TravelApp.Services.DriverService
 
                 this.repository.Update(driver);
                 await this.repository.SaveChangesAsync();
-
+                
                 return true;
             }
 
