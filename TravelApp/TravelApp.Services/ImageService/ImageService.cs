@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TravelApp.Common.ErrMsg;
 using TravelApp.Common.Repositories;
 using TravelApp.Infrastructure.InputModels.ImageInput;
 using TravelApp.Models;
@@ -30,8 +31,8 @@ namespace TravelApp.Services.ImageService
         {
             if (inputModel == null)
             {
-                throw new ArgumentNullException();
-                // TODO: Add errMsg
+                throw new ArgumentNullException(ImageErrs.InvalidModel);
+               
             }
 
             foreach (var file in inputModel)
@@ -60,8 +61,8 @@ namespace TravelApp.Services.ImageService
 
             if (img == null)
             {
-                throw new ArgumentNullException();
-                // TODO: Add errMsg
+                throw new ArgumentNullException(ImageErrs.InvalidId);
+
             }
 
             img.IsDeleted = true;
@@ -81,8 +82,7 @@ namespace TravelApp.Services.ImageService
 
             if (img == null)
             {
-                throw new ArgumentNullException();
-                // TODO: Add errMsg
+                throw new ArgumentNullException(ImageErrs.InvalidId);
             }
 
             return img;
