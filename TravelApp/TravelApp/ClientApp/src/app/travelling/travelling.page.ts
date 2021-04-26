@@ -181,6 +181,8 @@ export class TravellingPage implements OnInit {
           } else {
             this.orderService.createOrder(this.form.value)
               .subscribe(x => {
+                this.form.value.locationLat = this.form.value.locationLat.toString();
+                this.form.value.locationLong = this.form.value.locationLong.toString();
                 this.alertService.success('You have created an order.', { autoClose: true });
                 this.orderStatus = this.form.value.status;
                 this.orderService.getMyOrder(this.user.id)

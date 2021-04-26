@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 import { Plugins } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
+import { HttpClient } from '@angular/common/http';
 
 const { Geolocation } = Plugins;
 declare var google: any;
@@ -38,6 +39,9 @@ export class DrivingPage implements OnInit {
   distance: string;
   eta: string;
 
+  myLat: string;
+  myLng: string;
+
   constructor(private route: Router,
     private orderService: OrderService,
     private accountService: AccountService,
@@ -49,11 +53,11 @@ export class DrivingPage implements OnInit {
     private translate: TranslateService,
     private popoverController: PopoverController) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+    this.getMyLocation();
   }
 
 
   ngOnInit(): void {
-
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
       .withUrl(`${environment.signalRUrl}/orderHub`)
@@ -71,8 +75,18 @@ export class DrivingPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.getMyLocation();
     this.categoryType = this.driverService.categoryType;
     this.getData();
+
+  }
+
+  async getMyLocation() {
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+
+    this.myLat = myLatLng.lat.toString();
+    this.myLng = myLatLng.lng.toString();
 
   }
 
@@ -100,6 +114,26 @@ export class DrivingPage implements OnInit {
   }
 
   getAllOrders(rating) {
+    // const promise = await new Promise((resolve, reject) => {
+    //   this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+    //     .toPromise()
+    //     .then((data: any) => {
+    //       data.sort((a, b) => {
+    //         return <any>new Date(b.createdOn) - <any>new Date(a.createdOn);
+    //       });
+    //       data.forEach(order => {
+    //         order.distanceText = 'Calculating...'
+    //         this.calculateEta(order)
+    //       });
+
+    //       this.orders = data;
+    //       resolve(data);
+    //     },
+    //       err => {
+    //         reject(err);
+    //       })
+    // })
+
     this.orderService.getAllOrders()
       .subscribe(data => {
         if (data == null) {
@@ -108,11 +142,13 @@ export class DrivingPage implements OnInit {
         data.sort((a, b) => {
           return <any>new Date(b.createdOn) - <any>new Date(a.createdOn);
         });
+
         data.forEach(order => {
-          order.distanceText = 'Calculating...'
+          order.distanceText = 'Calculating...';
           this.calculateEta(order)
         });
         this.orders = data;
+
       })
 
   }
@@ -124,8 +160,12 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
+        data.forEach(order => {
+          order.distanceText = 'Calculating...';
+          this.calculateEta(order)
+        });
         this.orders = data;
-        this.orders.forEach(order => this.calculateEta(order));
+
       })
   }
 
@@ -136,13 +176,18 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
+        data.forEach(order => {
+          order.distanceText = 'Calculating...';
+          this.calculateEta(order)
+        });
+
         this.orders = data;
-        this.orders.forEach(order => this.calculateEta(order));
       })
 
   }
 
   getClosestOrders(rating) {
+
     this.orderService.getAllOrders()
       .subscribe(data => {
         if (data == null) {
@@ -155,19 +200,23 @@ export class DrivingPage implements OnInit {
   }
 
 
-  async calculateEta(order) {
+  calculateEta(order) {
+    this.orders = [];
+
     const directionsService = new google.maps.DirectionsService();
-    const coordinates = await Geolocation.getCurrentPosition();
-    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+    const orderLatLng = { lat: order.locationLat, lng: order.locationLong };
+    let orderLat = +orderLatLng.lat;
+    let orderLng = +orderLatLng.lng;
+
     directionsService.route(
       {
         origin: {
-          lat: myLatLng.lat,
-          lng: myLatLng.lng
+          lat: +this.myLat,
+          lng: +this.myLng
         },
         destination: {
-          lat: order.locationLat,
-          lng: order.locationLong,
+          lat: orderLat,
+          lng: orderLng,
         },
         travelMode: google.maps.TravelMode.DRIVING,
       },

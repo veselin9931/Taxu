@@ -69,7 +69,7 @@ export class DriverService {
       );
   }
 
-  public locateDriver(driverId: string, lat: number, lng: number): Observable<Driver>{
+  public locateDriver(driverId: string, lat: string, lng: string): Observable<Driver>{
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Driver>(`${environment.apiUrl}/api/driver/location/${driverId}/${lat}/${lng}`, { headers, responseType: 'json' },)
     .pipe(

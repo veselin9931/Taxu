@@ -3,11 +3,11 @@ import { User } from ".";
 export class Order {
     id: string;
     location: string;
-    locationLat: number;
-    locationLong: number;
+    locationLat: string;
+    locationLong: string;
     destination: string;
-    destinationLat: number;
-    destinationLong: number;
+    destinationLat: string;
+    destinationLong: string;
     increasePrice: string;
     isAccepted: boolean;
     isCompleted: boolean;

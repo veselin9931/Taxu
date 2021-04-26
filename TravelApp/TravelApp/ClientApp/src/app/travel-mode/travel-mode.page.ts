@@ -225,7 +225,7 @@ export class TravelModePage implements OnInit {
       .subscribe(driver => {
         this.driverService.getDriver(driver.driverId)
           .subscribe(data => {
-            const driverLatLng = { lat: data.currentLocationLat, lng: data.currentLocationLong };
+            const driverLatLng = { lat: +data.currentLocationLat, lng: +data.currentLocationLong };
 
             const options: google.maps.MapOptions = {
               center: new google.maps.LatLng(driverLatLng.lat, driverLatLng.lng),

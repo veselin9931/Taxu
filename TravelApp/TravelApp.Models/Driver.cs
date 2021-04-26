@@ -23,9 +23,9 @@ namespace TravelApp.Models
 
         public string CurrentLocation { get; set; }
 
-        public decimal CurrentLocationLat { get; set; }
+        public string CurrentLocationLat { get; set; }
 
-        public decimal CurrentLocationLong { get; set; }
+        public string CurrentLocationLong { get; set; }
 
 
         public string WalletId { get; set; }
