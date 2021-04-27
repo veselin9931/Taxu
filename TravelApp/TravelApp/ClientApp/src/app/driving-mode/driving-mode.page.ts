@@ -220,11 +220,7 @@ export class DrivingModePage implements OnInit {
   openMaps(){
     if (Capacitor.getPlatform() === 'ios') {
       console.log("Its ios new one")
-      window.open(`http://maps.apple.com/?q=#&ll=#45,#25`);
-    }
-    if (Capacitor.platform == 'ios') {
-      console.log("Its ios")
-      window.open(`maps://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=45,25`);
+      window.open(`https://www.google.com/maps/@41.4756367,25.5714908,14z`);
     }
   }
   //Set directions to user's destination
@@ -253,13 +249,8 @@ export class DrivingModePage implements OnInit {
           this.startTrip();
           if (Capacitor.getPlatform() === 'ios') {
             console.log("Its ios new one")
-            window.open(`http://maps.apple.com/?q=#&ll=#${userLat},#${userLng}`);
+            window.open(`https://www.google.com/maps/@${userLat},${userLng},14z`);
             directionsRenderer.setDirections(response);
-          }
-          if (Capacitor.platform == 'ios') {
-            console.log("Its ios")
-            directionsRenderer.setDirections(response);
-            window.open(`maps://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${userLat},${userLng}`);
           }
 
           if (Capacitor.platform == 'web') {
