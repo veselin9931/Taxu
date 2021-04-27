@@ -310,6 +310,8 @@ export class TravelModePage implements OnInit {
         }
       ]
     });
+    this.route.navigate(['menu/travelling']);
+
     await popup.present();
   }
   async successAddedFavourite() {
