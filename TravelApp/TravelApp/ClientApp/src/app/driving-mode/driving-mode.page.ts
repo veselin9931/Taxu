@@ -195,8 +195,10 @@ export class DrivingModePage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
-          if (Capacitor.platform == 'ios') {
-            window.open(`maps://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${userLat},${userLng}`);
+          if (Capacitor.getPlatform() === 'ios') {
+            console.log("Its ios new one")
+            window.open(`https://www.google.com/maps/@${userLat},${userLng},14z`);
+            directionsRenderer.setDirections(response);
           }
 
           if (Capacitor.platform == 'web') {
