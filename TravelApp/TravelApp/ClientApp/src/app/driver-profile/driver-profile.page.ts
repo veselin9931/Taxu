@@ -49,6 +49,7 @@ export class DriverProfilePage implements OnInit {
   }
 
   ngOnInit() {
+    
     this.getDriver();
     this.getProfilePicture();
     this.getWalletAmount();

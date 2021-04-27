@@ -16,17 +16,9 @@ import { ChartsModule } from 'ng2-charts';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
-
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
-
-const googleMapsParams = {
-  apiKey: "AIzaSyAEvlXdM4joG4bNVT5l-tJSk9lUSGhxMNw",
-  libraries: ['places'],
-  language: 'en',
-  // region: 'DE'
-};
 
 @NgModule({
   declarations: [AppComponent, AlertComponent],

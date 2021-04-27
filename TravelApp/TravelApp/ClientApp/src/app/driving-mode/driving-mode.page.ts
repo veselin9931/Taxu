@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
-import { AlertController, PopoverController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { interval, Subscription } from 'rxjs';
 import { Message, Order, Trip } from 'src/_models';
