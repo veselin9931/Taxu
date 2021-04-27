@@ -217,7 +217,16 @@ export class DrivingModePage implements OnInit {
     );
     directionsRenderer.setMap(this.map);
   }
-
+  openMaps(){
+    if (Capacitor.getPlatform() === 'ios') {
+      console.log("Its ios new one")
+      window.open(`http://maps.apple.com/?q=#&ll=#45,#25`);
+    }
+    if (Capacitor.platform == 'ios') {
+      console.log("Its ios")
+      window.open(`maps://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=45,25`);
+    }
+  }
   //Set directions to user's destination
   async navigateToPointAndCalculateDistance() {
     const directionsService = new google.maps.DirectionsService();
