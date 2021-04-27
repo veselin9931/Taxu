@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TravelApp.Common.ErrMsg;
 using TravelApp.Infrastructure.HubConfig;
 using TravelApp.Infrastructure.InputModels.ImageInput;
+using TravelApp.Models;
 using TravelApp.Services.ImageService;
 using TravelApp.Services.OrderService;
 
@@ -31,14 +33,20 @@ namespace TravelApp.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var image = await this.service.GetImagelByIdAsync(id);
+            Image image;
 
-            if (image != null)
+            try
             {
-                return this.Ok(image);
+                image = await this.service.GetImagelByIdAsync(id);
             }
+            catch (Exception e)
+            {
 
-            return this.BadRequest($"Failed to load image with id={id} from db");
+                return this.BadRequest(ImageErrs.LoadFaild + " | " + e.Message);
+            }
+           
+
+                return this.Ok(image);
         }
 
         // GET api/<imageController>/user/{userId}
@@ -65,7 +73,7 @@ namespace TravelApp.Controllers
                 return this.Ok(image.Result);
             }
 
-            return this.BadRequest($"Failed to load image for user id={userId} from db");
+            return this.BadRequest(ImageErrs.LoadFaild);
         }
 
         [HttpGet("cars/{userId}")]
@@ -78,16 +86,13 @@ namespace TravelApp.Controllers
                 return this.Ok(image.Result);
             }
 
-            return this.BadRequest($"Failed to load image for user id={userId} from db");
+            return this.BadRequest(ImageErrs.LoadFaild);
         }
 
         // POST api/<ImageController>
         [HttpPost("{folderName}/{userId}/{type}"), DisableRequestSizeLimit]
         public async Task<IActionResult> Post(string folderName, string userId, string type)
         {
-            //input.File = (Microsoft.AspNetCore.Http.IFormFile)Request.Form.Files;
-           
-
             if (this.ModelState.IsValid)
             {
                 try
@@ -109,7 +114,7 @@ namespace TravelApp.Controllers
                 }
             }
 
-            return this.BadRequest("Failed to create image");
+            return this.BadRequest(ImageErrs.Createfaild);
         }
 
         // DELETE api/<imageController>/5

@@ -4,10 +4,8 @@
 
 export const environment = {
    production: false,
-    // apiUrl: 'https://localhost:44357',
-    // signalRUrl: 'https://localhost:44357',
     apiUrl: 'https://taksito.azurewebsites.net',
- signalRUrl: 'https://taksito.azurewebsites.net',
+    signalRUrl: 'https://taksito.azurewebsites.net',
 };
 
 
