@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Capacitor, Plugins } from '@capacitor/core';
 import { PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { AnyTxtRecord } from 'dns';
 import { interval, Subscription } from 'rxjs';
 import { Message, Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
@@ -196,7 +197,9 @@ export class DrivingModePage implements OnInit {
       (response, status) => {
         if (status === "OK") {
           if (Capacitor.getPlatform() === 'ios') {
-            console.log("Its ios new one")
+            console.log("Its ios new one");
+            console.log(userLat);
+            console.log(userLng);
             window.open(`https://www.google.com/maps/@${userLat},${userLng},14z`);
             directionsRenderer.setDirections(response);
           }
@@ -222,6 +225,9 @@ export class DrivingModePage implements OnInit {
   openMaps(){
     if (Capacitor.getPlatform() === 'ios') {
       console.log("Its ios new one")
+      console.log(this.myLat);
+      console.log(this.myLng);
+
       window.open(`https://www.google.com/maps/@41.4756367,25.5714908,14z`);
     }
   }
@@ -251,6 +257,8 @@ export class DrivingModePage implements OnInit {
           this.startTrip();
           if (Capacitor.getPlatform() === 'ios') {
             console.log("Its ios new one")
+            console.log(userLat);
+            console.log(userLng);
             window.open(`https://www.google.com/maps/@${userLat},${userLng},14z`);
             directionsRenderer.setDirections(response);
           }
