@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { ok } from 'assert';
 import { first } from 'rxjs/operators';
 import { LanguagePopoverPage } from 'src/app/language-popover/language-popover.page';
 import { environment } from 'src/environments/environment';

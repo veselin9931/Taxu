@@ -10,7 +10,6 @@ import { ChatService } from 'src/_services/chat/chat.service';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
 import { ProfitService } from 'src/_services/profit/profit.service';
-import { SignalRService } from 'src/_services/signal-r.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { WalletService } from 'src/_services/wallet/wallet.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
@@ -73,9 +72,7 @@ export class DrivingModePage implements OnInit {
     private orderService: OrderService,
     private accountService: AccountService,
     private tripService: TripService,
-    public signalRService: SignalRService,
     private walletService: WalletService,
-    private alertController: AlertController,
     private driverService: DriverService,
     private chatService: ChatService,
     private profitService: ProfitService,

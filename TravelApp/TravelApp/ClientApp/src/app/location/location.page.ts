@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import { NavController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { map } from 'rxjs/operators';
 import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';

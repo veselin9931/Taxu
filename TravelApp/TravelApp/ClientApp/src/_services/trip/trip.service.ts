@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Order, Trip } from 'src/_models';
+import { Trip } from 'src/_models';
 import { AccountService } from '../account.service';
 
 @Injectable({

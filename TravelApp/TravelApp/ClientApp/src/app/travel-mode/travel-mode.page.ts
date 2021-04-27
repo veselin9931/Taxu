@@ -4,6 +4,7 @@ import * as signalR from '@aspnet/signalr';
 import { Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Message, Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
@@ -44,6 +45,8 @@ export class TravelModePage implements OnInit {
   messages = this.chatService.messages;
   chatStyle = "";
 
+  subscription: Subscription;
+
   map: any;
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
 
@@ -55,9 +58,9 @@ export class TravelModePage implements OnInit {
     private alertController: AlertController,
     private chatService: ChatService,
     private translate: TranslateService,
-    private popoverController: PopoverController) { 
-      this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
-    }
+    private popoverController: PopoverController) {
+    this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+  }
 
   ngOnInit() {
     this.checkorder();
@@ -126,7 +129,7 @@ export class TravelModePage implements OnInit {
   }
 
   checkorder() {
-    this.orderService.getMyOrder(this.user.id)
+    this.subscription = this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
           this.orderStatus = data.status;
@@ -151,9 +154,11 @@ export class TravelModePage implements OnInit {
           this.orderService.getLastCompletedOrder(this.user.id)
             .subscribe(x => {
               if (x.isRated == false) {
+                this.subscription.unsubscribe();
+                this.completedOrderAlert();
                 this.orderService.rateOrder(x.id)
                   .subscribe();
-                return this.completedOrderAlert();
+
               }
             })
         }
@@ -270,17 +275,18 @@ export class TravelModePage implements OnInit {
       buttons: [
         {
           text: 'Yes',
-          role: 'yes',
+          role: 'cancel',
           handler: () => {
             this.driverService.voteUp(this.driverId)
               .subscribe(x => {
                 this.route.navigate(['menu/travelling']);
+
               });
           }
         },
         {
           text: 'No',
-          role: 'no',
+          role: 'cancel',
           handler: () => {
             this.driverService.voteDown(this.driverId)
               .subscribe(x => {
@@ -297,7 +303,7 @@ export class TravelModePage implements OnInit {
         },
         {
           text: 'Report a problem',
-          role: 'report',
+          role: 'cancel',
           handler: () => {
             this.route.navigate(['menu/report']);
           },

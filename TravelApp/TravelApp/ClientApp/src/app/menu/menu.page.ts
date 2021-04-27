@@ -42,11 +42,7 @@ export class MenuPage implements OnInit {
     {
       title: "Favourites",
       url: '/menu/favourite-orders'
-    },
-    // {
-    //   title: "Payments",
-    //   url: '/menu/payments'
-    // }
+    }
   ];
 
   selectedPath = '';

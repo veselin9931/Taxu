@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { PopoverController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
-import { Message, Order, Trip } from 'src/_models';
-import { AccountService, AlertService } from 'src/_services';
+import { Order, Trip } from 'src/_models';
+import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
   templateUrl: './travelling.page.html',
   styleUrls: ['./travelling.page.scss'],
 })
-export class TravellingPage implements OnInit {
+export class TravellingPage implements OnInit, OnDestroy {
   public currentTrip: Trip;
   private user = this.accountService.userValue;
   isLoggedIn;
@@ -40,10 +41,11 @@ export class TravellingPage implements OnInit {
   isSubmitted = false;
   isCompleted = false;
 
+  subscription: Subscription;
+
   constructor(private formBuilder: FormBuilder,
     private route: Router,
     private orderService: OrderService,
-    private alertService: AlertService,
     private accountService: AccountService,
     private translate: TranslateService,
     private popoverController: PopoverController) {
@@ -51,7 +53,7 @@ export class TravellingPage implements OnInit {
   }
 
   ngOnInit() {
-      
+
     this.form = this.formBuilder.group({
       applicationUserId: [''],
       location: this.orderService.chosenLocation,
@@ -87,6 +89,11 @@ export class TravellingPage implements OnInit {
       this.checkorder();
     });
 
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    console.log('unsubscribed')
   }
 
   ionViewDidEnter() {
@@ -179,13 +186,12 @@ export class TravellingPage implements OnInit {
           if (!this.form.valid) {
             return false;
           } else {
-            this.orderService.createOrder(this.form.value)
+            this.subscription = this.orderService.createOrder(this.form.value)
               .subscribe(x => {
                 this.form.value.locationLat = this.form.value.locationLat.toString();
                 this.form.value.locationLong = this.form.value.locationLong.toString();
-                this.alertService.success('You have created an order.', { autoClose: true });
                 this.orderStatus = this.form.value.status;
-                this.orderService.getMyOrder(this.user.id)
+                this.subscription = this.orderService.getMyOrder(this.user.id)
                   .subscribe();
               })
           }
@@ -198,7 +204,7 @@ export class TravellingPage implements OnInit {
 
   //Order functionallity - waiting for driver
   checkorder() {
-    this.orderService.getMyOrder(this.user.id)
+    this.subscription = this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
           this.orderService.currentOrderId = data.id;
@@ -211,14 +217,14 @@ export class TravellingPage implements OnInit {
 
           if (data.status == "Waiting" && data != null) {
             this.isCompleted = true;
-            
+
             // User can increase order price.
             this.selector(0);
           }
-          
+
           if (data.status == "Accepted" && data != null) {
-                this.route.navigate(['menu/travel-mode']);
-                this.isCompleted = false;
+            this.route.navigate(['menu/travel-mode']);
+            this.isCompleted = false;
           }
         } else {
           this.orderTotalPrice = 0;
@@ -230,9 +236,9 @@ export class TravellingPage implements OnInit {
   }
 
   cancelOrder() {
-    this.orderService.getMyOrder(this.user.id)
+    this.subscription = this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
-        this.orderService.deleteOrder(data.id)
+        this.subscription = this.orderService.deleteOrder(data.id)
           .subscribe(() => {
             this.isCompleted = false;
             this.orderStatus = null;
@@ -246,11 +252,13 @@ export class TravellingPage implements OnInit {
   selector($event) {
     let amount = +$event;
     if (amount != 0 || $event != "") {
-      this.orderService.increaseOrderPrice(this.order.id, amount)
+      this.subscription = this.orderService.increaseOrderPrice(this.order.id, amount)
         .subscribe()
     }
   }
-  
+
+
+
   async openLanguagePopover(ev) {
     const popover = await this.popoverController.create({
       component: LanguagePopoverPage,

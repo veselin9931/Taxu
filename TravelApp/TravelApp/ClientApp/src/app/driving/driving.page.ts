@@ -1,21 +1,17 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { Order } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
-import { SignalRService } from 'src/_services/signal-r.service';
-import { ProfitService } from 'src/_services/profit/profit.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { WalletService } from 'src/_services/wallet/wallet.service';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { DriverService } from 'src/_services/driver/driver.service';
-import { ChatService } from 'src/_services/chat/chat.service';
 import { environment } from 'src/environments/environment';
 import { Plugins } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
-import { HttpClient } from '@angular/common/http';
 
 const { Geolocation } = Plugins;
 declare var google: any;
@@ -46,7 +42,6 @@ export class DrivingPage implements OnInit {
     private orderService: OrderService,
     private accountService: AccountService,
     private tripService: TripService,
-    public signalRService: SignalRService,
     private walletService: WalletService,
     private alertController: AlertController,
     private driverService: DriverService,

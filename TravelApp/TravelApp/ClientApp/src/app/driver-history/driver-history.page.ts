@@ -4,7 +4,6 @@ import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { Location } from '@angular/common';
 import * as signalR from '@aspnet/signalr';
-import { threadId } from 'worker_threads';
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-driver-history',

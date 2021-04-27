@@ -1,8 +1,6 @@
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { error } from 'selenium-webdriver';
 import { environment } from 'src/environments/environment';
 import { Image } from '../../_models'
 

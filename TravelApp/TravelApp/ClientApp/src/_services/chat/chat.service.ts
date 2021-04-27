@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as signalR from '@aspnet/signalr';        // import signalR
 import { HttpClient } from '@angular/common/http';
 import { Message } from '../../_models'
