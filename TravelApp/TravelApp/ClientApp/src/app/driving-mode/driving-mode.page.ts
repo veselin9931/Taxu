@@ -242,21 +242,33 @@ export class DrivingModePage implements OnInit {
       (response, status) => {
         if (status === "OK") {
           this.startTrip();
-          if (Capacitor.platform == 'ios') {
+          if (Capacitor.getPlatform() === 'ios') {
+            console.log("Its ios new one")
+            directionsRenderer.setDirections(response);
             window.open(`maps://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${userLat},${userLng}`);
-          directionsRenderer.setDirections(response);
+          }
+          if (Capacitor.platform == 'ios') {
+            console.log("Its ios")
+            directionsRenderer.setDirections(response);
+            window.open(`maps://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${userLat},${userLng}`);
           }
 
           if (Capacitor.platform == 'web') {
-            directionsRenderer.setDirections(response);
+            console.log("Its web")
+
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+            directionsRenderer.setDirections(response);
           }
 
           if (Capacitor.platform == 'android') {
-            directionsRenderer.setDirections(response);
+            console.log("Its android")
+
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+            directionsRenderer.setDirections(response);
           }
         } else {
+          console.log("failed")
+
           window.alert("Directions request failed due to " + status);
         }
       }
