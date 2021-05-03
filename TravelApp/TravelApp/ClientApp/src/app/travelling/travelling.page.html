@@ -22,23 +22,13 @@
                 <div class="row">
                     <form [formGroup]="form" novalidate class="col">
                         <div *ngIf="isCompleted == false" class="form-group col mt-2">
-
                             <p (click)="locationMap()" *ngIf="this.orderService.chosenLocation != null"><ion-icon class="mr-2" name="analytics-outline"></ion-icon>{{this.orderService.chosenLocation}}</p>
                             <p (click)="locationMap()" *ngIf="this.orderService.chosenLocation == null"><ion-icon class="mr-2" name="analytics-outline"></ion-icon>{{'Click here to choose starting point'| translate}}.</p>
-                           
-                            <div *ngIf="isSubmitted && f.location.errors" class="invalid-feedback">
-                                <div *ngIf="f.location.errors.required" class="fonted">Please choose starting point.
-                                </div>
-                            </div>
                             <hr />
                         </div>
-
                         <div *ngIf="isCompleted == false" class="form-group col mt-3">
                             <p (click)="destinationMap()" *ngIf="this.orderService.chosenDestination != null"><ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{this.orderService.chosenDestination}}</p>
                             <p (click)="destinationMap()" *ngIf="this.orderService.chosenDestination == null"><ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{'Click here to choose destination' |translate}}.</p>
-                            <div *ngIf="isSubmitted && f.destination.errors" class="invalid-feedback">
-                                <div *ngIf="f.destination.errors.required" class="fonted">Please choose endpoint.</div>
-                            </div>
                         </div>
 
                         <div *ngIf="isCompleted == true" class="form-group col mt-2">

@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>
+      <ion-label>{{'Details' | translate}}</ion-label>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="col-md-10">
+    <div id="orderDiv" class="list-group mt-2">
+
+      <a class="text list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1 fonted"></h5>
+          <small>{{order.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
+        </div>
+        <p><ion-icon class="mr-2" name="analytics-outline"></ion-icon>{{order.location}}</p>
+        <hr />
+        <p><ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{order.destination}}</p>
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1 fonted"></h5>
+        </div>
+        <div class="row">
+          <div class="col">
+            <small
+              *ngIf="order.withPets == true || order.withStroller == true || order.special == true">{{'Additional
+              options' | translate}}:</small>
+            <ul>
+              <li *ngIf="order.withPets == true">{{'With pets' | translate}}</li>
+              <li *ngIf="order.withStroller == true">{{'With stroller' | translate}}</li>
+              <li *ngIf="order.special == true">{{'Special needs' | translate}}</li>
+            </ul>
+
+            <small *ngIf="order.carType">Desired car type:</small>
+            <ul *ngIf="order.carType">
+              <li>{{order.carType}}</li>
+            </ul>
+
+            <div class="w-100">
+              <h5>{{'Trip distance' | translate}}: {{order.tripDistance}} km</h5>
+              <br>
+              <h5 class="fonted">Distance to user: 
+                <small class="fonted">{{distance}} km</small>
+              </h5>
+            </div>
+
+            <div class="d-flex w-100 justify-content-between">
+
+              <small class="fonted">{{'Total cost' | translate}}: {{order.totalPrice}}$</small>
+              <ion-button class="fonted" (click)="acceptOrder(order)" type="submit" color="light">{{'Accept' |
+                translate}}</ion-button>
+            </div>
+          </div>
+
+        </div>
+      </a>
+    </div>
+  </div>
+</ion-content>
