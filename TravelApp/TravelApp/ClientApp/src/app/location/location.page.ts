@@ -44,7 +44,6 @@ search: any;
   }
 
   onSubmit() {
-
     this.orderService.chosenLocation = this.address;
     this.route.navigate(['menu/destination'])
   }

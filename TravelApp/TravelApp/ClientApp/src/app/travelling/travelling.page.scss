@@ -1,6 +1,6 @@
 ion-content{
     //--background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
-    --ion-background-color:#353535;
+    --ion-background-color:#e9e9e9;
 }
 
 ion-toolbar{
@@ -53,27 +53,13 @@ ion-title {
 }
 
 .text{  
-    font-size: 2.4em;
+    font-size: 1.4em;
     font-family: Open Sans Light;
 }
-
-
-i{
-    color:#eeeeee;
-}
-
-
-.my-custom-class {
-    --background: #e5e5e5;
-  }
 
  .checkbox-icon{
      color:white;
  }
-
- ion-checkbox{
-     --border-color: #FFFFFF;
-   }
 
 ion-select{
     color: rgb(56, 56, 56);

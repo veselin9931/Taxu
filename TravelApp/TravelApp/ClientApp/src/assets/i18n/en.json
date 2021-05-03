@@ -1,11 +1,11 @@
 {
-    "Additional options": "Additional options",
+    "Additional options (optional)": "Additional options (optional)",
     "With pets": "With pets",
     "With stroller": "With stroller",
     "Special needs": "Special needs",
     "Click here to choose starting point": "Click here to choose starting point",
     "Click here to choose destination": "Click here to choose destination",
-    "Find": "Find",
+    "Make a order": "Make a order",
     "Cancel": "Cancel",
     "Cost": "Cost",
     "Looking for a driver": "Looking for a driver",
@@ -90,7 +90,7 @@
     "Waiting for orders": "Waiting for orders",
     "Normal": "Normal",
     "Comfort": "Comfort",
-    "Choose car type": "Choose car type",
+    "Car type (optional)": "Car type (optional)",
     "Closest": "Closest",
     "All": "All"
   }

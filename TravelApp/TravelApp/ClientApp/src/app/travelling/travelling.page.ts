@@ -11,7 +11,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'app-travelling',
   templateUrl: './travelling.page.html',
@@ -216,6 +215,7 @@ export class TravellingPage implements OnInit, OnDestroy {
           this.estimatedDuration = data.eta;
 
           if (data.status == "Waiting" && data != null) {
+            this.orderStatus = data.status;
             this.isCompleted = true;
 
             // User can increase order price.
@@ -257,7 +257,29 @@ export class TravellingPage implements OnInit, OnDestroy {
     }
   }
 
+  onSelectCar($event){
+    let type = $event.detail.value;
+    if(type == "Normal"){
+      this.form.value.carType = type;
+    }
+    if(type == "Comfort"){
+      this.form.value.carType = type;
+    }
+  }
 
+  onSelectChange($event) {
+    $event.detail.value.forEach(element => {
+      if (element == "With pets") {
+        this.form.value.withPets = true;
+      }
+      if (element == "With stroller") {
+        this.form.value.withStroller = true;
+      }
+      if (element == "Special needs") {
+        this.form.value.special = true;
+      }
+    });
+  }
 
   async openLanguagePopover(ev) {
     const popover = await this.popoverController.create({
