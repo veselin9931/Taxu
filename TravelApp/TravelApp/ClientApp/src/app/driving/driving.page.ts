@@ -107,9 +107,8 @@ export class DrivingPage implements OnInit {
           return <any>new Date(b.createdOn) - <any>new Date(a.createdOn);
         });
         this.orders = data;
-
+        this.calculateClosest();
       })
-
   }
 
   //Get normal orders based by rating
@@ -138,22 +137,42 @@ export class DrivingPage implements OnInit {
   }
 
   getClosestOrders(rating) {
-
     this.orderService.getAllOrders()
       .subscribe(data => {
         if (data == null) {
           return;
         }
         this.calculateEta(data);
+        this.driverService.categoryCloseCount = this.orders.length;
 
-        // this.orders = data.filter((order) => order.km >= 5)
-        // this.driverService.categoryCloseCount = this.orders.length;
       })
-
   }
 
+  calculateClosest() {
+    this.closeOrders = [];
+    this.orders.forEach(async order => {
+      const coordinates = await Geolocation.getCurrentPosition();
+      const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+
+      const orderLatLng = { lat: order.locationLat, lng: order.locationLong };
+      var p1 = new google.maps.LatLng(myLatLng.lat, myLatLng.lng);
+      var p2 = new google.maps.LatLng(orderLatLng.lat, orderLatLng.lng);
+      this.distance = calcDistance(p1, p2);
+      order.km = +this.distance;
+      //calculates distance between two points in km's
+      function calcDistance(p1, p2) {
+        return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
+      }
+
+      if(order.km > 5){
+        this.closeOrders.push(order);
+      }
+      this.driverService.categoryCloseCount = this.closeOrders.length;
+    });
+  }
 
   calculateEta(orders) {
+    this.orders = [];
     orders.forEach(async order => {
       const coordinates = await Geolocation.getCurrentPosition();
       const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
@@ -161,16 +180,20 @@ export class DrivingPage implements OnInit {
       const orderLatLng = { lat: order.locationLat, lng: order.locationLong };
       var p1 = new google.maps.LatLng(myLatLng.lat, myLatLng.lng);
       var p2 = new google.maps.LatLng(orderLatLng.lat, orderLatLng.lng);
-      console.log(calcDistance(p1, p2))
       this.distance = calcDistance(p1, p2);
       order.km = +this.distance;
-      console.log(order.km);
-
       //calculates distance between two points in km's
       function calcDistance(p1, p2) {
         return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
       }
+
+      if(order.km > 5){
+        let index = orders.indexOf(order);
+        orders.splice(index, 1);
+      }
+      this.driverService.categoryCloseCount = orders.length;
     });
+    this.closeOrders = orders;
     this.orders = orders;
   }
 

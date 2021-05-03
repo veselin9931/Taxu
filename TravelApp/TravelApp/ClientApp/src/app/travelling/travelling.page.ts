@@ -140,12 +140,10 @@ export class TravellingPage implements OnInit, OnDestroy {
 
     //Gets the loc and lng if we come from "Favourites" page
     if (this.form.value.location == undefined) {
-      this.form.controls['location'].setErrors({ 'incorrect': true });
       this.locationError();
     }
 
     if (this.form.value.destination == undefined) {
-      this.form.controls['destination'].setErrors({ 'incorrect': true });
       this.destinationError();
     }
 
