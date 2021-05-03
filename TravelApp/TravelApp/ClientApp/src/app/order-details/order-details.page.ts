@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { AnyTxtRecord } from 'dns';
 import { Order } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
@@ -73,13 +72,11 @@ export class OrderDetailsPage {
   }
 
   ionViewDidEnter() {
-
     this.orderService.getOrderById(this.orderId)
       .subscribe(order => {
         this.order = order;
         this.calculateDistance(this.order);
         this.calculateEta(this.order);
-        console.log(this.order);
       })
   }
 
