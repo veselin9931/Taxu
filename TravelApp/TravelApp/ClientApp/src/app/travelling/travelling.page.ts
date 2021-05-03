@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { PopoverController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
@@ -10,7 +10,6 @@ import { OrderService } from 'src/_services/order/order.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Subscription } from 'rxjs';
-
 
 @Component({
   selector: 'app-travelling',
@@ -48,7 +47,8 @@ export class TravellingPage implements OnInit, OnDestroy {
     private orderService: OrderService,
     private accountService: AccountService,
     private translate: TranslateService,
-    private popoverController: PopoverController) {
+    private popoverController: PopoverController,
+    private alertController: AlertController) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
 
@@ -141,10 +141,12 @@ export class TravellingPage implements OnInit, OnDestroy {
     //Gets the loc and lng if we come from "Favourites" page
     if (this.form.value.location == undefined) {
       this.form.controls['location'].setErrors({ 'incorrect': true });
+      this.locationError();
     }
 
     if (this.form.value.destination == undefined) {
       this.form.controls['destination'].setErrors({ 'incorrect': true });
+      this.destinationError();
     }
 
     if (!this.form.valid) {
@@ -216,6 +218,7 @@ export class TravellingPage implements OnInit, OnDestroy {
           this.estimatedDuration = data.eta;
 
           if (data.status == "Waiting" && data != null) {
+            this.orderStatus = data.status;
             this.isCompleted = true;
 
             // User can increase order price.
@@ -257,7 +260,29 @@ export class TravellingPage implements OnInit, OnDestroy {
     }
   }
 
+  onSelectCar($event){
+    let type = $event.detail.value;
+    if(type == "Normal"){
+      this.form.value.carType = type;
+    }
+    if(type == "Comfort"){
+      this.form.value.carType = type;
+    }
+  }
 
+  onSelectChange($event) {
+    $event.detail.value.forEach(element => {
+      if (element == "With pets") {
+        this.form.value.withPets = true;
+      }
+      if (element == "With stroller") {
+        this.form.value.withStroller = true;
+      }
+      if (element == "Special needs") {
+        this.form.value.special = true;
+      }
+    });
+  }
 
   async openLanguagePopover(ev) {
     const popover = await this.popoverController.create({
@@ -266,6 +291,35 @@ export class TravellingPage implements OnInit, OnDestroy {
     });
     await popover.present();
   }
+
+  async locationError() {
+    const popup = await this.alertController.create({
+      header: 'Location field is required !',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'Ok',
+        }
+      ]
+    });
+
+    await popup.present();
+  }
+
+  async destinationError() {
+    const popup = await this.alertController.create({
+      header: 'Destination field is required !',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'Ok',
+        }
+      ]
+    });
+
+    await popup.present();
+  }
+
 
 
   clearForm() {

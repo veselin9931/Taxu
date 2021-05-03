@@ -86,6 +86,10 @@ const routes: Routes = [
       {
         path: 'driving-mode',
         loadChildren: () => import('../driving-mode/driving-mode.module').then(m => m.DrivingModePageModule)
+      },
+      {
+        path: 'order-details/:id',
+        loadChildren: () => import('../order-details/order-details.module').then(m => m.OrderDetailsPageModule)
       }
     ]
   }

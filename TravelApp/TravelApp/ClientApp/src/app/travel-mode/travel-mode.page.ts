@@ -278,20 +278,17 @@ export class TravelModePage implements OnInit {
           role: 'cancel',
           handler: () => {
             this.driverService.voteUp(this.driverId)
-              .subscribe(x => {
-                this.route.navigate(['menu/travelling']);
-
-              });
+              .subscribe(x => {});
+              this.route.navigate(['menu/travelling']);
           }
         },
         {
           text: 'No',
-          role: 'cancel',
+          role: 'no',
           handler: () => {
             this.driverService.voteDown(this.driverId)
-              .subscribe(x => {
-                this.route.navigate(['menu/travelling']);
-              });
+              .subscribe(x => {});
+              this.route.navigate(['menu/travelling']);
           }
         },
         {

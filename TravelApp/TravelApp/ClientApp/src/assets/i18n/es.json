@@ -1,11 +1,11 @@
 {
-    "Additional options": "Opciones adicionales",
+    "Additional options (optional)": "Opciones adicionales (opcional)",
     "With pets": "Con mascotas",
     "With stroller": "Con cochecito",
     "Special needs": "Necesidades especiales",
     "Click here to choose starting point": "Haga clic aquí para elegir el punto de partida",
     "Click here to choose destination": "Haga clic aquí para elegir el destino",
-    "Find": "Encontrar",
+    "Make a order": "Hacer un pedido",
     "Cancel": "Cancelar",
     "Cost": "Precio",
     "Looking for a driver": "Buscando un conductor",
@@ -90,7 +90,7 @@
     "Waiting for orders": "Esperando pedidos",
     "Normal": "Normal",
     "Comfort": "Comodidad",
-    "Choose car type": "Elige el tipo de coche",
+    "Car type (optional)": "Tipo de carro (opcional)",
     "Closest": "Mas cercana",
     "All": "Todas"
   }

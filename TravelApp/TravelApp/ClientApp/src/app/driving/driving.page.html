@@ -18,7 +18,7 @@
     <div class="col">
       <div class="row">
         <div class="col-md-12 text-center">
-          <ion-text class="centered" color="light">
+          <ion-text class="centered" color="dark">
             <h2 class="fonted blink_me">{{'Waiting for orders' | translate}}</h2>
             <hr>
           </ion-text>
@@ -31,13 +31,17 @@
 
             <a class="text list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1 fonted">{{'Order' | translate}}</h5>
+                <h5 class="mb-1 fonted"></h5>
                 <small>{{oldOrder.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
               </div>
-              <p class="mb-1 fonted">{{'Location' | translate}}: {{oldOrder.location}}</p>
+              <p><ion-icon class="mr-2" name="analytics-outline"></ion-icon>{{oldOrder.location}}</p>
               <hr />
-              <p class="mb-1 fonted">{{'Destination' | translate}}: {{oldOrder.destination}}</p>
-              <div class="row">
+              <p><ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{oldOrder.destination}}</p>
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1 fonted"></h5>
+                <button class="btn btn-warning" [routerLink]='["/menu/order-details",oldOrder.id]'>Order details</button>
+              </div>
+              <!-- <div class="row">
                 <div class="col">
                   <small
                     *ngIf="oldOrder.withPets == true || oldOrder.withStroller == true || oldOrder.special == true">{{'Additional
@@ -70,7 +74,7 @@
                   </div>
                 </div>
 
-              </div>
+              </div> -->
             </a>
           </div>
         </div>
