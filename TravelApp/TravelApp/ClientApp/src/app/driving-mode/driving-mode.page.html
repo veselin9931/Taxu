@@ -34,10 +34,10 @@
 <ion-footer class="ion-no-border">
   <ion-toolbar class="text-center">
     <ion-text class="textTravel">
-      <ion-button (click)="navigateToUserAndCalculateDistance()" type="submit" [disabled]="tripStatus=='Started'"
-        color="primary">{{'Navigate to user' | translate}}</ion-button>
-      <ion-button (click)="navigateToPointAndCalculateDistance()" type="submit" color="primary"
-        [disabled]="tripStatus=='!Processing'">{{'Start trip' | translate}}</ion-button>
+      <button (click)="navigateToUserAndCalculateDistance()" type="button" [disabled]="tripStatus=='Started'"
+        class="fonted btn btn-info">{{'Navigate to user' | translate}}</button>
+      <button (click)="navigateToPointAndCalculateDistance()" type="button" color="primary"
+      class="fonted btn btn-info ml-1" [disabled]="tripStatus=='!Processing'">{{'Start trip' | translate}}</button>
       <ion-text class="centered" color="dark">
         <p class="text">{{'Drop off address' | translate}} ({{tripDistance}}km)</p>
         <p class="text">{{this.destination}}</p>
@@ -50,10 +50,10 @@
 
 <ion-footer class="ion-no-border site-footer">
   <ion-toolbar class="text-center">
-    <ion-button [disabled]="tripStatus=='Processing'" (click)="finishTrip()" type="submit" color="light">
-      {{'Finish trip' | translate}}</ion-button>
-    <ion-button (click)="chat()" type="submit" (click)="clearMessages()" color="light">
-      {{'Chat'| translate}}</ion-button>
+    <button [disabled]="tripStatus=='Processing'" class="fonted btn btn-success" (click)="finishTrip()" type="button">
+      {{'Finish trip' | translate}}</button>
+    <button (click)="chat()" class="fonted btn btn-secondary ml-1" type="button" (click)="clearMessages()">
+      {{'Chat'| translate}}</button>
     <br />
     <ion-label class="blink_me" *ngIf="messages.length != 0  && chatStyle == 'none'">{{'You have new message' |
       translate}}.</ion-label>

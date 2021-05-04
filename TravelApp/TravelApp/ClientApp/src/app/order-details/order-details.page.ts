@@ -53,6 +53,7 @@ export class OrderDetailsPage {
     km: null,
     distanceText: null,
     eta: null,
+    isDeleted: null,
   };
 
   eta: any;
@@ -74,6 +75,9 @@ export class OrderDetailsPage {
   ionViewDidEnter() {
     this.orderService.getOrderById(this.orderId)
       .subscribe(order => {
+        if(order == null){
+          return this.OrderTaken();
+        }
         this.order = order;
         this.calculateDistance(this.order);
         this.calculateEta(this.order);
@@ -197,12 +201,30 @@ export class OrderDetailsPage {
     await alert.present();
   }
 
+  async OrderTaken() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Sorry',
+      message: 'This order is no longer active',
+      buttons: [{
+        text: 'OK',
+        handler: () => {
+          this.router.navigate(['menu/driving']);
+        }
+      },
+    ],
+    });
+
+    await alert.present();
+  }
+
   async WrongCarAlert() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Order information',
       message: 'Your car is of type "Normal" but the order desired car type is "Comfort"! ',
-      buttons: ['OK']
+      buttons: ['OK'],
+      
     });
 
     await alert.present();

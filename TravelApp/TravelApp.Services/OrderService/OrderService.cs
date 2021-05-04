@@ -139,7 +139,7 @@ namespace TravelApp.Services.OrderService
         => this.orderRepository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.ApplicationUserId == userId && x.Status == "Completed");
 
         public Order GetOrderById(string id)
-        => this.orderRepository.All()?.FirstOrDefault(x => x.Id == id);
+        => this.orderRepository.All().FirstOrDefault(x => x.Id == id);
 
         public Order GetOrderByUserId(string userId)
         => this.orderRepository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.ApplicationUserId == userId && x.Status != "Completed");
@@ -284,10 +284,11 @@ namespace TravelApp.Services.OrderService
 
         public async Task<IList<Order>> Get4to5RatingOrdersAsync()
         => await this.orderRepository.All()?
-            .Where(x => x.IsDeleted == false && x.Status == "Waiting" &&x.CreatedOn <= DateTime.UtcNow.AddSeconds(-5))
+            .Where(x => x.IsDeleted == false && x.Status == "Waiting" && x.CreatedOn <= DateTime.UtcNow.AddSeconds(-10))
             .Include(x => x.ApplicationUser)
             .OrderBy(x => x.CreatedOn)
             .ToListAsync();
+
         //public async Task<IList<Order>> GetOrdersFor01Ratings()
         //=> await this.orderRepository.All()?
         //    .Where(x => x.Status == "Waiting" && x.IsDeleted == false)
