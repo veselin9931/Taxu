@@ -26,4 +26,5 @@ export class Order {
     isRated: boolean;
     km: any;
     distanceText: any;
+    isDeleted: boolean;
 }

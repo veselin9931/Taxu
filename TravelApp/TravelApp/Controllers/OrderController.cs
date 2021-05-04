@@ -119,16 +119,13 @@ namespace TravelApp.Controllers
         public async Task<IActionResult> GetById(string orderId)
         {
             var order = this.orderService.GetOrderById(orderId);
-            var user = this.accountService.GetById(order.ApplicationUserId);
 
-            order.ApplicationUser = user;
-            
             if (order != null)
             {
-                return this.Ok(order);
+                var user = this.accountService.GetById(order.ApplicationUserId);
+                order.ApplicationUser = user;
             }
-
-            return this.NoContent();
+            return this.Ok(order);
         }
 
         //GET ORDER BY USER ID

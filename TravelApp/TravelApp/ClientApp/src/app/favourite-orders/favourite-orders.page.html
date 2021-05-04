@@ -16,7 +16,7 @@
 
 
 <ion-content padding class="background">
-  <ion-text *ngIf="favourites.length == 0" class="centered" color="light">
+  <ion-text *ngIf="favourites.length == 0" class="centered" color="dark">
       <h2 class="fonted mt-2">{{'You dont have saved trips' | translate}}!</h2>
     <hr />
   </ion-text>
@@ -43,7 +43,7 @@
                 </div>
                 <hr />
               </div>
-              <ion-toolbar color="light">
+              <ion-toolbar color="dark">
                 <ion-buttons slot="start">
                   <ion-button class="fonted" (click)="useThis(favourite)" type="submit" color="dark">{{'Use this trip' | translate}}</ion-button>
                 </ion-buttons>

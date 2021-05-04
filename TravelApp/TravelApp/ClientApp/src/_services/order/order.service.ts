@@ -75,8 +75,7 @@ export class OrderService {
   getOrderById(id: string): Observable<Order> {
     return this.http.get<Order>(`${environment.apiUrl}/api/order/id/${id}`)
       .pipe(
-        tap(data => this.order = data),
-        catchError(this.handleError)
+        tap(data => this.order = data)
       );
   }
 

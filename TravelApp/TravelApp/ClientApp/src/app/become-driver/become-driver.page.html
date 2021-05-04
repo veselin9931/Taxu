@@ -27,7 +27,7 @@
             </div> -->
             <!--<div class="row">
                 <div class="col text-center">
-                    <ion-text class="centered" color="light">
+                    <ion-text class="centered" color="dark">
                         <h2 class="text">Become a driver</h2>
                         <hr>
                         <h5 class="text">Please upload your documents, so we can verify your account</h5>
@@ -35,13 +35,13 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <ion-text color="light">
+                            <ion-text color="dark">
                                 <hr>
                                 <h5 class="text">Click the button below and upload both image for your drivers license and your id card.</h5>
                             </ion-text>
 
                             <input type="file" #file placeholder="Choose file" (change)="uploadLicense(file.files)" style="display:none;">
-                            <ion-button class="my-label mt-3" (click)="file.click()" expand="full" color="light">Upload</ion-button>
+                            <ion-button class="my-label mt-3" (click)="file.click()" expand="full" color="dark">Upload</ion-button>
                             <div class="col-md-4 mt-2">
                                 <div class="progress form-group" *ngIf="progress > 0">
                                     <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
@@ -79,11 +79,11 @@
               </div>
 
               <div class="col-md-12 mt-3">
-                <ion-button (click)="onSubmit()" type="submit" color="light">Submit</ion-button>
+                <ion-button (click)="onSubmit()" type="submit" color="dark">Submit</ion-button>
               </div>
             </form> -->
             <!--<div class="col-md-12 mt-3">
-                <ion-button (click)="onSubmit()" type="submit" color="light">Submit</ion-button>
+                <ion-button (click)="onSubmit()" type="submit" color="dark">Submit</ion-button>
             </div>-->
             <!--</div>
             </div>-->
@@ -92,12 +92,12 @@
 
     <ion-content padding (change)="upload()">
         <div class="col text-center">
-            <ion-text class="centered" color="light">
+            <ion-text class="centered" color="dark">
                 <h2 class="text">Become a driver</h2>
 
                 <h5 class="text">Please upload your documents, so we can verify your account</h5>
 
-                <ion-text color="light">
+                <ion-text color="dark">
 
                     <h5 class="text">Click the button below and upload both image for your drivers license and your id card.</h5>
                 </ion-text>

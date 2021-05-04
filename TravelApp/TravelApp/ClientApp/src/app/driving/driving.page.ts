@@ -97,7 +97,6 @@ export class DrivingPage implements OnInit {
   }
 
   getAllOrders(rating) {
-
     this.orderService.getAllOrders()
       .subscribe(data => {
         if (data == null) {
@@ -106,7 +105,13 @@ export class DrivingPage implements OnInit {
         data.sort((a, b) => {
           return <any>new Date(b.createdOn) - <any>new Date(a.createdOn);
         });
-        this.orders = data;
+        
+        if(rating <= 10){
+          setTimeout(() => {
+              this.orders = data;
+            }, 5000);
+        }
+        //this.orders = data;
         this.calculateClosest();
       })
   }
@@ -164,7 +169,7 @@ export class DrivingPage implements OnInit {
         return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
       }
 
-      if(order.km > 5){
+      if (order.km > 5) {
         this.closeOrders.push(order);
       }
       this.driverService.categoryCloseCount = this.closeOrders.length;
@@ -187,7 +192,7 @@ export class DrivingPage implements OnInit {
         return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
       }
 
-      if(order.km > 5){
+      if (order.km > 5) {
         let index = orders.indexOf(order);
         orders.splice(index, 1);
       }
