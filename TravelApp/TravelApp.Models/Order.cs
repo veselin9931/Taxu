@@ -24,7 +24,6 @@ namespace TravelApp.Models
 
         public string LocationLong { get; set; }
         
-
         [Required]
         public string Destination { get; set; }
 
@@ -39,8 +38,6 @@ namespace TravelApp.Models
         public decimal UserDistance { get; set; }
 
         public string CarType { get; set; }
-
-
 
         [Required]
         [Range(typeof(decimal), "0", "999999999999999999")]
