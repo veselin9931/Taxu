@@ -176,6 +176,10 @@ export class TravellingPage implements OnInit, OnDestroy {
           if (this.form.value.withPets == true) {
             this.orderTotalPrice += 2.20;
           }
+          if(this.form.value.carType == "Comfort") {
+            this.orderTotalPrice += 1;
+          }
+          
           this.form.value.totalPrice = this.orderTotalPrice;
           this.form.value.tripDistance = this.orderTotalDestination;
 

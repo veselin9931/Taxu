@@ -102,16 +102,41 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
+
+        if(data.length < this.orders.length){
+          this.orders = data;
+          return;
+        }
+
         data.sort((a, b) => {
           return <any>new Date(b.createdOn) - <any>new Date(a.createdOn);
         });
-        
-        if(rating <= 10){
+
+        if(rating >= 0 && rating <= 2){
+          setTimeout(() => {
+            this.orders = data;
+          }, 10000);
+        }
+        if(rating >= 2 && rating <= 4){
+          setTimeout(() => {
+            this.orders = data;
+          }, 8000);
+        }
+        if(rating >= 4 && rating <= 6){
+          setTimeout(() => {
+            this.orders = data;
+          }, 5000);
+        }
+        if(rating >= 6 && rating <= 8){
+          setTimeout(() => {
+            this.orders = data;
+          }, 3000);
+        }
+        if(rating >= 8 && rating <= 10){
           setTimeout(() => {
               this.orders = data;
-            }, 5000);
+            }, 1000);
         }
-        //this.orders = data;
         this.calculateClosest();
       })
   }
@@ -123,7 +148,36 @@ export class DrivingPage implements OnInit {
         if (data == null) {
           return;
         }
-        this.orders = data;
+
+        if(data.length < this.orders.length){
+          this.orders = data;
+          return;
+        }
+        if(rating >= 0 && rating <= 2){
+          setTimeout(() => {
+            this.orders = data;
+          }, 10000);
+        }
+        if(rating >= 2 && rating <= 4){
+          setTimeout(() => {
+            this.orders = data;
+          }, 8000);
+        }
+        if(rating >= 4 && rating <= 6){
+          setTimeout(() => {
+            this.orders = data;
+          }, 5000);
+        }
+        if(rating >= 6 && rating <= 8){
+          setTimeout(() => {
+            this.orders = data;
+          }, 3000);
+        }
+        if(rating >= 8 && rating <= 10){
+          setTimeout(() => {
+              this.orders = data;
+            }, 1000);
+        }
 
       })
   }
@@ -136,7 +190,35 @@ export class DrivingPage implements OnInit {
           return;
         }
 
-        this.orders = data;
+        if(data.length < this.orders.length){
+          this.orders = data;
+          return;
+        }
+        if(rating >= 0 && rating <= 2){
+          setTimeout(() => {
+            this.orders = data;
+          }, 10000);
+        }
+        if(rating >= 2 && rating <= 4){
+          setTimeout(() => {
+            this.orders = data;
+          }, 8000);
+        }
+        if(rating >= 4 && rating <= 6){
+          setTimeout(() => {
+            this.orders = data;
+          }, 5000);
+        }
+        if(rating >= 6 && rating <= 8){
+          setTimeout(() => {
+            this.orders = data;
+          }, 3000);
+        }
+        if(rating >= 8 && rating <= 10){
+          setTimeout(() => {
+              this.orders = data;
+            }, 1000);
+        }
       })
 
   }
