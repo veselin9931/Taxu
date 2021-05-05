@@ -17,13 +17,11 @@ namespace TravelApp.Services.OrderService
     {
         private readonly IDeletableEntityRepository<Order> orderRepository;
         private readonly IDeletableEntityRepository<FavouriteOrder> favOrderRepository;
-        private readonly IRepository<OrderOptions> optRepo;
 
-        public OrderService(IDeletableEntityRepository<Order> orderRepository, IDeletableEntityRepository<FavouriteOrder> favOrderRepository, IRepository<OrderOptions> optRepo)
+        public OrderService(IDeletableEntityRepository<Order> orderRepository, IDeletableEntityRepository<FavouriteOrder> favOrderRepository)
         {
             this.orderRepository = orderRepository;
             this.favOrderRepository = favOrderRepository;
-            this.optRepo = optRepo;
         }
 
         public async Task<bool> AcceptOrderAsync(string id, string driverId)
@@ -118,7 +116,7 @@ namespace TravelApp.Services.OrderService
         public async Task<IList<Order>> GetAllAcceptedOrdersAsync(string userId)
          => await this.orderRepository
             .All()
-            .Where(x => x.AcceptedBy == userId && x.Status == "Completed")
+            .Where(x => x.AcceptedBy == userId && x.Status == "Completed" && x.CreatedOn.Day == DateTime.UtcNow.Day)
             .Include(x => x.ApplicationUser)
             .OrderByDescending(x => x.CreatedOn)
             .ToListAsync();
@@ -221,11 +219,6 @@ namespace TravelApp.Services.OrderService
         public FavouriteOrder GetFavouriteOrderById(string id)
         => this.favOrderRepository.All()?.FirstOrDefault(x => x.Id == id);
 
-        public IEnumerable<OrderOptions> GetOrderOptions()
-        {
-            return this.optRepo.All();
-        }
-
         public Order GetCurrentOrder(string userId)
             => this.orderRepository.All().FirstOrDefault(x => x.Status == "Accepted" && x.ApplicationUserId == userId || x.Status == "Accepted" && x.AcceptedBy == userId);
 
@@ -281,26 +274,5 @@ namespace TravelApp.Services.OrderService
             throw new InvalidOperationException("Updating a order failed!");
 
         }
-
-        public async Task<IList<Order>> Get4to5RatingOrdersAsync()
-        => await this.orderRepository.All()?
-            .Where(x => x.IsDeleted == false && x.Status == "Waiting" && x.CreatedOn <= DateTime.UtcNow.AddSeconds(-10))
-            .Include(x => x.ApplicationUser)
-            .OrderBy(x => x.CreatedOn)
-            .ToListAsync();
-
-        //public async Task<IList<Order>> GetOrdersFor01Ratings()
-        //=> await this.orderRepository.All()?
-        //    .Where(x => x.Status == "Waiting" && x.IsDeleted == false)
-        //    .Include(x => x.ApplicationUser)
-        //    .OrderBy(x => x.CreatedOn)
-        //    .ToListAsync();
-
-        //public async Task<IList<Order>> GetOrdersForMiddleRatings()
-        //=> await this.orderRepository.All()?
-        //    .Where(x => x.Status == "Waiting" && x.IsDeleted == false)
-        //    .Include(x => x.ApplicationUser)
-        //    .OrderBy(x => x.CreatedOn)
-        //    .ToListAsync();
     }
 }

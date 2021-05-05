@@ -21,21 +21,21 @@ export class DriverService {
   public getDriverHistory(userId: string): Observable<Order[]> {
     return this.http.get<Order[]>(`${environment.apiUrl}/api/order/history/${userId}`)
       .pipe(
-
+        catchError(this.handleError)
       );
   }
 
   public getLastCompletedOrder(userId: string): Observable<Order> {
     return this.http.get<Order>(`${environment.apiUrl}/api/order/completed/${userId}`)
       .pipe(
-
+        catchError(this.handleError)
       );
   }
 
   public getDriver(driverId: string): Observable<Driver> {
     return this.http.get<Driver>(`${environment.apiUrl}/api/driver/${driverId}`)
       .pipe(
-
+        catchError(this.handleError)
       );
   }
 
@@ -73,6 +73,7 @@ export class DriverService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Driver>(`${environment.apiUrl}/api/driver/location/${driverId}/${lat}/${lng}`, { headers, responseType: 'json' },)
     .pipe(
+      catchError(this.handleError)
     );
   }
 
@@ -80,6 +81,7 @@ export class DriverService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Driver>(`${environment.apiUrl}/api/driver/voteUp/${driverId}`, { headers, responseType: 'json' },)
     .pipe(
+      catchError(this.handleError)
     );
   }
 
@@ -87,6 +89,7 @@ export class DriverService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Driver>(`${environment.apiUrl}/api/driver/voteDown/${driverId}`, { headers, responseType: 'json' },)
     .pipe(
+      catchError(this.handleError)
     );
   }
 
@@ -94,6 +97,7 @@ export class DriverService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Driver>(`${environment.apiUrl}/api/driver/${driverId}`, { headers, responseType: 'json' },)
     .pipe(
+      catchError(this.handleError)
     );
   }
 
@@ -101,6 +105,7 @@ export class DriverService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Car>(`${environment.apiUrl}/api/car/${id}/${driverId}`, { headers, responseType: 'json' },)
       .pipe(
+        catchError(this.handleError)
       );
   }
   
@@ -127,9 +132,11 @@ export class DriverService {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // client-side error
+      console.log('Client side error.')
       errorMessage = `Error: ${error.error.message}`;
     } else {
       // server-side error
+      console.log('Server side error.')
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.log(errorMessage);

@@ -23,9 +23,9 @@ namespace TravelApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = this.profitService.GetTotalProfit();
+            var result = await this.profitService.GetTotalProfit();
 
-            if (result != null)
+            if (result >= 0)
             {
                 return this.Ok(result);
             }

@@ -29,7 +29,6 @@
                               new RolesSeeder(),
                               new CarTypesSeeder(),
                               new ReportTypeSeeder(),
-                              new OrderOptionsSeeder(),
                               new ProfitRecordSeeder(),
                           };
 

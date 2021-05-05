@@ -1,6 +1,7 @@
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Image } from '../../_models'
 
@@ -16,24 +17,28 @@ export class ImageService {
       reportProgress: true,
       observe: "events"
     }).pipe(
+      catchError(this.handleError)
     )
   }
 
   getMyPicture(userId: string): Observable<Image> {
     return this.httpClient.get<Image>(`${environment.apiUrl}/api/image/user/${userId}`)
       .pipe(
+        catchError(this.handleError)
       );
   }
 
   getUserDocuments(userId: string): Observable<Image> {
     return this.httpClient.get<Image>(`${environment.apiUrl}/api/image/documents/${userId}`)
       .pipe(
+        catchError(this.handleError)
       );
   }
 
   getUserCarPictures(userId: string): Observable<Image> {
     return this.httpClient.get<Image>(`${environment.apiUrl}/api/image/cars/${userId}`)
       .pipe(
+        catchError(this.handleError)
       );
   }
 
@@ -41,9 +46,11 @@ export class ImageService {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // client-side error
+      console.log('Client side error.')
       errorMessage = `Error: ${error.error.message}`;
     } else {
       // server-side error
+      console.log('Server side error.')
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.log(errorMessage);

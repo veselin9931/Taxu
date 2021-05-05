@@ -60,6 +60,7 @@ export class OrderService {
     return this.http.delete<FavouriteOrder>(`${environment.apiUrl}/api/order/favourites/${orderId}`)
       .pipe(
         tap(data => console.log('deleted favourite order: ', JSON.stringify(data))),
+        catchError(this.handleError)
       );
   }
 
@@ -121,13 +122,6 @@ export class OrderService {
       )
   }
 
-   get45Orders(): Observable<Order[]> {
-     return this.http.get<Order[]>(`${environment.apiUrl}/api/order/highest`)
-       .pipe(
-         catchError(this.handleError)
-       )
-   }
-
   acceptOrder(orderId: string, driverId: string): Observable<Order> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}/${driverId}`, { headers, responseType: 'json' },)
@@ -158,6 +152,7 @@ export class OrderService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Order>(`${environment.apiUrl}/api/order/increase/${id}/${amount}`, { headers, responseType: 'json' },)
       .pipe(
+        catchError(this.handleError)
       );
 
   }
@@ -175,6 +170,7 @@ export class OrderService {
     return this.http.delete<Order>(`${environment.apiUrl}/api/order/${orderId}`)
       .pipe(
         tap(data => console.log('deleted order: ', JSON.stringify(data))),
+        catchError(this.handleError)
       );
   }
 
@@ -184,9 +180,11 @@ export class OrderService {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // client-side error
+      console.log('Client side error.')
       errorMessage = `Error: ${error.error.message}`;
     } else {
       // server-side error
+      console.log('Server side error.')
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.log(errorMessage);

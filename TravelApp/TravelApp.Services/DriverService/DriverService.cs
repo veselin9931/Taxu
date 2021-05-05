@@ -174,9 +174,9 @@ namespace TravelApp.Services.DriverService
 
             if (driver != null && driver.Rating > 0)
             {
-                if(driver.Rating != 0)
+                if(driver.Rating >= 1)
                 {
-                    driver.Rating -= 0.20;
+                    driver.Rating -= 1;
                     this.repository.Update(driver);
                     await this.repository.SaveChangesAsync();
                     return true;
@@ -193,9 +193,9 @@ namespace TravelApp.Services.DriverService
 
             if (driver != null)
             {
-                if(driver.Rating <= 9.90)
+                if(driver.Rating <= 9.50)
                 {
-                    driver.Rating += 0.10;
+                    driver.Rating += 0.50;
                     this.repository.Update(driver);
                     await this.repository.SaveChangesAsync();
                     return true;

@@ -158,10 +158,5 @@ namespace TravelApp.Services.CarService
 
         public Car GetActiveCar(string driverId)
          => this.repository.All()?.FirstOrDefault(x => x.DriverId == driverId && x.IsActive == true);
-
-        //public IEnumerable<CarViewModel> GetCars()
-        //{
-        //   return this.repository.All().To<CarViewModel>();
-        //}
     }
 }

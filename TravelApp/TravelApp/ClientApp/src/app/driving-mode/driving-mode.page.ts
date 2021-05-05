@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Plugins } from '@capacitor/core';
+import { Capacitor, Plugins } from '@capacitor/core';
 import { PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { interval, Subscription } from 'rxjs';
@@ -89,10 +89,10 @@ export class DrivingModePage implements OnInit {
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
     this.getAcceptedTrip();
   }
-  
+
 
   ionViewDidEnter() {
-    
+
     if (this.accountService.userValue.isDrivingNow == true) {
       this.getAcceptedTrip();
       this.chatService.stop();
@@ -108,7 +108,7 @@ export class DrivingModePage implements OnInit {
     this.myLng = myLatLng.lng.toString();
 
     this.driverService.locateDriver(this.accountService.userValue.driverId, this.myLat, this.myLng)
-    .subscribe(x => {});
+      .subscribe(x => { });
   }
 
   async loadMap(mapRef: ElementRef) {
@@ -130,7 +130,7 @@ export class DrivingModePage implements OnInit {
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    
+
     if (mapRef != null) {
       this.map = new google.maps.Map(mapRef.nativeElement, options);
     }
@@ -178,7 +178,7 @@ export class DrivingModePage implements OnInit {
     const directionsRenderer = new google.maps.DirectionsRenderer();
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-    const userLatLng = {lat: this.order.locationLat, lng: this.order.locationLong};
+    const userLatLng = { lat: this.order.locationLat, lng: this.order.locationLong };
     let userLat = +userLatLng.lat;
     let userLng = +userLatLng.lng;
     directionsService.route(
@@ -196,8 +196,15 @@ export class DrivingModePage implements OnInit {
       (response, status) => {
         if (status === "OK") {
 
-          directionsRenderer.setDirections(response);
-          window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+          if (Capacitor.getPlatform() == 'ios') {
+            directionsRenderer.setDirections(response);
+            window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`)
+          }
+          if (Capacitor.getPlatform() == 'android' || Capacitor.getPlatform() == 'web') {
+            directionsRenderer.setDirections(response);
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+          }
+
 
         } else {
           window.alert("Directions request failed due to " + status);
@@ -213,7 +220,7 @@ export class DrivingModePage implements OnInit {
     const directionsRenderer = new google.maps.DirectionsRenderer();
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-    const userLatLng = {lat: this.order.destinationLat, lng: this.order.destinationLong};
+    const userLatLng = { lat: this.order.destinationLat, lng: this.order.destinationLong };
     let userLat = +userLatLng.lat;
     let userLng = +userLatLng.lng;
     directionsService.route(
@@ -230,9 +237,19 @@ export class DrivingModePage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
-          this.startTrip();
-          directionsRenderer.setDirections(response);
-          window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+          if (Capacitor.getPlatform() == 'ios') {
+            console.log('ios platform')
+            directionsRenderer.setDirections(response);
+            window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`)
+            this.startTrip();
+          }
+          if (Capacitor.getPlatform() == 'android' || Capacitor.getPlatform() == 'web') {
+            console.log('android or web platform')
+
+            directionsRenderer.setDirections(response);
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+            this.startTrip();
+          }
         } else {
           window.alert("Directions request failed due to " + status);
         }
@@ -304,7 +321,7 @@ export class DrivingModePage implements OnInit {
         }
         this.orderService.completeOrder(this.currentTrip.orderId)
           .subscribe(() => { });
-        
+
       })
 
     //trigger the driver's driving now property to false
@@ -361,7 +378,7 @@ export class DrivingModePage implements OnInit {
         }
         this.tripStatus = x.status;
         this.currentTrip = x;
-        
+
         this.orderService.getOrderById(x.orderId).subscribe(order => {
           x.order = order;
           this.order = x.order;

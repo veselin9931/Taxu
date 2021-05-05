@@ -41,40 +41,6 @@
                 <h5 class="mb-1 fonted"></h5>
                 <button class="btn btn-info" [routerLink]='["/menu/order-details",oldOrder.id]'>Order details</button>
               </div>
-              <!-- <div class="row">
-                <div class="col">
-                  <small
-                    *ngIf="oldOrder.withPets == true || oldOrder.withStroller == true || oldOrder.special == true">{{'Additional
-                    options' | translate}}:</small>
-                  <ul>
-                    <li *ngIf="oldOrder.withPets == true">{{'With pets' | translate}}</li>
-                    <li *ngIf="oldOrder.withStroller == true">{{'With stroller' | translate}}</li>
-                    <li *ngIf="oldOrder.special == true">{{'Special needs' | translate}}</li>
-                  </ul>
-
-                  <small *ngIf="oldOrder.carType">Desired car type:</small>
-                  <ul *ngIf="oldOrder.carType">
-                    <li>{{oldOrder.carType}}</li>
-                  </ul>
-
-                  <div class="w-100">
-                    <h5>{{'Trip distance' | translate}}: {{oldOrder.tripDistance}} km</h5>
-                    <br>
-                    <h5 class="fonted">Distance to user: 
-                      <small *ngIf="oldOrder.distanceText == 'Calculating...'" class="blink_me fonted">{{oldOrder.distanceText}}</small> 
-                      <small *ngIf="oldOrder.distanceText != 'Calculating...'" class="fonted">{{oldOrder.distanceText}}</small>
-                    </h5>
-                  </div>
-
-                  <div class="d-flex w-100 justify-content-between">
-
-                    <small class="fonted">{{'Total cost' | translate}}: {{oldOrder.totalPrice}}$</small>
-                    <ion-button [disabled]="oldOrder.distanceText == 'Calculating...'" class="fonted" (click)="acceptOrder(oldOrder)" type="submit" color="light">{{'Accept' |
-                      translate}}</ion-button>
-                  </div>
-                </div>
-
-              </div> -->
             </a>
           </div>
         </div>
