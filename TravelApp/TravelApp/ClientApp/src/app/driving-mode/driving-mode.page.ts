@@ -113,17 +113,7 @@ export class DrivingModePage implements OnInit {
   }
 
   async loadMap(mapRef: ElementRef) {
-    const coordinates = await Geolocation.getCurrentPosition();
-    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-
-    // const directionsService = new google.maps.DirectionsService();
-    // const directionsRenderer = new google.maps.DirectionsRenderer();
-
     const userLocationLatLng = { lat: +this.order.locationLat, lng: +this.order.locationLong };
-
-    // const userDestinationLatLng = { lat: this.order.destinationLat, lng: this.order.destinationLong };
-    // let userDestLat = +userDestinationLatLng.lat;
-    // let userDestLng = +userDestinationLatLng.lng;
 
     const options: google.maps.MapOptions = {
       center: new google.maps.LatLng(userLocationLatLng.lat, userLocationLatLng.lng),
@@ -147,31 +137,6 @@ export class DrivingModePage implements OnInit {
       icon: icon,
       map: this.map
     });
-
-
-    // directionsService.route(
-    //   {
-    //     origin: {
-    //       lat: userDestLat,
-    //       lng: userDestLng
-    //     },
-    //     destination: {
-    //       lat: userLocLat,
-    //       lng: userLocLng,
-    //     },
-    //     travelMode: google.maps.TravelMode.DRIVING,
-    //   },
-    //   (response, status) => {
-    //     if (status === "OK") {
-    //       directionsRenderer.setDirections(response);
-
-    //     } else {
-    //       window.alert("Directions request failed due to " + status);
-    //     }
-    //   }
-    // );
-    // directionsRenderer.setMap(this.map);
-
   }
 
   async navigateToUserAndCalculateDistance() {
@@ -197,11 +162,9 @@ export class DrivingModePage implements OnInit {
       (response, status) => {
         if (status === "OK") {
           if (Capacitor.getPlatform() === 'ios') {
-            console.log("Its ios new one");
-            console.log(userLat);
-            console.log(userLng);
-            window.open(`https://www.google.com/maps/@${userLat},${userLng},14z`);
+            console.log('ios platform')
             directionsRenderer.setDirections(response);
+            window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`)
           }
 
           if (Capacitor.platform == 'web') {
@@ -222,15 +185,7 @@ export class DrivingModePage implements OnInit {
     );
     directionsRenderer.setMap(this.map);
   }
-  openMaps(){
-    if (Capacitor.getPlatform() === 'ios') {
-      console.log("Its ios new one")
-      console.log(this.myLat);
-      console.log(this.myLng);
 
-      window.open(`https://www.google.com/maps/@41.4756367,25.5714908,14z`);
-    }
-  }
   //Set directions to user's destination
   async navigateToPointAndCalculateDistance() {
     const directionsService = new google.maps.DirectionsService();
