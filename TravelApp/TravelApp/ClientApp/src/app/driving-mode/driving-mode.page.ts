@@ -254,27 +254,18 @@ export class DrivingModePage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
-          this.startTrip();
-          if (Capacitor.getPlatform() === 'ios') {
-            console.log("Its ios new one")
-            console.log(userLat);
-            console.log(userLng);
-            window.open(`https://www.google.com/maps/@${userLat},${userLng},14z`);
+          if (Capacitor.getPlatform() == 'ios') {
+            console.log('ios platform')
             directionsRenderer.setDirections(response);
+            window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`)
+            this.startTrip();
           }
+          if (Capacitor.getPlatform() == 'android' || Capacitor.getPlatform() == 'web') {
+            console.log('android or web platform')
 
-          if (Capacitor.platform == 'web') {
-            console.log("Its web")
-
-            window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
             directionsRenderer.setDirections(response);
-          }
-
-          if (Capacitor.platform == 'android') {
-            console.log("Its android")
-
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-            directionsRenderer.setDirections(response);
+            this.startTrip();
           }
         } else {
           console.log("failed")

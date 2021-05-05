@@ -189,10 +189,7 @@ namespace TravelApp.Controllers
                     {
                         await this.hub.Clients.All.BroadcastMessage();
                         return this.Ok(result);
-                        //return this.Ok(result);
                     }
-
-                    //await emailSender.SendEmailAsync(new Message(new List<string>() { "veselin@gmail.com" }, "aaaaaadsfaf", "asasassasas", null));
 
                 }
                 catch (Exception e) 
@@ -222,10 +219,7 @@ namespace TravelApp.Controllers
                     {
                         await this.hub.Clients.All.BroadcastMessage();
                         return this.Ok(result);
-                        //return this.Ok(result);
                     }
-
-                    //await emailSender.SendEmailAsync(new Message(new List<string>() { "veselin@gmail.com" }, "aaaaaadsfaf", "asasassasas", null));
 
                 }
                 catch (Exception e)
@@ -369,30 +363,6 @@ namespace TravelApp.Controllers
                 return this.Ok();
             }
 
-            return this.NoContent();
-        }
-
-        [HttpGet("options")]
-        public  IActionResult GetOrderOptions()
-        {
-            var options =  this.orderService.GetOrderOptions();
-
-            if (options == null)
-            {
-                return this.NoContent();
-            }
-
-            return this.Ok(options);
-        }
-
-        [HttpGet("highest")]
-        public async Task<IActionResult> Get4to5Rating()
-        {
-            var orders = await this.orderService.Get4to5RatingOrdersAsync();
-            if (orders != null)
-            {
-                return this.Ok(orders);
-            }
             return this.NoContent();
         }
     }

@@ -22,18 +22,5 @@ namespace TravelApp.Models
         public string ApplicationUserId { get; set; }
 
         public string Status { get; set; }
-
-
-
-        //[Required]
-        //public string Location { get; set; }
-
-        //[Required]
-        //public string Destination { get; set; }
-
-        //[Required]
-        //public string CarId { get; set; }
-
-        //public Car Car { get; set; }
     }
 }

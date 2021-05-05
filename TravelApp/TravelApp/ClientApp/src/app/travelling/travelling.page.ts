@@ -99,13 +99,15 @@ export class TravellingPage implements OnInit, OnDestroy {
   ionViewDidEnter() {
     this.checkorder();
     if (this.orderService.selectedFavourite) {
+      this.orderService.chosenLocation = this.orderService.selectedFavourite.location
       this.form.get('location').setValue(this.orderService.selectedFavourite.location);
-      this.form.get('locationLat').setValue(this.orderService.selectedFavourite.locationLat);
-      this.form.get('locationLong').setValue(this.orderService.selectedFavourite.locationLong);
+      this.form.get('locationLat').setValue(+this.orderService.selectedFavourite.locationLat);
+      this.form.get('locationLong').setValue(+this.orderService.selectedFavourite.locationLong);
 
+      this.orderService.chosenDestination = this.orderService.selectedFavourite.destination;
       this.form.get('destination').setValue(this.orderService.selectedFavourite.destination);
-      this.form.get('destinationLat').setValue(this.orderService.selectedFavourite.destinationLat);
-      this.form.get('destinationLong').setValue(this.orderService.selectedFavourite.destinationLong);
+      this.form.get('destinationLat').setValue(+this.orderService.selectedFavourite.destinationLat);
+      this.form.get('destinationLong').setValue(+this.orderService.selectedFavourite.destinationLong);
     } else {
       this.form.get('location').setValue(this.orderService.chosenLocation);
       this.form.get('locationLat').setValue(this.orderService.userLocationLat);
