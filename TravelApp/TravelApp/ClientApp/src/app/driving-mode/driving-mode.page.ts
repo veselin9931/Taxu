@@ -112,18 +112,7 @@ export class DrivingModePage implements OnInit {
   }
 
   async loadMap(mapRef: ElementRef) {
-    const coordinates = await Geolocation.getCurrentPosition();
-    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-
-    // const directionsService = new google.maps.DirectionsService();
-    // const directionsRenderer = new google.maps.DirectionsRenderer();
-
     const userLocationLatLng = { lat: +this.order.locationLat, lng: +this.order.locationLong };
-
-    // const userDestinationLatLng = { lat: this.order.destinationLat, lng: this.order.destinationLong };
-    // let userDestLat = +userDestinationLatLng.lat;
-    // let userDestLng = +userDestinationLatLng.lng;
-
     const options: google.maps.MapOptions = {
       center: new google.maps.LatLng(userLocationLatLng.lat, userLocationLatLng.lng),
       zoom: 15,
@@ -148,28 +137,6 @@ export class DrivingModePage implements OnInit {
     });
 
 
-    // directionsService.route(
-    //   {
-    //     origin: {
-    //       lat: userDestLat,
-    //       lng: userDestLng
-    //     },
-    //     destination: {
-    //       lat: userLocLat,
-    //       lng: userLocLng,
-    //     },
-    //     travelMode: google.maps.TravelMode.DRIVING,
-    //   },
-    //   (response, status) => {
-    //     if (status === "OK") {
-    //       directionsRenderer.setDirections(response);
-
-    //     } else {
-    //       window.alert("Directions request failed due to " + status);
-    //     }
-    //   }
-    // );
-    // directionsRenderer.setMap(this.map);
 
   }
 
