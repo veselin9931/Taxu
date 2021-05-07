@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { AnyTxtRecord } from 'dns';
 import { Order } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
@@ -19,7 +20,7 @@ declare var google: any;
   templateUrl: './order-details.page.html',
   styleUrls: ['./order-details.page.scss'],
 })
-export class OrderDetailsPage {
+export class OrderDetailsPage implements OnInit {
   public orderId = this.route.snapshot.params.id;
   tripPriceForDriver: number;
   applicationUserId = this.accountService.userValue.id;
@@ -55,9 +56,13 @@ export class OrderDetailsPage {
     eta: null,
     isDeleted: null,
   };
-
+  mapId: any
+  orderDiv: any;
   eta: any;
   distance: any;
+  map: any;
+  mapVisible = false;
+  @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
 
   constructor(private translate: TranslateService,
     private popoverController: PopoverController,
@@ -70,18 +75,121 @@ export class OrderDetailsPage {
     private tripService: TripService,
     private alertController: AlertController) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+
+  }
+  ngOnInit() {
+    this.mapId = document.getElementById("map");
+    this.mapId.style.display = 'none';
+    this.orderDiv = document.getElementById("order");
+    this.orderDiv.style.display = 'block';
   }
 
   ionViewDidEnter() {
+    this.orderDiv.style.display = 'block';
+    this.mapId.style.display = 'none';
+
     this.orderService.getOrderById(this.orderId)
       .subscribe(order => {
-        if(order == null){
+        if (order == null) {
           return this.OrderTaken();
         }
         this.order = order;
         this.calculateDistance(this.order);
         this.calculateEta(this.order);
+    this.loadMap(this.mapRef);
+
       })
+
+  }
+
+  async loadMap(mapRef: ElementRef) {
+    const userLocationLatLng = { lat: +this.order.locationLat, lng: +this.order.locationLong };
+    const options: google.maps.MapOptions = {
+      center: new google.maps.LatLng(userLocationLatLng.lat, userLocationLatLng.lng),
+      zoom: 14,
+      disableDefaultUI: true,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      zoomControl: false
+    };
+
+    if (mapRef != null) {
+      this.map = new google.maps.Map(mapRef.nativeElement, options);
+    }
+
+    var icon = {
+      url: 'https://www.freeiconspng.com/uploads/-human-male-man-people-person-profile-red-user-icon--icon--23.png',
+      scaledSize: new window.google.maps.Size(25, 25),
+      anchor: { x: 10, y: 10 }
+    };
+
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(userLocationLatLng),
+      icon: icon,
+      map: this.map
+    });
+    this.navigateToUserAndCalculateDistance();
+  }
+
+  async navigateToUserAndCalculateDistance() {
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+    const userLatLng = { lat: this.order.locationLat, lng: this.order.locationLong };
+    let userLat = +userLatLng.lat;
+    let userLng = +userLatLng.lng;
+
+    directionsService.route(
+      {
+        origin: {
+          lat: myLatLng.lat,
+          lng: myLatLng.lng
+        },
+        destination: {
+          lat: userLat,
+          lng: userLng,
+        },
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (response, status) => {
+        if (status === "OK") {
+          directionsRenderer.setDirections(response);
+        } else {
+          window.alert("Directions request failed due to " + status);
+        }
+      }
+    );
+    directionsRenderer.setMap(this.map);
+  }
+
+  hideMap() {
+    this.orderDiv.style.display = 'block';
+    this.mapId.style.display = 'none';
+    this.mapVisible = false;
+
+    if (this.orderDiv.cancelable) {
+      this.orderDiv.preventDefault();
+    }
+
+    if (this.mapId.cancelable) {
+      this.mapId.preventDefault();
+    }
+  }
+
+  showMap() {
+    this.orderDiv.style.display = 'none';
+    this.mapId.style.display = 'block';
+    this.mapVisible = true;
+    this.loadMap(this.mapRef);
+    
+
+    if (this.orderDiv.cancelable) {
+      this.orderDiv.preventDefault();
+    }
+
+    if (this.mapId.cancelable) {
+      this.mapId.preventDefault();
+    }
   }
 
   async calculateDistance(order) {
@@ -212,7 +320,7 @@ export class OrderDetailsPage {
           this.router.navigate(['menu/driving']);
         }
       },
-    ],
+      ],
     });
 
     await alert.present();
@@ -224,7 +332,7 @@ export class OrderDetailsPage {
       header: 'Order information',
       message: 'Your car is of type "Normal" but the order desired car type is "Comfort"! ',
       buttons: ['OK'],
-      
+
     });
 
     await alert.present();

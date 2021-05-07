@@ -114,7 +114,6 @@ export class DrivingModePage implements OnInit {
 
   async loadMap(mapRef: ElementRef) {
     const userLocationLatLng = { lat: +this.order.locationLat, lng: +this.order.locationLong };
-
     const options: google.maps.MapOptions = {
       center: new google.maps.LatLng(userLocationLatLng.lat, userLocationLatLng.lng),
       zoom: 15,
