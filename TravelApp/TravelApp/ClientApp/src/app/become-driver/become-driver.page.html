@@ -82,14 +82,11 @@
                 <ion-button (click)="onSubmit()" type="submit" color="dark">Submit</ion-button>
               </div>
             </form> -->
-            <!--<div class="col-md-12 mt-3">
-                <ion-button (click)="onSubmit()" type="submit" color="dark">Submit</ion-button>
-            </div>-->
             <!--</div>
             </div>-->
         </div>
     </div>
-
+    
     <ion-content padding (change)="upload()">
         <div class="col text-center">
             <ion-text class="centered" color="dark">
@@ -106,19 +103,36 @@
             </ion-text>
 
         </div>
-        <app-multi-file-upload></app-multi-file-upload>
-        <div class="col-md-4 mt-2">
-            <div class="progress form-group" *ngIf="progress > 0">
-                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
+        <div *ngIf="checker">
+            <app-multi-file-upload></app-multi-file-upload>
+            <div class="col-md-4 mt-2">
+                <div class="progress form-group" *ngIf="progress > 0">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
+                    </div>
                 </div>
-            </div>
 
-            <span class="upload" *ngIf="progress > 0">
-                {{progress}}%
-            </span>
-            <span class="upload" *ngIf="message">
-                {{message}}
-            </span>
+                <span class="upload" *ngIf="progress > 0">
+                    {{progress}}%
+                </span>
+                <span class="upload" *ngIf="message">
+                    {{message}}
+                </span>
+            </div>
+        </div>
+            <ion-list>
+                <ion-item *ngFor="let pic of pics">
+                    <ion-thumbnail item-left>
+                        <img src="{{pic.path}}" />	&nbsp;
+                    </ion-thumbnail>
+                    &nbsp;- {{pic.type}}
+                </ion-item>
+            </ion-list>
+        
+
+        <div class="col-md-12 mt-3">
+            <ion-button (click)="onSubmit()" type="submit" color="dark">Submit</ion-button>
+            
         </div>
     </ion-content>
+
 </ion-content>
