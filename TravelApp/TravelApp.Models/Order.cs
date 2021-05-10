@@ -47,7 +47,7 @@ namespace TravelApp.Models
 
         public string Status { get; set; }
 
-        public bool IsRated { get; set; }
+        public bool IsDriverArrived { get; set; }
 
         public bool WithStroller { get; set; }
 

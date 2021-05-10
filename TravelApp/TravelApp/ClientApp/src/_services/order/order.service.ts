@@ -140,6 +140,14 @@ export class OrderService {
       );
   }
 
+  updateDriverArrived(orderId: string): Observable<Order> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Order>(`${environment.apiUrl}/api/order/arrived/${orderId}`, { headers, responseType: 'json' },)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   rateOrder(orderId: string): Observable<Order> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Order>(`${environment.apiUrl}/api/order/rate/${orderId}`, { headers, responseType: 'json' },)

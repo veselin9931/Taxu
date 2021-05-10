@@ -10,6 +10,12 @@ namespace TravelApp.Infrastructure.HubConfig
     {
         Task BroadcastMessage();
 
+        Task NotifyUser();
+
+        Task OrderAccepted();
+
+        Task OrderCompleted();
+
 
         Task MessageReceived(string user, string message);
     }

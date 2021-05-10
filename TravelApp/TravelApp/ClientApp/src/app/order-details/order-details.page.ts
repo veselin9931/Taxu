@@ -55,6 +55,7 @@ export class OrderDetailsPage implements OnInit {
     distanceText: null,
     eta: null,
     isDeleted: null,
+    isDriverArrived: null,
   };
   mapId: any
   orderDiv: any;

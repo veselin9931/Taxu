@@ -41,6 +41,19 @@ namespace TravelApp.Services.TripService
             return false;
         }
 
+        public async Task<bool> DeleteTripAsync(string tripId)
+        {
+            var trip = this.tripRepository.All()?.FirstOrDefault(x => x.Id == tripId);
+
+            if (trip != null)
+            {
+                this.tripRepository.Delete(trip);
+                await this.tripRepository.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
         public async Task<bool> FinishTripAsync(string tripId)
         {
             var trip = this.GetTripById(tripId);
@@ -75,6 +88,24 @@ namespace TravelApp.Services.TripService
             if (trip != null)
             {
                 trip.Status = "Started";
+
+                this.tripRepository.Update(trip);
+
+                await this.tripRepository.SaveChangesAsync();
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Completing a trip failed!");
+        }
+
+        public async Task<bool> CancelTripAsync(string tripId)
+        {
+            var trip = this.GetTripById(tripId);
+
+            if (trip != null)
+            {
+                trip.Status = "Canceled";
 
                 this.tripRepository.Update(trip);
 

@@ -105,7 +105,7 @@ namespace TravelApp.Services.OrderService
         public async Task<bool> Delete(string orderId)
         {
            var order =  this.GetOrderById(orderId);
-            order.Status = "Completed";
+            order.Status = "Canceled";
             this.orderRepository.Delete(order);
 
             var result = await this.orderRepository.SaveChangesAsync();
@@ -257,22 +257,19 @@ namespace TravelApp.Services.OrderService
 
         }
 
-        public async Task<bool> RateOrderAsync(string id)
+        public async Task<bool> UpdateDriverArrivedAsync(string id)
         {
-            var order = this.GetOrderById(id);
+            var order = this.orderRepository.All()?.FirstOrDefault(x => x.Id == id);
 
             if (order != null)
             {
-                order.IsRated = true;
-                this.orderRepository.Update(order);
+                order.IsDriverArrived = true;
 
                 await this.orderRepository.SaveChangesAsync();
-
+                this.orderRepository.Update(order);
                 return true;
             }
-
-            throw new InvalidOperationException("Updating a order failed!");
-
+            return false;
         }
     }
 }

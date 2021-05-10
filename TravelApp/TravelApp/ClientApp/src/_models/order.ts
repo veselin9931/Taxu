@@ -27,4 +27,5 @@ export class Order {
     km: any;
     distanceText: any;
     isDeleted: boolean;
+    isDriverArrived: boolean;
 }

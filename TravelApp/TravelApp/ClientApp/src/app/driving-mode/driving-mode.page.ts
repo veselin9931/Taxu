@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import * as signalR from '@aspnet/signalr';
 import { Capacitor, Plugins } from '@capacitor/core';
-import { PopoverController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { AnyTxtRecord } from 'dns';
 import { interval, Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Message, Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { ChatService } from 'src/_services/chat/chat.service';
@@ -78,13 +80,15 @@ export class DrivingModePage implements OnInit {
     private chatService: ChatService,
     private profitService: ProfitService,
     private translate: TranslateService,
-    private popoverController: PopoverController) {
+    private popoverController: PopoverController,
+    private alertController: AlertController) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
 
   ngOnInit() {
+
     const source = interval(5000);
-    this.subscription = source.subscribe(val => this.getMyLocation());
+    this.subscription = source.subscribe(val => this.changeMyLocation());
 
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
@@ -101,7 +105,7 @@ export class DrivingModePage implements OnInit {
     }
   }
 
-  async getMyLocation() {
+  async changeMyLocation() {
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
 
@@ -164,16 +168,19 @@ export class DrivingModePage implements OnInit {
             console.log('ios platform')
             directionsRenderer.setDirections(response);
             window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`)
+            
           }
 
           if (Capacitor.platform == 'web') {
             directionsRenderer.setDirections(response);
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+            
           }
 
           if (Capacitor.platform == 'android') {
             directionsRenderer.setDirections(response);
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+            
           }
 
 
@@ -220,6 +227,7 @@ export class DrivingModePage implements OnInit {
             directionsRenderer.setDirections(response);
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
             this.startTrip();
+            
           }
         } else {
           console.log("failed")
@@ -347,6 +355,12 @@ export class DrivingModePage implements OnInit {
     this.tripService.getTrip(this.driverId)
       .subscribe(x => {
         if (x == null) {
+          // this.accountService.updateDriving(this.applicationUserId, false)
+          //   .subscribe(() => {
+          //   });
+          // this.accountService.userValue.isDrivingNow = false;
+          // this.canceledOrder();
+
           return;
         }
         this.tripStatus = x.status;
@@ -380,4 +394,38 @@ export class DrivingModePage implements OnInit {
       });
   }
 
+  async onTheAddress() {
+    this.orderService.updateDriverArrived(this.order.id)
+      .subscribe(x => { console.log('arrivedd') });
+  }
+
+  async cancelTrip() {
+    this.tripService.getTrip(this.applicationUserId)
+      .subscribe(trip => {
+        this.tripService.cancelTrip(trip.id)
+          .subscribe(x => {
+            this.accountService.updateDriving(this.applicationUserId, false)
+              .subscribe(() => {
+              });
+            this.accountService.userValue.isDrivingNow = false;
+            this.orderService.deleteOrder(trip.orderId)
+              .subscribe(() => this.route.navigate(['menu/driving']));
+
+          });
+      })
+  }
+
+  async canceledOrder() {
+    const popup = await this.alertController.create({
+      header: 'Order is cancelled by the customer.',
+
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        }
+      ]
+    });
+    await popup.present();
+  }
 }

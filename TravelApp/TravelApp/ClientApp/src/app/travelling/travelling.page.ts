@@ -10,6 +10,7 @@ import { OrderService } from 'src/_services/order/order.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Subscription } from 'rxjs';
+import { LocalNotifications } from '@capacitor/core';
 
 @Component({
   selector: 'app-travelling',
@@ -89,8 +90,23 @@ export class TravellingPage implements OnInit, OnDestroy {
       this.checkorder();
     });
 
-  }
+    connection.on('OrderAccepted', () => {
+      console.log('Order Accepted')
+      this.presentOrderAcceptedNotification();
+    });
 
+  }
+  async presentOrderAcceptedNotification() {
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: "Order alert",
+          body: "Your order is accepted",
+          id: 1,
+        }
+      ]
+    })
+  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
     console.log('unsubscribed')
