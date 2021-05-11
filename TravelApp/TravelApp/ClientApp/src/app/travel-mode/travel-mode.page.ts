@@ -44,12 +44,18 @@ export class TravelModePage implements OnInit {
 
   location: string;
   destination: string;
-
+  totalPrice: any;
   messages = this.chatService.messages;
   chatStyle = "";
-
+  isDriverArrived: any;
   subscription: Subscription;
-
+  maxTime: any = 30000;
+  startTime: any;
+  timer: any;
+  hidevalue: any;
+  minutes: any;
+  secsDiff: any;
+  seconds: any;
   map: any;
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
 
@@ -67,7 +73,6 @@ export class TravelModePage implements OnInit {
 
   async ngOnInit() {
     this.checkorder();
-
     await LocalNotifications.requestPermission();
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
@@ -94,17 +99,43 @@ export class TravelModePage implements OnInit {
 
     connection.on('NotifyUser', () => {
       this.presentDriverArrivedNotification();
+      this.accountService.userValue.alertTriggered = true;
+      this.accountService.updateAlert(this.user.id, true)
+        .subscribe(() => { });
+
+      this.accountService.userValue.timer = new Date();
+      if(this.seconds == 60){
+        this.seconds = 0;
+      }
+      this.startTimer();
     });
 
-    
+
     connection.on('OrderCompleted', () => {
       this.completedOrderAlert();
     });
   }
 
   ionViewDidEnter() {
+    if (this.accountService.userValue.alertTriggered == true) {
+      this.startTimer();
+    }
     this.chatService.stop();
     this.chatService.start();
+  }
+
+  startTimer() {
+    this.startTime = new Date(this.accountService.userValue.timer);
+    setInterval(() => {
+      if (this.secsDiff == 300) {
+        this.orderService.increaseOrderPrice(this.order.id, 1)
+          .subscribe(() => { });
+        return;
+      }
+      this.secsDiff = new Date().getTime() - this.startTime.getTime();
+
+      this.secsDiff = Math.floor(this.secsDiff / 1000);
+    }, 1000);
   }
 
   async presentOrderAcceptedNotification() {
@@ -174,6 +205,8 @@ export class TravelModePage implements OnInit {
     this.subscription = this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
+
+          this.totalPrice = data.totalPrice;
           this.orderStatus = data.status;
           this.orderAcceptedBy = data.acceptedBy;
           this.orderService.currentOrderId = data.id;
@@ -192,9 +225,10 @@ export class TravelModePage implements OnInit {
           }
 
         } else {
+          this.accountService.userValue.alertTriggered = false;
+          this.accountService.updateAlert(this.user.id, false)
+            .subscribe(() => { });
           this.orderTotalPrice = 0;
-          
-
         }
       },
         error => {
@@ -227,6 +261,11 @@ export class TravelModePage implements OnInit {
           return;
         }
         this.tripStatus = x.status;
+        if(x.status == 'Started'){
+          this.accountService.userValue.alertTriggered = false;
+          this.accountService.updateAlert(this.user.id, false)
+            .subscribe(() => { });
+        }
         this.currentTrip = x;
         this.loadMap(this.mapRef, driverId);
       });

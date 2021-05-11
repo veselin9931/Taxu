@@ -171,5 +171,23 @@ namespace TravelApp.Services.Account
         {
             return this.repository.All()?.FirstOrDefault(x => x.DriverId == id);
         }
+
+        public async Task<bool> UpdateAlertAsync(string id, bool value)
+        {
+            var currentUser = this.GetById(id);
+
+            currentUser.AlertTriggered = value;
+
+            this.repository.Update(currentUser);
+
+            var result = await this.repository.SaveChangesAsync();
+
+            if (result != 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

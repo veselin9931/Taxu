@@ -396,7 +396,7 @@ export class DrivingModePage implements OnInit {
 
   async onTheAddress() {
     this.orderService.updateDriverArrived(this.order.id)
-      .subscribe(x => { console.log('arrivedd') });
+      .subscribe(() => {});
   }
 
   async cancelTrip() {
