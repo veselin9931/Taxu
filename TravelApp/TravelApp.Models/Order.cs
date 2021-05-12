@@ -33,6 +33,13 @@ namespace TravelApp.Models
 
         public decimal IncreasePrice { get; set; }
 
+        public decimal IncreasedByDriver { get; set; }
+
+        public bool IncreaseAccepted { get; set; }
+
+        public string IncreasedBy { get; set; }
+
+
         public decimal TripDistance { get; set; }
 
         public decimal UserDistance { get; set; }

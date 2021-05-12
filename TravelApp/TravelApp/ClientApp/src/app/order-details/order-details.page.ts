@@ -1,9 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as signalR from '@aspnet/signalr';
 import { Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { AnyTxtRecord } from 'dns';
+import { environment } from 'src/environments/environment';
 import { Order } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
@@ -56,11 +58,15 @@ export class OrderDetailsPage implements OnInit {
     eta: null,
     isDeleted: null,
     isDriverArrived: null,
+    increasedByDriver: null,
+    increaseAccepted: null,
+    increasedBy: null
   };
   mapId: any
   orderDiv: any;
   eta: any;
   distance: any;
+  newDistance: any;
   map: any;
   mapVisible = false;
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
@@ -83,6 +89,31 @@ export class OrderDetailsPage implements OnInit {
     this.mapId.style.display = 'none';
     this.orderDiv = document.getElementById("order");
     this.orderDiv.style.display = 'block';
+
+    const connection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl(`${environment.signalRUrl}/orderHub`)
+      .build();
+
+    connection.start().then(function () {
+      console.log('signalR Connected in travel-mode');
+    }).catch(function (err) {
+      return console.log(err);
+    });
+
+    connection.on('NotifyDriver', () => {
+      this.orderService.getOrderById(this.order.id)
+        .subscribe(order => {
+          if (order.increaseAccepted == true) {
+            this.IncreaseAccepted(order);
+
+          } else if (order.increaseAccepted == false) {
+            this.IncreaseRefused();
+          }
+
+        })
+    });
+
   }
 
   ionViewDidEnter() {
@@ -97,7 +128,7 @@ export class OrderDetailsPage implements OnInit {
         this.order = order;
         this.calculateDistance(this.order);
         this.calculateEta(this.order);
-    this.loadMap(this.mapRef);
+        this.loadMap(this.mapRef);
 
       })
 
@@ -182,7 +213,7 @@ export class OrderDetailsPage implements OnInit {
     this.mapId.style.display = 'block';
     this.mapVisible = true;
     this.loadMap(this.mapRef);
-    
+
 
     if (this.orderDiv.cancelable) {
       this.orderDiv.preventDefault();
@@ -193,6 +224,11 @@ export class OrderDetailsPage implements OnInit {
     }
   }
 
+  offer(value) {
+    this.orderService.driverIncreaseOrderPrice(this.order.id, value, this.accountService.userValue.driverId)
+      .subscribe(() => { })
+  }
+
   async calculateDistance(order) {
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
@@ -200,11 +236,11 @@ export class OrderDetailsPage implements OnInit {
     const orderLatLng = { lat: order.locationLat, lng: order.locationLong };
     var p1 = new google.maps.LatLng(myLatLng.lat, myLatLng.lng);
     var p2 = new google.maps.LatLng(orderLatLng.lat, orderLatLng.lng);
-    this.distance = calcDistance(p1, p2);
 
-    //calculates distance between two points in km's
-    function calcDistance(p1, p2) {
-      return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
+    this.distance = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
+
+    if (this.distance == null || this.distance == undefined) {
+      this.distance = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
     }
   }
 
@@ -321,6 +357,42 @@ export class OrderDetailsPage implements OnInit {
           this.router.navigate(['menu/driving']);
         }
       },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async IncreaseRefused() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Order increasing refused.',
+      buttons: [{
+        text: 'Ok',
+        role: 'cancel'
+      },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async IncreaseAccepted(order) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Order increasing accepted.',
+      message: 'You can accept the order now',
+      buttons: [
+        {
+          text: 'Accept',
+          handler: () => {
+            this.acceptOrder(order);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
       ],
     });
 

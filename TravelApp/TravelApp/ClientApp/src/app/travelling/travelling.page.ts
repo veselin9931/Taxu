@@ -31,6 +31,8 @@ export class TravellingPage implements OnInit, OnDestroy {
   carModel = "";
   carColor = "";
 
+  driverIncreased: number;
+  increasedBy: string;
   //User html properties
   firstName = "";
   lastName = "";
@@ -88,6 +90,15 @@ export class TravellingPage implements OnInit, OnDestroy {
 
     connection.on('BroadcastMessage', () => {
       this.checkorder();
+    });
+
+    connection.on('NotifyUser', () => {
+      this.orderService.getMyOrder(this.user.id)
+        .subscribe(x => {
+          this.increasedBy = x.increasedBy;
+          this.driverIncreased = x.increasedByDriver + this.orderTotalPrice;
+          this.increasedOrder();
+        })
     });
 
     connection.on('OrderAccepted', () => {
@@ -194,10 +205,10 @@ export class TravellingPage implements OnInit, OnDestroy {
           if (this.form.value.withPets == true) {
             this.orderTotalPrice += 2.20;
           }
-          if(this.form.value.carType == "Comfort") {
+          if (this.form.value.carType == "Comfort") {
             this.orderTotalPrice += 1;
           }
-          
+
           this.form.value.totalPrice = this.orderTotalPrice;
           this.form.value.tripDistance = this.orderTotalDestination;
 
@@ -280,12 +291,12 @@ export class TravellingPage implements OnInit, OnDestroy {
     }
   }
 
-  onSelectCar($event){
+  onSelectCar($event) {
     let type = $event.detail.value;
-    if(type == "Normal"){
+    if (type == "Normal") {
       this.form.value.carType = type;
     }
-    if(type == "Comfort"){
+    if (type == "Comfort") {
       this.form.value.carType = type;
     }
   }
@@ -340,7 +351,38 @@ export class TravellingPage implements OnInit, OnDestroy {
     await popup.present();
   }
 
+  async increasedOrder() {
+    const popup = await this.alertController.create({
+      header: `Driver offers you ${this.driverIncreased.toFixed(2)}$ for the order`,
+      buttons: [
+        {
+          text: 'Accept',
+          handler: () => {
+            this.orderService.getMyOrder(this.user.id).subscribe(order => {
+              this.orderService.increasedOrderAccept(order.id, true)
+              .subscribe(() => { 
+                this.orderService.increaseOrderPrice(order.id, this.driverIncreased)
+                .subscribe(() => {
+                })
+              })
+            })
+           
+          }
+        },
+        {
+          text: 'Cancel',
+          handler: () => {
+            this.orderService.getMyOrder(this.user.id).subscribe(order => {
+              this.orderService.increasedOrderAccept(order.id, false)
+              .subscribe(() => {})
+            })
+          }
+        },
+      ]
+    });
 
+    await popup.present();
+  }
 
   clearForm() {
     this.form.reset({

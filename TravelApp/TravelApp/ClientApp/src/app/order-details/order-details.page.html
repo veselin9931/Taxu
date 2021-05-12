@@ -60,6 +60,16 @@
               <button class="fonted btn btn-info" (click)="acceptOrder(order)" type="button">{{'Accept' |
                 translate}}</button>
             </div>
+            <hr />
+            <p class="text-center">Offer more price to order</p>
+            <div class="d-flex w-100 justify-content-between">
+              <button type="button" (click)="offer(0.50)" class="btn btn-info btn-sm">+ 0.50$</button>
+              <button type="button" (click)="offer(1)" class="btn btn-info btn-sm">+ 1$</button>
+              <button type="button" (click)="offer(2)" class="btn btn-info btn-sm">+ 2$</button>
+              <button type="button" (click)="offer(3)" class="btn btn-info btn-sm">+ 3$</button>
+              <button type="button" (click)="offer(4)" class="btn btn-info btn-sm">+ 4$</button>
+              <button type="button" (click)="offer(5)" class="btn btn-info btn-sm">+ 5$</button>
+            </div>
           </div>
         </div>
         

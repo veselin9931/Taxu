@@ -354,6 +354,34 @@ namespace TravelApp.Controllers
             return this.BadRequest();
         }
 
+        [HttpPut("increased/{orderId}/{amount}/{driverId}")]
+        public async Task<IActionResult> UpdatePriceIncreased(string orderId, decimal amount, string driverId)
+        {
+            var order = await this.orderService.UpdatePriceIncreasedAsync(orderId, amount, driverId);
+
+            if (order)
+            {
+                await this.hub.Clients.All.NotifyUser();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
+        [HttpPut("accepted/increase/{orderId}/{value}")]
+        public async Task<IActionResult> UpdateIncreaseAccepted(string orderId, bool value)
+        {
+            var order = await this.orderService.UpdateIncreaseAcceptedAsync(orderId, value);
+
+            if (order)
+            {
+                await this.hub.Clients.All.NotifyDriver();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
         // DELETE api/<OrderController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)

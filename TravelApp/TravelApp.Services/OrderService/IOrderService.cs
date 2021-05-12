@@ -44,6 +44,10 @@ namespace TravelApp.Services.OrderService
 
         public Task<bool> UpdateEtaAsync(string id, string value);
 
+        public Task<bool> UpdatePriceIncreasedAsync(string id, decimal amount, string driverId);
+
+        public Task<bool> UpdateIncreaseAcceptedAsync(string id, bool value);
+
         public Task<bool> UpdateDriverArrivedAsync(string id);
 
         public Task<bool> IncreaseOrderPriceAsync(string id, decimal amount);

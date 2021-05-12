@@ -182,7 +182,23 @@ export class OrderService {
       );
   }
 
-  
+  driverIncreaseOrderPrice(orderId:string, amount:number, driverId: string): Observable<Order> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.put<Order>(`${environment.apiUrl}/api/order/increased/${orderId}/${amount}/${driverId}`, { headers, responseType: 'json' },)
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  increasedOrderAccept(orderId:string, value:boolean): Observable<Order> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.put<Order>(`${environment.apiUrl}/api/order/accepted/increase/${orderId}/${value}`, { headers, responseType: 'json' },)
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
 
   handleError(error) {
     let errorMessage = '';

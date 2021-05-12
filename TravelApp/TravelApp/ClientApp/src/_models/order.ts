@@ -28,4 +28,7 @@ export class Order {
     distanceText: any;
     isDeleted: boolean;
     isDriverArrived: boolean;
+    increasedByDriver: number;
+    increaseAccepted: boolean;
+    increasedBy: string;
 }
