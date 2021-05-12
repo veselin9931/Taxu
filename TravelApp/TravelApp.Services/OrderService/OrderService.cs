@@ -105,7 +105,7 @@ namespace TravelApp.Services.OrderService
         public async Task<bool> Delete(string orderId)
         {
            var order =  this.GetOrderById(orderId);
-            order.Status = "Completed";
+            order.Status = "Canceled";
             this.orderRepository.Delete(order);
 
             var result = await this.orderRepository.SaveChangesAsync();
@@ -257,22 +257,47 @@ namespace TravelApp.Services.OrderService
 
         }
 
-        public async Task<bool> RateOrderAsync(string id)
+        public async Task<bool> UpdateDriverArrivedAsync(string id)
         {
-            var order = this.GetOrderById(id);
+            var order = this.orderRepository.All()?.FirstOrDefault(x => x.Id == id);
 
             if (order != null)
             {
-                order.IsRated = true;
-                this.orderRepository.Update(order);
+                order.IsDriverArrived = true;
 
                 await this.orderRepository.SaveChangesAsync();
-
+                this.orderRepository.Update(order);
                 return true;
             }
+            return false;
+        }
 
-            throw new InvalidOperationException("Updating a order failed!");
+        public async Task<bool> UpdatePriceIncreasedAsync(string id, decimal amount, string driverId)
+        {
+            var order = this.orderRepository.All()?.FirstOrDefault(x => x.Id == id);
 
+            if (order != null)
+            {
+                order.IncreasedByDriver = amount;
+                order.IncreasedBy = driverId;
+                await this.orderRepository.SaveChangesAsync();
+                this.orderRepository.Update(order);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> UpdateIncreaseAcceptedAsync(string id, bool value)
+        {
+            var order = this.orderRepository.All()?.FirstOrDefault(x => x.Id == id);
+            if (order != null)
+            {
+                order.IncreaseAccepted = value;
+                await this.orderRepository.SaveChangesAsync();
+                this.orderRepository.Update(order);
+                return true;
+            }
+            return false;
         }
     }
 }

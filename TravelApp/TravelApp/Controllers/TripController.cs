@@ -66,6 +66,7 @@ namespace TravelApp.Controllers
             if (result == true)
             {
                 await this.hub.Clients.All.BroadcastMessage();
+
                 return this.Ok(result);
             }
 
@@ -81,6 +82,7 @@ namespace TravelApp.Controllers
             if (complete)
             {
                 await this.hub.Clients.All.BroadcastMessage();
+
                 return this.Ok(complete);
             }
 
@@ -96,16 +98,27 @@ namespace TravelApp.Controllers
             if (complete)
             {
                 await this.hub.Clients.All.BroadcastMessage();
+
                 return this.Ok(complete);
             }
 
             return this.BadRequest();
         }
 
-        // DELETE api/<TripController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // PUT api/<TripController>/5
+        [HttpPut("cancel/{id}")]
+        public async Task<IActionResult> CancelTrip(string id)
         {
+            var trip = await this.tripService.CancelTripAsync(id);
+
+            if (trip)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+
+                return this.Ok(trip);
+            }
+
+            return this.BadRequest();
         }
     }
 }

@@ -33,6 +33,13 @@ namespace TravelApp.Models
 
         public decimal IncreasePrice { get; set; }
 
+        public decimal IncreasedByDriver { get; set; }
+
+        public bool IncreaseAccepted { get; set; }
+
+        public string IncreasedBy { get; set; }
+
+
         public decimal TripDistance { get; set; }
 
         public decimal UserDistance { get; set; }
@@ -47,7 +54,7 @@ namespace TravelApp.Models
 
         public string Status { get; set; }
 
-        public bool IsRated { get; set; }
+        public bool IsDriverArrived { get; set; }
 
         public bool WithStroller { get; set; }
 

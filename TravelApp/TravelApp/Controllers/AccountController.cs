@@ -165,7 +165,9 @@ namespace TravelApp.Controllers
                 Token = tokenString,
                 IsDrivingNow = user.IsDrivingNow,
                 DriverId = user.DriverId,
-                ChoosenLanguage = user.ChoosenLanguage
+                ChoosenLanguage = user.ChoosenLanguage,
+                Timer = DateTime.UtcNow,
+                AlertTriggered = user.AlertTriggered,
             });
         }
 
@@ -174,6 +176,20 @@ namespace TravelApp.Controllers
         public async Task<IActionResult> Put(string id, bool value)
         {
             var result = await this.userService.UpdateUserAsync(id, value);
+
+            if (result)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
+        [HttpPut("{id}/alert/{value}")]
+        public async Task<IActionResult> AlertTrigger(string id, bool value)
+        {
+            var result = await this.userService.UpdateAlertAsync(id, value);
 
             if (result)
             {

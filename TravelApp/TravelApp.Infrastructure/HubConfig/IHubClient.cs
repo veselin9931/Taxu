@@ -9,6 +9,14 @@ namespace TravelApp.Infrastructure.HubConfig
     public interface IHubClient
     {
         Task BroadcastMessage();
+        
+        Task NotifyUser();
+
+        Task NotifyDriver();
+
+        Task OrderAccepted();
+
+        Task OrderCompleted();
 
 
         Task MessageReceived(string user, string message);

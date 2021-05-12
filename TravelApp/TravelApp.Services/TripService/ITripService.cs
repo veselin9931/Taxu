@@ -18,6 +18,9 @@ namespace TravelApp.Services.TripService
 
         public Task<bool> FinishTripAsync(string tripId);
 
+        public Task<bool> CancelTripAsync(string tripId);
+
+
         public Task<bool> StartTripAsync(string tripId);
 
 

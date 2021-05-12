@@ -283,7 +283,9 @@ namespace TravelApp.Controllers
 
             if (accepted)
             {
+                await this.hub.Clients.All.OrderAccepted();
                 await this.hub.Clients.All.BroadcastMessage();
+
                 return this.Ok();
             }
 
@@ -315,21 +317,8 @@ namespace TravelApp.Controllers
             if (complete)
             {
                 await this.hub.Clients.All.BroadcastMessage();
-                return this.Ok();
-            }
+                await this.hub.Clients.All.OrderCompleted();
 
-            return this.BadRequest();
-        }
-
-        // PUT api/<OrderController>/rate/orderId
-        [HttpPut("rate/{orderId}")]
-        public async Task<IActionResult> RateOrder(string orderId)
-        {
-            var rate = await this.orderService.RateOrderAsync(orderId);
-
-            if (rate)
-            {
-                await this.hub.Clients.All.BroadcastMessage();
                 return this.Ok();
             }
 
@@ -345,6 +334,48 @@ namespace TravelApp.Controllers
             if (increase)
             {
                 await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
+        [HttpPut("arrived/{orderId}")]
+        public async Task<IActionResult> UpdateDriverArrived(string orderId)
+        {
+            var order = await this.orderService.UpdateDriverArrivedAsync(orderId);
+
+            if (order)
+            {
+                await this.hub.Clients.All.NotifyUser();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
+        [HttpPut("increased/{orderId}/{amount}/{driverId}")]
+        public async Task<IActionResult> UpdatePriceIncreased(string orderId, decimal amount, string driverId)
+        {
+            var order = await this.orderService.UpdatePriceIncreasedAsync(orderId, amount, driverId);
+
+            if (order)
+            {
+                await this.hub.Clients.All.NotifyUser();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
+        [HttpPut("accepted/increase/{orderId}/{value}")]
+        public async Task<IActionResult> UpdateIncreaseAccepted(string orderId, bool value)
+        {
+            var order = await this.orderService.UpdateIncreaseAcceptedAsync(orderId, value);
+
+            if (order)
+            {
+                await this.hub.Clients.All.NotifyDriver();
                 return this.Ok();
             }
 

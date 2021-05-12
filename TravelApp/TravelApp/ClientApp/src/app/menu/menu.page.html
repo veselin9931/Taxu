@@ -35,7 +35,12 @@
             <ion-label class="my-label" color="dark"> {{'Travel' | translate}} </ion-label>
           </ion-item>
 
-          <ion-item *ngIf="isLoggedIn && documentConfirmed == false" routerLink="/menu/verifying">
+          <ion-item *ngIf="isLoggedIn && documentConfirmed == false && isVerified" routerLink="/menu/verifying">
+            <ion-icon color="dark" name="person-outline" slot="start"></ion-icon>
+            <ion-label class="my-label" color="dark"> {{'Profile' | translate}} </ion-label>
+          </ion-item>
+
+          <ion-item *ngIf="isLoggedIn && documentConfirmed == false" routerLink="/menu/become-driver">
             <ion-icon color="dark" name="person-outline" slot="start"></ion-icon>
             <ion-label class="my-label" color="dark"> {{'Profile' | translate}} </ion-label>
           </ion-item>

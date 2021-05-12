@@ -38,6 +38,7 @@
         class="fonted btn btn-info">{{'Navigate to user' | translate}}</button>
       <button (click)="navigateToPointAndCalculateDistance()" type="button" color="primary"
       class="fonted btn btn-info ml-1" [disabled]="tripStatus=='!Processing'">{{'Start trip' | translate}}</button>
+      
       <ion-text class="centered" color="dark">
         <p class="text">{{'Drop off address' | translate}} ({{tripDistance}}km)</p>
         <p class="text">{{this.destination}}</p>
@@ -53,6 +54,10 @@
       {{'Finish trip' | translate}}</button>
     <button (click)="chat()" class="fonted btn btn-secondary ml-1" type="button" (click)="clearMessages()">
       {{'Chat'| translate}}</button>
+
+      <button (click)="onTheAddress()" type="button"
+      class="fonted btn btn-info ml-1">Im on the address</button>
+
     <br />
     <ion-label class="blink_me" *ngIf="messages.length != 0  && chatStyle == 'none'">{{'You have new message' |
       translate}}.</ion-label>

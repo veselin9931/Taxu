@@ -4,6 +4,7 @@ import * as signalR from '@aspnet/signalr';
 import { Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { title } from 'process';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Message, Order, Trip } from 'src/_models';
@@ -14,7 +15,7 @@ import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
-const { Geolocation } = Plugins;
+const { Geolocation, LocalNotifications } = Plugins;
 declare var google: any;
 
 @Component({
@@ -26,9 +27,11 @@ export class TravelModePage implements OnInit {
   public currentTrip: Trip;
   private user = this.accountService.userValue;
   private driverId = this.accountService.userValue.driverId;
+  private orderAcceptedBy: any;
   isLoggedIn;
   order: Order;
   orderStatus: string;
+  tripStatus: string;
   orderTotalPrice: any;
   estimatedDuration: any;
   //Car html properties;
@@ -41,12 +44,18 @@ export class TravelModePage implements OnInit {
 
   location: string;
   destination: string;
-
+  totalPrice: any;
   messages = this.chatService.messages;
   chatStyle = "";
-
+  isDriverArrived: any;
   subscription: Subscription;
-
+  maxTime: any = 30000;
+  startTime: any;
+  timer: any;
+  hidevalue: any;
+  minutes: any;
+  secsDiff: any;
+  seconds: any;
   map: any;
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
 
@@ -62,9 +71,9 @@ export class TravelModePage implements OnInit {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.checkorder();
-
+    await LocalNotifications.requestPermission();
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
 
@@ -82,11 +91,75 @@ export class TravelModePage implements OnInit {
     connection.on('BroadcastMessage', () => {
       this.checkorder();
     });
+
+    connection.on('OrderAccepted', () => {
+      console.log('Order Accepted')
+      this.presentOrderAcceptedNotification();
+    });
+
+    connection.on('NotifyUser', () => {
+      this.presentDriverArrivedNotification();
+      this.accountService.userValue.alertTriggered = true;
+      this.accountService.updateAlert(this.user.id, true)
+        .subscribe(() => { });
+
+      this.accountService.userValue.timer = new Date();
+      if(this.seconds == 60){
+        this.seconds = 0;
+      }
+      this.startTimer();
+    });
+
+
+    connection.on('OrderCompleted', () => {
+      this.completedOrderAlert();
+    });
   }
 
   ionViewDidEnter() {
+    if (this.accountService.userValue.alertTriggered == true) {
+      this.startTimer();
+    }
     this.chatService.stop();
     this.chatService.start();
+  }
+
+  startTimer() {
+    this.startTime = new Date(this.accountService.userValue.timer);
+    setInterval(() => {
+      if (this.secsDiff == 300) {
+        this.orderService.increaseOrderPrice(this.order.id, 1)
+          .subscribe(() => { });
+        return;
+      }
+      this.secsDiff = new Date().getTime() - this.startTime.getTime();
+
+      this.secsDiff = Math.floor(this.secsDiff / 1000);
+    }, 1000);
+  }
+
+  async presentOrderAcceptedNotification() {
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: "Order alert",
+          body: "Your order is accepted",
+          id: 1,
+        }
+      ]
+    })
+  }
+
+  async presentDriverArrivedNotification() {
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: "Order alert",
+          body: "Your driver is on the address",
+          id: 2,
+        }
+      ]
+    })
   }
 
   //CHAT FUNCTIONALLITY
@@ -132,7 +205,10 @@ export class TravelModePage implements OnInit {
     this.subscription = this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
+
+          this.totalPrice = data.totalPrice;
           this.orderStatus = data.status;
+          this.orderAcceptedBy = data.acceptedBy;
           this.orderService.currentOrderId = data.id;
           this.location = data.location;
           this.destination = data.destination;
@@ -141,26 +217,18 @@ export class TravelModePage implements OnInit {
           this.order = data;
           this.estimatedDuration = data.eta;
 
+
           if (data.acceptedBy != null) {
             this.getUserById(data.acceptedBy);
             this.getAcceptedTrip(data.acceptedBy);
             this.driverId = data.acceptedBy;
           }
+
         } else {
+          this.accountService.userValue.alertTriggered = false;
+          this.accountService.updateAlert(this.user.id, false)
+            .subscribe(() => { });
           this.orderTotalPrice = 0;
-        }
-
-        if (data == null) {
-          this.orderService.getLastCompletedOrder(this.user.id)
-            .subscribe(x => {
-              if (x.isRated == false) {
-                this.subscription.unsubscribe();
-                this.completedOrderAlert();
-                this.orderService.rateOrder(x.id)
-                  .subscribe();
-
-              }
-            })
         }
       },
         error => {
@@ -189,12 +257,14 @@ export class TravelModePage implements OnInit {
     this.tripService.getTrip(driverId)
       .subscribe(x => {
         if (x == null) {
-          this.orderStatus = "Completed";
           console.log("No trip!");
           return;
         }
-        if (x.status == "Completed") {
-          this.orderStatus = "Completed";
+        this.tripStatus = x.status;
+        if(x.status == 'Started'){
+          this.accountService.userValue.alertTriggered = false;
+          this.accountService.updateAlert(this.user.id, false)
+            .subscribe(() => { });
         }
         this.currentTrip = x;
         this.loadMap(this.mapRef, driverId);
@@ -257,6 +327,22 @@ export class TravelModePage implements OnInit {
       })
   }
 
+  async cancelTrip() {
+    this.tripService.getTrip(this.orderAcceptedBy)
+      .subscribe(trip => {
+        this.tripService.cancelTrip(trip.id)
+          .subscribe(x => {
+            this.accountService.updateDriving(this.orderAcceptedBy, false)
+              .subscribe(() => {
+              });
+            this.accountService.userValue.isDrivingNow = false;
+            this.orderService.deleteOrder(trip.orderId)
+              .subscribe(() => this.route.navigate(['menu/travelling']));
+
+          });
+      })
+  }
+
   async openLanguagePopover(ev) {
     const popover = await this.popoverController.create({
       component: LanguagePopoverPage,
@@ -278,8 +364,8 @@ export class TravelModePage implements OnInit {
           role: 'cancel',
           handler: () => {
             this.driverService.voteUp(this.driverId)
-              .subscribe(x => {});
-              this.route.navigate(['menu/travelling']);
+              .subscribe(x => { });
+            this.route.navigate(['menu/travelling']);
           }
         },
         {
@@ -287,8 +373,8 @@ export class TravelModePage implements OnInit {
           role: 'no',
           handler: () => {
             this.driverService.voteDown(this.driverId)
-              .subscribe(x => {});
-              this.route.navigate(['menu/travelling']);
+              .subscribe(x => { });
+            this.route.navigate(['menu/travelling']);
           }
         },
         {
@@ -314,6 +400,20 @@ export class TravelModePage implements OnInit {
   async successAddedFavourite() {
     const popup = await this.alertController.create({
       header: 'Successfully added to favourites!',
+
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        }
+      ]
+    });
+    await popup.present();
+  }
+
+  async canceledOrder() {
+    const popup = await this.alertController.create({
+      header: 'Order is cancelled by the driver',
 
       buttons: [
         {

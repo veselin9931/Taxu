@@ -12,4 +12,6 @@
     phone: number;
     reloaded: boolean;
     choosenLanguage: string;
+    timer: any;
+    alertTriggered: any;
 }

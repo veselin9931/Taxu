@@ -22,6 +22,7 @@ namespace TravelApp.Models
 
         public bool IsDrivingNow { get; set; }
 
+        public bool AlertTriggered { get; set; }
 
         public bool IsDriver { get; set; }
 

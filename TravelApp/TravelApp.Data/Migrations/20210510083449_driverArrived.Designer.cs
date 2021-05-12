@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelApp.Data;
 
 namespace TravelApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210510083449_driverArrived")]
+    partial class driverArrived
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -239,9 +241,6 @@ namespace TravelApp.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<bool>("AlertTriggered")
-                        .HasColumnType("bit");
 
                     b.Property<string>("ChoosenLanguage")
                         .HasColumnType("nvarchar(max)");
@@ -602,22 +601,16 @@ namespace TravelApp.Data.Migrations
                     b.Property<string>("ETA")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IncreaseAccepted")
-                        .HasColumnType("bit");
-
                     b.Property<decimal>("IncreasePrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("IncreasedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("IncreasedByDriver")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDriverArrived")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRated")
                         .HasColumnType("bit");
 
                     b.Property<string>("Location")
