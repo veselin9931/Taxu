@@ -35,79 +35,78 @@
 
           <form [formGroup]="form" novalidate class="col-md-6">
 
-            <div class="form-group col mt-5 text-center">
-              <ion-input formControlName="model" type="text" class="form-control" placeholder="Model"
-                [ngClass]="{ 'is-invalid': submitted && f.model.errors }">
-              </ion-input>
-              <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
-                <div *ngIf="f.model.errors.required">The field is required!</div>
+              <div class="form-group col mt-5 text-center">
+                  <ion-input formControlName="model" type="text" class="form-control" placeholder="Model"
+                             [ngClass]="{ 'is-invalid': submitted && f.model.errors }">
+                  </ion-input>
+                  <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
+                      <div *ngIf="f.model.errors.required">The field is required!</div>
+                  </div>
               </div>
-            </div>
 
-            <div class="form-group col mt-5 text-center">
-              <select formControlName="type" class="form-control" id="exampleFormControlSelect1">
-                <option value="" disabled selected hidden>Click to choose car type</option>
-                <option value="1">Normal</option>
-                <option value="2">Comfort</option>
-              </select>
-            </div>
-
-            <div class="form-group col mt-5 text-center">
-              <ion-input formControlName="color" type="text" class="form-control" placeholder="Color"
-                [ngClass]="{ 'is-invalid': submitted && f.color.errors }">
-              </ion-input>
-              <div *ngIf="submitted && f.color.errors" class="invalid-feedback">
-                <div *ngIf="f.color.errors.required">The field is required!</div>
+              <div class="form-group col mt-5 text-center">
+                  <select formControlName="type" class="form-control" id="exampleFormControlSelect1">
+                      <option value="" disabled selected hidden>Click to choose car type</option>
+                      <option value="1">Normal</option>
+                      <option value="2">Comfort</option>
+                  </select>
               </div>
-            </div>
 
-            <div class="form-group col mt-5 text-center">
-              <ion-input formControlName="capacity" type="number" class="form-control" placeholder="Capacity"
-                [ngClass]="{ 'is-invalid': submitted && f.capacity.errors }">
-              </ion-input>
-              <div *ngIf="submitted && f.capacity.errors" class="invalid-feedback">
-                <div *ngIf="f.capacity.errors.required">The field is required!</div>
+              <div class="form-group col mt-5 text-center">
+                  <ion-input formControlName="color" type="text" class="form-control" placeholder="Color"
+                             [ngClass]="{ 'is-invalid': submitted && f.color.errors }">
+                  </ion-input>
+                  <div *ngIf="submitted && f.color.errors" class="invalid-feedback">
+                      <div *ngIf="f.color.errors.required">The field is required!</div>
+                  </div>
               </div>
-            </div>
 
-            <div class="form-group col mt-5 text-center">
-              <ion-input formControlName="registrationNumber" type="text" class="form-control"
-                placeholder="Registration Number"
-                [ngClass]="{ 'is-invalid': submitted && f.registrationNumber.errors }">
-              </ion-input>
-              <div *ngIf="submitted && f.registrationNumber.errors" class="invalid-feedback">
-                <div *ngIf="f.registrationNumber.errors.required">The field is required!</div>
+              <div class="form-group col mt-5 text-center">
+                  <ion-input formControlName="capacity" type="number" class="form-control" placeholder="Capacity"
+                             [ngClass]="{ 'is-invalid': submitted && f.capacity.errors }">
+                  </ion-input>
+                  <div *ngIf="submitted && f.capacity.errors" class="invalid-feedback">
+                      <div *ngIf="f.capacity.errors.required">The field is required!</div>
+                  </div>
               </div>
-            </div>
 
-            <div class="row">
-              <div class="col-md-12">
-                <ion-text color="light">
-                  <hr>
-                  <h5 class="text">Click the button below and upload image of technical review, insurance, and at least 3 pictures of the car.</h5>
-                </ion-text>
-                
-                <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
-                <ion-button class="my-label mt-3" (click)="file.click()" expand="full" color="light">Upload</ion-button>
-                <div class="col-md-4 mt-2">
-                  <div class="progress form-group" *ngIf="progress > 0">
-                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
-                    </div>
-                </div>
-  
-                  <span class="upload" *ngIf="progress > 0">
-                    {{progress}}%
-                  </span>
-                  <span class="upload" *ngIf="message">
-                    {{message}}
-                  </span>
-                </div>
+              <div class="form-group col mt-5 text-center">
+                  <ion-input formControlName="registrationNumber" type="text" class="form-control"
+                             placeholder="Registration Number"
+                             [ngClass]="{ 'is-invalid': submitted && f.registrationNumber.errors }">
+                  </ion-input>
+                  <div *ngIf="submitted && f.registrationNumber.errors" class="invalid-feedback">
+                      <div *ngIf="f.registrationNumber.errors.required">The field is required!</div>
+                  </div>
               </div>
-            </div>
-            
-            <div class="col-md-12 mt-3">
-              <ion-button type="submit" (click)="onSubmit()" color="light">Submit</ion-button>
-            </div>
+
+              <div class="form-group col mt-5 text-center">
+                  <input type="file" #file1 placeholder="Choose file" (change)="upload(file1.files)" style="display:none;">
+                  <ion-button expand="shape" (click)="file1.click()">Car photo 1</ion-button>
+                  <input type="file" #file2 placeholder="Choose file" (change)="upload(file2.files)" style="display:none;">
+                  <ion-button expand="shape" (click)="file2.click()">Car photo 2</ion-button>
+                  <input type="file" #file3 placeholder="Choose file" (change)="upload(file3.files)" style="display:none;">
+                  <ion-button expand="shape" (click)="file3.click()">Car photo 3</ion-button>
+
+                  <div class="col-md-4 mt-2">
+                      <div class="progress form-group" *ngIf="progress > 0">
+                          <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
+                          </div>
+                      </div>
+
+                      <span class="upload" *ngIf="progress > 0">
+                          {{progress}}%
+                      </span>
+                      <span class="upload" *ngIf="message">
+                          {{message}}
+                      </span>
+                  </div>
+              </div>
+                 
+
+                  <div class="col-md-12 mt-3">
+                      <ion-button type="submit" (click)="onSubmit()" color="light">Submit</ion-button>
+                  </div>
 
           </form>
         </div>
