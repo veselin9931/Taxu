@@ -15,9 +15,12 @@ import { MultiFileUploadComponent } from '../multi-file-upload/multi-file-upload
 export class BecomeDriverPage implements OnInit {
   folderName = "driverFacePic";
   imgPath: string;
-  imgType = "personalImg";
+    imgType = "personalImg";
+    pics: any;
   public progress: number;
-  public message: string;
+    public message: string;
+    public checker: boolean;
+
 
   applicationUserId = this.accountService.userValue.id;
 
@@ -29,7 +32,21 @@ export class BecomeDriverPage implements OnInit {
     private driverService: DriverService) { }
 
   ngOnInit() {
+      this.getDocs();
+      if (this.getDocs.length >= 3) {
+          this.checker = true
+      }
 
+      this.checker = false;
+    }
+
+    getDocs() {
+        this.imageService.getUserDocuments(this.applicationUserId)
+            .subscribe(x => {
+                console.log(x);
+                this.pics = x;
+
+            });
     }
 
     upload() {
@@ -125,5 +142,9 @@ export class BecomeDriverPage implements OnInit {
           this.message = 'Please upload your documents!'
         }
       })
-  }
+    }
+
+   
 }
+
+
