@@ -299,5 +299,31 @@ namespace TravelApp.Services.OrderService
             }
             return false;
         }
+
+        public async Task<bool> IncrementPriceAsync(string id)
+        {
+            var order = this.orderRepository.All()?.FirstOrDefault(x => x.Id == id);
+            if (order != null)
+            {
+                order.TotalPrice += 1;
+                await this.orderRepository.SaveChangesAsync();
+                this.orderRepository.Update(order);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> DecrementPriceAsync(string id)
+        {
+            var order = this.orderRepository.All()?.FirstOrDefault(x => x.Id == id);
+            if (order != null)
+            {
+                order.TotalPrice -= 1;
+                await this.orderRepository.SaveChangesAsync();
+                this.orderRepository.Update(order);
+                return true;
+            }
+            return false;
+        }
     }
 }

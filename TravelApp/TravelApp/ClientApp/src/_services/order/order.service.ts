@@ -200,6 +200,24 @@ export class OrderService {
     );
   }
 
+  incrementOrderPrice(orderId:string): Observable<Order> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.put<Order>(`${environment.apiUrl}/api/order/increment/${orderId}`, { headers, responseType: 'json' },)
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  decrementOrderPrice(orderId:string): Observable<Order> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.put<Order>(`${environment.apiUrl}/api/order/decrement/${orderId}`, { headers, responseType: 'json' },)
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
   handleError(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

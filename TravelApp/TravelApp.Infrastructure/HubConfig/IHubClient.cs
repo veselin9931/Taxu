@@ -12,6 +12,8 @@ namespace TravelApp.Infrastructure.HubConfig
         
         Task NotifyUser();
 
+        Task NotifyArrived();
+
         Task NotifyDriver();
 
         Task OrderAccepted();

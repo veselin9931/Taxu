@@ -92,12 +92,19 @@ export class TravelModePage implements OnInit {
       this.checkorder();
     });
 
-    connection.on('OrderAccepted', () => {
-      console.log('Order Accepted')
-      this.presentOrderAcceptedNotification();
+    connection.on('NotifyDriver', () => {
+     
     });
 
     connection.on('NotifyUser', () => {
+     
+    });
+
+    connection.on('OrderAccepted', () => {
+      this.presentOrderAcceptedNotification();
+    });
+
+    connection.on('NotifyArrived', () => {
       this.presentDriverArrivedNotification();
       this.accountService.userValue.alertTriggered = true;
       this.accountService.updateAlert(this.user.id, true)

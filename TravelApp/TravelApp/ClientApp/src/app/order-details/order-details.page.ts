@@ -64,6 +64,7 @@ export class OrderDetailsPage implements OnInit {
   };
   mapId: any
   orderDiv: any;
+  canIncrease: boolean;
   eta: any;
   distance: any;
   newDistance: any;
@@ -113,7 +114,13 @@ export class OrderDetailsPage implements OnInit {
 
         })
     });
+    connection.on('BroadcastMessage', () => {
 
+    });
+
+    connection.on('NotifyUser', () => {
+
+    });
   }
 
   ionViewDidEnter() {
@@ -124,6 +131,12 @@ export class OrderDetailsPage implements OnInit {
       .subscribe(order => {
         if (order == null) {
           return this.OrderTaken();
+        }
+        if (order.totalPrice <= 3.50) {
+          this.canIncrease = true;
+        }
+        else {
+          this.canIncrease = false;
         }
         this.order = order;
         this.calculateDistance(this.order);
@@ -225,8 +238,18 @@ export class OrderDetailsPage implements OnInit {
   }
 
   offer(value) {
-    this.orderService.driverIncreaseOrderPrice(this.order.id, value, this.accountService.userValue.driverId)
-      .subscribe(() => { })
+    this.orderService.getOrderById(this.order.id)
+      .subscribe(x => {
+        if (x == null) {
+          this.OrderTaken();
+          this.router.navigate(['menu/driving']);
+          return;
+        } else {
+          this.orderService.driverIncreaseOrderPrice(this.order.id, value, this.accountService.userValue.driverId)
+            .subscribe(() => { })
+        }
+      });
+
   }
 
   async calculateDistance(order) {
@@ -276,55 +299,68 @@ export class OrderDetailsPage implements OnInit {
   }
 
   acceptOrder(order) {
-    this.driverService.getDriverActiveCar(this.accountService.userValue.driverId)
-      .subscribe(car => {
-        if (car.typeId == 1 && order.carType == 'Comfort') {
-          return this.WrongCarAlert();
+    this.orderService.getOrderById(order.id)
+      .subscribe(x => {
+        if (x == null) {
+          this.OrderTaken();
+          this.router.navigate(['menu/driving']);
+          return;
         } else {
-          //Get user's id to get drivers data
+          this.driverService.getDriverActiveCar(this.accountService.userValue.driverId)
+            .subscribe(car => {
+              if (car.typeId == 1 && order.carType == 'Comfort') {
+                return this.WrongCarAlert();
+              } else {
+                //Get user's id to get drivers data
 
-          //Get driver's data
-          this.driverService.getDriver(this.accountService.userValue.driverId)
-            .subscribe(driver => {
-              this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
+                //Get driver's data
+                this.driverService.getDriver(this.accountService.userValue.driverId)
+                  .subscribe(driver => {
+                    this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
 
-              //Get drivers wallet
-              this.walletService.getMyWallet(this.applicationUserId)
-                .subscribe(wallet => {
-                  if (wallet.ammount < this.tripPriceForDriver) {
-                    this.NotEnoughCashAlert();
-                    return;
-                  } else {
-                    let applicationUserId = this.accountService.userValue.id;
-                    this.accountService.userValue.isDrivingNow = true;
-                    this.accountService.updateDriving(this.applicationUserId, true)
-                      .subscribe(() => {
+                    //Get drivers wallet
+                    this.walletService.getMyWallet(this.applicationUserId)
+                      .subscribe(wallet => {
+                        if (wallet.ammount < this.tripPriceForDriver) {
+                          this.NotEnoughCashAlert();
+                          return;
+                        } else {
+
+
+                          let applicationUserId = this.accountService.userValue.id;
+                          this.accountService.userValue.isDrivingNow = true;
+                          this.accountService.updateDriving(this.applicationUserId, true)
+                            .subscribe(() => {
+                            });
+
+                          this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+                          order.acceptedBy = applicationUserId;
+
+                          //Accepting order
+                          this.orderService.acceptOrder(order.id, applicationUserId)
+                            .subscribe(() => {
+
+                              this.orderService.updateOrderEta(orderId, order.eta)
+                                .subscribe();
+                            });
+
+                          let orderId = order.id;
+                          let data = { orderId, applicationUserId, order };
+
+                          //Creating trip to manage data
+                          this.tripService.createTrip(data)
+                            .subscribe(() => {
+                            });
+                          this.router.navigate(['menu/driving-mode'])
+                        }
                       });
-
-                    this.isDrivingNow = this.accountService.userValue.isDrivingNow;
-                    order.acceptedBy = applicationUserId;
-
-                    //Accepting order
-                    this.orderService.acceptOrder(order.id, applicationUserId)
-                      .subscribe(() => {
-
-                        this.orderService.updateOrderEta(orderId, order.eta)
-                          .subscribe();
-                      });
-
-                    let orderId = order.id;
-                    let data = { orderId, applicationUserId, order };
-
-                    //Creating trip to manage data
-                    this.tripService.createTrip(data)
-                      .subscribe(() => {
-                      });
-                    this.router.navigate(['menu/driving-mode'])
-                  }
-                });
+                  });
+              }
             });
         }
-      });
+      })
+
+
   }
 
   async openLanguagePopover(ev) {

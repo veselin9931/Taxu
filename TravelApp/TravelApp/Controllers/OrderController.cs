@@ -347,7 +347,7 @@ namespace TravelApp.Controllers
 
             if (order)
             {
-                await this.hub.Clients.All.NotifyUser();
+                await this.hub.Clients.All.NotifyArrived();
                 return this.Ok();
             }
 
@@ -376,6 +376,34 @@ namespace TravelApp.Controllers
             if (order)
             {
                 await this.hub.Clients.All.NotifyDriver();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
+        [HttpPut("increment/{orderId}")]
+        public async Task<IActionResult> IncrementOrderPrice(string orderId)
+        {
+            var order = await this.orderService.IncrementPriceAsync(orderId);
+
+            if (order)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
+        [HttpPut("decrement/{orderId}")]
+        public async Task<IActionResult> DecrementOrderPrice(string orderId)
+        {
+            var order = await this.orderService.DecrementPriceAsync(orderId);
+
+            if (order)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
                 return this.Ok();
             }
 

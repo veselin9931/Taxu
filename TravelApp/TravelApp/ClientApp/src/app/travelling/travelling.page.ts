@@ -32,6 +32,7 @@ export class TravellingPage implements OnInit, OnDestroy {
   carColor = "";
 
   driverIncreased: number;
+  driverPrice: number;
   increasedBy: string;
   //User html properties
   firstName = "";
@@ -96,10 +97,16 @@ export class TravellingPage implements OnInit, OnDestroy {
       this.orderService.getMyOrder(this.user.id)
         .subscribe(x => {
           this.increasedBy = x.increasedBy;
+          this.driverPrice = x.increasedByDriver;
           this.driverIncreased = x.increasedByDriver + this.orderTotalPrice;
           this.increasedOrder();
         })
     });
+
+    connection.on('NotifyDriver', () => {
+
+    });
+
 
     connection.on('OrderAccepted', () => {
       console.log('Order Accepted')
@@ -235,6 +242,32 @@ export class TravellingPage implements OnInit, OnDestroy {
     );
   }
 
+  offer(value) {
+    this.form.value.increasePrice = value;
+  }
+
+  //Increase the price for the order.
+  selector($event) {
+    let amount = +$event;
+    if (amount != 0 || $event != "") {
+      this.subscription = this.orderService.increaseOrderPrice(this.order.id, amount)
+        .subscribe()
+    }
+  }
+
+  increment(){
+    this.orderService.incrementOrderPrice(this.order.id)
+    .subscribe(()=> {});
+  }
+
+  decrement(){
+    if(this.orderTotalPrice >= 1){
+      this.orderService.decrementOrderPrice(this.order.id)
+      .subscribe(()=> {});
+    }
+    
+  }
+
   //Order functionallity - waiting for driver
   checkorder() {
     this.subscription = this.orderService.getMyOrder(this.user.id)
@@ -253,7 +286,7 @@ export class TravellingPage implements OnInit, OnDestroy {
             this.isCompleted = true;
 
             // User can increase order price.
-            this.selector(0);
+            //this.selector(0);
           }
 
           if (data.status == "Accepted" && data != null) {
@@ -282,14 +315,7 @@ export class TravellingPage implements OnInit, OnDestroy {
       })
   }
 
-  //Increase the price for the order.
-  selector($event) {
-    let amount = +$event;
-    if (amount != 0 || $event != "") {
-      this.subscription = this.orderService.increaseOrderPrice(this.order.id, amount)
-        .subscribe()
-    }
-  }
+  
 
   onSelectCar($event) {
     let type = $event.detail.value;
@@ -360,13 +386,13 @@ export class TravellingPage implements OnInit, OnDestroy {
           handler: () => {
             this.orderService.getMyOrder(this.user.id).subscribe(order => {
               this.orderService.increasedOrderAccept(order.id, true)
-              .subscribe(() => { 
-                this.orderService.increaseOrderPrice(order.id, this.driverIncreased)
                 .subscribe(() => {
+                  this.orderService.increaseOrderPrice(order.id, this.driverPrice)
+                    .subscribe(() => {
+                    })
                 })
-              })
             })
-           
+
           }
         },
         {
@@ -374,7 +400,7 @@ export class TravellingPage implements OnInit, OnDestroy {
           handler: () => {
             this.orderService.getMyOrder(this.user.id).subscribe(order => {
               this.orderService.increasedOrderAccept(order.id, false)
-              .subscribe(() => {})
+                .subscribe(() => { })
             })
           }
         },

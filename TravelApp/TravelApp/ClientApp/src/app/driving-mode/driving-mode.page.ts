@@ -45,7 +45,6 @@ export class DrivingModePage implements OnInit {
   closestOrders: Order[] = [];
 
   totalPrice: number;
-
   subscription: Subscription;
 
   //Map
@@ -86,6 +85,8 @@ export class DrivingModePage implements OnInit {
   }
 
   ngOnInit() {
+
+
 
     const source = interval(5000);
     this.subscription = source.subscribe(val => this.changeMyLocation());
@@ -363,11 +364,13 @@ export class DrivingModePage implements OnInit {
 
           return;
         }
+        
         this.tripStatus = x.status;
         this.currentTrip = x;
 
         this.orderService.getOrderById(x.orderId).subscribe(order => {
           x.order = order;
+          
           this.order = x.order;
           this.loadMap(this.mapRef);
 
