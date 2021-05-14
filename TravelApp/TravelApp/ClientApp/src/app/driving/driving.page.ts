@@ -25,7 +25,7 @@ export class DrivingPage implements OnInit {
   orders: Order[] = [];
   closeOrders: Order[] = [];
   //Map
-  distance: string;
+  distance: any;
 
   myLat: string;
   myLng: string;
@@ -103,7 +103,7 @@ export class DrivingPage implements OnInit {
           return;
         }
 
-        if(data.length < this.orders.length){
+        if (data.length < this.orders.length) {
           this.orders = data;
           return;
         }
@@ -112,30 +112,30 @@ export class DrivingPage implements OnInit {
           return <any>new Date(b.createdOn) - <any>new Date(a.createdOn);
         });
 
-        if(rating >= 0 && rating <= 2){
+        if (rating >= 0 && rating <= 2) {
           setTimeout(() => {
             this.orders = data;
           }, 10000);
         }
-        if(rating >= 2 && rating <= 4){
+        if (rating >= 2 && rating <= 4) {
           setTimeout(() => {
             this.orders = data;
           }, 8000);
         }
-        if(rating >= 4 && rating <= 6){
+        if (rating >= 4 && rating <= 6) {
           setTimeout(() => {
             this.orders = data;
           }, 5000);
         }
-        if(rating >= 6 && rating <= 8){
+        if (rating >= 6 && rating <= 8) {
           setTimeout(() => {
             this.orders = data;
           }, 3000);
         }
-        if(rating >= 8 && rating <= 10){
+        if (rating >= 8 && rating <= 10) {
           setTimeout(() => {
-              this.orders = data;
-            }, 1000);
+            this.orders = data;
+          }, 1000);
         }
         this.calculateClosest();
       })
@@ -149,34 +149,34 @@ export class DrivingPage implements OnInit {
           return;
         }
 
-        if(data.length < this.orders.length){
+        if (data.length < this.orders.length) {
           this.orders = data;
           return;
         }
-        if(rating >= 0 && rating <= 2){
+        if (rating >= 0 && rating <= 2) {
           setTimeout(() => {
             this.orders = data;
           }, 10000);
         }
-        if(rating >= 2 && rating <= 4){
+        if (rating >= 2 && rating <= 4) {
           setTimeout(() => {
             this.orders = data;
           }, 8000);
         }
-        if(rating >= 4 && rating <= 6){
+        if (rating >= 4 && rating <= 6) {
           setTimeout(() => {
             this.orders = data;
           }, 5000);
         }
-        if(rating >= 6 && rating <= 8){
+        if (rating >= 6 && rating <= 8) {
           setTimeout(() => {
             this.orders = data;
           }, 3000);
         }
-        if(rating >= 8 && rating <= 10){
+        if (rating >= 8 && rating <= 10) {
           setTimeout(() => {
-              this.orders = data;
-            }, 1000);
+            this.orders = data;
+          }, 1000);
         }
 
       })
@@ -190,34 +190,34 @@ export class DrivingPage implements OnInit {
           return;
         }
 
-        if(data.length < this.orders.length){
+        if (data.length < this.orders.length) {
           this.orders = data;
           return;
         }
-        if(rating >= 0 && rating <= 2){
+        if (rating >= 0 && rating <= 2) {
           setTimeout(() => {
             this.orders = data;
           }, 10000);
         }
-        if(rating >= 2 && rating <= 4){
+        if (rating >= 2 && rating <= 4) {
           setTimeout(() => {
             this.orders = data;
           }, 8000);
         }
-        if(rating >= 4 && rating <= 6){
+        if (rating >= 4 && rating <= 6) {
           setTimeout(() => {
             this.orders = data;
           }, 5000);
         }
-        if(rating >= 6 && rating <= 8){
+        if (rating >= 6 && rating <= 8) {
           setTimeout(() => {
             this.orders = data;
           }, 3000);
         }
-        if(rating >= 8 && rating <= 10){
+        if (rating >= 8 && rating <= 10) {
           setTimeout(() => {
-              this.orders = data;
-            }, 1000);
+            this.orders = data;
+          }, 1000);
         }
       })
 
@@ -244,17 +244,14 @@ export class DrivingPage implements OnInit {
       const orderLatLng = { lat: order.locationLat, lng: order.locationLong };
       var p1 = new google.maps.LatLng(myLatLng.lat, myLatLng.lng);
       var p2 = new google.maps.LatLng(orderLatLng.lat, orderLatLng.lng);
-      this.distance = calcDistance(p1, p2);
-      order.km = +this.distance;
       //calculates distance between two points in km's
-      function calcDistance(p1, p2) {
-        return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
-      }
+      this.distance = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
 
-      if (order.km > 5) {
+      if (this.distance > 5) {
         this.closeOrders.push(order);
       }
       this.driverService.categoryCloseCount = this.closeOrders.length;
+
     });
   }
 

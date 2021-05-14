@@ -139,7 +139,7 @@ export class OrderDetailsPage implements OnInit {
           this.canIncrease = false;
         }
         this.order = order;
-        this.calculateDistance(this.order);
+        //this.calculateDistance(this.order);
         this.calculateEta(this.order);
         this.loadMap(this.mapRef);
 
@@ -172,10 +172,10 @@ export class OrderDetailsPage implements OnInit {
       icon: icon,
       map: this.map
     });
-    this.navigateToUserAndCalculateDistance();
+    this.navigateToUserAndCalculateDistance(marker);
   }
 
-  async navigateToUserAndCalculateDistance() {
+  async navigateToUserAndCalculateDistance(marker) {
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer();
     const coordinates = await Geolocation.getCurrentPosition();
@@ -199,6 +199,17 @@ export class OrderDetailsPage implements OnInit {
       (response, status) => {
         if (status === "OK") {
           directionsRenderer.setDirections(response);
+
+          var p1 = new google.maps.LatLng(myLatLng.lat, myLatLng.lng);
+          var p2 = new google.maps.LatLng(userLat, userLng);
+      
+          this.distance = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
+      
+          var infowindow = new google.maps.InfoWindow({
+            content: `${this.distance} km from you.`
+          });
+          infowindow.open(this.map, marker);
+
         } else {
           window.alert("Directions request failed due to " + status);
         }
@@ -252,20 +263,20 @@ export class OrderDetailsPage implements OnInit {
 
   }
 
-  async calculateDistance(order) {
-    const coordinates = await Geolocation.getCurrentPosition();
-    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+  // async calculateDistance(order) {
+  //   const coordinates = await Geolocation.getCurrentPosition();
+  //   const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
 
-    const orderLatLng = { lat: order.locationLat, lng: order.locationLong };
-    var p1 = new google.maps.LatLng(myLatLng.lat, myLatLng.lng);
-    var p2 = new google.maps.LatLng(orderLatLng.lat, orderLatLng.lng);
+  //   const orderLatLng = { lat: order.locationLat, lng: order.locationLong };
+  //   var p1 = new google.maps.LatLng(myLatLng.lat, myLatLng.lng);
+  //   var p2 = new google.maps.LatLng(orderLatLng.lat, orderLatLng.lng);
 
-    this.distance = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
+  //   this.distance = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
 
-    if (this.distance == null || this.distance == undefined) {
-      this.distance = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
-    }
-  }
+  //   if (this.distance == null || this.distance == undefined) {
+  //     this.distance = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
+  //   }
+  // }
 
   async calculateEta(order) {
     const coordinates = await Geolocation.getCurrentPosition();

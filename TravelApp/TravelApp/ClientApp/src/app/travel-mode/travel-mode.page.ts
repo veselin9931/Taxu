@@ -91,15 +91,7 @@ export class TravelModePage implements OnInit {
     connection.on('BroadcastMessage', () => {
       this.checkorder();
     });
-
-    connection.on('NotifyDriver', () => {
-     
-    });
-
-    connection.on('NotifyUser', () => {
-     
-    });
-
+    
     connection.on('OrderAccepted', () => {
       this.presentOrderAcceptedNotification();
     });
