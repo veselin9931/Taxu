@@ -20,6 +20,8 @@ namespace TravelApp.Services.DriverService
 
         public Task<bool> LowerCommission(string id);
 
+        public Task<bool> RemoveDriving(string id);
+
         public Task<bool> ChangeLocation(string id, string lat, string lng);
 
 

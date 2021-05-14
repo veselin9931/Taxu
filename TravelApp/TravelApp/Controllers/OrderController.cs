@@ -292,6 +292,19 @@ namespace TravelApp.Controllers
             return this.BadRequest();
         }
 
+        [HttpPut("{orderId}/{driverId}")]
+        public async Task<IActionResult> MakeOrderInWaiting(string orderId)
+        {
+            var accepted = await this.orderService.MakeOrderInWaitingAsync(orderId);
+            if (accepted)
+            {
+                await this.hub.Clients.All.OrderWaiting();      
+
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
 
         // PUT api/<OrderController>/eta/orderId/value
         [HttpPut("eta/{orderId}/{value}")]

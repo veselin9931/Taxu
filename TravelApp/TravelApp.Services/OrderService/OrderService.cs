@@ -8,6 +8,7 @@ using TravelApp.Common.Repositories;
 using TravelApp.Infrastructure.InputModels.OrderInput;
 using TravelApp.Mappings;
 using TravelApp.Models;
+using TravelApp.Services.DriverService;
 using TravelApp.Services.EmailSender;
 
 namespace TravelApp.Services.OrderService
@@ -17,11 +18,13 @@ namespace TravelApp.Services.OrderService
     {
         private readonly IDeletableEntityRepository<Order> orderRepository;
         private readonly IDeletableEntityRepository<FavouriteOrder> favOrderRepository;
+        private readonly IDriverService driverService;
 
-        public OrderService(IDeletableEntityRepository<Order> orderRepository, IDeletableEntityRepository<FavouriteOrder> favOrderRepository)
+        public OrderService(IDeletableEntityRepository<Order> orderRepository, IDeletableEntityRepository<FavouriteOrder> favOrderRepository, IDriverService driverService)
         {
             this.orderRepository = orderRepository;
             this.favOrderRepository = favOrderRepository;
+            this.driverService = driverService;
         }
 
         public async Task<bool> AcceptOrderAsync(string id, string driverId)
@@ -324,6 +327,28 @@ namespace TravelApp.Services.OrderService
                 return true;
             }
             return false;
+        }
+
+        public async Task<bool> MakeOrderInWaitingAsync(string id)
+        {
+            var currentOrder = this.GetOrderById(id);
+
+            if (currentOrder != null)
+            {
+                //TODO: ERRS
+                currentOrder.Status = "Waiting";
+                currentOrder.AcceptedBy = "";
+
+                _ = driverService.RemoveDriving(currentOrder.AcceptedBy);
+
+                this.orderRepository.Update(currentOrder);
+
+                await this.orderRepository.SaveChangesAsync();
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Problem in status.");
         }
     }
 }

@@ -9,6 +9,7 @@ using TravelApp.Infrastructure.InputModels.DriverInput;
 using TravelApp.Infrastructure.ViewModels;
 using TravelApp.Mappings;
 using TravelApp.Models;
+using TravelApp.Services.Account;
 using TravelApp.Services.CarService;
 using TravelApp.Services.WalletService;
 
@@ -19,12 +20,14 @@ namespace TravelApp.Services.DriverService
         private readonly IRepository<Driver> repository;
         private readonly IWalletService walletService;
         private readonly ICarService carService;
+        private readonly IAccountService accountService;
 
-        public DriverService(IRepository<Driver> repository, IWalletService walletService, ICarService carService)
+        public DriverService(IRepository<Driver> repository, IWalletService walletService, ICarService carService, IAccountService accountService)
         {
             this.repository = repository;
             this.walletService = walletService;
             this.carService = carService;
+            this.accountService = accountService;
         }
 
         public async Task<bool> AddCarToDriver(string driverId, string carId)
@@ -157,6 +160,15 @@ namespace TravelApp.Services.DriverService
             }
 
             return false;
+        }
+
+        public async Task<bool> RemoveDriving(string id)
+        {
+            var driver = this.GetById(id);
+
+            var r = await accountService.UpdateUserAsync(driver.ApplicationUserId, false);
+
+            return r;
         }
 
         public bool UpdateDriverRating(Driver driver)
