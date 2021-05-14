@@ -24,19 +24,17 @@
   
 </ion-content>
 
-<ion-footer class="ion-no-border">
-  <ion-toolbar>
+<ion-footer>
+  <ion-toolbar class="text-center">
     <!-- <ion-title>Choosen location</ion-title> -->
-
-      <ion-button (click)="onSubmit()" color="medium" expand="block">{{'Take me from here' | translate}}</ion-button>
-      <!-- <img class="mr-3" (click)="onSubmit()" src="../../../assets/Daco_4674738.png" width="40" height="40"> -->
-
+    <button (click)="onSubmit()" class="btn btn-info text-center">{{'Take me from here' | translate}}</button>
+    
   </ion-toolbar>
 </ion-footer>
 
-<ion-footer class="ion-no-border">
-  <ion-toolbar>
-    <ion-title>{{address}}</ion-title>
+<ion-footer>
+  <ion-toolbar class="text-center">
+    <p>{{address}}</p>
   </ion-toolbar>
 
   
