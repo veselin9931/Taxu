@@ -1,4 +1,4 @@
-<ion-content padding class="noScroll">
+<ion-content>
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
@@ -18,9 +18,82 @@
   <div #map id="map"></div>
 </ion-content>
 
-<ion-footer class="ion-no-border">
-  <ion-toolbar class="text-center">
-    <ion-text class="textTravel">
+<ion-footer>
+
+  <div class="row">
+    <div class="col">
+      <div class="list-group">
+
+        <a class="list-group-item list-group-item-action flex-column align-items-start">
+          <p>{{firstName}} {{lastName}} {{'will arrive with' | translate}} {{carColor}}
+            {{carModel}} {{'in about'| translate}} {{estimatedDuration}}.</p>
+          <hr />
+          <p>
+            <ion-icon class="mr-2" name="analytics-outline"></ion-icon>{{destination}}
+          </p>
+          <hr />
+          <p *ngIf="this.accountService.userValue.alertTriggered == true">
+            Price: {{totalPrice}}$ | {{secsDiff * 1000 | date:'mm:ss' }}
+          </p>
+          <p *ngIf="this.accountService.userValue.alertTriggered == false">
+            Price: {{totalPrice}}$
+          </p>
+          <div class="d-flex w-100 justify-content-between">
+            <button (click)="chat()" class="fonted btn btn-secondary mr-1" (click)="clearMessages()" type="button">
+              {{'Chat' | translate}}
+            </button>
+
+            <button class="fonted btn btn-info" (click)="addToFavourite()" type="button">
+              {{'Add to favourites' | translate}}
+            </button>
+
+            <button (click)="cancelTrip()" class="fonted btn btn-warning ml-1" type="button">
+              {{'Cancel' | translate}}
+            </button>
+          </div>
+          <br />
+          <ion-label class="blink_me fonted" *ngIf="messages.length != 0  && chatStyle == 'none'">
+            {{
+            'You have new message' |
+            translate
+            }}.
+          </ion-label>
+          <div id="chat" style="display: none;" class="row chat">
+
+            <div class="col">
+              <ion-card>
+        
+                <div class="msg-box">
+                  <ul *ngIf="this.msgInboxArray.length == 0" class="text-center mr-5">
+                    <li class="fonted">{{'No messages for now' | translate}}</li>
+                  </ul>
+                  <ul *ngFor="let mObj of msgInboxArray">
+                    <li class="fonted" [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
+                      {{mObj.user}}:
+                      {{mObj.text}}
+                    </li>
+        
+                  </ul>
+                </div>
+              </ion-card>
+        
+              <ion-card class="type">
+                <ion-item>
+                  <ion-input [(ngModel)]="msgDto.text" [placeholder]='"Type your message..." | translate'>
+        
+                  </ion-input>
+                  <ion-icon (click)="send()" name="send-outline"></ion-icon>
+        
+                </ion-item>
+              </ion-card>
+            </div>
+        
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- <ion-text class="textTravel">
       {{'Your driver' | translate}} {{firstName}} {{lastName}} {{'will arrive with' | translate}} {{carColor}}
       {{carModel}} {{'in about'| translate}} {{estimatedDuration}}
       <p>
@@ -32,11 +105,10 @@
 
       </p>
 
-    </ion-text>
-  </ion-toolbar>
+    </ion-text> -->
 </ion-footer>
 
-<ion-footer class="ion-no-border">
+<!-- <ion-footer class="ion-no-border">
   <ion-toolbar class="text-center">
     <ion-title class="fonted">{{'Your destination' | translate}}</ion-title>
     <ion-label class="fonted">{{destination}}</ion-label>
@@ -93,4 +165,4 @@
     </div>
 
   </div>
-</ion-footer>
+</ion-footer> -->
