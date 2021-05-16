@@ -292,7 +292,7 @@ namespace TravelApp.Controllers
             return this.BadRequest();
         }
 
-        [HttpPut("{orderId}/{driverId}")]
+        [HttpPut("waiting/{orderId}")]
         public async Task<IActionResult> MakeOrderInWaiting(string orderId)
         {
             var accepted = await this.orderService.MakeOrderInWaitingAsync(orderId);

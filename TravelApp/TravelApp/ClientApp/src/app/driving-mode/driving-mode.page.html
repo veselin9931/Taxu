@@ -55,7 +55,7 @@
     <button (click)="chat()" class="fonted btn btn-secondary ml-1" type="button" (click)="clearMessages()">
       {{'Chat'| translate}}</button>
 
-      <button (click)="onTheAddress()" type="button"
+      <button *ngIf="isStarted == true" (click)="onTheAddress()" type="button"
       class="fonted btn btn-info ml-1">Im on the address</button>
 
     <br />

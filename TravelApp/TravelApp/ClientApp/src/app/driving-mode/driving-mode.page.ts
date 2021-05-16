@@ -1,12 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import * as signalR from '@aspnet/signalr';
 import { Capacitor, Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { AnyTxtRecord } from 'dns';
 import { interval, Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { Message, Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { ChatService } from 'src/_services/chat/chat.service';
@@ -16,8 +14,8 @@ import { ProfitService } from 'src/_services/profit/profit.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { WalletService } from 'src/_services/wallet/wallet.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
-
-const { Geolocation } = Plugins;
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+// const { Geolocation } = Plugins;
 declare var google: any;
 @Component({
   selector: 'app-driving-mode',
@@ -39,6 +37,7 @@ export class DrivingModePage implements OnInit {
   driverId = this.tripService.currentTripDriverId;
   applicationUserId = this.accountService.userValue.id;
   isDrivingNow = this.accountService.userValue.isDrivingNow;
+  isStarted: boolean;
 
   order: Order;
   orders: Order[] = [];
@@ -70,6 +69,11 @@ export class DrivingModePage implements OnInit {
   orderDiv = document.getElementById("orderDiv");
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
 
+
+  id: any;
+  target: any;
+  options: any;
+
   constructor(private route: Router,
     private orderService: OrderService,
     private accountService: AccountService,
@@ -80,16 +84,14 @@ export class DrivingModePage implements OnInit {
     private profitService: ProfitService,
     private translate: TranslateService,
     private popoverController: PopoverController,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private gps: Geolocation) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+    this.watchPos();
   }
 
   ngOnInit() {
-
-
-
-    const source = interval(5000);
-    this.subscription = source.subscribe(val => this.changeMyLocation());
+    this.isStarted = false;
 
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
@@ -98,23 +100,24 @@ export class DrivingModePage implements OnInit {
 
 
   ionViewDidEnter() {
-
     if (this.accountService.userValue.isDrivingNow == true) {
       this.getAcceptedTrip();
+     
       this.chatService.stop();
       this.chatService.start();
     }
   }
 
-  async changeMyLocation() {
-    const coordinates = await Geolocation.getCurrentPosition();
-    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+  async watchPos() {
+    let watch = this.gps.watchPosition();
 
-    this.myLat = myLatLng.lat.toString();
-    this.myLng = myLatLng.lng.toString();
-
-    this.driverService.locateDriver(this.accountService.userValue.driverId, this.myLat, this.myLng)
-      .subscribe(x => { });
+    watch.subscribe((data) => {
+      if('coords' in data){
+        this.driverService.locateDriver(this.accountService.userValue.driverId, data.coords.latitude.toString(), data.coords.longitude.toString())
+        .subscribe(x => { });
+      }
+      
+    })
   }
 
   async loadMap(mapRef: ElementRef) {
@@ -146,8 +149,8 @@ export class DrivingModePage implements OnInit {
   async navigateToUserAndCalculateDistance() {
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer();
-    const coordinates = await Geolocation.getCurrentPosition();
-    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+    const coordinates = this.gps.getCurrentPosition();
+    const myLatLng = { lat: (await coordinates).coords.latitude, lng: (await coordinates).coords.longitude };
     const userLatLng = { lat: this.order.locationLat, lng: this.order.locationLong };
     let userLat = +userLatLng.lat;
     let userLng = +userLatLng.lng;
@@ -168,20 +171,20 @@ export class DrivingModePage implements OnInit {
           if (Capacitor.getPlatform() === 'ios') {
             console.log('ios platform')
             directionsRenderer.setDirections(response);
-            window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`)
-            
+            window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
+            this.isStarted = true;
           }
 
           if (Capacitor.platform == 'web') {
             directionsRenderer.setDirections(response);
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-            
+            this.isStarted = true;
           }
 
           if (Capacitor.platform == 'android') {
             directionsRenderer.setDirections(response);
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-            
+            this.isStarted = true;
           }
 
 
@@ -197,8 +200,8 @@ export class DrivingModePage implements OnInit {
   async navigateToPointAndCalculateDistance() {
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer();
-    const coordinates = await Geolocation.getCurrentPosition();
-    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+    const coordinates = this.gps.getCurrentPosition();
+    const myLatLng = { lat: (await coordinates).coords.latitude, lng: (await coordinates).coords.longitude };
     const userLatLng = { lat: this.order.destinationLat, lng: this.order.destinationLong };
     let userLat = +userLatLng.lat;
     let userLng = +userLatLng.lng;
@@ -228,7 +231,7 @@ export class DrivingModePage implements OnInit {
             directionsRenderer.setDirections(response);
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
             this.startTrip();
-            
+
           }
         } else {
           console.log("failed")
@@ -326,8 +329,8 @@ export class DrivingModePage implements OnInit {
 
   async calculateEta(order) {
     const directionsService = new google.maps.DirectionsService();
-    const coordinates = await Geolocation.getCurrentPosition();
-    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+    const coordinates = this.gps.getCurrentPosition();
+    const myLatLng = { lat: (await coordinates).coords.latitude, lng: (await coordinates).coords.longitude };
     directionsService.route(
       {
         origin: {
@@ -364,13 +367,13 @@ export class DrivingModePage implements OnInit {
 
           return;
         }
-        
+
         this.tripStatus = x.status;
         this.currentTrip = x;
 
         this.orderService.getOrderById(x.orderId).subscribe(order => {
           x.order = order;
-          
+
           this.order = x.order;
           this.loadMap(this.mapRef);
 
@@ -399,7 +402,7 @@ export class DrivingModePage implements OnInit {
 
   async onTheAddress() {
     this.orderService.updateDriverArrived(this.order.id)
-      .subscribe(() => {});
+      .subscribe(() => { });
   }
 
   async cancelTrip() {

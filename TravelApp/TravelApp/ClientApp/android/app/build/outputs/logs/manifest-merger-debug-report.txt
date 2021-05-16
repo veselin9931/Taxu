@@ -18,7 +18,7 @@ INJECTED from C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\m
 MERGED from [:capacitor-android] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-50:12
 MERGED from [com.google.android.material:material:1.1.0-rc02] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\102b3c44740e06a0c65ab0c577ce7e61\material-1.1.0-rc02\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\d38bcf900577a63e0da310b3fe272179\appcompat-1.1.0\AndroidManifest.xml:17:1-24:12
-MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-18:12
+MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-24:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\61e488a7b48ffc8255adc230dafa50f0\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\283499019944b954344c21ecf1019372\jetified-viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:firebase-messaging:20.1.2] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6fe0f05486c9f14086b1b659ca69db6\jetified-firebase-messaging-20.1.2\AndroidManifest.xml:17:1-44:12
@@ -92,8 +92,8 @@ MERGED from [:capacitor-android] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientAp
 MERGED from [:capacitor-android] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-48:19
 MERGED from [com.google.android.material:material:1.1.0-rc02] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\102b3c44740e06a0c65ab0c577ce7e61\material-1.1.0-rc02\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.1.0-rc02] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\102b3c44740e06a0c65ab0c577ce7e61\material-1.1.0-rc02\AndroidManifest.xml:22:5-20
-MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-16:19
-MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-16:19
+MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:5-22:19
+MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:5-22:19
 MERGED from [com.google.firebase:firebase-messaging:20.1.2] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6fe0f05486c9f14086b1b659ca69db6\jetified-firebase-messaging-20.1.2\AndroidManifest.xml:22:5-42:19
 MERGED from [com.google.firebase:firebase-messaging:20.1.2] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6fe0f05486c9f14086b1b659ca69db6\jetified-firebase-messaging-20.1.2\AndroidManifest.xml:22:5-42:19
 MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\febea47f8deaefcdcab072224acc8dc4\jetified-play-services-location-17.0.0\AndroidManifest.xml:7:5-20
@@ -186,8 +186,8 @@ ADDED from C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main
 		ADDED from C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:30:23-65
 uses-permission#android.permission.INTERNET
 ADDED from C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:48:5-67
-MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-67
-MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-67
+MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-67
+MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:5-67
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-installations:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\1fc34a2957977e5d72908a2cfd4e5c7c\jetified-firebase-installations-16.0.0\AndroidManifest.xml:11:5-67
@@ -218,8 +218,8 @@ ADDED from C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main
 		ADDED from C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:55:19-63
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\app\src\main\AndroidManifest.xml:57:5-79
-MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
-MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-79
+MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:5-79
+MERGED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:5-79
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:22:5-79
 MERGED from [com.google.firebase:firebase-iid:20.1.1] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\199793d6c6cd32607f7663b06913b6b0\jetified-firebase-iid-20.1.1\AndroidManifest.xml:22:5-79
 MERGED from [com.google.firebase:firebase-installations:16.0.0] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\1fc34a2957977e5d72908a2cfd4e5c7c\jetified-firebase-installations-16.0.0\AndroidManifest.xml:10:5-79
@@ -446,6 +446,16 @@ action#android.intent.action.QUICKBOOT_POWERON
 ADDED from [:capacitor-android] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:45:17-82
 	android:name
 		ADDED from [:capacitor-android] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\node_modules\@capacitor\android\capacitor\build\intermediates\library_manifest\debug\AndroidManifest.xml:45:25-79
+uses-permission#android.permission.CALL_PHONE
+ADDED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-69
+	android:name
+		ADDED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-66
+uses-feature#android.hardware.telephony
+ADDED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:5-16:36
+	android:required
+		ADDED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:9-33
+	android:name
+		ADDED from [:capacitor-cordova-android-plugins] C:\TaxiDeploy\Taxu\TravelApp\TravelApp\ClientApp\android\capacitor-cordova-android-plugins\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:9-50
 service#com.google.firebase.messaging.FirebaseMessagingService
 ADDED from [com.google.firebase:firebase-messaging:20.1.2] C:\Users\malek\.gradle\caches\transforms-2\files-2.1\c6fe0f05486c9f14086b1b659ca69db6\jetified-firebase-messaging-20.1.2\AndroidManifest.xml:28:9-34:19
 	android:exported

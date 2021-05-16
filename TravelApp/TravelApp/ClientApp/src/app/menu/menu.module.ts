@@ -12,6 +12,10 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguagePopoverPageModule } from '../language-popover/language-popover.module';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -31,6 +35,11 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
     LanguagePopoverPageModule
+  ],
+  providers: [
+    AndroidPermissions,
+    Geolocation,
+    LocationAccuracy,
   ],
   declarations: [MenuPage]
 })

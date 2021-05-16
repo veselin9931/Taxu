@@ -32,12 +32,18 @@
             <ion-icon class="mr-2" name="analytics-outline"></ion-icon>{{destination}}
           </p>
           <hr />
-          <p *ngIf="this.accountService.userValue.alertTriggered == true">
-            Price: {{totalPrice}}$ | {{secsDiff * 1000 | date:'mm:ss' }}
-          </p>
-          <p *ngIf="this.accountService.userValue.alertTriggered == false">
-            Price: {{totalPrice}}$
-          </p>
+          <div class="d-flex w-100 justify-content-between">
+            <p *ngIf="this.accountService.userValue.alertTriggered == true">
+              Price: {{totalPrice}}$ | {{secsDiff * 1000 | date:'mm:ss' }}
+            </p>
+            <p *ngIf="this.accountService.userValue.alertTriggered == false">
+              Price: {{totalPrice}}$
+            </p>
+            <button (click)="callDriver()" class="fonted btn btn-warning mb-1" (click)="clearMessages()" type="button"><ion-icon name="call" class="mr-2"></ion-icon>Call driver
+            </button>
+            
+          </div>
+          
           <div class="d-flex w-100 justify-content-between">
             <button (click)="chat()" class="fonted btn btn-secondary mr-1" (click)="clearMessages()" type="button">
               {{'Chat' | translate}}

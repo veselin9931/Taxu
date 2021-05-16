@@ -14,7 +14,7 @@ import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
-
+import { CallNumber } from '@ionic-native/call-number/ngx';
 const { Geolocation, LocalNotifications } = Plugins;
 declare var google: any;
 
@@ -41,6 +41,7 @@ export class TravelModePage implements OnInit {
   //User html properties
   firstName = "";
   lastName = "";
+  phoneNumber: any;
 
   location: string;
   destination: string;
@@ -67,7 +68,8 @@ export class TravelModePage implements OnInit {
     private alertController: AlertController,
     private chatService: ChatService,
     private translate: TranslateService,
-    private popoverController: PopoverController) {
+    private popoverController: PopoverController,
+    private callNumber: CallNumber) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
 
@@ -91,7 +93,7 @@ export class TravelModePage implements OnInit {
     connection.on('BroadcastMessage', () => {
       this.checkorder();
     });
-    
+
     connection.on('OrderAccepted', () => {
       this.presentOrderAcceptedNotification();
     });
@@ -103,7 +105,7 @@ export class TravelModePage implements OnInit {
         .subscribe(() => { });
 
       this.accountService.userValue.timer = new Date();
-      if(this.seconds == 60){
+      if (this.seconds == 60) {
         this.seconds = 0;
       }
       this.startTimer();
@@ -242,13 +244,20 @@ export class TravelModePage implements OnInit {
         this.firstName = userData.firstName;
         this.lastName = userData.lastName;
         this.driverId = userData.driverId;
-
+        this.phoneNumber = userData.phone;
         this.driverService.getDriverActiveCar(userData.driverId)
           .subscribe(car => {
             this.carModel = car.model;
             this.carColor = car.color;
           })
       })
+  }
+
+  callDriver() {
+    let phone = this.phoneNumber.toString();
+    this.callNumber.callNumber(phone, true)
+      .then(res => console.log('Launched dialer!', res))
+      .catch(err => console.log('Error launching dialer', err));
   }
 
   //Get current trip to manage data.
@@ -260,7 +269,7 @@ export class TravelModePage implements OnInit {
           return;
         }
         this.tripStatus = x.status;
-        if(x.status == 'Started'){
+        if (x.status == 'Started') {
           this.accountService.userValue.alertTriggered = false;
           this.accountService.updateAlert(this.user.id, false)
             .subscribe(() => { });
