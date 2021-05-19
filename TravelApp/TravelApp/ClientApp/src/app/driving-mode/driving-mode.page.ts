@@ -15,6 +15,8 @@ import { TripService } from 'src/_services/trip/trip.service';
 import { WalletService } from 'src/_services/wallet/wallet.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import * as signalR from '@aspnet/signalr';
+import { environment } from 'src/environments/environment';
 // const { Geolocation } = Plugins;
 declare var google: any;
 @Component({
@@ -96,13 +98,28 @@ export class DrivingModePage implements OnInit {
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
     this.getAcceptedTrip();
+
+    const connection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl(`${environment.signalRUrl}/orderHub`)
+      .build();
+
+    connection.start().then(function () {
+      console.log('signalR Connected in travel-mode');
+    }).catch(function (err) {
+      return console.log(err);
+    });
+
+    connection.on('OrderDeleted', () => {
+      this.canceledOrder();
+    });
   }
 
 
   ionViewDidEnter() {
     if (this.accountService.userValue.isDrivingNow == true) {
       this.getAcceptedTrip();
-     
+
       this.chatService.stop();
       this.chatService.start();
     }
@@ -112,11 +129,11 @@ export class DrivingModePage implements OnInit {
     let watch = this.gps.watchPosition();
 
     watch.subscribe((data) => {
-      if('coords' in data){
+      if ('coords' in data) {
         this.driverService.locateDriver(this.accountService.userValue.driverId, data.coords.latitude.toString(), data.coords.longitude.toString())
-        .subscribe(x => { });
+          .subscribe(x => { });
       }
-      
+
     })
   }
 
@@ -427,8 +444,16 @@ export class DrivingModePage implements OnInit {
 
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
+          text: 'Ok',
+          handler: () => {
+            this.accountService.userValue.isDrivingNow = false;
+
+            this.accountService.updateDriving(this.applicationUserId, false)
+              .subscribe(() => {
+                this.route.navigate(['menu/driving']);
+              });
+
+          }
         }
       ]
     });

@@ -4,7 +4,7 @@
   "parameters": {
     "resourceGroupName": {
       "type": "string",
-      "defaultValue": "free",
+      "defaultValue": "TaxiMi",
       "metadata": {
         "_parameterType": "resourceGroup",
         "description": "Name of the resource group for the resource. It is recommended to put resources under same resource group for better tracking."
@@ -36,7 +36,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('taksito', subscription().subscriptionId)))]",
+      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('TravelAppSignalR', subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
       "dependsOn": [
@@ -45,30 +45,20 @@
       "properties": {
         "mode": "Incremental",
         "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
           "resources": [
             {
-              "kind": "v12.0",
-              "location": "[parameters('resourceLocation')]",
-              "name": "taksito",
-              "type": "Microsoft.Sql/servers",
-              "apiVersion": "2017-10-01-preview"
-            },
-            {
               "sku": {
-                "name": "Basic",
-                "tier": "Basic",
-                "capacity": 5
+                "name": "Free_F1",
+                "tier": "Free",
+                "size": "F1",
+                "capacity": 1
               },
-              "kind": "v12.0,user",
               "location": "[parameters('resourceLocation')]",
-              "name": "taksito/taksito",
-              "type": "Microsoft.Sql/servers/databases",
-              "apiVersion": "2017-10-01-preview",
-              "dependsOn": [
-                "taksito"
-              ]
+              "name": "TravelAppSignalR",
+              "type": "Microsoft.SignalRService/SignalR",
+              "apiVersion": "2018-10-01"
             }
           ]
         }
@@ -76,6 +66,6 @@
     }
   ],
   "metadata": {
-    "_dependencyType": "mssql.azure"
+    "_dependencyType": "signalr.azure"
   }
 }

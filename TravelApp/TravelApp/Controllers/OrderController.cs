@@ -431,7 +431,7 @@ namespace TravelApp.Controllers
 
             if (order)
             {
-                await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.OrderDeleted();
                 return this.Ok();
             }
 

@@ -22,6 +22,7 @@ namespace TravelApp.Infrastructure.HubConfig
 
         Task OrderWaiting();
 
+        Task OrderDeleted();
 
         Task MessageReceived(string user, string message);
     }
