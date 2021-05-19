@@ -422,21 +422,32 @@ export class DrivingModePage implements OnInit {
       .subscribe(() => { });
   }
 
-  async cancelTrip() {
-    this.tripService.getTrip(this.applicationUserId)
-      .subscribe(trip => {
-        this.tripService.cancelTrip(trip.id)
-          .subscribe(x => {
-            this.accountService.updateDriving(this.applicationUserId, false)
-              .subscribe(() => {
-              });
-            this.accountService.userValue.isDrivingNow = false;
-            this.orderService.deleteOrder(trip.orderId)
-              .subscribe(() => this.route.navigate(['menu/driving']));
-
+  async cancelOrder() {
+    this.driverService.cancelOrderFromDriver(this.order.id)
+      .subscribe(x => {
+        this.accountService.userValue.isDrivingNow = false;
+        this.accountService.updateDriving(this.applicationUserId, false)
+          .subscribe(() => {
+            this.route.navigate(['menu/driving']);
           });
       })
   }
+
+  // async cancelTrip() {
+  //   this.tripService.getTrip(this.applicationUserId)
+  //     .subscribe(trip => {
+  //       this.tripService.cancelTrip(trip.id)
+  //         .subscribe(x => {
+  //           this.accountService.updateDriving(this.applicationUserId, false)
+  //             .subscribe(() => {
+  //             });
+  //           this.accountService.userValue.isDrivingNow = false;
+  //           this.orderService.deleteOrder(trip.orderId)
+  //             .subscribe(() => this.route.navigate(['menu/driving']));
+
+  //         });
+  //     })
+  // }
 
   async canceledOrder() {
     const popup = await this.alertController.create({

@@ -98,6 +98,10 @@ export class TravelModePage implements OnInit {
       this.presentOrderAcceptedNotification();
     });
 
+    connection.on('OrderWaiting', () => {
+     this.canceledOrder();
+    });
+
     connection.on('NotifyArrived', () => {
       this.presentDriverArrivedNotification();
       this.accountService.userValue.alertTriggered = true;
@@ -421,12 +425,14 @@ export class TravelModePage implements OnInit {
 
   async canceledOrder() {
     const popup = await this.alertController.create({
-      header: 'Order is cancelled by the driver',
+      header: 'Order is cancelled by the driver.',
 
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
+          text: 'Ok',
+          handler: () => {
+            this.route.navigate(['menu/travelling']);
+          }
         }
       ]
     });

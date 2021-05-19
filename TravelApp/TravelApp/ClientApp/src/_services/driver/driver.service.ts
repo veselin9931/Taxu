@@ -126,7 +126,13 @@ export class DriverService {
       );
   }
 
-  
+  public cancelOrderFromDriver(orderId: string): Observable<Car> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Car>(`${environment.apiUrl}/api/order/waiting/${orderId}`, { headers, responseType: 'json' },)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
   handleError(error) {
     let errorMessage = '';
