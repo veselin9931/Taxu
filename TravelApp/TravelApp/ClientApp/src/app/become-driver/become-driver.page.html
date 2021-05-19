@@ -103,8 +103,9 @@
             </ion-text>
 
         </div>
+        <app-multi-file-upload></app-multi-file-upload>
         <div *ngIf="checker">
-            <app-multi-file-upload></app-multi-file-upload>
+
             <div class="col-md-4 mt-2">
                 <div class="progress form-group" *ngIf="progress > 0">
                     <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
@@ -119,19 +120,19 @@
                 </span>
             </div>
         </div>
-            <ion-list>
-                <ion-item *ngFor="let pic of pics">
-                    <ion-thumbnail item-left>
-                        <img src="{{pic.path}}" />	&nbsp;
-                    </ion-thumbnail>
-                    &nbsp;- {{pic.type}}
-                </ion-item>
-            </ion-list>
-        
+        <ion-list>
+            <ion-item *ngFor="let pic of pics">
+                <ion-thumbnail item-left>
+                    <img src="{{pic.path}}" />	&nbsp;
+                </ion-thumbnail>
+                &nbsp;- {{pic.type}}
+            </ion-item>
+        </ion-list>
+
 
         <div class="col-md-12 mt-3">
             <ion-button (click)="onSubmit()" type="submit" color="dark">Submit</ion-button>
-            
+
         </div>
     </ion-content>
 
