@@ -62,7 +62,7 @@ export class TravelModePage implements OnInit {
 
   constructor(private route: Router,
     private orderService: OrderService,
-    private accountService: AccountService,
+    public accountService: AccountService,
     private tripService: TripService,
     private driverService: DriverService,
     private alertController: AlertController,

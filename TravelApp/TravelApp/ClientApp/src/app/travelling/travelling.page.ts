@@ -48,7 +48,7 @@ export class TravellingPage implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder,
     private route: Router,
-    private orderService: OrderService,
+    public orderService: OrderService,
     private accountService: AccountService,
     private translate: TranslateService,
     private popoverController: PopoverController,

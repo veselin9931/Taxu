@@ -57,12 +57,14 @@
 
       <button *ngIf="isStarted == true" (click)="onTheAddress()" type="button"
       class="fonted btn btn-info ml-1">Im on the address</button>
-
+      <button (click)="cancelOrder()" class="fonted btn btn-warning ml-1" type="button">
+        {{'Cancel' | translate}}
+      </button>
     <br />
     <ion-label class="blink_me" *ngIf="messages.length != 0  && chatStyle == 'none'">{{'You have new message' |
       translate}}.</ion-label>
   </ion-toolbar>
-
+  
   <div id="chat" style="display: none;" class="row chat">
 
     <div class="col">

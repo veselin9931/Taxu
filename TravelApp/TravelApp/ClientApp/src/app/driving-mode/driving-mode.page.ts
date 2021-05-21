@@ -113,6 +113,10 @@ export class DrivingModePage implements OnInit {
     connection.on('OrderDeleted', () => {
       this.canceledOrder();
     });
+
+    connection.on('BroadcastMessage', () => {
+      console.log('kur')
+    });
   }
 
 

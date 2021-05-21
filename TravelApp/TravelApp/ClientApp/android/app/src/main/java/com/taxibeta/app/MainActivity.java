@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.taxibeta.app;
 
 import android.os.Bundle;
 

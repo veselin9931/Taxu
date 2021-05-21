@@ -10,7 +10,7 @@
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/taksito/databases/taksito",
       "type": "mssql.azure",
       "connectionId": "MSSQL",
-      "secretStore": "AzureAppSettings"
+      "secretStore": null
     }
   }
 }

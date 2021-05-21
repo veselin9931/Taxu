@@ -23,7 +23,7 @@ export class CategoriesPage implements OnInit {
     private translate: TranslateService,
     private accountService: AccountService,
     private route: Router,
-    private driverService: DriverService,
+    public driverService: DriverService,
     private orderService: OrderService) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }

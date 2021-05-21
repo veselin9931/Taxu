@@ -60,7 +60,8 @@ export class OrderDetailsPage implements OnInit {
     isDriverArrived: null,
     increasedByDriver: null,
     increaseAccepted: null,
-    increasedBy: null
+    increasedBy: null,
+    special: null
   };
   mapId: any
   orderDiv: any;
