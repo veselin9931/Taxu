@@ -106,6 +106,22 @@ namespace TravelApp.Controllers
         }
 
         // PUT api/<TripController>/5
+        [HttpPut("navigate/{id}")]
+        public async Task<IActionResult> NavigateToUser(string id)
+        {
+            var complete = await this.tripService.NavigateToUserAsync(id);
+
+            if (complete)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+
+                return this.Ok(complete);
+            }
+
+            return this.BadRequest();
+        }
+
+        // PUT api/<TripController>/5
         [HttpPut("cancel/{id}")]
         public async Task<IActionResult> CancelTrip(string id)
         {

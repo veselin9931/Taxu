@@ -116,5 +116,23 @@ namespace TravelApp.Services.TripService
 
             throw new InvalidOperationException("Completing a trip failed!");
         }
+
+        public async Task<bool> NavigateToUserAsync(string tripId)
+        {
+            var trip = this.GetTripById(tripId);
+
+            if (trip != null)
+            {
+                trip.Status = "Navigating";
+
+                this.tripRepository.Update(trip);
+
+                await this.tripRepository.SaveChangesAsync();
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Completing a trip failed!");
+        }
     }
 }
