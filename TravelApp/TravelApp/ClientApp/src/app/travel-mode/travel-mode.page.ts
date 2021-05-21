@@ -99,7 +99,7 @@ export class TravelModePage implements OnInit {
     });
 
     connection.on('OrderWaiting', () => {
-     this.canceledOrder();
+      this.canceledOrder();
     });
 
     connection.on('NotifyArrived', () => {
@@ -340,19 +340,39 @@ export class TravelModePage implements OnInit {
   }
 
   async cancelTrip() {
-    this.tripService.getTrip(this.orderAcceptedBy)
-      .subscribe(trip => {
-        this.tripService.cancelTrip(trip.id)
-          .subscribe(x => {
-            this.accountService.updateDriving(this.orderAcceptedBy, false)
-              .subscribe(() => {
-              });
-            this.accountService.userValue.isDrivingNow = false;
-            this.orderService.deleteOrder(trip.orderId)
-              .subscribe(() => this.route.navigate(['menu/travelling']));
+    this.alertForCancel();
+  }
 
-          });
-      })
+  async alertForCancel() {
+    const popup = await this.alertController.create({
+      header: 'Are you sure you want to cancel the order?',
+      message: 'Your rating will decrease!',
+      buttons: [
+        {
+          text: 'Confirm',
+          handler: () => {
+            this.tripService.getTrip(this.orderAcceptedBy)
+              .subscribe(trip => {
+                this.tripService.cancelTrip(trip.id)
+                  .subscribe(x => {
+                    this.accountService.updateDriving(this.orderAcceptedBy, false)
+                      .subscribe(() => {
+                      });
+                    this.accountService.userValue.isDrivingNow = false;
+                    this.orderService.deleteOrder(trip.orderId)
+                      .subscribe(() => this.route.navigate(['menu/travelling']));
+
+                  });
+              })
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    await popup.present();
   }
 
   async openLanguagePopover(ev) {

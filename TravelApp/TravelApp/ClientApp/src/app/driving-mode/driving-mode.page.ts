@@ -151,29 +151,30 @@ export class DrivingModePage implements OnInit {
   }
 
   async loadMap(mapRef: ElementRef) {
-    const userLocationLatLng = { lat: +this.order.locationLat, lng: +this.order.locationLong };
-    const options: google.maps.MapOptions = {
-      center: new google.maps.LatLng(userLocationLatLng.lat, userLocationLatLng.lng),
-      zoom: 15,
-      disableDefaultUI: true,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
+    if (this.order.locationLat && this.order.locationLong) {
+      const userLocationLatLng = { lat: +this.order.locationLat, lng: +this.order.locationLong };
+      const options: google.maps.MapOptions = {
+        center: new google.maps.LatLng(userLocationLatLng.lat, userLocationLatLng.lng),
+        zoom: 15,
+        disableDefaultUI: true,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      if (mapRef != null) {
+        this.map = new google.maps.Map(mapRef.nativeElement, options);
+      }
 
-    if (mapRef != null) {
-      this.map = new google.maps.Map(mapRef.nativeElement, options);
+      var icon = {
+        url: 'https://www.freeiconspng.com/uploads/-human-male-man-people-person-profile-red-user-icon--icon--23.png',
+        scaledSize: new window.google.maps.Size(25, 25),
+        anchor: { x: 10, y: 10 }
+      };
+
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(userLocationLatLng),
+        icon: icon,
+        map: this.map
+      });
     }
-
-    var icon = {
-      url: 'https://www.freeiconspng.com/uploads/-human-male-man-people-person-profile-red-user-icon--icon--23.png',
-      scaledSize: new window.google.maps.Size(25, 25),
-      anchor: { x: 10, y: 10 }
-    };
-
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(userLocationLatLng),
-      icon: icon,
-      map: this.map
-    });
   }
 
   async navigateToUserAndCalculateDistance() {
@@ -199,7 +200,7 @@ export class DrivingModePage implements OnInit {
       (response, status) => {
         if (status === "OK") {
           this.tripService.navigateToUser(this.currentTrip.id)
-            .subscribe(() => {});
+            .subscribe(() => { });
 
           if (Capacitor.getPlatform() === 'ios') {
             console.log('ios platform')
@@ -438,14 +439,34 @@ export class DrivingModePage implements OnInit {
   }
 
   async cancelOrder() {
-    this.driverService.cancelOrderFromDriver(this.order.id)
-      .subscribe(x => {
-        this.accountService.userValue.isDrivingNow = false;
-        this.accountService.updateDriving(this.applicationUserId, false)
-          .subscribe(() => {
-            this.route.navigate(['menu/driving']);
-          });
-      })
+    this.alertForCancel();
+  }
+
+  async alertForCancel() {
+    const popup = await this.alertController.create({
+      header: 'Are you sure you want to cancel the order?',
+      message: 'Your rating will decrease!',
+      buttons: [
+        {
+          text: 'Confirm',
+          handler: () => {
+            this.driverService.cancelOrderFromDriver(this.order.id)
+              .subscribe(x => {
+                this.accountService.userValue.isDrivingNow = false;
+                this.accountService.updateDriving(this.applicationUserId, false)
+                  .subscribe(() => {
+                    this.route.navigate(['menu/driving']);
+                  });
+              })
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    await popup.present();
   }
 
   async canceledOrder() {
