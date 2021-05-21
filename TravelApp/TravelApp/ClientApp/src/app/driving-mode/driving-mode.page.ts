@@ -17,6 +17,7 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 // const { Geolocation } = Plugins;
 declare var google: any;
 @Component({
@@ -87,7 +88,8 @@ export class DrivingModePage implements OnInit {
     private translate: TranslateService,
     private popoverController: PopoverController,
     private alertController: AlertController,
-    private gps: Geolocation) {
+    private gps: Geolocation,
+    private callNumber: CallNumber) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
     this.watchPos();
   }
@@ -115,7 +117,7 @@ export class DrivingModePage implements OnInit {
     });
 
     connection.on('BroadcastMessage', () => {
-      console.log('kur')
+      
     });
   }
 
@@ -127,6 +129,13 @@ export class DrivingModePage implements OnInit {
       this.chatService.stop();
       this.chatService.start();
     }
+  }
+
+  async callDriver() {
+    let phone = this.order.applicationUser.phone.toString();
+    this.callNumber.callNumber(phone, true)
+      .then(res => console.log('Launched dialer!', res))
+      .catch(err => console.log('Error launching dialer', err));
   }
 
   async watchPos() {
@@ -304,7 +313,6 @@ export class DrivingModePage implements OnInit {
     this.msgDto.text = '';
   }
 
-  //Navigate to user and discharge his wallet.
   startTrip() {
     this.tripService.startTrip(this.currentTrip.id)
       .subscribe(trip => {
@@ -436,22 +444,6 @@ export class DrivingModePage implements OnInit {
           });
       })
   }
-
-  // async cancelTrip() {
-  //   this.tripService.getTrip(this.applicationUserId)
-  //     .subscribe(trip => {
-  //       this.tripService.cancelTrip(trip.id)
-  //         .subscribe(x => {
-  //           this.accountService.updateDriving(this.applicationUserId, false)
-  //             .subscribe(() => {
-  //             });
-  //           this.accountService.userValue.isDrivingNow = false;
-  //           this.orderService.deleteOrder(trip.orderId)
-  //             .subscribe(() => this.route.navigate(['menu/driving']));
-
-  //         });
-  //     })
-  // }
 
   async canceledOrder() {
     const popup = await this.alertController.create({

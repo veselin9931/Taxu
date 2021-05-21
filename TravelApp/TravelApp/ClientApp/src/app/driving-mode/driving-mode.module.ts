@@ -12,7 +12,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguagePopoverPageModule } from '../language-popover/language-popover.module';
-
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -33,7 +33,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     LanguagePopoverPageModule,
   ],
   providers: [
-    Geolocation
+    Geolocation,
+    CallNumber,
   ],
   declarations: [DrivingModePage]
 })

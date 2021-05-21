@@ -23,7 +23,6 @@
   <ion-toolbar class="text-center">
     <ion-text class="textTravel">
       <ion-text class="centered" color="dark">
-        <p class="text">{{'Pick up address' | translate}} ({{distance}})</p>
         <p class="text">{{this.location}}</p>
       </ion-text>
     </ion-text>
@@ -38,9 +37,9 @@
         class="fonted btn btn-info">{{'Navigate to user' | translate}}</button>
       <button (click)="navigateToPointAndCalculateDistance()" type="button" color="primary"
       class="fonted btn btn-info ml-1" [disabled]="tripStatus=='!Processing'">{{'Start trip' | translate}}</button>
-      
+      <button (click)="callDriver()" class="fonted btn btn-warning ml-1" (click)="clearMessages()" type="button"><ion-icon name="call" class="mr-2"></ion-icon>Call driver
+      </button>
       <ion-text class="centered" color="dark">
-        <p class="text">{{'Drop off address' | translate}} ({{tripDistance}}km)</p>
         <p class="text">{{this.destination}}</p>
       </ion-text>
     </ion-text>
