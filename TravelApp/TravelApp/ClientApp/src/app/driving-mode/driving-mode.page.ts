@@ -117,7 +117,7 @@ export class DrivingModePage implements OnInit {
     });
 
     connection.on('BroadcastMessage', () => {
-      
+      this.getAcceptedTrip();
     });
   }
 
@@ -198,6 +198,9 @@ export class DrivingModePage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
+          this.tripService.navigateToUser(this.currentTrip.id)
+            .subscribe(() => {});
+
           if (Capacitor.getPlatform() === 'ios') {
             console.log('ios platform')
             directionsRenderer.setDirections(response);

@@ -53,7 +53,7 @@
               {{'Add to favourites' | translate}}
             </button>
 
-            <button (click)="cancelTrip()" class="fonted btn btn-warning ml-1" type="button">
+            <button *ngIf="this.tripStatus == 'Processing'" (click)="cancelTrip()" class="fonted btn btn-warning ml-1" type="button">
               {{'Cancel' | translate}}
             </button>
           </div>

@@ -54,9 +54,9 @@
     <button (click)="chat()" class="fonted btn btn-secondary ml-1" type="button" (click)="clearMessages()">
       {{'Chat'| translate}}</button>
 
-      <button *ngIf="isStarted == true" (click)="onTheAddress()" type="button"
+      <button *ngIf="tripStatus == 'Navigating'" (click)="onTheAddress()" type="button"
       class="fonted btn btn-info ml-1">Im on the address</button>
-      <button (click)="cancelOrder()" class="fonted btn btn-warning ml-1" type="button">
+      <button *ngIf="tripStatus == 'Processing'" (click)="cancelOrder()" class="fonted btn btn-warning ml-1" type="button">
         {{'Cancel' | translate}}
       </button>
     <br />
