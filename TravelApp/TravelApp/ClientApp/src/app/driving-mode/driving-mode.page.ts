@@ -14,11 +14,11 @@ import { ProfitService } from 'src/_services/profit/profit.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { WalletService } from 'src/_services/wallet/wallet.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-// const { Geolocation } = Plugins;
+
+const { Geolocation } = Plugins;
 declare var google: any;
 @Component({
   selector: 'app-driving-mode',
@@ -88,17 +88,16 @@ export class DrivingModePage implements OnInit {
     private translate: TranslateService,
     private popoverController: PopoverController,
     private alertController: AlertController,
-    private gps: Geolocation,
     private callNumber: CallNumber) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
-    this.watchPos();
+
   }
 
   ngOnInit() {
     this.isStarted = false;
-
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
+
     this.getAcceptedTrip();
 
     const connection = new signalR.HubConnectionBuilder()
@@ -107,7 +106,7 @@ export class DrivingModePage implements OnInit {
       .build();
 
     connection.start().then(function () {
-      console.log('signalR Connected in travel-mode');
+      console.log('signalR Connected in driving-mode');
     }).catch(function (err) {
       return console.log(err);
     });
@@ -117,7 +116,7 @@ export class DrivingModePage implements OnInit {
     });
 
     connection.on('BroadcastMessage', () => {
-      this.getAcceptedTrip();
+      // this.getAcceptedTrip();
     });
   }
 
@@ -125,6 +124,9 @@ export class DrivingModePage implements OnInit {
   ionViewDidEnter() {
     if (this.accountService.userValue.isDrivingNow == true) {
       this.getAcceptedTrip();
+      setInterval(() => {
+        this.watchPos();
+      }, 3000);
 
       this.chatService.stop();
       this.chatService.start();
@@ -139,49 +141,18 @@ export class DrivingModePage implements OnInit {
   }
 
   async watchPos() {
-    let watch = this.gps.watchPosition();
+    let coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
+    this.driverService.locateDriver(this.accountService.userValue.driverId, myLatLng.lat.toString(), myLatLng.lng.toString())
+      .subscribe(x => { });
 
-    watch.subscribe((data) => {
-      if ('coords' in data) {
-        this.driverService.locateDriver(this.accountService.userValue.driverId, data.coords.latitude.toString(), data.coords.longitude.toString())
-          .subscribe(x => { });
-      }
-
-    })
-  }
-
-  async loadMap(mapRef: ElementRef) {
-    if (this.order.locationLat && this.order.locationLong) {
-      const userLocationLatLng = { lat: +this.order.locationLat, lng: +this.order.locationLong };
-      const options: google.maps.MapOptions = {
-        center: new google.maps.LatLng(userLocationLatLng.lat, userLocationLatLng.lng),
-        zoom: 15,
-        disableDefaultUI: true,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      if (mapRef != null) {
-        this.map = new google.maps.Map(mapRef.nativeElement, options);
-      }
-
-      var icon = {
-        url: 'https://www.freeiconspng.com/uploads/-human-male-man-people-person-profile-red-user-icon--icon--23.png',
-        scaledSize: new window.google.maps.Size(25, 25),
-        anchor: { x: 10, y: 10 }
-      };
-
-      var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(userLocationLatLng),
-        icon: icon,
-        map: this.map
-      });
-    }
   }
 
   async navigateToUserAndCalculateDistance() {
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer();
-    const coordinates = this.gps.getCurrentPosition();
-    const myLatLng = { lat: (await coordinates).coords.latitude, lng: (await coordinates).coords.longitude };
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
     const userLatLng = { lat: this.order.locationLat, lng: this.order.locationLong };
     let userLat = +userLatLng.lat;
     let userLng = +userLatLng.lng;
@@ -203,21 +174,19 @@ export class DrivingModePage implements OnInit {
             .subscribe(() => { });
 
           if (Capacitor.getPlatform() === 'ios') {
+            window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
             console.log('ios platform')
             directionsRenderer.setDirections(response);
-            window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
             this.isStarted = true;
           }
-
-          if (Capacitor.platform == 'web') {
-            directionsRenderer.setDirections(response);
-            window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-            this.isStarted = true;
-          }
-
           if (Capacitor.platform == 'android') {
-            directionsRenderer.setDirections(response);
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+            directionsRenderer.setDirections(response);
+            this.isStarted = true;
+          }
+          else {
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+            directionsRenderer.setDirections(response);
             this.isStarted = true;
           }
 
@@ -227,6 +196,7 @@ export class DrivingModePage implements OnInit {
         }
       }
     );
+
     directionsRenderer.setMap(this.map);
   }
 
@@ -234,8 +204,8 @@ export class DrivingModePage implements OnInit {
   async navigateToPointAndCalculateDistance() {
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer();
-    const coordinates = this.gps.getCurrentPosition();
-    const myLatLng = { lat: (await coordinates).coords.latitude, lng: (await coordinates).coords.longitude };
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
     const userLatLng = { lat: this.order.destinationLat, lng: this.order.destinationLong };
     let userLat = +userLatLng.lat;
     let userLng = +userLatLng.lng;
@@ -256,16 +226,20 @@ export class DrivingModePage implements OnInit {
           if (Capacitor.getPlatform() == 'ios') {
             console.log('ios platform')
             directionsRenderer.setDirections(response);
-            window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`)
+            window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
             this.startTrip();
           }
-          if (Capacitor.getPlatform() == 'android' || Capacitor.getPlatform() == 'web') {
+          if (Capacitor.getPlatform() == 'android') {
             console.log('android or web platform')
-
             directionsRenderer.setDirections(response);
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
             this.startTrip();
-
+          }
+          else {
+            console.log('web platform')
+            directionsRenderer.setDirections(response);
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+            this.startTrip();
           }
         } else {
           console.log("failed")
@@ -275,19 +249,6 @@ export class DrivingModePage implements OnInit {
       }
     );
     directionsRenderer.setMap(this.map);
-  }
-
-  //CHAT
-  chat() {
-    var x = document.getElementById("chat");
-
-    if (x.style.display === "none") {
-      x.style.display = "block";
-      this.chatStyle = 'block';
-    } else {
-      x.style.display = "none";
-      this.chatStyle = 'none';
-    }
   }
 
   msgDto: Message = new Message();
@@ -362,8 +323,8 @@ export class DrivingModePage implements OnInit {
 
   async calculateEta(order) {
     const directionsService = new google.maps.DirectionsService();
-    const coordinates = this.gps.getCurrentPosition();
-    const myLatLng = { lat: (await coordinates).coords.latitude, lng: (await coordinates).coords.longitude };
+    const coordinates = await Geolocation.getCurrentPosition();
+    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
     directionsService.route(
       {
         origin: {
@@ -392,12 +353,6 @@ export class DrivingModePage implements OnInit {
     this.tripService.getTrip(this.driverId)
       .subscribe(x => {
         if (x == null) {
-          // this.accountService.updateDriving(this.applicationUserId, false)
-          //   .subscribe(() => {
-          //   });
-          // this.accountService.userValue.isDrivingNow = false;
-          // this.canceledOrder();
-
           return;
         }
 
@@ -408,7 +363,6 @@ export class DrivingModePage implements OnInit {
           x.order = order;
 
           this.order = x.order;
-          this.loadMap(this.mapRef);
 
           this.location = order.location;
           this.destination = order.destination;
@@ -452,12 +406,18 @@ export class DrivingModePage implements OnInit {
           handler: () => {
             this.driverService.cancelOrderFromDriver(this.order.id)
               .subscribe(x => {
-                this.accountService.userValue.isDrivingNow = false;
-                this.accountService.updateDriving(this.applicationUserId, false)
+                this.tripService.cancelTrip(this.currentTrip.id)
                   .subscribe(() => {
-                    this.route.navigate(['menu/driving']);
-                  });
-              })
+                    this.accountService.userValue.isDrivingNow = false;
+                    this.accountService.updateDriving(this.applicationUserId, false)
+                      .subscribe(() => {
+                        this.driverService.voteDown(this.accountService.userValue.driverId)
+                          .subscribe(() => {
+                            this.route.navigate(['menu/driving']);
+                          })
+                      });
+                  })
+              });
           }
         },
         {
@@ -483,7 +443,6 @@ export class DrivingModePage implements OnInit {
               .subscribe(() => {
                 this.route.navigate(['menu/driving']);
               });
-
           }
         }
       ]

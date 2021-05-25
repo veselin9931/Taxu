@@ -75,6 +75,7 @@ export class TravelModePage implements OnInit {
 
   async ngOnInit() {
     this.checkorder();
+
     await LocalNotifications.requestPermission();
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
@@ -210,7 +211,7 @@ export class TravelModePage implements OnInit {
     this.subscription = this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
-
+          
           this.totalPrice = data.totalPrice;
           this.orderStatus = data.status;
           this.orderAcceptedBy = data.acceptedBy;
@@ -221,7 +222,6 @@ export class TravelModePage implements OnInit {
           this.orderTotalPrice = data.totalPrice;
           this.order = data;
           this.estimatedDuration = data.eta;
-
 
           if (data.acceptedBy != null) {
             this.getUserById(data.acceptedBy);
@@ -265,8 +265,8 @@ export class TravelModePage implements OnInit {
   }
 
   //Get current trip to manage data.
-  getAcceptedTrip(driverId: string) {
-    this.tripService.getTrip(driverId)
+  getAcceptedTrip(userId: string) {
+    this.tripService.getTrip(userId)
       .subscribe(x => {
         if (x == null) {
           console.log("No trip!");
@@ -279,7 +279,7 @@ export class TravelModePage implements OnInit {
             .subscribe(() => { });
         }
         this.currentTrip = x;
-        this.loadMap(this.mapRef, driverId);
+        this.loadMap(this.mapRef, userId);
       });
   }
 

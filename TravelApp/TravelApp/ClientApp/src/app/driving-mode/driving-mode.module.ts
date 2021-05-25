@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { DrivingModePageRoutingModule } from './driving-mode-routing.module';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { DrivingModePage } from './driving-mode.page';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -33,7 +32,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     LanguagePopoverPageModule,
   ],
   providers: [
-    Geolocation,
     CallNumber,
   ],
   declarations: [DrivingModePage]

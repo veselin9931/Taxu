@@ -337,7 +337,7 @@ namespace TravelApp.Services.OrderService
             {
                 //TODO: ERRS
                 currentOrder.Status = "Waiting";
-                currentOrder.AcceptedBy = "";
+                currentOrder.AcceptedBy = null;
 
                 _ = driverService.RemoveDriving(currentOrder.AcceptedBy);
 

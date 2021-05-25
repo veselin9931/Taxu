@@ -6,7 +6,7 @@
 
     <ion-title>
       <ion-label>{{'Accepted order' | translate}}</ion-label>
-  </ion-title>
+    </ion-title>
 
     <ion-buttons slot="end">
       <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
@@ -14,23 +14,102 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding class="noScroll"> 
-  <div #map id="map"></div>
+<ion-content padding class="noScroll">
+
+  <div class="col-md-10">
+    <div id="orderDiv" class="list-group mt-2">
+
+      <a class="text list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1 fonted"></h5>
+        </div>
+        <p>
+          <ion-icon class="mr-2" name="analytics-outline"></ion-icon>{{this.location}}
+        </p>
+        <hr />
+        <p>
+          <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{this.destination}}
+        </p>
+        <div class="text-center">
+          <p> <button (click)="navigateToUserAndCalculateDistance()" type="button" [disabled]="tripStatus=='Started'"
+              class="fonted btn btn-info btn-sm btn-block">{{'Navigate to user' | translate}}</button></p>
+
+          <p>
+            <button (click)="navigateToPointAndCalculateDistance()" type="button" color="primary"
+              class="fonted btn btn-info btn-sm btn-block" [disabled]="tripStatus=='!Processing'">{{'Start trip' |
+              translate}}</button>
+          </p>
+          <p>
+            <button [disabled]="tripStatus=='Processing'" class="fonted btn btn-success btn-sm btn-block"
+              (click)="finishTrip()" type="button">
+              {{'Finish trip' | translate}}</button>
+          </p>
+
+          <p>
+            <button *ngIf="tripStatus == 'Navigating'" (click)="onTheAddress()" type="button"
+              class="fonted btn btn-info btn-sm btn-block">Im on the address</button>
+          </p>
+
+          <p>
+            <button (click)="callDriver()" class="fonted btn btn-warning btn-sm btn-block" (click)="clearMessages()"
+              type="button">
+              <ion-icon name="call" class="mr-2"></ion-icon>Call driver
+            </button>
+          </p>
+
+          <p>
+            <button *ngIf="tripStatus == 'Processing'" (click)="cancelOrder()"
+              class="fonted btn btn-warning btn-sm btn-block" type="button">
+              {{'Cancel' | translate}}
+            </button>
+          </p>
+        </div>
+
+      </a>
+    </div>
+  </div>
+
+
+  <!-- <div #map id="map"></div> -->
 </ion-content>
 
 
 <ion-footer class="ion-no-border page-wrap">
-  <ion-toolbar class="text-center">
-    <ion-text class="textTravel">
-      <ion-text class="centered" color="dark">
-        <p class="text">{{this.location}}</p>
-      </ion-text>
-    </ion-text>
-  </ion-toolbar>
+  <div id="chat" class="row chat">
+
+    <div class="col">
+      <ion-card>
+
+        <div class="msg-box">
+          <ul *ngIf="this.msgInboxArray.length == 0" class="text-center mr-5">
+            <li>{{'No messages for now' | translate}}</li>
+          </ul>
+          <ul *ngFor="let mObj of msgInboxArray">
+            <li [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
+              {{mObj.user}}:
+              {{mObj.text}}
+            </li>
+
+          </ul>
+        </div>
+      </ion-card>
+
+      <ion-card class="type">
+        <ion-item>
+          <ion-input [(ngModel)]="msgDto.text" [placeholder]='"Type your message..." | translate'>
+
+          </ion-input>
+          <ion-icon (click)="send()" name="send-outline"></ion-icon>
+
+        </ion-item>
+      </ion-card>
+    </div>
+
+  </div>
 </ion-footer>
 
 
-<ion-footer class="ion-no-border">
+<!-- <ion-footer class="ion-no-border">
   <ion-toolbar class="text-center">
     <ion-text class="textTravel">
       <button (click)="navigateToUserAndCalculateDistance()" type="button" [disabled]="tripStatus=='Started'"
@@ -45,9 +124,9 @@
     </ion-text>
 
   </ion-toolbar>
-</ion-footer>
+</ion-footer> -->
 
-<ion-footer class="ion-no-border site-footer">
+<!-- <ion-footer class="ion-no-border site-footer">
   <ion-toolbar class="text-center">
     <button [disabled]="tripStatus=='Processing'" class="fonted btn btn-success" (click)="finishTrip()" type="button">
       {{'Finish trip' | translate}}</button>
@@ -95,4 +174,4 @@
     </div>
 
   </div>
-</ion-footer>
+</ion-footer> -->

@@ -20,8 +20,6 @@ namespace TravelApp.Models
                 this.Id = Guid.NewGuid().ToString();
             }
 
-            public string RoleName { get; set; }
-
             public DateTime? DeletedOn { get; set; }
             public DateTime CreatedOn { get; set; }
             public DateTime? ModifiedOn { get; set; }
