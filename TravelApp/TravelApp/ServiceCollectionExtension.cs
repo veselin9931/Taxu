@@ -5,11 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelApp.Common.Repositories;
 using TravelApp.Data.Repositories;
 using TravelApp.Data.Seeding;
+using TravelApp.Models.Email.Settings;
 using TravelApp.Services.Account;
 using TravelApp.Services.CarService;
 using TravelApp.Services.CarType;
@@ -28,7 +30,6 @@ namespace TravelApp
     {
         public static IServiceCollection RegisterCustomServices(this IServiceCollection services)
         {
-
             services.AddTransient<ISeeder, RolesSeeder>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IOrderService, OrderService>();
@@ -40,7 +41,7 @@ namespace TravelApp
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IReportService, ReportService>();
             services.AddTransient<IProfitService, ProfitService>();
-
+            services.AddTransient<IMailService, MailService>();
             //services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddSingleton<IHttpContextAccessor,

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using TravelApp.Models.Email;
 
 namespace TravelApp.Services.EmailSender
 {
-    public interface IEmailSender
+    public interface IMailService
     {
-        void SendEmail(Message message);
-        Task SendEmailAsync(Message message);
+        Task SendEmailAsync(MailRequest message);
+
     }
 }

@@ -21,6 +21,7 @@ using System.Net.WebSockets;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.AspNetCore.Http;
+using TravelApp.Models.Email.Settings;
 
 namespace TravelApp
 {
@@ -105,7 +106,9 @@ namespace TravelApp
             services.RegisterRepositoryServices();
 
             services.RegisterCloudinary(Configuration);
-        
+
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+
             services.RegisterCustomServices();
 
 
