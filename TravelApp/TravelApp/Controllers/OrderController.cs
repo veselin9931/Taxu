@@ -367,6 +367,21 @@ namespace TravelApp.Controllers
             return this.BadRequest();
         }
 
+        [HttpPut("reset/{orderId}")]
+        public async Task<IActionResult> ResetIncreasing(string orderId)
+        {
+            var order = await this.orderService.ResetIncreasePriceAsync(orderId);
+
+            if (order)
+            {
+                await this.hub.Clients.All.BroadcastMessage();
+
+                return this.Ok();
+            }
+
+            return this.BadRequest();
+        }
+
         [HttpPut("increased/{orderId}/{amount}/{driverId}")]
         public async Task<IActionResult> UpdatePriceIncreased(string orderId, decimal amount, string driverId)
         {

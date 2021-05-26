@@ -16,6 +16,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -38,6 +39,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     AndroidPermissions,
+    BackgroundMode,
     Geolocation,
     LocationAccuracy,
   ],

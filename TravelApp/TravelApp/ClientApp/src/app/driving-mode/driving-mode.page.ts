@@ -66,7 +66,7 @@ export class DrivingModePage implements OnInit {
   distance: string;
   eta: string;
 
-  messages = this.chatService.messages;
+  //messages = this.chatService.messages;
   chatStyle = "";
 
   orderDiv = document.getElementById("orderDiv");
@@ -95,8 +95,8 @@ export class DrivingModePage implements OnInit {
 
   ngOnInit() {
     this.isStarted = false;
-    this.chatService.retrieveMappedObject()
-      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
+    //this.chatService.retrieveMappedObject()
+      //.subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
 
     this.getAcceptedTrip();
 
@@ -116,7 +116,13 @@ export class DrivingModePage implements OnInit {
     });
 
     connection.on('BroadcastMessage', () => {
-      // this.getAcceptedTrip();
+      this.tripService.getTrip(this.driverId)
+        .subscribe(x => {
+          if (x == null) {
+            return;
+          }
+          this.tripStatus = x.status;
+        })
     });
   }
 
@@ -128,8 +134,8 @@ export class DrivingModePage implements OnInit {
         this.watchPos();
       }, 3000);
 
-      this.chatService.stop();
-      this.chatService.start();
+      //this.chatService.stop();
+      //this.chatService.start();
     }
   }
 
@@ -261,13 +267,13 @@ export class DrivingModePage implements OnInit {
         return;
       } else {
         this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
-        var c = this.chatService.broadcastMessage(this.msgDto);
+        //var c = this.chatService.broadcastMessage(this.msgDto);
       }
     }
   }
 
   clearMessages() {
-    this.messages.length = 0;
+    //this.messages.length = 0;
   }
 
   addToInbox(obj: Message) {
@@ -360,7 +366,8 @@ export class DrivingModePage implements OnInit {
         this.currentTrip = x;
 
         this.orderService.getOrderById(x.orderId).subscribe(order => {
-          x.order = order;
+          if(order != null){
+            x.order = order;
 
           this.order = x.order;
 
@@ -382,7 +389,8 @@ export class DrivingModePage implements OnInit {
             .subscribe(s => {
               this.tripPriceForDriver = (order.totalPrice * (s.comission / 100));
             })
-
+          }
+        
         })
       });
   }

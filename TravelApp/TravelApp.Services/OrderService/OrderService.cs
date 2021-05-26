@@ -350,5 +350,20 @@ namespace TravelApp.Services.OrderService
 
             throw new InvalidOperationException("Problem in status.");
         }
+
+        public async Task<bool> ResetIncreasePriceAsync(string id)
+        {
+            var order = this.orderRepository.All()?.FirstOrDefault(x => x.Id == id);
+
+            if (order != null)
+            {
+                order.IncreasedByDriver = 0;
+                order.IncreasedBy = null;
+                await this.orderRepository.SaveChangesAsync();
+                this.orderRepository.Update(order);
+                return true;
+            }
+            return false;
+        }
     }
 }

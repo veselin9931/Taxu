@@ -55,6 +55,10 @@ export class DrivingPage implements OnInit {
     connection.on('BroadcastMessage', () => {
       this.getData();
     });
+
+    connection.on('OrderDeleted', () => {
+      this.getData();
+    });
   }
 
   ionViewDidEnter() {

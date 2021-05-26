@@ -46,7 +46,7 @@ export class TravelModePage implements OnInit {
   location: string;
   destination: string;
   totalPrice: any;
-  messages = this.chatService.messages;
+  //messages = this.chatService.messages;
   chatStyle = "";
   isDriverArrived: any;
   subscription: Subscription;
@@ -77,8 +77,8 @@ export class TravelModePage implements OnInit {
     this.checkorder();
 
     await LocalNotifications.requestPermission();
-    this.chatService.retrieveMappedObject()
-      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
+    // this.chatService.retrieveMappedObject()
+    //   .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
@@ -126,8 +126,8 @@ export class TravelModePage implements OnInit {
     if (this.accountService.userValue.alertTriggered == true) {
       this.startTimer();
     }
-    this.chatService.stop();
-    this.chatService.start();
+    // this.chatService.stop();
+    // this.chatService.start();
   }
 
   startTimer() {
@@ -183,20 +183,20 @@ export class TravelModePage implements OnInit {
   msgDto: Message = new Message();
   msgInboxArray: Message[] = [];
 
-  send(): void {
-    if (this.msgDto) {
-      if (this.msgDto.text.length == 0) {
-        window.alert("Text field is required.");
-        return;
-      } else {
-        this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
-        this.chatService.broadcastMessage(this.msgDto);                   // Send the message via a service
-      }
-    }
-  }
+  // send(): void {
+  //   if (this.msgDto) {
+  //     if (this.msgDto.text.length == 0) {
+  //       window.alert("Text field is required.");
+  //       return;
+  //     } else {
+  //       this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
+  //       this.chatService.broadcastMessage(this.msgDto);                   // Send the message via a service
+  //     }
+  //   }
+  // }
 
   clearMessages() {
-    this.messages.length = 0;
+    //this.messages.length = 0;
   }
 
   addToInbox(obj: Message) {

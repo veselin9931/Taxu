@@ -13,7 +13,7 @@ export class OrderService {
 
   public order: Order;
   public orders = [];
-  public currentOrderId : string;
+  public currentOrderId: string;
 
   public driverId: string;
   public completedOrder = false;
@@ -40,13 +40,13 @@ export class OrderService {
       );
   }
 
-  addToFavourites(data){
+  addToFavourites(data) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.post(`${environment.apiUrl}/api/order/favourites`, data, { headers, responseType: 'text' })
-    .pipe(
-      catchError(this.handleError)
-    );
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   getMyFavourites(userId: string): Observable<FavouriteOrder[]> {
@@ -64,13 +64,13 @@ export class OrderService {
       );
   }
 
-  public getDirections(locationLat, locationLng, destinationLat, destinationLng){
+  public getDirections(locationLat, locationLng, destinationLat, destinationLng) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.post(`https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${locationLat},${locationLng}&destinations=${destinationLat}%2C${destinationLng}%7C&key=AIzaSyAEvlXdM4joG4bNVT5l-tJSk9lUSGhxMNw`, { headers, responseType: 'text' })
-    .pipe(
-      catchError(this.handleError)
-    );
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   getOrderById(id: string): Observable<Order> {
@@ -80,7 +80,7 @@ export class OrderService {
       );
   }
 
-  getLastCompletedOrder(userId: string): Observable<Order>{
+  getLastCompletedOrder(userId: string): Observable<Order> {
     return this.http.get<Order>(`${environment.apiUrl}/api/order/completed/${userId}`)
       .pipe(
         catchError(this.handleError)
@@ -174,7 +174,7 @@ export class OrderService {
 
   }
 
- deleteOrder(orderId: string): Observable<Order> {
+  deleteOrder(orderId: string): Observable<Order> {
     return this.http.delete<Order>(`${environment.apiUrl}/api/order/${orderId}`)
       .pipe(
         tap(data => console.log('deleted order: ', JSON.stringify(data))),
@@ -182,40 +182,50 @@ export class OrderService {
       );
   }
 
-  driverIncreaseOrderPrice(orderId:string, amount:number, driverId: string): Observable<Order> {
+  driverIncreaseOrderPrice(orderId: string, amount: number, driverId: string): Observable<Order> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.put<Order>(`${environment.apiUrl}/api/order/increased/${orderId}/${amount}/${driverId}`, { headers, responseType: 'json' },)
-    .pipe(
-      catchError(this.handleError)
-    );
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
-  increasedOrderAccept(orderId:string, value:boolean): Observable<Order> {
+  resetIncreasing(orderId: string): Observable<Order> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.put<Order>(`${environment.apiUrl}/api/order/reset/${orderId}`, { headers, responseType: 'json' },)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+
+  increasedOrderAccept(orderId: string, value: boolean): Observable<Order> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.put<Order>(`${environment.apiUrl}/api/order/accepted/increase/${orderId}/${value}`, { headers, responseType: 'json' },)
-    .pipe(
-      catchError(this.handleError)
-    );
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
-  incrementOrderPrice(orderId:string): Observable<Order> {
+  incrementOrderPrice(orderId: string): Observable<Order> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.put<Order>(`${environment.apiUrl}/api/order/increment/${orderId}`, { headers, responseType: 'json' },)
-    .pipe(
-      catchError(this.handleError)
-    );
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
-  decrementOrderPrice(orderId:string): Observable<Order> {
+  decrementOrderPrice(orderId: string): Observable<Order> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.put<Order>(`${environment.apiUrl}/api/order/decrement/${orderId}`, { headers, responseType: 'json' },)
-    .pipe(
-      catchError(this.handleError)
-    );
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   handleError(error) {

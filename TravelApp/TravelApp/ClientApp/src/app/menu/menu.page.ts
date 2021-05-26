@@ -9,8 +9,7 @@ import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.page.html',
@@ -54,12 +53,11 @@ export class MenuPage implements OnInit {
     private driverService: DriverService,
     private translate: TranslateService,
     private popoverController: PopoverController,
-    private androidPermissions: AndroidPermissions,
-    private geolocation: Geolocation,
-    private locationAccuracy: LocationAccuracy) {
+    private backgroundMode: BackgroundMode) {
       this.isLoggedIn = localStorage.getItem("user");
       if(this.isLoggedIn){
         this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+        this.backgroundMode.enable();
       } else {
         this.translate.setDefaultLang('en');
       }
@@ -118,58 +116,6 @@ export class MenuPage implements OnInit {
         this.router.navigate(['menu/home']);
     }
   }
-
-  //Check if application having GPS access permission  
-  checkGPSPermission() {
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
-      result => {
-        if (result.hasPermission) {
-
-          //If having permission show 'Turn On GPS' dialogue
-          this.askToTurnOnGPS();
-        } else {
-
-          //If not having permission ask for permission
-          this.requestGPSPermission();
-        }
-      },
-      err => {
-        alert(err);
-      }
-    );
-  }
-
-  requestGPSPermission() {
-    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
-      if (canRequest) {
-        console.log("4");
-      } else {
-        //Show 'GPS Permission Request' dialogue
-        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
-          .then(
-            () => {
-              // call method to turn on GPS
-              this.askToTurnOnGPS();
-            },
-            error => {
-              //Show alert if user click on 'No Thanks'
-              alert('requestPermission Error requesting location permissions ' + error)
-            }
-          );
-      }
-    });
-  }
-
-  askToTurnOnGPS() {
-    this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
-      () => {
-        // When GPS Turned ON call method to get Accurate location coordinates
-        console.log('Succes ask for gps')
-      },
-      error => alert('Error requesting location permissions ' + JSON.stringify(error))
-    );
-  }
-
 
   logout() {
     this.accountService.logout();
