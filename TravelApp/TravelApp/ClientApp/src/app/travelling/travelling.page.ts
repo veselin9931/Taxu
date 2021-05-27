@@ -61,7 +61,7 @@ export class TravellingPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    
+
     this.loading = true;
     this.form = this.formBuilder.group({
       applicationUserId: [''],
@@ -98,23 +98,28 @@ export class TravellingPage implements OnInit, OnDestroy {
       this.checkorder();
     });
 
-    connection.on('NotifyUser', () => {
-      this.subscription = this.orderService.getMyOrder(this.user.id)
+    connection.on("IncrementDecrement", (orderId) => {
+      this.orderService.getOrderById(orderId)
+        .subscribe((data) => {
+          (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
+          this.orderTotalPrice = data.totalPrice;
+        });
+    });
+
+    connection.on('OfferMorePrice', (orderId: string) => {
+      this.subscription = this.orderService.getOrderById(orderId)
         .subscribe(x => {
-          if (x.increasedByDriver >= 0.5) {
-            this.driverPrice = x.increasedByDriver;
-            this.driverIncreased = x.increasedByDriver + this.orderTotalPrice;
-            this.increasedOrder();
+          if(x.id == this.order.id){
+            if (x.increasedByDriver >= 0.5) {
+              this.driverPrice = x.increasedByDriver;
+              this.driverIncreased = x.increasedByDriver + this.orderTotalPrice;
+              this.increasedOrder();
+            }
           }
+          
         })
 
     });
-
-    connection.on('NotifyDriver', () => {
-
-    });
-
-
 
     connection.on('OrderAccepted', () => {
       console.log('Order Accepted')

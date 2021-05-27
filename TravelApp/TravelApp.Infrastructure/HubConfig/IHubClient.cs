@@ -10,26 +10,37 @@ namespace TravelApp.Infrastructure.HubConfig
     {
         Task BroadcastMessage();
 
+        Task CreatedAccount();
+
+        Task LoggedIn();
+        Task CarAction(string driverId);
+
+        Task WalletAction(string userId);
+        Task Voted(string driverId);
         Task CreatedOrder();
 
-        Task Navigate();
+        Task Navigate(string orderId);
 
+        Task IncrementDecrement(string orderId);
+
+        Task OfferMorePrice(string orderId);
+
+        Task NotifyDriver(string orderId);
 
         Task StartTrip();
 
-        Task NotifyUser();
+        Task CreateTrip();
 
-        Task NotifyArrived();
+        Task NotifyArrived(string orderId);
 
-        Task NotifyDriver();
 
-        Task OrderAccepted();
+        Task OrderAccepted(string orderId);
 
         Task OrderCompleted();
 
-        Task OrderWaiting();
+        Task OrderWaiting(string orderId);
 
-        Task OrderDeleted();
+        Task OrderDeleted(string orderId);
 
         Task MessageReceived(string user, string message);
     }

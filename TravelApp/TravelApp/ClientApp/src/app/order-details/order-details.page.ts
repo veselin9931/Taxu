@@ -103,24 +103,18 @@ export class OrderDetailsPage implements OnInit {
       return console.log(err);
     });
 
-    connection.on('NotifyDriver', () => {
-      this.orderService.getOrderById(this.order.id)
+    connection.on('NotifyDriver', (orderId: string) => {
+      this.orderService.getOrderById(orderId)
         .subscribe(order => {
-          if (order.increaseAccepted == true) {
-            this.IncreaseAccepted(order);
-
-          } else if (order.increaseAccepted == false) {
-            this.IncreaseRefused();
-          }
-
+          
+            if (order.increaseAccepted == true) {
+              this.IncreaseAccepted(order);
+  
+            } else if (order.increaseAccepted == false) {
+              this.IncreaseRefused();
+            }
+          
         })
-    });
-    connection.on('BroadcastMessage', () => {
-      
-    });
-
-    connection.on('NotifyUser', () => {
-      
     });
 
     // connection.on('OrderDeleted', () => {

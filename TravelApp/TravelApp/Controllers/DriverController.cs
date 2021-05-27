@@ -37,7 +37,7 @@ namespace TravelApp.Controllers
 
             if (result)
             {   
-                await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.Voted(driverId);
                 return this.Ok();
             }
 
@@ -51,7 +51,7 @@ namespace TravelApp.Controllers
 
             if (result)
             {
-                await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.Voted(driverId);
                 return this.Ok();
             }
 

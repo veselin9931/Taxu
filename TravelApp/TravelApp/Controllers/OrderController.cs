@@ -283,7 +283,7 @@ namespace TravelApp.Controllers
 
             if (accepted)
             {
-                await this.hub.Clients.All.OrderAccepted();
+                await this.hub.Clients.All.OrderAccepted(orderId);
                 await this.hub.Clients.All.BroadcastMessage();
                 
                 return this.Ok();
@@ -298,7 +298,7 @@ namespace TravelApp.Controllers
             var accepted = await this.orderService.MakeOrderInWaitingAsync(orderId);
             if (accepted)
             {
-                await this.hub.Clients.All.OrderWaiting();      
+                await this.hub.Clients.All.OrderWaiting(orderId);      
 
                 return this.Ok();
             }
@@ -359,7 +359,7 @@ namespace TravelApp.Controllers
 
             if (order)
             {
-                await this.hub.Clients.All.NotifyArrived();
+                await this.hub.Clients.All.NotifyArrived(orderId);
                 return this.Ok();
             }
 
@@ -388,7 +388,7 @@ namespace TravelApp.Controllers
 
             if (order)
             {
-                await this.hub.Clients.All.NotifyUser();
+                await this.hub.Clients.All.OfferMorePrice(orderId);
                 return this.Ok();
             }
 
@@ -402,7 +402,7 @@ namespace TravelApp.Controllers
 
             if (order)
             {
-                await this.hub.Clients.All.NotifyDriver();
+                await this.hub.Clients.All.NotifyDriver(orderId);
                 return this.Ok();
             }
 
@@ -416,7 +416,7 @@ namespace TravelApp.Controllers
 
             if (order)
             {
-                await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.IncrementDecrement(orderId);
                 return this.Ok();
             }
 
@@ -430,7 +430,8 @@ namespace TravelApp.Controllers
 
             if (order)
             {
-                await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.IncrementDecrement(orderId);
+
                 return this.Ok();
             }
 
@@ -445,7 +446,7 @@ namespace TravelApp.Controllers
 
             if (order)
             {
-                await this.hub.Clients.All.OrderDeleted();
+                await this.hub.Clients.All.OrderDeleted(id);
                 return this.Ok();
             }
 

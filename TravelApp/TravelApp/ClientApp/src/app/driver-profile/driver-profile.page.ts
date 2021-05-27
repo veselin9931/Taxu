@@ -49,7 +49,6 @@ export class DriverProfilePage implements OnInit {
   }
 
   ngOnInit() {
-    
     this.getDriver();
     this.getProfilePicture();
     this.getWalletAmount();
@@ -65,10 +64,23 @@ export class DriverProfilePage implements OnInit {
       return console.log(err);
     });
 
-    connection.on('BroadcastMessage', () => {
-      this.getDriver();
-      this.getCars();
+    connection.on('Voted', (driverId) => {
+      if (this.driverId == driverId) {
+        this.getDriver();
+      }
+    });
+
+    connection.on('CarAction', (driverId) => {
+      if (this.driverId == driverId) {
+        this.getCars();
+      }
+    });
+
+    connection.on('WalletAction', (userId) => {
       this.getWalletAmount();
+    });
+
+    connection.on('BroadcastMessage', () => {
       this.getProfilePicture();
     });
   }

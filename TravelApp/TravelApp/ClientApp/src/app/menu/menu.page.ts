@@ -89,7 +89,6 @@ export class MenuPage implements OnInit {
 
      connection.on('LoggedIn', () => {
        this.checkValues();
-       this.subscription.unsubscribe();
      });
   }
 

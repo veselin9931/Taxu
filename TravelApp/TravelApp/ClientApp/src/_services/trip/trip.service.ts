@@ -47,9 +47,9 @@ export class TripService {
 
   }
 
-  navigateToUser(tripId: string): Observable<Trip> {
+  navigateToUser(tripId: string, orderId: string): Observable<Trip> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/navigate/${tripId}`, { headers, responseType: 'json' },)
+    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/navigate/${tripId}/${orderId}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
       );

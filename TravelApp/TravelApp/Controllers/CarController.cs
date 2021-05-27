@@ -151,7 +151,7 @@ namespace TravelApp.Controllers
                 return this.Problem();
             }
 
-            await this.hub.Clients.All.BroadcastMessage();
+            await this.hub.Clients.All.CarAction(input.DriverId);
             return this.Content(car.Id);
         }
 
@@ -166,7 +166,7 @@ namespace TravelApp.Controllers
                 return this.BadRequest();
             }
 
-            await this.hub.Clients.All.BroadcastMessage();
+            await this.hub.Clients.All.CarAction(driverId);
             return this.Ok(result);
         }
 

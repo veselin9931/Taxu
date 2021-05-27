@@ -94,11 +94,11 @@ export class DrivingModePage implements OnInit {
   }
 
   ngOnInit() {
+    this.getAcceptedTrip();
     this.isStarted = false;
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
 
-    this.getAcceptedTrip();
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
@@ -111,17 +111,31 @@ export class DrivingModePage implements OnInit {
       return console.log(err);
     });
 
-    connection.on('OrderDeleted', () => {
-      this.canceledOrder();
+    connection.on('OrderDeleted', (orderId: string) => {
+      this.orderService.getOrderById(orderId)
+        .subscribe(order => {
+          if (order.acceptedBy == this.applicationUserId) {
+            this.canceledOrder();
+          }
+        })
     });
 
-    connection.on('BroadcastMessage', () => {
-      this.tripService.getTrip(this.driverId)
-        .subscribe(x => {
-          if (x == null) {
-            return;
+    connection.on('OrderAccepted', (orderId: string) => {
+      this.orderService.getOrderById(orderId)
+        .subscribe(order => {
+          if (order.acceptedBy == this.applicationUserId) {
+            this.getAcceptedTrip();
+
           }
-          this.tripStatus = x.status;
+        })
+    });
+
+    connection.on('Navigate', (orderId: string) => {
+      this.orderService.getOrderById(orderId)
+        .subscribe(order => {
+          if (order.acceptedBy == this.applicationUserId) {
+            this.getAcceptedTrip();
+          }
         })
     });
   }
@@ -175,7 +189,7 @@ export class DrivingModePage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
-          this.tripService.navigateToUser(this.currentTrip.id)
+          this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
             .subscribe(() => { });
 
           if (Capacitor.getPlatform() === 'ios') {
@@ -245,12 +259,12 @@ export class DrivingModePage implements OnInit {
           }
         } else {
           console.log("failed")
-          
+
           window.alert("Directions request failed due to " + status);
         }
       }
-      );
-      this.startTrip();
+    );
+    this.startTrip();
     directionsRenderer.setMap(this.map);
   }
 

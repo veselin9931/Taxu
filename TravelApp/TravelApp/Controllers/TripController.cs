@@ -65,8 +65,6 @@ namespace TravelApp.Controllers
 
             if (result == true)
             {
-                await this.hub.Clients.All.BroadcastMessage();
-
                 return this.Ok(result);
             }
 
@@ -106,14 +104,14 @@ namespace TravelApp.Controllers
         }
 
         // PUT api/<TripController>/5
-        [HttpPut("navigate/{id}")]
-        public async Task<IActionResult> NavigateToUser(string id)
+        [HttpPut("navigate/{id}/{orderId}")]
+        public async Task<IActionResult> NavigateToUser(string id, string orderId)
         {
             var complete = await this.tripService.NavigateToUserAsync(id);
 
             if (complete)
             {
-                await this.hub.Clients.All.Navigate();
+                await this.hub.Clients.All.Navigate(orderId);
 
                 return this.Ok(complete);
             }
@@ -129,8 +127,6 @@ namespace TravelApp.Controllers
 
             if (trip)
             {
-                await this.hub.Clients.All.BroadcastMessage();
-
                 return this.Ok(trip);
             }
 

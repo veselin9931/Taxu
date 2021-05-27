@@ -61,7 +61,7 @@ namespace TravelApp.Controllers
 
             if (result)
             {
-                await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.WalletAction(userId);
                 return this.Ok(result);
             }
 
@@ -76,7 +76,7 @@ namespace TravelApp.Controllers
 
             if (result)
             {
-                await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.WalletAction(userId);
                 return this.Ok(result);
             }
 

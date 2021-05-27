@@ -101,25 +101,40 @@ export class TravelModePage implements OnInit {
 
     });
 
-    connection.on('OrderAccepted', () => {
-      this.presentOrderAcceptedNotification();
+    connection.on('OrderAccepted', (orderId: string) => {
+      this.orderService.getOrderById(orderId)
+        .subscribe(order => {
+          if (order.id == this.order.id && order.status == 'Accepted') {
+            this.presentOrderAcceptedNotification();
+          }
+        })
     });
 
-    connection.on('OrderWaiting', () => {
-      this.canceledOrder();
+    connection.on('OrderWaiting', (orderId) => {
+      this.orderService.getMyOrder(this.user.id)
+        .subscribe(order => {
+          if (order.id == orderId) {
+            this.canceledOrder();
+          }
+        })
     });
 
-    connection.on('NotifyArrived', () => {
-      this.presentDriverArrivedNotification();
-      this.accountService.userValue.alertTriggered = true;
-      this.accountService.updateAlert(this.user.id, true)
-        .subscribe(() => { });
+    connection.on('NotifyArrived', (orderId: string) => {
+      this.orderService.getOrderById(orderId)
+        .subscribe(order => {
+          if (order.isDriverArrived == true && this.order.id == orderId) {
+            this.presentDriverArrivedNotification();
+            this.accountService.userValue.alertTriggered = true;
+            this.accountService.updateAlert(this.user.id, true)
+              .subscribe(() => { });
 
-      this.accountService.userValue.timer = new Date();
-      if (this.seconds == 60) {
-        this.seconds = 0;
-      }
-      this.startTimer();
+            this.accountService.userValue.timer = new Date();
+            if (this.seconds == 60) {
+              this.seconds = 0;
+            }
+            this.startTimer();
+          }
+        })
     });
 
 
@@ -140,7 +155,7 @@ export class TravelModePage implements OnInit {
     this.subscription = this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
-          
+
           this.totalPrice = data.totalPrice;
           this.orderStatus = data.status;
           this.orderAcceptedBy = data.acceptedBy;
@@ -196,7 +211,7 @@ export class TravelModePage implements OnInit {
       ]
     })
 
-   
+
   }
 
   async presentDriverArrivedNotification() {
@@ -250,7 +265,7 @@ export class TravelModePage implements OnInit {
     this.msgDto.text = '';
   }
 
-  
+
 
   getUserById(driverId: string) {
     this.accountService.getById(driverId)

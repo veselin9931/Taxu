@@ -112,7 +112,7 @@ namespace TravelApp.Controllers
 
             if (result != null)
             {
-                await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.CreatedAccount();
                 return this.Ok();
             }
 
@@ -154,7 +154,7 @@ namespace TravelApp.Controllers
             var tokenString = tokenHandler.WriteToken(token);
 
             // return basic user info (without password) and token to store client side
-            await this.hub.Clients.All.BroadcastMessage();
+            await this.hub.Clients.All.LoggedIn();
             return Ok(new
             {
                 Id = user.Id,

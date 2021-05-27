@@ -57,7 +57,7 @@ export class RegisterPage implements OnInit {
       return console.log(err.toString());
     });
 
-    connection.on('BroadcastMessage', () => {
+    connection.on('CreatedAccount', () => {
       this.onSubmit();
     });
   }
