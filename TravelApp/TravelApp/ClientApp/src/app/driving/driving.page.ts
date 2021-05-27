@@ -52,7 +52,7 @@ export class DrivingPage implements OnInit {
       return console.log(err);
     });
 
-    connection.on('BroadcastMessage', () => {
+    connection.on('CreatedOrder', () => {
       this.getData();
     });
 

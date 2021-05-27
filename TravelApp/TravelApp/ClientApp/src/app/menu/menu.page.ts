@@ -10,6 +10,7 @@ import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.page.html',
@@ -21,7 +22,7 @@ export class MenuPage implements OnInit {
   isVerified: boolean;
   documentConfirmed= false;
   driverCars = [];
-
+  subscription: Subscription;
   accessedPath = "";
 
   pages = [
@@ -86,8 +87,9 @@ export class MenuPage implements OnInit {
        return console.log(err.toString());
      });
 
-     connection.on('BroadcastMessage', () => {
+     connection.on('LoggedIn', () => {
        this.checkValues();
+       this.subscription.unsubscribe();
      });
   }
 
@@ -96,7 +98,7 @@ export class MenuPage implements OnInit {
 
     if (this.isLoggedIn) {
      
-      this.accountService.getById(this.accountService.userValue.id)
+      this.subscription = this.accountService.getById(this.accountService.userValue.id)
         .subscribe(x => {
           this.isVerified = x.isDriver;
 

@@ -89,12 +89,12 @@ export class TravellingPage implements OnInit, OnDestroy {
       return console.log(err);
     });
 
-    connection.on('BroadcastMessage', () => {
+    connection.on('CreatedOrder', () => {
       this.checkorder();
     });
 
     connection.on('NotifyUser', () => {
-      this.orderService.getMyOrder(this.user.id)
+      this.subscription = this.orderService.getMyOrder(this.user.id)
         .subscribe(x => {
           if (x.increasedByDriver >= 0.5) {
             this.driverPrice = x.increasedByDriver;
@@ -102,6 +102,7 @@ export class TravellingPage implements OnInit, OnDestroy {
             this.increasedOrder();
           }
         })
+
     });
 
     connection.on('NotifyDriver', () => {
@@ -116,7 +117,7 @@ export class TravellingPage implements OnInit, OnDestroy {
         .subscribe(x => {
           if (x.status == 'Accepted') {
             this.presentOrderAcceptedNotification();
-
+            this.checkorder();
           }
         })
     });
@@ -397,6 +398,7 @@ export class TravellingPage implements OnInit, OnDestroy {
                 .subscribe(() => {
                   this.orderService.increaseOrderPrice(order.id, this.driverPrice)
                     .subscribe(() => {
+                      this.subscription.unsubscribe();
                     })
                 })
             })
@@ -412,7 +414,9 @@ export class TravellingPage implements OnInit, OnDestroy {
 
                 })
               this.orderService.resetIncreasing(this.order.id)
-                .subscribe(() => { })
+                .subscribe(() => { 
+                  this.subscription.unsubscribe();
+                })
             })
           }
         },

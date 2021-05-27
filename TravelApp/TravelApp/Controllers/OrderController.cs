@@ -187,7 +187,7 @@ namespace TravelApp.Controllers
 
                     if (result != null)
                     {
-                        await this.hub.Clients.All.BroadcastMessage();
+                        await this.hub.Clients.All.CreatedOrder();
                         return this.Ok(result);
                     }
 
@@ -217,7 +217,7 @@ namespace TravelApp.Controllers
 
                     if (result != null)
                     {
-                        await this.hub.Clients.All.BroadcastMessage();
+                        //await this.hub.Clients.All.BroadcastMessage();
                         return this.Ok(result);
                     }
 
@@ -285,7 +285,7 @@ namespace TravelApp.Controllers
             {
                 await this.hub.Clients.All.OrderAccepted();
                 await this.hub.Clients.All.BroadcastMessage();
-
+                
                 return this.Ok();
             }
 
@@ -330,7 +330,6 @@ namespace TravelApp.Controllers
             if (complete)
             {
                 await this.hub.Clients.All.BroadcastMessage();
-                await this.hub.Clients.All.OrderCompleted();
 
                 return this.Ok();
             }

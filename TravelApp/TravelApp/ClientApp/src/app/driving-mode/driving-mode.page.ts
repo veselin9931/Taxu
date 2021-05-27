@@ -66,7 +66,7 @@ export class DrivingModePage implements OnInit {
   distance: string;
   eta: string;
 
-  //messages = this.chatService.messages;
+  messages = this.chatService.messages;
   chatStyle = "";
 
   orderDiv = document.getElementById("orderDiv");
@@ -95,8 +95,8 @@ export class DrivingModePage implements OnInit {
 
   ngOnInit() {
     this.isStarted = false;
-    //this.chatService.retrieveMappedObject()
-      //.subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
+    this.chatService.retrieveMappedObject()
+      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
 
     this.getAcceptedTrip();
 
@@ -134,8 +134,7 @@ export class DrivingModePage implements OnInit {
         this.watchPos();
       }, 3000);
 
-      //this.chatService.stop();
-      //this.chatService.start();
+
     }
   }
 
@@ -233,27 +232,25 @@ export class DrivingModePage implements OnInit {
             console.log('ios platform')
             directionsRenderer.setDirections(response);
             window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
-            this.startTrip();
           }
           if (Capacitor.getPlatform() == 'android') {
             console.log('android or web platform')
             directionsRenderer.setDirections(response);
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-            this.startTrip();
           }
           else {
             console.log('web platform')
             directionsRenderer.setDirections(response);
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-            this.startTrip();
           }
         } else {
           console.log("failed")
-
+          
           window.alert("Directions request failed due to " + status);
         }
       }
-    );
+      );
+      this.startTrip();
     directionsRenderer.setMap(this.map);
   }
 
@@ -267,13 +264,13 @@ export class DrivingModePage implements OnInit {
         return;
       } else {
         this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
-        //var c = this.chatService.broadcastMessage(this.msgDto);
+        var c = this.chatService.broadcastMessage(this.msgDto);
       }
     }
   }
 
   clearMessages() {
-    //this.messages.length = 0;
+    this.messages.length = 0;
   }
 
   addToInbox(obj: Message) {
@@ -361,36 +358,37 @@ export class DrivingModePage implements OnInit {
         if (x == null) {
           return;
         }
-
+        // this.chatService.stop();
+        // this.chatService.start();
         this.tripStatus = x.status;
         this.currentTrip = x;
 
         this.orderService.getOrderById(x.orderId).subscribe(order => {
-          if(order != null){
+          if (order != null) {
             x.order = order;
 
-          this.order = x.order;
+            this.order = x.order;
 
-          this.location = order.location;
-          this.destination = order.destination;
+            this.location = order.location;
+            this.destination = order.destination;
 
-          this.totalPrice = order.totalPrice;
+            this.totalPrice = order.totalPrice;
 
-          this.userLatitude = order.locationLat;
-          this.userLongitude = order.locationLong;
+            this.userLatitude = order.locationLat;
+            this.userLongitude = order.locationLong;
 
-          this.userDestinationLat = order.destinationLat;
-          this.userDestinationLng = order.destinationLong;
+            this.userDestinationLat = order.destinationLat;
+            this.userDestinationLng = order.destinationLong;
 
-          this.tripDistance = order.tripDistance;
-          this.calculateEta(order);
+            this.tripDistance = order.tripDistance;
+            this.calculateEta(order);
 
-          this.driverService.getDriver(this.accountService.userValue.driverId)
-            .subscribe(s => {
-              this.tripPriceForDriver = (order.totalPrice * (s.comission / 100));
-            })
+            this.driverService.getDriver(this.accountService.userValue.driverId)
+              .subscribe(s => {
+                this.tripPriceForDriver = (order.totalPrice * (s.comission / 100));
+              })
           }
-        
+
         })
       });
   }

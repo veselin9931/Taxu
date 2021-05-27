@@ -81,7 +81,7 @@ namespace TravelApp.Controllers
 
             if (complete)
             {
-                await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.OrderCompleted();
 
                 return this.Ok(complete);
             }
@@ -97,7 +97,7 @@ namespace TravelApp.Controllers
 
             if (complete)
             {
-                await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.StartTrip();
 
                 return this.Ok(complete);
             }
@@ -113,7 +113,7 @@ namespace TravelApp.Controllers
 
             if (complete)
             {
-                await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.Navigate();
 
                 return this.Ok(complete);
             }

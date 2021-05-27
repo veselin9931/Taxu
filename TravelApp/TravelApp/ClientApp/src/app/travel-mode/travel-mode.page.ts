@@ -46,7 +46,7 @@ export class TravelModePage implements OnInit {
   location: string;
   destination: string;
   totalPrice: any;
-  //messages = this.chatService.messages;
+  messages = this.chatService.messages;
   chatStyle = "";
   isDriverArrived: any;
   subscription: Subscription;
@@ -75,10 +75,11 @@ export class TravelModePage implements OnInit {
 
   async ngOnInit() {
     this.checkorder();
-
+    // this.chatService.stop();
+    // this.chatService.start();
     await LocalNotifications.requestPermission();
-    // this.chatService.retrieveMappedObject()
-    //   .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
+    this.chatService.retrieveMappedObject()
+      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
@@ -91,8 +92,13 @@ export class TravelModePage implements OnInit {
       return console.log(err);
     });
 
-    connection.on('BroadcastMessage', () => {
+    connection.on('StartTrip', () => {
       this.checkorder();
+    });
+
+    connection.on('Navigate', () => {
+      this.checkorder();
+
     });
 
     connection.on('OrderAccepted', () => {
@@ -119,6 +125,8 @@ export class TravelModePage implements OnInit {
 
     connection.on('OrderCompleted', () => {
       this.completedOrderAlert();
+      this.subscription.unsubscribe();
+
     });
   }
 
@@ -126,85 +134,6 @@ export class TravelModePage implements OnInit {
     if (this.accountService.userValue.alertTriggered == true) {
       this.startTimer();
     }
-    // this.chatService.stop();
-    // this.chatService.start();
-  }
-
-  startTimer() {
-    this.startTime = new Date(this.accountService.userValue.timer);
-    setInterval(() => {
-      if (this.secsDiff == 300) {
-        this.orderService.increaseOrderPrice(this.order.id, 1)
-          .subscribe(() => { });
-        return;
-      }
-      this.secsDiff = new Date().getTime() - this.startTime.getTime();
-
-      this.secsDiff = Math.floor(this.secsDiff / 1000);
-    }, 1000);
-  }
-
-  async presentOrderAcceptedNotification() {
-    await LocalNotifications.schedule({
-      notifications: [
-        {
-          title: "Order alert",
-          body: "Your order is accepted",
-          id: 1,
-        }
-      ]
-    })
-  }
-
-  async presentDriverArrivedNotification() {
-    await LocalNotifications.schedule({
-      notifications: [
-        {
-          title: "Order alert",
-          body: "Your driver is on the address",
-          id: 2,
-        }
-      ]
-    })
-  }
-
-  //CHAT FUNCTIONALLITY
-  chat() {
-    var x = document.getElementById("chat");
-
-    if (x.style.display === "none") {
-      x.style.display = "block";
-      this.chatStyle = 'block';
-    } else {
-      x.style.display = "none";
-      this.chatStyle = 'none';
-    }
-  }
-  msgDto: Message = new Message();
-  msgInboxArray: Message[] = [];
-
-  // send(): void {
-  //   if (this.msgDto) {
-  //     if (this.msgDto.text.length == 0) {
-  //       window.alert("Text field is required.");
-  //       return;
-  //     } else {
-  //       this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
-  //       this.chatService.broadcastMessage(this.msgDto);                   // Send the message via a service
-  //     }
-  //   }
-  // }
-
-  clearMessages() {
-    //this.messages.length = 0;
-  }
-
-  addToInbox(obj: Message) {
-    let newObj = new Message();
-    newObj.user = obj.user;
-    newObj.text = obj.text;
-    this.msgInboxArray.push(newObj);
-    this.msgDto.text = '';
   }
 
   checkorder() {
@@ -241,6 +170,87 @@ export class TravelModePage implements OnInit {
         })
 
   }
+
+  startTimer() {
+    this.startTime = new Date(this.accountService.userValue.timer);
+    setInterval(() => {
+      if (this.secsDiff == 300) {
+        this.orderService.increaseOrderPrice(this.order.id, 1)
+          .subscribe(() => { });
+        return;
+      }
+      this.secsDiff = new Date().getTime() - this.startTime.getTime();
+
+      this.secsDiff = Math.floor(this.secsDiff / 1000);
+    }, 1000);
+  }
+
+  async presentOrderAcceptedNotification() {
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: "Order alert",
+          body: "Your order is accepted",
+          id: 1,
+        }
+      ]
+    })
+
+   
+  }
+
+  async presentDriverArrivedNotification() {
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: "Order alert",
+          body: "Your driver is on the address",
+          id: 2,
+        }
+      ]
+    })
+  }
+
+  //CHAT FUNCTIONALLITY
+  chat() {
+    var x = document.getElementById("chat");
+
+    if (x.style.display === "none") {
+      x.style.display = "block";
+      this.chatStyle = 'block';
+    } else {
+      x.style.display = "none";
+      this.chatStyle = 'none';
+    }
+  }
+  msgDto: Message = new Message();
+  msgInboxArray: Message[] = [];
+
+  send(): void {
+    if (this.msgDto) {
+      if (this.msgDto.text.length == 0) {
+        window.alert("Text field is required.");
+        return;
+      } else {
+        this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
+        this.chatService.broadcastMessage(this.msgDto);                   // Send the message via a service
+      }
+    }
+  }
+
+  clearMessages() {
+    this.messages.length = 0;
+  }
+
+  addToInbox(obj: Message) {
+    let newObj = new Message();
+    newObj.user = obj.user;
+    newObj.text = obj.text;
+    this.msgInboxArray.push(newObj);
+    this.msgDto.text = '';
+  }
+
+  
 
   getUserById(driverId: string) {
     this.accountService.getById(driverId)
