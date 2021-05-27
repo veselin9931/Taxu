@@ -18,7 +18,10 @@ export class DestinationPage implements OnInit {
   address: string;
   map: any;
   latitude: any;
-  longitude: any;
+    longitude: any;
+    public loading: boolean;
+    public progress: number;
+
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
   @ViewChild('myButton') myButton: ElementRef;
 
@@ -40,7 +43,8 @@ export class DestinationPage implements OnInit {
   }
 
   onSubmit() {
-    this.orderService.chosenDestination = this.address;
+      this.orderService.chosenDestination = this.address;
+      this.loading = true;
     this.route.navigate(['menu/travelling'])
   }
 
