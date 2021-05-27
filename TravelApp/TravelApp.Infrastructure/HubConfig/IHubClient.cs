@@ -12,9 +12,6 @@ namespace TravelApp.Infrastructure.HubConfig
 
         Task CreatedOrder();
 
-        Task LoggedIn();
-
-
         Task Navigate();
 
 
