@@ -116,12 +116,21 @@ export class OrderDetailsPage implements OnInit {
         })
     });
     connection.on('BroadcastMessage', () => {
-
+      
     });
 
     connection.on('NotifyUser', () => {
-
+      
     });
+
+    // connection.on('OrderDeleted', () => {
+    //   this.orderService.getOrderById(this.orderId)
+    //   .subscribe(order => {
+    //     if (order == null) {
+    //       return this.OrderTaken();
+    //     }
+    //   })
+    // });
   }
 
   ionViewDidEnter() {

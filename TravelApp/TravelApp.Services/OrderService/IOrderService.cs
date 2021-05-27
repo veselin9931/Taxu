@@ -48,7 +48,10 @@ namespace TravelApp.Services.OrderService
 
         public Task<bool> UpdateIncreaseAcceptedAsync(string id, bool value);
 
+        public Task<bool> ResetIncreasePriceAsync(string id);
+        
         public Task<bool> UpdateDriverArrivedAsync(string id);
+        
 
         public Task<bool> IncreaseOrderPriceAsync(string id, decimal amount);
 

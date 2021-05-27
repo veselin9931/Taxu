@@ -100,10 +100,11 @@ export class TravellingPage implements OnInit, OnDestroy {
     connection.on('NotifyUser', () => {
       this.orderService.getMyOrder(this.user.id)
         .subscribe(x => {
-          this.increasedBy = x.increasedBy;
-          this.driverPrice = x.increasedByDriver;
-          this.driverIncreased = x.increasedByDriver + this.orderTotalPrice;
-          this.increasedOrder();
+          if (x.increasedByDriver >= 0.5) {
+            this.driverPrice = x.increasedByDriver;
+            this.driverIncreased = x.increasedByDriver + this.orderTotalPrice;
+            this.increasedOrder();
+          }
         })
     });
 
@@ -112,9 +113,16 @@ export class TravellingPage implements OnInit, OnDestroy {
     });
 
 
+
     connection.on('OrderAccepted', () => {
       console.log('Order Accepted')
-      this.presentOrderAcceptedNotification();
+      this.orderService.getMyOrder(this.user.id)
+        .subscribe(x => {
+          if (x.status == 'Accepted') {
+            this.presentOrderAcceptedNotification();
+
+          }
+        })
     });
 
   }
@@ -259,17 +267,17 @@ export class TravellingPage implements OnInit, OnDestroy {
     }
   }
 
-  increment(){
+  increment() {
     this.orderService.incrementOrderPrice(this.order.id)
-    .subscribe(()=> {});
+      .subscribe(() => { });
   }
 
-  decrement(){
-    if(this.orderTotalPrice >= 1){
+  decrement() {
+    if (this.orderTotalPrice >= 1) {
       this.orderService.decrementOrderPrice(this.order.id)
-      .subscribe(()=> {});
+        .subscribe(() => { });
     }
-    
+
   }
 
   //Order functionallity - waiting for driver
@@ -321,7 +329,7 @@ export class TravellingPage implements OnInit, OnDestroy {
       })
   }
 
-  
+
 
   onSelectCar($event) {
     let type = $event.detail.value;
@@ -405,10 +413,12 @@ export class TravellingPage implements OnInit, OnDestroy {
           text: 'Cancel',
           handler: () => {
             this.orderService.getMyOrder(this.user.id).subscribe(order => {
-                this.orderService.increasedOrderAccept(order.id, false)
-                    .subscribe(() => {
-                      
-                    })
+              this.orderService.increasedOrderAccept(order.id, false)
+                .subscribe(() => {
+
+                })
+              this.orderService.resetIncreasing(this.order.id)
+                .subscribe(() => { })
             })
           }
         },
