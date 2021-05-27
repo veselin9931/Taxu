@@ -19,14 +19,18 @@ import { LocalNotifications } from '@capacitor/core';
 })
 export class TravellingPage implements OnInit, OnDestroy {
   public currentTrip: Trip;
-  private user = this.accountService.userValue;
+    private user = this.accountService.userValue;
+    public loading: boolean;
+    public progress: number;
   isLoggedIn;
   order: Order;
   form: FormGroup;
   orderStatus: string;
   orderTotalPrice: any;
   orderTotalDestination: any;
-  estimatedDuration: any;
+    estimatedDuration: any;
+
+
   //Car html properties;
   carModel = "";
   carColor = "";
@@ -56,8 +60,8 @@ export class TravellingPage implements OnInit, OnDestroy {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
 
-  ngOnInit() {
-
+    ngOnInit() {
+    this.loading = true;
     this.form = this.formBuilder.group({
       applicationUserId: [''],
       location: this.orderService.chosenLocation,
@@ -278,7 +282,8 @@ export class TravellingPage implements OnInit, OnDestroy {
   }
 
   //Order functionallity - waiting for driver
-  checkorder() {
+    checkorder() {
+       
     this.subscription = this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
@@ -319,7 +324,8 @@ export class TravellingPage implements OnInit, OnDestroy {
             this.isCompleted = false;
             this.orderStatus = null;
             this.orderTotalPrice = 0;
-            this.clearForm();
+              this.clearForm();
+              this.isSubmitted = false;
           })
       })
   }
