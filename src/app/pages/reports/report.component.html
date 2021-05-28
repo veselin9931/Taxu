@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="title">All reports:</h5>
+            <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Problem description</th>
+      <th scope="col">Reported by</th>
+      <th scope="col">Suspected</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let report of reports" >
+      <td>
+        {{report.title}}
+      </td>
+      <td>
+        {{report.description}}
+      </td>
+      <td>
+        {{report.reporterId}}
+      </td>
+      <td *ngIf="report.suspectedUserId == null">
+        -
+      </td>
+      <td *ngIf="report.suspectedUserId != null">
+        {{report.suspectedUserId}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+      </div>
+
+    </div>
+  </div>
+</div>
