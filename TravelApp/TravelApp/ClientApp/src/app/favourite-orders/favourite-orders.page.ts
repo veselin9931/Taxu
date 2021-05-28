@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FavouriteOrder } from 'src/_models';
 import { AccountService } from 'src/_services';
@@ -16,7 +17,7 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 })
 export class FavouriteOrdersPage implements OnInit {
   favourites = [];
-
+  private subscriptions: Subscription[] = [];
   constructor(private orderService: OrderService,
     private accountService: AccountService,
     private alertController: AlertController,
@@ -46,11 +47,18 @@ export class FavouriteOrdersPage implements OnInit {
 
   }
 
+  ionViewDidLeave() {
+    for (const subscription of this.subscriptions) {
+      console.log(subscription)
+      subscription.unsubscribe();
+    }
+  }
+
   getMyOrders() {
-    this.orderService.getMyFavourites(this.accountService.userValue.id)
+    this.subscriptions.push(this.orderService.getMyFavourites(this.accountService.userValue.id)
       .subscribe(x => {
         this.favourites = x;
-      })
+      }))
   }
 
   useThis(favouriteOrder: FavouriteOrder) {
@@ -59,10 +67,10 @@ export class FavouriteOrdersPage implements OnInit {
   }
 
   remove(id: string) {
-    this.orderService.deleteFavouriteOrder(id)
+    this.subscriptions.push(this.orderService.deleteFavouriteOrder(id)
       .subscribe(x => {
         this.successDeletedFavourite();
-      })
+      }))
   }
 
   async openLanguagePopover(ev) {

@@ -10,6 +10,7 @@ import { OrderService } from 'src/_services/order/order.service';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-report',
@@ -17,6 +18,8 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
   styleUrls: ['./report.page.scss'],
 })
 export class ReportPage implements OnInit {
+  private subscriptions: Subscription[] = [];
+
   driver: Driver;
   userId: string;
   form: FormGroup;
@@ -41,10 +44,10 @@ export class ReportPage implements OnInit {
     private orderService: OrderService,
     private alertController: AlertController,
     private translate: TranslateService,
-    private popoverController: PopoverController) { 
-      this.userId = this.accountService.userValue.id; 
-      this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
-    }
+    private popoverController: PopoverController) {
+    this.userId = this.accountService.userValue.id;
+    this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+  }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -56,50 +59,54 @@ export class ReportPage implements OnInit {
     })
   }
 
+  ionViewDidLeave() {
+    for (const subscription of this.subscriptions) {
+      console.log(subscription)
+      subscription.unsubscribe();
+    }
+  }
+
   get f() { return this.form.controls; }
 
   reportType(event) {
     this.selectedReportType = event;
 
     if (this.selectedReportType == 1) {
-      this.accountService.getById(this.userId)
-      .subscribe(u => {
-        this.isDriver = u.isDriver;
-        if(u.isDriver){
-          this.orderService.getLastCompletedOrder(this.userId)
-          .subscribe(x => {
-            this.lastOrder = x;
-            this.accountService.getById(x.applicationUserId)
-              .subscribe(user => {
-                this.userFirstName = user.firstName;
-                this.userLastName = user.lastName;
-                this.suspectedUserId = this.lastOrder.applicationUserId;
-                this.reporterId = this.userId;
-              })
-            
-          });
-        } else {
-          this.orderService.getLastCompletedOrder(this.userId)
-          .subscribe(x => {
-            this.lastOrder = x;
-            this.accountService.getById(x.acceptedBy)
-              .subscribe(user => {
-                this.userFirstName = user.firstName;
-                this.userLastName = user.lastName;
-                this.driverService.getDriverActiveCar(user.driverId)
-                  .subscribe(car => {
-                    this.carModel = car.model;
-                    this.form.value.typeId = +this.form.value.typeId;
-                    this.suspectedUserId = user.driverId;
+      this.subscriptions.push(this.accountService.getById(this.userId)
+        .subscribe(u => {
+          this.isDriver = u.isDriver;
+          if (u.isDriver) {
+            this.subscriptions.push(this.orderService.getLastCompletedOrder(this.userId)
+              .subscribe(x => {
+                this.lastOrder = x;
+                this.subscriptions.push(this.accountService.getById(x.applicationUserId)
+                  .subscribe(user => {
+                    this.userFirstName = user.firstName;
+                    this.userLastName = user.lastName;
+                    this.suspectedUserId = this.lastOrder.applicationUserId;
                     this.reporterId = this.userId;
-                  })
-  
-              })
-          });
-        }
-      })
+                  }))
+              }));
+          } else {
+            this.subscriptions.push(this.orderService.getLastCompletedOrder(this.userId)
+              .subscribe(x => {
+                this.lastOrder = x;
+                this.subscriptions.push(this.accountService.getById(x.acceptedBy)
+                  .subscribe(user => {
+                    this.userFirstName = user.firstName;
+                    this.userLastName = user.lastName;
+                    this.subscriptions.push(this.driverService.getDriverActiveCar(user.driverId)
+                      .subscribe(car => {
+                        this.carModel = car.model;
+                        this.form.value.typeId = +this.form.value.typeId;
+                        this.suspectedUserId = user.driverId;
+                        this.reporterId = this.userId;
+                      }))
 
-      
+                  }))
+              }));
+          }
+        }))
     }
   }
 
@@ -114,23 +121,22 @@ export class ReportPage implements OnInit {
         this.form.value.suspectedUserId = this.suspectedUserId;
         this.form.value.reporterId = this.reporterId;
 
-        this.reportService.createReport(this.form.value)
+        this.subscriptions.push(this.reportService.createReport(this.form.value)
           .subscribe(report => {
             console.log("report created:");
             console.log(report)
             this.reportCompleted();
             this.clearForm();
-          })
+          }))
       } else {
         this.form.value.reporterId = this.userId;
-        this.reportService.createReport(this.form.value)
+        this.subscriptions.push(this.reportService.createReport(this.form.value)
           .subscribe(report => {
             console.log("report created:");
             console.log(report)
             this.reportCompleted();
             this.clearForm();
-          })
-
+          }))
       }
 
       console.log(this.form.value);
@@ -153,7 +159,7 @@ export class ReportPage implements OnInit {
         {
           text: 'Confirm',
           handler: data => {
-            if(this.isDriver == true){
+            if (this.isDriver == true) {
               this.route.navigate(['menu/driving']);
 
             } else {

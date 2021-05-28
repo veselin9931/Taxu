@@ -17,7 +17,7 @@ import { LocalNotifications } from '@capacitor/core';
   templateUrl: './travelling.page.html',
   styleUrls: ['./travelling.page.scss'],
 })
-export class TravellingPage implements OnInit, OnDestroy {
+export class TravellingPage implements OnInit {
   public currentTrip: Trip;
   private user = this.accountService.userValue;
   public loading: boolean;
@@ -48,7 +48,7 @@ export class TravellingPage implements OnInit, OnDestroy {
   isSubmitted = false;
   isCompleted = false;
 
-  subscription: Subscription;
+  private subscriptions: Subscription[] = [];
 
   constructor(private formBuilder: FormBuilder,
     private route: Router,
@@ -61,7 +61,6 @@ export class TravellingPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.loading = true;
     this.form = this.formBuilder.group({
       applicationUserId: [''],
@@ -99,39 +98,40 @@ export class TravellingPage implements OnInit, OnDestroy {
     });
 
     connection.on("IncrementDecrement", (orderId) => {
-      this.orderService.getOrderById(orderId)
+      this.subscriptions.push(this.orderService.getOrderById(orderId)
         .subscribe((data) => {
           (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
           this.orderTotalPrice = data.totalPrice;
-        });
+        }));
     });
 
     connection.on('OfferMorePrice', (orderId: string) => {
-      this.subscription = this.orderService.getOrderById(orderId)
+      this.subscriptions.push(this.orderService.getOrderById(orderId)
         .subscribe(x => {
-          if(x.id == this.order.id){
+          if (x.id == this.order.id) {
             if (x.increasedByDriver >= 0.5) {
               this.driverPrice = x.increasedByDriver;
               this.driverIncreased = x.increasedByDriver + this.orderTotalPrice;
               this.increasedOrder();
             }
           }
-          
-        })
-
+        }))
     });
 
     connection.on('OrderAccepted', () => {
       console.log('Order Accepted')
-      this.orderService.getMyOrder(this.user.id)
+      this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
         .subscribe(x => {
           if (x.status == 'Accepted') {
             this.presentOrderAcceptedNotification();
             this.checkorder();
           }
-        })
+        }))
     });
 
+    connection.on('LocateDriver', (driverId: string) => {
+      
+    });
   }
   async presentOrderAcceptedNotification() {
     await LocalNotifications.schedule({
@@ -144,9 +144,11 @@ export class TravellingPage implements OnInit, OnDestroy {
       ]
     })
   }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-    console.log('unsubscribed')
+  ionViewDidLeave() {
+    for (const subscription of this.subscriptions) {
+      console.log(subscription)
+      subscription.unsubscribe();
+    }
   }
 
   ionViewDidEnter() {
@@ -245,14 +247,14 @@ export class TravellingPage implements OnInit, OnDestroy {
           if (!this.form.valid) {
             return false;
           } else {
-            this.subscription = this.orderService.createOrder(this.form.value)
+            this.subscriptions.push(this.orderService.createOrder(this.form.value)
               .subscribe(x => {
                 this.form.value.locationLat = this.form.value.locationLat.toString();
                 this.form.value.locationLong = this.form.value.locationLong.toString();
                 this.orderStatus = this.form.value.status;
-                this.subscription = this.orderService.getMyOrder(this.user.id)
-                  .subscribe();
-              })
+                this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
+                  .subscribe());
+              }))
           }
         } else {
           this.isSubmitted = false;
@@ -270,28 +272,27 @@ export class TravellingPage implements OnInit, OnDestroy {
   selector($event) {
     let amount = +$event;
     if (amount != 0 || $event != "") {
-      this.subscription = this.orderService.increaseOrderPrice(this.order.id, amount)
-        .subscribe()
+      this.subscriptions.push(this.orderService.increaseOrderPrice(this.order.id, amount)
+        .subscribe());
     }
   }
 
   increment() {
-    this.orderService.incrementOrderPrice(this.order.id)
-      .subscribe(() => { });
+    this.subscriptions.push((this.orderService.incrementOrderPrice(this.order.id)
+      .subscribe(() => { })));
   }
 
   decrement() {
     if (this.orderTotalPrice >= 1) {
-      this.orderService.decrementOrderPrice(this.order.id)
-        .subscribe(() => { });
+      this.subscriptions.push(this.orderService.decrementOrderPrice(this.order.id)
+        .subscribe(() => { }));
     }
 
   }
 
   //Order functionallity - waiting for driver
   checkorder() {
-
-    this.subscription = this.orderService.getMyOrder(this.user.id)
+    this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
           this.orderService.currentOrderId = data.id;
@@ -321,21 +322,21 @@ export class TravellingPage implements OnInit, OnDestroy {
       },
         error => {
           console.log(error)
-        })
+        }))
   }
 
   cancelOrder() {
-    this.subscription = this.orderService.getMyOrder(this.user.id)
+    this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
-        this.subscription = this.orderService.deleteOrder(data.id)
+        this.subscriptions.push(this.orderService.deleteOrder(data.id)
           .subscribe(() => {
             this.isCompleted = false;
             this.orderStatus = null;
             this.orderTotalPrice = 0;
             this.clearForm();
             this.isSubmitted = false;
-          })
-      })
+          }))
+      }))
   }
 
 
@@ -407,31 +408,29 @@ export class TravellingPage implements OnInit, OnDestroy {
         {
           text: 'Accept',
           handler: () => {
-            this.orderService.getMyOrder(this.user.id).subscribe(order => {
-              this.orderService.increasedOrderAccept(order.id, true)
+            this.subscriptions.push(this.orderService.getMyOrder(this.user.id).subscribe(order => {
+              this.subscriptions.push(this.orderService.increasedOrderAccept(order.id, true)
                 .subscribe(() => {
-                  this.orderService.increaseOrderPrice(order.id, this.driverPrice)
+                  this.subscriptions.push(this.orderService.increaseOrderPrice(order.id, this.driverPrice)
                     .subscribe(() => {
-                      this.subscription.unsubscribe();
-                    })
-                })
-            })
+                    }))
+                }))
+            }))
 
           }
         },
         {
           text: 'Cancel',
           handler: () => {
-            this.orderService.getMyOrder(this.user.id).subscribe(order => {
-              this.orderService.increasedOrderAccept(order.id, false)
+            this.subscriptions.push(this.orderService.getMyOrder(this.user.id).subscribe(order => {
+              this.subscriptions.push(this.orderService.increasedOrderAccept(order.id, false)
                 .subscribe(() => {
 
-                })
-              this.orderService.resetIncreasing(this.order.id)
+                }))
+              this.subscriptions.push(this.orderService.resetIncreasing(this.order.id)
                 .subscribe(() => {
-                  this.subscription.unsubscribe();
-                })
-            })
+                }))
+            }))
           }
         },
       ]

@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { Plugins } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
+import { Subscription } from 'rxjs';
 
 const { Geolocation } = Plugins;
 declare var google: any;
@@ -29,6 +30,7 @@ export class DrivingPage implements OnInit {
 
   myLat: string;
   myLng: string;
+  private subscriptions: Subscription[] = [];
 
   constructor(private route: Router,
     private orderService: OrderService,
@@ -49,7 +51,8 @@ export class DrivingPage implements OnInit {
     connection.start().then(function () {
       console.log('signalR Connected in driving');
     }).catch(function (err) {
-      return console.log(err);
+      console.log("Reconnecting in 1 sec.");
+      setTimeout(() => connection.start(), 1000);
     });
 
     connection.on('CreatedOrder', () => {
@@ -65,7 +68,13 @@ export class DrivingPage implements OnInit {
     this.getMyLocation();
     this.categoryType = this.driverService.categoryType;
     this.getData();
+  }
 
+  ionViewDidLeave() {
+    for (const subscription of this.subscriptions) {
+      console.log(subscription)
+      subscription.unsubscribe();
+    }
   }
 
   async getMyLocation() {
@@ -101,7 +110,7 @@ export class DrivingPage implements OnInit {
   }
 
   getAllOrders(rating) {
-    this.orderService.getAllOrders()
+    this.subscriptions.push(this.orderService.getAllOrders()
       .subscribe(data => {
         if (data == null) {
           return;
@@ -142,12 +151,12 @@ export class DrivingPage implements OnInit {
           }, 1000);
         }
         this.calculateClosest();
-      })
+      }))
   }
 
   //Get normal orders based by rating
   getNormalOrders(rating) {
-    this.orderService.getNormalOrders()
+    this.subscriptions.push(this.orderService.getNormalOrders()
       .subscribe(data => {
         if (data == null) {
           return;
@@ -182,13 +191,12 @@ export class DrivingPage implements OnInit {
             this.orders = data;
           }, 1000);
         }
-
-      })
+      }))
   }
 
   //Get comfort orders based by rating
   getComfortOrders(rating) {
-    this.orderService.getComfortOrders()
+    this.subscriptions.push(this.orderService.getComfortOrders()
       .subscribe(data => {
         if (data == null) {
           return;
@@ -223,12 +231,12 @@ export class DrivingPage implements OnInit {
             this.orders = data;
           }, 1000);
         }
-      })
+      }))
 
   }
 
   getClosestOrders(rating) {
-    this.orderService.getAllOrders()
+    this.subscriptions.push(this.orderService.getAllOrders()
       .subscribe(data => {
         if (data == null) {
           return;
@@ -236,7 +244,7 @@ export class DrivingPage implements OnInit {
         this.calculateEta(data);
         this.driverService.categoryCloseCount = this.orders.length;
 
-      })
+      }))
   }
 
   calculateClosest() {

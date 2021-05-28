@@ -17,12 +17,13 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage implements OnInit {
+  private subscriptions: Subscription[] = [];
+
   isLoggedIn;
   driverId: string;
   isVerified: boolean;
   documentConfirmed= false;
   driverCars = [];
-  subscription: Subscription;
   accessedPath = "";
 
   pages = [
@@ -62,7 +63,7 @@ export class MenuPage implements OnInit {
       } else {
         this.translate.setDefaultLang('en');
       }
-    this.router.events.subscribe((event: RouterEvent) => {
+      this.subscriptions.push(this.router.events.subscribe((event: RouterEvent) => {
       if(event && event.url){
         if(event.url == "/menu/driving"){
           if(this.isLoggedIn && this.isVerified && this.documentConfirmed && this.driverCars.length >= 1){
@@ -71,7 +72,7 @@ export class MenuPage implements OnInit {
         }
         //this.selectedPath = event.url;
       }
-    });
+    }));
    }
 
   ngOnInit() {
@@ -96,27 +97,34 @@ export class MenuPage implements OnInit {
      });
   }
 
+  ionViewDidLeave() {
+    for (const subscription of this.subscriptions) {
+      console.log(subscription)
+      subscription.unsubscribe();
+    }
+  }
+
   checkValues(){
     this.isLoggedIn = localStorage.getItem("user");
 
     if (this.isLoggedIn) {
      
-      this.subscription = this.accountService.getById(this.accountService.userValue.id)
+      this.subscriptions.push(this.accountService.getById(this.accountService.userValue.id)
         .subscribe(x => {
           this.isVerified = x.isDriver;
 
           if (x.driverId != null) {
-            this.driverService.getDriver(x.driverId)
+            this.subscriptions.push(this.driverService.getDriver(x.driverId)
               .subscribe(d => {
-                this.driverService.getDriverCars(x.driverId)
+                this.subscriptions.push(this.driverService.getDriverCars(x.driverId)
                 .subscribe(cars => {
                   this.driverCars = cars;
-                });
+                }));
 
                 this.documentConfirmed = d.documentConfirmation;
-              })
+              }))
           }
-        })
+        }))
     }else if(this.isLoggedIn == null){
         this.router.navigate(['menu/home']);
     }

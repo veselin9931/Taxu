@@ -5,12 +5,15 @@ import { DriverService } from 'src/_services/driver/driver.service';
 import { Location } from '@angular/common';
 import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-driver-history',
   templateUrl: './driver-history.page.html',
   styleUrls: ['./driver-history.page.scss'],
 })
 export class DriverHistoryPage implements OnInit {
+  private subscriptions: Subscription[] = [];
+
   orders: Order[] = [];
   userId = this.accountService.userValue.id;
   orderer : User;
@@ -37,13 +40,17 @@ export class DriverHistoryPage implements OnInit {
     connection.on('BroadcastMessage', () => {
       this.getHistory();
     });
-    
+  }
 
-    
+  ionViewDidLeave() {
+    for (const subscription of this.subscriptions) {
+      console.log(subscription)
+      subscription.unsubscribe();
+    }
   }
 
   getHistory(){
-    this.driverService.getDriverHistory(this.userId)
+    this.subscriptions.push(this.driverService.getDriverHistory(this.userId)
     .subscribe((x: Order[]) => {
       if(this.orders == null){
         console.log("No orders");
@@ -55,7 +62,7 @@ export class DriverHistoryPage implements OnInit {
         sum += order.totalPrice;
       });
       this.dailyProfit = sum.toFixed(2);
-    })
+    }))
   }
 
   goBack(){

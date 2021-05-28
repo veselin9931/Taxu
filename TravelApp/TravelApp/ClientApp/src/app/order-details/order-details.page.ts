@@ -5,6 +5,7 @@ import { Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { AnyTxtRecord } from 'dns';
+import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Order } from 'src/_models';
 import { AccountService } from 'src/_services';
@@ -71,6 +72,9 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
   newDistance: any;
   map: any;
   mapVisible = false;
+
+  private subscriptions: Subscription[] = [];
+
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
 
   constructor(private translate: TranslateService,
@@ -108,25 +112,32 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
     });
 
     connection.on('NotifyDriver', (orderId: string) => {
-      this.orderService.getOrderById(orderId)
+      this.subscriptions.push(this.orderService.getOrderById(orderId)
         .subscribe(order => {
-            if(this.order.id == order.id){
-              if (order.increaseAccepted == true) {
-                this.IncreaseAccepted(order);
-    
-              } else if (order.increaseAccepted == false) {
-                this.IncreaseRefused();
-              }
+          if (this.order.id == order.id) {
+            if (order.increaseAccepted == true) {
+              this.IncreaseAccepted(order);
+
+            } else if (order.increaseAccepted == false) {
+              this.IncreaseRefused();
             }
-        })
+          }
+        }))
     });
+  }
+
+  ionViewDidLeave() {
+    for (const subscription of this.subscriptions) {
+      console.log(subscription)
+      subscription.unsubscribe();
+    }
   }
 
   ionViewDidEnter() {
     this.orderDiv.style.display = 'block';
     this.mapId.style.display = 'none';
 
-    this.orderService.getOrderById(this.orderId)
+    this.subscriptions.push(this.orderService.getOrderById(this.orderId)
       .subscribe(order => {
         if (order == null) {
           return this.OrderTaken();
@@ -142,7 +153,7 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
         this.calculateEta(this.order);
         this.loadMap(this.mapRef);
 
-      })
+      }))
 
   }
 
@@ -201,9 +212,9 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
 
           var p1 = new google.maps.LatLng(myLatLng.lat, myLatLng.lng);
           var p2 = new google.maps.LatLng(userLat, userLng);
-      
+
           this.distance = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
-      
+
           var infowindow = new google.maps.InfoWindow({
             content: `${this.distance} km from you.`
           });
@@ -248,17 +259,17 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
   }
 
   offer(value) {
-    this.orderService.getOrderById(this.order.id)
+    this.subscriptions.push(this.orderService.getOrderById(this.order.id)
       .subscribe(x => {
         if (x == null) {
           this.OrderTaken();
           this.router.navigate(['menu/driving']);
           return;
         } else {
-          this.orderService.driverIncreaseOrderPrice(this.order.id, value, this.accountService.userValue.driverId)
-            .subscribe(() => { })
+          this.subscriptions.push(this.orderService.driverIncreaseOrderPrice(this.order.id, value, this.accountService.userValue.driverId)
+            .subscribe(() => { }))
         }
-      });
+      }));
 
   }
 
@@ -309,14 +320,14 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
   }
 
   acceptOrder(order) {
-    this.orderService.getOrderById(order.id)
+    this.subscriptions.push(this.orderService.getOrderById(order.id)
       .subscribe(x => {
         if (x == null) {
           this.OrderTaken();
           this.router.navigate(['menu/driving']);
           return;
         } else {
-          this.driverService.getDriverActiveCar(this.accountService.userValue.driverId)
+          this.subscriptions.push(this.driverService.getDriverActiveCar(this.accountService.userValue.driverId)
             .subscribe(car => {
               if (car.typeId == 1 && order.carType == 'Comfort') {
                 return this.WrongCarAlert();
@@ -324,12 +335,12 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
                 //Get user's id to get drivers data
 
                 //Get driver's data
-                this.driverService.getDriver(this.accountService.userValue.driverId)
+                this.subscriptions.push(this.driverService.getDriver(this.accountService.userValue.driverId)
                   .subscribe(driver => {
                     this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
 
                     //Get drivers wallet
-                    this.walletService.getMyWallet(this.applicationUserId)
+                    this.subscriptions.push(this.walletService.getMyWallet(this.applicationUserId)
                       .subscribe(wallet => {
                         if (wallet.ammount < this.tripPriceForDriver) {
                           this.NotEnoughCashAlert();
@@ -339,38 +350,36 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
 
                           let applicationUserId = this.accountService.userValue.id;
                           this.accountService.userValue.isDrivingNow = true;
-                          this.accountService.updateDriving(this.applicationUserId, true)
+                          this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, true)
                             .subscribe(() => {
-                            });
+                            }));
 
                           this.isDrivingNow = this.accountService.userValue.isDrivingNow;
                           order.acceptedBy = applicationUserId;
 
                           //Accepting order
-                          this.orderService.acceptOrder(order.id, applicationUserId)
+                          this.subscriptions.push(this.orderService.acceptOrder(order.id, applicationUserId)
                             .subscribe(() => {
 
-                              this.orderService.updateOrderEta(orderId, order.eta)
-                                .subscribe();
-                            });
+                              this.subscriptions.push(this.orderService.updateOrderEta(orderId, order.eta)
+                                .subscribe());
+                            }));
 
                           let orderId = order.id;
                           let data = { orderId, applicationUserId, order };
 
                           //Creating trip to manage data
-                          this.tripService.createTrip(data)
+                          this.subscriptions.push(this.tripService.createTrip(data)
                             .subscribe(() => {
-                            });
+                            }));
                           this.router.navigate(['menu/driving-mode'])
                         }
-                      });
-                  });
+                      }));
+                  }));
               }
-            });
+            }));
         }
-      })
-
-
+      }))
   }
 
   async openLanguagePopover(ev) {

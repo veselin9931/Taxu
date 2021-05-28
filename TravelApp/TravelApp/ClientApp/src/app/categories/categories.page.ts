@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
@@ -15,6 +16,8 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
   styleUrls: ['./categories.page.scss'],
 })
 export class CategoriesPage implements OnInit {
+  private subscriptions: Subscription[] = [];
+
   isDrivingNow = this.accountService.userValue.isDrivingNow;
   normalCount: number;
   comfortCount: number;
@@ -75,18 +78,18 @@ export class CategoriesPage implements OnInit {
   }
 
   getNormalCount() {
-    this.orderService.getNormalOrders()
-      .subscribe(x => this.normalCount = x.length)
+    this.subscriptions.push(this.orderService.getNormalOrders()
+      .subscribe(x => this.normalCount = x.length))
   }
 
   getComfortCount() {
-    this.orderService.getComfortOrders()
-      .subscribe(x => this.comfortCount = x.length)
+    this.subscriptions.push(this.orderService.getComfortOrders()
+      .subscribe(x => this.comfortCount = x.length))
   }
 
   getAllCount() {
-    this.orderService.getAllOrders()
-      .subscribe(x => this.allCount = x.length)
+    this.subscriptions.push(this.orderService.getAllOrders()
+      .subscribe(x => this.allCount = x.length))
   }
 
   async openLanguagePopover(ev) {
@@ -95,5 +98,12 @@ export class CategoriesPage implements OnInit {
       event: ev
     });
     await popover.present();
+  }
+
+  ionViewDidLeave() {
+    for (const subscription of this.subscriptions) {
+      console.log(subscription)
+      subscription.unsubscribe();
+    }
   }
 }

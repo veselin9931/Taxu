@@ -25,7 +25,7 @@ declare var google: any;
   templateUrl: './driving-mode.page.html',
   styleUrls: ['./driving-mode.page.scss'],
 })
-export class DrivingModePage implements OnInit, OnDestroy {
+export class DrivingModePage implements OnInit {
   public currentTrip: Trip;
   categoryType;
 
@@ -47,7 +47,6 @@ export class DrivingModePage implements OnInit, OnDestroy {
   closestOrders: Order[] = [];
 
   totalPrice: number;
-  subscription: Subscription;
 
   //Map
   map: any;
@@ -77,6 +76,9 @@ export class DrivingModePage implements OnInit, OnDestroy {
   target: any;
   options: any;
 
+  private subscriptions: Subscription[] = [];
+
+
   constructor(private route: Router,
     private orderService: OrderService,
     private accountService: AccountService,
@@ -92,16 +94,17 @@ export class DrivingModePage implements OnInit, OnDestroy {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
 
   }
-  ngOnDestroy(): void {
-    console.log('unsubscribed');
-    this.subscription.unsubscribe();
+  ionViewDidLeave() {
+    for (const subscription of this.subscriptions) {
+      console.log(subscription)
+      subscription.unsubscribe();
+    }
   }
-
   ngOnInit() {
     this.getAcceptedTrip();
     this.isStarted = false;
-    this.chatService.retrieveMappedObject()
-      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });  // calls the service method to get the new messages sent
+    this.subscriptions.push(this.chatService.retrieveMappedObject()
+      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); }));  // calls the service method to get the new messages sent
 
 
     const connection = new signalR.HubConnectionBuilder()
@@ -112,39 +115,42 @@ export class DrivingModePage implements OnInit, OnDestroy {
     connection.start().then(function () {
       console.log('signalR Connected in driving-mode');
     }).catch(function (err) {
-      return console.log(err);
+      console.log("Reconnecting in 1 sec.");
+      setTimeout(() => connection.start(), 1000);
     });
 
-    connection.on('LocateDriver', (driverId) => {
-      
-    });
+    
 
     connection.on('OrderDeleted', (orderId: string) => {
-      this.orderService.getCanceledOrderById(orderId)
+      this.subscriptions.push(this.orderService.getCanceledOrderById(orderId)
         .subscribe(order => {
           if (order.acceptedBy == this.applicationUserId) {
             this.canceledOrder();
           }
-        })
+        }))
     });
 
     connection.on('OrderAccepted', (orderId: string) => {
-      this.orderService.getOrderById(orderId)
+      this.subscriptions.push(this.orderService.getOrderById(orderId)
         .subscribe(order => {
           if (order.acceptedBy == this.applicationUserId) {
             this.getAcceptedTrip();
 
           }
-        })
+        }))
     });
 
     connection.on('Navigate', (orderId: string) => {
-      this.orderService.getOrderById(orderId)
+      this.subscriptions.push(this.orderService.getOrderById(orderId)
         .subscribe(order => {
           if (order.acceptedBy == this.applicationUserId) {
             this.getAcceptedTrip();
           }
-        })
+        }))
+    });
+
+    connection.on('LocateDriver', (driverId: string) => {
+
     });
   }
 
@@ -165,8 +171,8 @@ export class DrivingModePage implements OnInit, OnDestroy {
   async watchPos() {
     let coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-    this.subscription = this.driverService.locateDriver(this.accountService.userValue.driverId, myLatLng.lat.toString(), myLatLng.lng.toString())
-      .subscribe(x => { });
+    this.subscriptions.push(this.driverService.locateDriver(this.accountService.userValue.driverId, myLatLng.lat.toString(), myLatLng.lng.toString())
+      .subscribe(x => { }));
 
   }
 
@@ -192,8 +198,8 @@ export class DrivingModePage implements OnInit, OnDestroy {
       },
       (response, status) => {
         if (status === "OK") {
-          this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
-            .subscribe(() => { });
+          this.subscriptions.push(this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
+            .subscribe(() => { }));
 
           if (Capacitor.getPlatform() === 'ios') {
             window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
@@ -299,36 +305,36 @@ export class DrivingModePage implements OnInit, OnDestroy {
   }
 
   startTrip() {
-    this.tripService.startTrip(this.currentTrip.id)
+    this.subscriptions.push(this.tripService.startTrip(this.currentTrip.id)
       .subscribe(trip => {
         if (trip) {
           this.tripStatus = trip.status;
-          this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
+          this.subscriptions.push(this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
             .subscribe(x => {
-              this.profitService.addToProfit(this.tripPriceForDriver)
-                .subscribe(() => { });
-            })
+              this.subscriptions.push(this.profitService.addToProfit(this.tripPriceForDriver)
+                .subscribe(() => { }));
+            }))
         }
-      })
+      }))
   }
 
   finishTrip() {
-    this.tripService.completeTrip(this.currentTrip.id)
+    this.subscriptions.push(this.tripService.completeTrip(this.currentTrip.id)
       .subscribe(trip => {
         if (trip) {
           this.tripStatus = trip.status;
         }
-        this.orderService.completeOrder(this.currentTrip.orderId)
-          .subscribe(() => { });
+        this.subscriptions.push(this.orderService.completeOrder(this.currentTrip.orderId)
+          .subscribe(() => { }));
 
-      })
+      }))
 
     //trigger the driver's driving now property to false
     let userId = this.accountService.userValue.id;
     let value = this.accountService.userValue.isDrivingNow = false;
 
-    this.accountService.updateDriving(userId, value)
-      .subscribe();
+    this.subscriptions.push(this.accountService.updateDriving(userId, value)
+      .subscribe());
     this.isDrivingNow = this.accountService.userValue.isDrivingNow;
     this.route.navigate(['menu/driving'])
   }
@@ -370,7 +376,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
   }
 
   getAcceptedTrip() {
-    this.tripService.getTrip(this.driverId)
+    this.subscriptions.push(this.tripService.getTrip(this.driverId)
       .subscribe(x => {
         if (x == null) {
           return;
@@ -380,7 +386,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
         this.tripStatus = x.status;
         this.currentTrip = x;
 
-        this.orderService.getOrderById(x.orderId).subscribe(order => {
+        this.subscriptions.push(this.orderService.getOrderById(x.orderId).subscribe(order => {
           if (order != null) {
             x.order = order;
 
@@ -404,22 +410,21 @@ export class DrivingModePage implements OnInit, OnDestroy {
               this.watchPos();
             }, 3000);
 
-            this.driverService.getDriver(this.accountService.userValue.driverId)
+            this.subscriptions.push(this.driverService.getDriver(this.accountService.userValue.driverId)
               .subscribe(s => {
                 this.tripPriceForDriver = (order.totalPrice * (s.comission / 100));
-              })
+              }))
           }
-
-        })
-      });
+        }))
+      }));
   }
 
-  async onTheAddress() {
-    this.orderService.updateDriverArrived(this.order.id)
-      .subscribe(() => { });
+  onTheAddress() {
+    this.subscriptions.push(this.orderService.updateDriverArrived(this.order.id)
+      .subscribe(() => { }));
   }
 
-  async cancelOrder() {
+  cancelOrder() {
     this.alertForCancel();
   }
 
@@ -431,20 +436,20 @@ export class DrivingModePage implements OnInit, OnDestroy {
         {
           text: 'Confirm',
           handler: () => {
-            this.driverService.cancelOrderFromDriver(this.order.id)
+            this.subscriptions.push(this.driverService.cancelOrderFromDriver(this.order.id)
               .subscribe(x => {
-                this.tripService.cancelTrip(this.currentTrip.id)
+                this.subscriptions.push(this.tripService.cancelTrip(this.currentTrip.id)
                   .subscribe(() => {
                     this.accountService.userValue.isDrivingNow = false;
-                    this.accountService.updateDriving(this.applicationUserId, false)
+                    this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, false)
                       .subscribe(() => {
-                        this.driverService.voteDown(this.accountService.userValue.driverId)
+                        this.subscriptions.push(this.driverService.voteDown(this.accountService.userValue.driverId)
                           .subscribe(() => {
                             this.route.navigate(['menu/driving']);
-                          })
-                      });
-                  })
-              });
+                          }))
+                      }));
+                  }))
+              }));
           }
         },
         {
@@ -466,10 +471,10 @@ export class DrivingModePage implements OnInit, OnDestroy {
           handler: () => {
             this.accountService.userValue.isDrivingNow = false;
 
-            this.accountService.updateDriving(this.applicationUserId, false)
+            this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, false)
               .subscribe(() => {
                 this.route.navigate(['menu/driving']);
-              });
+              }));
           }
         }
       ]

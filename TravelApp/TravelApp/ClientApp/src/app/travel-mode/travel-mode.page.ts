@@ -23,7 +23,7 @@ declare var google: any;
   templateUrl: './travel-mode.page.html',
   styleUrls: ['./travel-mode.page.scss'],
 })
-export class TravelModePage implements OnInit, OnDestroy {
+export class TravelModePage implements OnInit {
   public currentTrip: Trip;
   private user = this.accountService.userValue;
   private driverId = this.accountService.userValue.driverId;
@@ -49,7 +49,7 @@ export class TravelModePage implements OnInit, OnDestroy {
   messages = this.chatService.messages;
   chatStyle = "";
   isDriverArrived: any;
-  subscription: Subscription;
+  private subscriptions: Subscription[] = [];
   maxTime: any = 30000;
   startTime: any;
   timer: any;
@@ -72,9 +72,7 @@ export class TravelModePage implements OnInit, OnDestroy {
     private callNumber: CallNumber) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+
 
   ngOnInit() {
     this.checkorder();
@@ -92,7 +90,8 @@ export class TravelModePage implements OnInit, OnDestroy {
     connection.start().then(function () {
       console.log('signalR Connected in travel-mode');
     }).catch(function (err) {
-      return console.log(err);
+      console.log("Reconnecting in 1 sec.");
+      setTimeout(() => connection.start(), 1000);
     });
 
     connection.on('StartTrip', () => {
@@ -104,7 +103,7 @@ export class TravelModePage implements OnInit, OnDestroy {
     });
 
     connection.on('OrderAccepted', (orderId: string) => {
-      this.subscription.add(this.orderService.getOrderById(orderId)
+      this.subscriptions.push(this.orderService.getOrderById(orderId)
         .subscribe(order => {
           if (order.id == this.order.id && order.status == 'Accepted') {
             this.presentOrderAcceptedNotification();
@@ -113,7 +112,7 @@ export class TravelModePage implements OnInit, OnDestroy {
     });
 
     connection.on('OrderWaiting', (orderId) => {
-      this.subscription.add(this.orderService.getMyOrder(this.user.id)
+      this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
         .subscribe(order => {
           if (order.id == orderId) {
             this.canceledOrder();
@@ -122,26 +121,25 @@ export class TravelModePage implements OnInit, OnDestroy {
     });
 
     connection.on('LocateDriver', (driverId) => {
-      this.subscription.add(this.orderService.getMyOrder(this.user.id)
+      this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
         .subscribe(x => {
-          this.driverService.getDriver(driverId)
+          this.subscriptions.push(this.driverService.getDriver(driverId)
             .subscribe(driver => {
               if (driver.id == driverId) {
                 this.loadMap(this.mapRef, driver.applicationUserId);
               }
-            })
-
+            }))
         }))
     });
 
     connection.on('NotifyArrived', (orderId: string) => {
-      this.subscription.add(this.orderService.getOrderById(orderId)
+      this.subscriptions.push(this.orderService.getOrderById(orderId)
         .subscribe(order => {
           if (order.isDriverArrived == true && this.order.id == orderId) {
             this.presentDriverArrivedNotification();
             this.accountService.userValue.alertTriggered = true;
-            this.accountService.updateAlert(this.user.id, true)
-              .subscribe(() => { });
+            this.subscriptions.push(this.accountService.updateAlert(this.user.id, true)
+              .subscribe(() => { }));
 
             this.accountService.userValue.timer = new Date();
             if (this.seconds == 60) {
@@ -160,6 +158,13 @@ export class TravelModePage implements OnInit, OnDestroy {
     });
   }
 
+  ionViewDidLeave() {
+    for (const subscription of this.subscriptions) {
+      console.log(subscription)
+      subscription.unsubscribe();
+    }
+  }
+
   ionViewDidEnter() {
     if (this.accountService.userValue.alertTriggered == true) {
       this.startTimer();
@@ -167,7 +172,7 @@ export class TravelModePage implements OnInit, OnDestroy {
   }
 
   checkorder() {
-    this.subscription.add(this.orderService.getMyOrder(this.user.id)
+    this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
           this.totalPrice = data.totalPrice;
@@ -189,22 +194,21 @@ export class TravelModePage implements OnInit, OnDestroy {
 
         } else {
           this.accountService.userValue.alertTriggered = false;
-          this.accountService.updateAlert(this.user.id, false)
-            .subscribe(() => { });
+          this.subscriptions.push(this.accountService.updateAlert(this.user.id, false)
+            .subscribe(() => { }));
           this.orderTotalPrice = 0;
         }
       },
         error => {
           console.log(error)
         }))
-
   }
 
   startTimer() {
     this.startTime = new Date(this.accountService.userValue.timer);
     setInterval(() => {
       if (this.secsDiff == 300) {
-        this.subscription.add(this.orderService.increaseOrderPrice(this.order.id, 1)
+        this.subscriptions.push(this.orderService.increaseOrderPrice(this.order.id, 1)
           .subscribe(() => { }));
         return;
       }
@@ -282,17 +286,17 @@ export class TravelModePage implements OnInit, OnDestroy {
 
 
   getUserById(driverId: string) {
-    this.subscription.add(this.accountService.getById(driverId)
+    this.subscriptions.push(this.accountService.getById(driverId)
       .subscribe(userData => {
         this.firstName = userData.firstName;
         this.lastName = userData.lastName;
         this.driverId = userData.driverId;
         this.phoneNumber = userData.phone;
-        this.driverService.getDriverActiveCar(userData.driverId)
+        this.subscriptions.push(this.driverService.getDriverActiveCar(userData.driverId)
           .subscribe(car => {
             this.carModel = car.model;
             this.carColor = car.color;
-          })
+          }))
       }))
   }
 
@@ -305,7 +309,7 @@ export class TravelModePage implements OnInit, OnDestroy {
 
   //Get current trip to manage data.
   getAcceptedTrip(userId: string) {
-    this.subscription.add(this.tripService.getTrip(userId)
+    this.subscriptions.push(this.tripService.getTrip(userId)
       .subscribe(x => {
         if (x == null) {
           console.log("No trip!");
@@ -314,8 +318,8 @@ export class TravelModePage implements OnInit, OnDestroy {
         this.tripStatus = x.status;
         if (x.status == 'Started') {
           this.accountService.userValue.alertTriggered = false;
-          this.accountService.updateAlert(this.user.id, false)
-            .subscribe(() => { });
+          this.subscriptions.push(this.accountService.updateAlert(this.user.id, false)
+            .subscribe(() => { }));
         }
         this.currentTrip = x;
         this.loadMap(this.mapRef, userId);
@@ -335,7 +339,7 @@ export class TravelModePage implements OnInit, OnDestroy {
     };
 
     if (data) {
-      this.subscription.add(this.orderService.addToFavourites(data)
+      this.subscriptions.push(this.orderService.addToFavourites(data)
         .subscribe(() => {
           this.successAddedFavourite();
         }));
@@ -347,9 +351,9 @@ export class TravelModePage implements OnInit, OnDestroy {
 
   //MAPS FUNCTIONALLITY
   async loadMap(mapRef: ElementRef, driverId: string) {
-    this.subscription.add(this.accountService.getById(driverId)
+    this.subscriptions.push(this.accountService.getById(driverId)
       .subscribe(driver => {
-        this.driverService.getDriver(driver.driverId)
+        this.subscriptions.push(this.driverService.getDriver(driver.driverId)
           .subscribe(data => {
             const driverLatLng = { lat: +data.currentLocationLat, lng: +data.currentLocationLong };
 
@@ -374,7 +378,7 @@ export class TravelModePage implements OnInit, OnDestroy {
               icon: icon,
               map: this.map
             });
-          })
+          }))
       }))
   }
 
@@ -390,19 +394,19 @@ export class TravelModePage implements OnInit, OnDestroy {
         {
           text: 'Confirm',
           handler: () => {
-            this.tripService.getTrip(this.orderAcceptedBy)
+            this.subscriptions.push(this.tripService.getTrip(this.orderAcceptedBy)
               .subscribe(trip => {
-                this.tripService.cancelTrip(trip.id)
+                this.subscriptions.push(this.tripService.cancelTrip(trip.id)
                   .subscribe(x => {
-                    this.accountService.updateDriving(this.orderAcceptedBy, false)
+                    this.subscriptions.push(this.accountService.updateDriving(this.orderAcceptedBy, false)
                       .subscribe(() => {
-                      });
+                      }));
                     this.accountService.userValue.isDrivingNow = false;
-                    this.orderService.deleteOrder(trip.orderId)
-                      .subscribe(() => this.route.navigate(['menu/travelling']));
+                    this.subscriptions.push(this.orderService.deleteOrder(trip.orderId)
+                      .subscribe(() => this.route.navigate(['menu/travelling'])));
 
-                  });
-              })
+                  }));
+              }))
           }
         },
         {
@@ -434,8 +438,8 @@ export class TravelModePage implements OnInit, OnDestroy {
           text: 'Yes',
           role: 'cancel',
           handler: () => {
-            this.driverService.voteUp(this.driverId)
-              .subscribe(x => { });
+            this.subscriptions.push(this.driverService.voteUp(this.driverId)
+              .subscribe(x => { }));
             this.route.navigate(['menu/travelling']);
           }
         },
@@ -443,8 +447,8 @@ export class TravelModePage implements OnInit, OnDestroy {
           text: 'No',
           role: 'no',
           handler: () => {
-            this.driverService.voteDown(this.driverId)
-              .subscribe(x => { });
+            this.subscriptions.push(this.driverService.voteDown(this.driverId)
+              .subscribe(x => { }));
             this.route.navigate(['menu/travelling']);
           }
         },
