@@ -120,17 +120,17 @@ export class TravelModePage implements OnInit {
         }))
     });
 
-    connection.on('LocateDriver', (driverId) => {
-      this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
-        .subscribe(x => {
-          this.subscriptions.push(this.driverService.getDriver(driverId)
-            .subscribe(driver => {
-              if (driver.id == driverId) {
-                this.loadMap(this.mapRef, driver.applicationUserId);
-              }
-            }))
-        }))
-    });
+    // connection.on('LocateDriver', (driverId) => {
+    //   this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
+    //     .subscribe(x => {
+    //       this.subscriptions.push(this.driverService.getDriver(driverId)
+    //         .subscribe(driver => {
+    //           if (driver.id == driverId) {
+    //             this.loadMap(this.mapRef, driver.applicationUserId);
+    //           }
+    //         }))
+    //     }))
+    // });
 
     connection.on('NotifyArrived', (orderId: string) => {
       this.subscriptions.push(this.orderService.getOrderById(orderId)

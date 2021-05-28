@@ -406,9 +406,9 @@ export class DrivingModePage implements OnInit {
             this.tripDistance = order.tripDistance;
             this.calculateEta(order);
 
-            setInterval(() => {
-              this.watchPos();
-            }, 3000);
+            // setInterval(() => {
+            //   this.watchPos();
+            // }, 3000);
 
             this.subscriptions.push(this.driverService.getDriver(this.accountService.userValue.driverId)
               .subscribe(s => {

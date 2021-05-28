@@ -108,7 +108,8 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
     connection.start().then(function () {
       console.log('signalR Connected in travel-mode');
     }).catch(function (err) {
-      return console.log(err);
+      console.log("Reconnecting in 1 sec.");
+      setTimeout(() => connection.start(), 1000);
     });
 
     connection.on('NotifyDriver', (orderId: string) => {
