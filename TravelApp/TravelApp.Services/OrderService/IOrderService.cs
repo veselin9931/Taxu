@@ -28,6 +28,10 @@ namespace TravelApp.Services.OrderService
 
         public Task<IList<Order>> GetAllOrdersAsync();
 
+        
+        public Order GetCanceledOrderAsync(string orderId);
+
+
         public Task<IList<Order>> GetNormalOrdersAsync();
 
         public Task<IList<Order>> GetComfortOrdersAsync();

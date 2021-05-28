@@ -109,7 +109,6 @@ namespace TravelApp.Services.OrderService
         {
            var order =  this.GetOrderById(orderId);
             order.Status = "Canceled";
-            this.orderRepository.Delete(order);
 
             var result = await this.orderRepository.SaveChangesAsync();
 
@@ -365,5 +364,8 @@ namespace TravelApp.Services.OrderService
             }
             return false;
         }
+
+        public Order GetCanceledOrderAsync(string orderId)
+         => this.orderRepository.All().FirstOrDefault(x => x.Id == orderId && x.Status == "Canceled");
     }
 }

@@ -19,6 +19,7 @@ namespace TravelApp.Infrastructure.HubConfig
         Task Voted(string driverId);
         Task CreatedOrder();
 
+        Task LocateDriver(string driverId);
         Task Navigate(string orderId);
 
         Task IncrementDecrement(string orderId);

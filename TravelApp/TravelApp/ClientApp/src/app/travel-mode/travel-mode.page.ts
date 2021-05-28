@@ -98,7 +98,6 @@ export class TravelModePage implements OnInit {
 
     connection.on('Navigate', () => {
       this.checkorder();
-
     });
 
     connection.on('OrderAccepted', (orderId: string) => {
@@ -117,6 +116,19 @@ export class TravelModePage implements OnInit {
             this.canceledOrder();
           }
         })
+    });
+
+    connection.on('LocateDriver', (driverId) => {
+      this.orderService.getMyOrder(this.user.id)
+      .subscribe(x => {
+        this.driverService.getDriver(driverId)
+        .subscribe(driver => {
+          if(driver.id == driverId){
+            this.loadMap(this.mapRef, driver.applicationUserId);
+          }
+        })
+        
+      })
     });
 
     connection.on('NotifyArrived', (orderId: string) => {

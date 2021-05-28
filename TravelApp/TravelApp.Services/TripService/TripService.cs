@@ -107,8 +107,6 @@ namespace TravelApp.Services.TripService
             {
                 trip.Status = "Canceled";
 
-                this.tripRepository.Delete(trip);
-
                 await this.tripRepository.SaveChangesAsync();
 
                 return true;

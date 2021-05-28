@@ -112,7 +112,7 @@ export class DrivingModePage implements OnInit {
     });
 
     connection.on('OrderDeleted', (orderId: string) => {
-      this.orderService.getOrderById(orderId)
+      this.orderService.getCanceledOrderById(orderId)
         .subscribe(order => {
           if (order.acceptedBy == this.applicationUserId) {
             this.canceledOrder();

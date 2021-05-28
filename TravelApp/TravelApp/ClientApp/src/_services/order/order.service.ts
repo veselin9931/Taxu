@@ -80,6 +80,13 @@ export class OrderService {
       );
   }
 
+  getCanceledOrderById(id: string): Observable<Order> {
+    return this.http.get<Order>(`${environment.apiUrl}/api/order/canceled/${id}`)
+      .pipe(
+        tap(data => this.order = data)
+      );
+  }
+
   getLastCompletedOrder(userId: string): Observable<Order> {
     return this.http.get<Order>(`${environment.apiUrl}/api/order/completed/${userId}`)
       .pipe(

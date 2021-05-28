@@ -115,6 +115,21 @@ namespace TravelApp.Controllers
 
         //GET ORDER BY ID
         // GET api/<OrderController>/id/{orderId}
+        [HttpGet("canceled/{orderId}")] 
+        public async Task<IActionResult> GetCanceled(string orderId)
+        {
+            var order = this.orderService.GetCanceledOrderAsync(orderId);
+
+            if (order != null)
+            {
+                return this.Ok(order);
+            }
+            return this.NoContent();
+        }
+
+
+        //GET ORDER BY ID
+        // GET api/<OrderController>/id/{orderId}
         [HttpGet("id/{orderId}")]
         public async Task<IActionResult> GetById(string orderId)
         {

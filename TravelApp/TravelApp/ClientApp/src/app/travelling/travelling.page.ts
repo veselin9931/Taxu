@@ -255,6 +255,7 @@ export class TravellingPage implements OnInit, OnDestroy {
               })
           }
         } else {
+          this.isSubmitted = false;
           window.alert("Directions request failed due to " + status);
         }
       }
@@ -310,6 +311,7 @@ export class TravellingPage implements OnInit, OnDestroy {
           }
 
           if (data.status == "Accepted" && data != null) {
+            this.isSubmitted = false;
             this.route.navigate(['menu/travel-mode']);
             this.isCompleted = false;
           }
