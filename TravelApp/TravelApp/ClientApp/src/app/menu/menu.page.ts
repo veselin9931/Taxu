@@ -85,7 +85,8 @@ export class MenuPage implements OnInit {
      connection.start().then(function () {
        console.log('signalR Connected in menu');
      }).catch(function (err) {
-       return console.log(err.toString());
+      console.log("Reconnecting in 1 sec.");
+      setTimeout(() => connection.start(), 1000);
      });
 
      connection.on('LocateDriver', () => {
