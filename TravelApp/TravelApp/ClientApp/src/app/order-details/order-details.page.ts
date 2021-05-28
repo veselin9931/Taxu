@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { Plugins } from '@capacitor/core';
@@ -22,7 +22,7 @@ declare var google: any;
   templateUrl: './order-details.page.html',
   styleUrls: ['./order-details.page.scss'],
 })
-export class OrderDetailsPage implements OnInit {
+export class OrderDetailsPage implements OnInit, OnDestroy {
   public orderId = this.route.snapshot.params.id;
   tripPriceForDriver: number;
   applicationUserId = this.accountService.userValue.id;
@@ -86,7 +86,11 @@ export class OrderDetailsPage implements OnInit {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
 
   }
+  ngOnDestroy(): void {
+    console.log('aleluq')
+  }
   ngOnInit() {
+
     this.mapId = document.getElementById("map");
     this.mapId.style.display = 'none';
     this.orderDiv = document.getElementById("order");
@@ -106,25 +110,16 @@ export class OrderDetailsPage implements OnInit {
     connection.on('NotifyDriver', (orderId: string) => {
       this.orderService.getOrderById(orderId)
         .subscribe(order => {
-          
-            if (order.increaseAccepted == true) {
-              this.IncreaseAccepted(order);
-  
-            } else if (order.increaseAccepted == false) {
-              this.IncreaseRefused();
+            if(this.order.id == order.id){
+              if (order.increaseAccepted == true) {
+                this.IncreaseAccepted(order);
+    
+              } else if (order.increaseAccepted == false) {
+                this.IncreaseRefused();
+              }
             }
-          
         })
     });
-
-    // connection.on('OrderDeleted', () => {
-    //   this.orderService.getOrderById(this.orderId)
-    //   .subscribe(order => {
-    //     if (order == null) {
-    //       return this.OrderTaken();
-    //     }
-    //   })
-    // });
   }
 
   ionViewDidEnter() {

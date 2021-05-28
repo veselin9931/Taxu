@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Capacitor, Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
@@ -25,7 +25,7 @@ declare var google: any;
   templateUrl: './driving-mode.page.html',
   styleUrls: ['./driving-mode.page.scss'],
 })
-export class DrivingModePage implements OnInit {
+export class DrivingModePage implements OnInit, OnDestroy {
   public currentTrip: Trip;
   categoryType;
 
@@ -92,6 +92,10 @@ export class DrivingModePage implements OnInit {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
 
   }
+  ngOnDestroy(): void {
+    console.log('unsubscribed');
+    this.subscription.unsubscribe();
+  }
 
   ngOnInit() {
     this.getAcceptedTrip();
@@ -109,6 +113,10 @@ export class DrivingModePage implements OnInit {
       console.log('signalR Connected in driving-mode');
     }).catch(function (err) {
       return console.log(err);
+    });
+
+    connection.on('LocateDriver', (driverId) => {
+      
     });
 
     connection.on('OrderDeleted', (orderId: string) => {
@@ -144,11 +152,6 @@ export class DrivingModePage implements OnInit {
   ionViewDidEnter() {
     if (this.accountService.userValue.isDrivingNow == true) {
       this.getAcceptedTrip();
-      setInterval(() => {
-        this.watchPos();
-      }, 3000);
-
-
     }
   }
 
@@ -162,7 +165,7 @@ export class DrivingModePage implements OnInit {
   async watchPos() {
     let coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
-    this.driverService.locateDriver(this.accountService.userValue.driverId, myLatLng.lat.toString(), myLatLng.lng.toString())
+    this.subscription = this.driverService.locateDriver(this.accountService.userValue.driverId, myLatLng.lat.toString(), myLatLng.lng.toString())
       .subscribe(x => { });
 
   }
@@ -396,6 +399,10 @@ export class DrivingModePage implements OnInit {
 
             this.tripDistance = order.tripDistance;
             this.calculateEta(order);
+
+            setInterval(() => {
+              this.watchPos();
+            }, 3000);
 
             this.driverService.getDriver(this.accountService.userValue.driverId)
               .subscribe(s => {

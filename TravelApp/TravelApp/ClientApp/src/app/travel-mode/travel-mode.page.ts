@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { Plugins } from '@capacitor/core';
@@ -23,7 +23,7 @@ declare var google: any;
   templateUrl: './travel-mode.page.html',
   styleUrls: ['./travel-mode.page.scss'],
 })
-export class TravelModePage implements OnInit {
+export class TravelModePage implements OnInit, OnDestroy {
   public currentTrip: Trip;
   private user = this.accountService.userValue;
   private driverId = this.accountService.userValue.driverId;
@@ -72,12 +72,15 @@ export class TravelModePage implements OnInit {
     private callNumber: CallNumber) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.checkorder();
     // this.chatService.stop();
     // this.chatService.start();
-    await LocalNotifications.requestPermission();
+
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
 
@@ -101,38 +104,38 @@ export class TravelModePage implements OnInit {
     });
 
     connection.on('OrderAccepted', (orderId: string) => {
-      this.orderService.getOrderById(orderId)
+      this.subscription.add(this.orderService.getOrderById(orderId)
         .subscribe(order => {
           if (order.id == this.order.id && order.status == 'Accepted') {
             this.presentOrderAcceptedNotification();
           }
-        })
+        }))
     });
 
     connection.on('OrderWaiting', (orderId) => {
-      this.orderService.getMyOrder(this.user.id)
+      this.subscription.add(this.orderService.getMyOrder(this.user.id)
         .subscribe(order => {
           if (order.id == orderId) {
             this.canceledOrder();
           }
-        })
+        }))
     });
 
     connection.on('LocateDriver', (driverId) => {
-      this.orderService.getMyOrder(this.user.id)
-      .subscribe(x => {
-        this.driverService.getDriver(driverId)
-        .subscribe(driver => {
-          if(driver.id == driverId){
-            this.loadMap(this.mapRef, driver.applicationUserId);
-          }
-        })
-        
-      })
+      this.subscription.add(this.orderService.getMyOrder(this.user.id)
+        .subscribe(x => {
+          this.driverService.getDriver(driverId)
+            .subscribe(driver => {
+              if (driver.id == driverId) {
+                this.loadMap(this.mapRef, driver.applicationUserId);
+              }
+            })
+
+        }))
     });
 
     connection.on('NotifyArrived', (orderId: string) => {
-      this.orderService.getOrderById(orderId)
+      this.subscription.add(this.orderService.getOrderById(orderId)
         .subscribe(order => {
           if (order.isDriverArrived == true && this.order.id == orderId) {
             this.presentDriverArrivedNotification();
@@ -146,14 +149,14 @@ export class TravelModePage implements OnInit {
             }
             this.startTimer();
           }
-        })
+        }))
     });
 
 
-    connection.on('OrderCompleted', () => {
-      this.completedOrderAlert();
-      this.subscription.unsubscribe();
-
+    connection.on('CompleteOrder', (orderId: string) => {
+      if (this.order.id == orderId) {
+        this.completedOrderAlert();
+      }
     });
   }
 
@@ -164,10 +167,9 @@ export class TravelModePage implements OnInit {
   }
 
   checkorder() {
-    this.subscription = this.orderService.getMyOrder(this.user.id)
+    this.subscription.add(this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
-
           this.totalPrice = data.totalPrice;
           this.orderStatus = data.status;
           this.orderAcceptedBy = data.acceptedBy;
@@ -194,7 +196,7 @@ export class TravelModePage implements OnInit {
       },
         error => {
           console.log(error)
-        })
+        }))
 
   }
 
@@ -202,8 +204,8 @@ export class TravelModePage implements OnInit {
     this.startTime = new Date(this.accountService.userValue.timer);
     setInterval(() => {
       if (this.secsDiff == 300) {
-        this.orderService.increaseOrderPrice(this.order.id, 1)
-          .subscribe(() => { });
+        this.subscription.add(this.orderService.increaseOrderPrice(this.order.id, 1)
+          .subscribe(() => { }));
         return;
       }
       this.secsDiff = new Date().getTime() - this.startTime.getTime();
@@ -280,7 +282,7 @@ export class TravelModePage implements OnInit {
 
 
   getUserById(driverId: string) {
-    this.accountService.getById(driverId)
+    this.subscription.add(this.accountService.getById(driverId)
       .subscribe(userData => {
         this.firstName = userData.firstName;
         this.lastName = userData.lastName;
@@ -291,7 +293,7 @@ export class TravelModePage implements OnInit {
             this.carModel = car.model;
             this.carColor = car.color;
           })
-      })
+      }))
   }
 
   callDriver() {
@@ -303,7 +305,7 @@ export class TravelModePage implements OnInit {
 
   //Get current trip to manage data.
   getAcceptedTrip(userId: string) {
-    this.tripService.getTrip(userId)
+    this.subscription.add(this.tripService.getTrip(userId)
       .subscribe(x => {
         if (x == null) {
           console.log("No trip!");
@@ -317,7 +319,7 @@ export class TravelModePage implements OnInit {
         }
         this.currentTrip = x;
         this.loadMap(this.mapRef, userId);
-      });
+      }));
   }
 
   addToFavourite() {
@@ -333,10 +335,10 @@ export class TravelModePage implements OnInit {
     };
 
     if (data) {
-      this.orderService.addToFavourites(data)
+      this.subscription.add(this.orderService.addToFavourites(data)
         .subscribe(() => {
           this.successAddedFavourite();
-        });
+        }));
 
     } else {
       console.log('Problem with data occured')
@@ -345,7 +347,7 @@ export class TravelModePage implements OnInit {
 
   //MAPS FUNCTIONALLITY
   async loadMap(mapRef: ElementRef, driverId: string) {
-    this.accountService.getById(driverId)
+    this.subscription.add(this.accountService.getById(driverId)
       .subscribe(driver => {
         this.driverService.getDriver(driver.driverId)
           .subscribe(data => {
@@ -373,7 +375,7 @@ export class TravelModePage implements OnInit {
               map: this.map
             });
           })
-      })
+      }))
   }
 
   async cancelTrip() {

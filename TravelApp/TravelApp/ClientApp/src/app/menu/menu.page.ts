@@ -87,6 +87,10 @@ export class MenuPage implements OnInit {
        return console.log(err.toString());
      });
 
+     connection.on('LocateDriver', () => {
+      
+    });
+
      connection.on('LoggedIn', () => {
        this.checkValues();
      });
