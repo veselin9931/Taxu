@@ -344,7 +344,7 @@ namespace TravelApp.Controllers
 
             if (complete)
             {
-                await this.hub.Clients.All.BroadcastMessage();
+                await this.hub.Clients.All.CompleteOrder(orderId);
 
                 return this.Ok();
             }
