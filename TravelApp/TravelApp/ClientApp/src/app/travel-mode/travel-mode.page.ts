@@ -15,6 +15,7 @@ import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { HttpTransportType } from '@aspnet/signalr';
 const { Geolocation, LocalNotifications } = Plugins;
 declare var google: any;
 
@@ -84,7 +85,7 @@ export class TravelModePage implements OnInit {
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.signalRUrl}/orderHub`)
+      .withUrl(`${environment.signalRUrl}/orderHub`, HttpTransportType.WebSockets | HttpTransportType.LongPolling)
       .build();
 
     connection.start().then(function () {
@@ -92,6 +93,10 @@ export class TravelModePage implements OnInit {
     }).catch(function (err) {
       console.log("Reconnecting in 1 sec.");
       setTimeout(() => connection.start(), 1000);
+    });
+
+    connection.on('BroadcastMessage', () => {
+      console.log('broadcasted from travel-mode')
     });
 
     connection.on('StartTrip', () => {
@@ -158,14 +163,15 @@ export class TravelModePage implements OnInit {
     });
   }
 
-  ionViewDidLeave() {
-    for (const subscription of this.subscriptions) {
-      console.log(subscription)
-      subscription.unsubscribe();
-    }
-  }
+  // ionViewDidLeave() {
+  //   for (const subscription of this.subscriptions) {
+  //     console.log(subscription)
+  //     subscription.unsubscribe();
+  //   }
+  // }
 
   ionViewDidEnter() {
+    this.checkorder();
     if (this.accountService.userValue.alertTriggered == true) {
       this.startTimer();
     }

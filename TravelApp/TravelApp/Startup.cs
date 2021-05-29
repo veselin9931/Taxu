@@ -161,7 +161,7 @@ namespace TravelApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<OrderHub>("/orderHub");
+                //endpoints.MapHub<OrderHub>("/orderHub");
             });
         }
 

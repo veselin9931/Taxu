@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Subscription } from 'rxjs';
 import { LocalNotifications } from '@capacitor/core';
+import { HttpTransportType } from '@aspnet/signalr';
 
 @Component({
   selector: 'app-travelling',
@@ -84,7 +85,7 @@ export class TravellingPage implements OnInit {
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.signalRUrl}/orderHub`)
+      .withUrl(`${environment.signalRUrl}/orderHub`, HttpTransportType.WebSockets | HttpTransportType.LongPolling)
       .build();
 
     connection.start().then(function () {
@@ -119,7 +120,6 @@ export class TravellingPage implements OnInit {
     });
 
     connection.on('OrderAccepted', () => {
-      console.log('Order Accepted')
       this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
         .subscribe(x => {
           if (x.status == 'Accepted') {
@@ -144,12 +144,12 @@ export class TravellingPage implements OnInit {
       ]
     })
   }
-  ionViewDidLeave() {
-    for (const subscription of this.subscriptions) {
-      console.log(subscription)
-      subscription.unsubscribe();
-    }
-  }
+  // ionViewDidLeave() {
+  //   for (const subscription of this.subscriptions) {
+  //     console.log(subscription)
+  //     subscription.unsubscribe();
+  //   }
+  // }
 
   ionViewDidEnter() {
     this.checkorder();

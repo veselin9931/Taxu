@@ -94,12 +94,12 @@ export class DrivingModePage implements OnInit {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
 
   }
-  ionViewDidLeave() {
-    for (const subscription of this.subscriptions) {
-      console.log(subscription)
-      subscription.unsubscribe();
-    }
-  }
+  // ionViewDidLeave() {
+  //   for (const subscription of this.subscriptions) {
+  //     console.log(subscription)
+  //     subscription.unsubscribe();
+  //   }
+  // }
   ngOnInit() {
     this.getAcceptedTrip();
     this.isStarted = false;

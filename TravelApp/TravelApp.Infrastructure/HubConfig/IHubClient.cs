@@ -30,8 +30,6 @@ namespace TravelApp.Infrastructure.HubConfig
 
         Task StartTrip();
 
-        Task CreateTrip();
-
         Task NotifyArrived(string orderId);
 
 

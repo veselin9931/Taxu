@@ -11,6 +11,7 @@ import { DriverService } from 'src/_services/driver/driver.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { Subscription } from 'rxjs';
+import { HttpTransportType } from '@aspnet/signalr';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.page.html',
@@ -79,7 +80,7 @@ export class MenuPage implements OnInit {
     this.checkValues();
      const connection = new signalR.HubConnectionBuilder()
        .configureLogging(signalR.LogLevel.Information)
-       .withUrl(`${environment.signalRUrl}/orderHub`)
+       .withUrl(`${environment.signalRUrl}/orderHub`, HttpTransportType.WebSockets | HttpTransportType.LongPolling)
        .build();
 
      connection.start().then(function () {
@@ -89,8 +90,8 @@ export class MenuPage implements OnInit {
       setTimeout(() => connection.start(), 1000);
      });
 
-     connection.on('LocateDriver', () => {
-      
+     connection.on('BroadcastMessage', () => {
+      this.checkValues();
     });
 
      connection.on('LoggedIn', () => {
@@ -98,12 +99,12 @@ export class MenuPage implements OnInit {
      });
   }
 
-  ionViewDidLeave() {
-    for (const subscription of this.subscriptions) {
-      console.log(subscription)
-      subscription.unsubscribe();
-    }
-  }
+  // ionViewDidLeave() {
+  //   for (const subscription of this.subscriptions) {
+  //     console.log(subscription)
+  //     subscription.unsubscribe();
+  //   }
+  // }
 
   checkValues(){
     this.isLoggedIn = localStorage.getItem("user");

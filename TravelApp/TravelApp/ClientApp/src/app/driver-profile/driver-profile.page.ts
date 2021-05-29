@@ -217,10 +217,10 @@ export class DriverProfilePage implements OnInit {
     this.route.navigate(['menu/payments'])
   }
 
-  ionViewDidLeave() {
-    for (const subscription of this.subscriptions) {
-      console.log(subscription)
-      subscription.unsubscribe();
-    }
-  }
+  // ionViewDidLeave() {
+  //   for (const subscription of this.subscriptions) {
+  //     console.log(subscription)
+  //     subscription.unsubscribe();
+  //   }
+  // }
 }

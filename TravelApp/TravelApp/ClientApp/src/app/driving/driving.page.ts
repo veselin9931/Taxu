@@ -11,6 +11,7 @@ import { Plugins } from '@capacitor/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Subscription } from 'rxjs';
+import { HttpTransportType } from '@aspnet/signalr';
 
 const { Geolocation } = Plugins;
 declare var google: any;
@@ -45,7 +46,7 @@ export class DrivingPage implements OnInit {
   ngOnInit(): void {
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.signalRUrl}/orderHub`)
+      .withUrl(`${environment.signalRUrl}/orderHub`, HttpTransportType.WebSockets | HttpTransportType.LongPolling)
       .build();
 
     connection.start().then(function () {
@@ -53,6 +54,10 @@ export class DrivingPage implements OnInit {
     }).catch(function (err) {
       console.log("Reconnecting in 1 sec.");
       setTimeout(() => connection.start(), 1000);
+    });
+
+    connection.on('BroadcastMessage', () => {
+      console.log('broadcasted from driving')
     });
 
     connection.on('CreatedOrder', () => {
@@ -70,12 +75,12 @@ export class DrivingPage implements OnInit {
     this.getData();
   }
 
-  ionViewDidLeave() {
-    for (const subscription of this.subscriptions) {
-      console.log(subscription)
-      subscription.unsubscribe();
-    }
-  }
+  // ionViewDidLeave() {
+  //   for (const subscription of this.subscriptions) {
+  //     console.log(subscription)
+  //     subscription.unsubscribe();
+  //   }
+  // }
 
   async getMyLocation() {
     const coordinates = await Geolocation.getCurrentPosition();

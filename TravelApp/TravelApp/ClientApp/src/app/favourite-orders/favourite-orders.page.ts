@@ -47,12 +47,12 @@ export class FavouriteOrdersPage implements OnInit {
 
   }
 
-  ionViewDidLeave() {
-    for (const subscription of this.subscriptions) {
-      console.log(subscription)
-      subscription.unsubscribe();
-    }
-  }
+  // ionViewDidLeave() {
+  //   for (const subscription of this.subscriptions) {
+  //     console.log(subscription)
+  //     subscription.unsubscribe();
+  //   }
+  // }
 
   getMyOrders() {
     this.subscriptions.push(this.orderService.getMyFavourites(this.accountService.userValue.id)

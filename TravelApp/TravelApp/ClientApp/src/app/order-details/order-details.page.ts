@@ -127,12 +127,12 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
     });
   }
 
-  ionViewDidLeave() {
-    for (const subscription of this.subscriptions) {
-      console.log(subscription)
-      subscription.unsubscribe();
-    }
-  }
+  // ionViewDidLeave() {
+  //   for (const subscription of this.subscriptions) {
+  //     console.log(subscription)
+  //     subscription.unsubscribe();
+  //   }
+  // }
 
   ionViewDidEnter() {
     this.orderDiv.style.display = 'block';
