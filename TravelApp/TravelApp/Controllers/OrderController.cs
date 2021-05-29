@@ -299,7 +299,7 @@ namespace TravelApp.Controllers
             if (accepted)
             {
                 await this.hub.Clients.All.OrderAccepted(orderId);
-                await this.hub.Clients.All.BroadcastMessage();
+                //await this.hub.Clients.All.BroadcastMessage();
                 
                 return this.Ok();
             }

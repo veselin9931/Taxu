@@ -37,7 +37,7 @@ namespace TravelApp.Infrastructure.HubConfig
 
         Task OrderAccepted(string orderId);
 
-        Task OrderCompleted();
+        Task CompleteOrder(string orderId);
 
         Task OrderWaiting(string orderId);
 
