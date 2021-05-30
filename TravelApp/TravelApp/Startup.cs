@@ -96,8 +96,8 @@ namespace TravelApp
 
             services.AddMvc();
 
-            services.AddSignalR()
-                   .AddAzureSignalR();
+            services.AddSignalR();
+                   //.AddAzureSignalR();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -139,6 +139,27 @@ namespace TravelApp
             }
             app.UseCors("CorsPolicy");
 
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path == "/wss")
+                {
+                    if (context.WebSockets.IsWebSocketRequest)
+                    {
+                        using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
+                        {
+                            await Echo(context, webSocket);
+                        }
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = 400;
+                    }
+                }
+                else
+                {
+                    await next();
+                }
+            });
 
             app.UseHttpsRedirection();
 
@@ -153,15 +174,15 @@ namespace TravelApp
 
             app.UseAuthorization();
 
-            app.UseAzureSignalR(routes =>
-            {
-                routes.MapHub<OrderHub>("/orderHub");
-            });
+            //app.UseAzureSignalR(routes =>
+            //{
+            //    routes.MapHub<OrderHub>("/orderHub");
+            //});
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //endpoints.MapHub<OrderHub>("/orderHub");
+                endpoints.MapHub<OrderHub>("/orderHub");
             });
         }
 

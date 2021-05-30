@@ -80,7 +80,9 @@ export class MenuPage implements OnInit {
     this.checkValues();
      const connection = new signalR.HubConnectionBuilder()
        .configureLogging(signalR.LogLevel.Information)
-       .withUrl(`${environment.signalRUrl}/orderHub`, HttpTransportType.WebSockets | HttpTransportType.LongPolling)
+       .withUrl(`${environment.signalRUrl}/orderHub`, {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets})
        .build();
 
      connection.start().then(function () {

@@ -100,10 +100,17 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
     this.orderDiv = document.getElementById("order");
     this.orderDiv.style.display = 'block';
 
+    // const connection = new signalR.HubConnectionBuilder()
+    //   .configureLogging(signalR.LogLevel.Information)
+    //   .withUrl(`${environment.signalRUrl}/orderHub`)
+    //   .build();
+
     const connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.signalRUrl}/orderHub`)
-      .build();
+    .configureLogging(signalR.LogLevel.Information)
+    .withUrl(`${environment.signalRUrl}/orderHub`, {
+     skipNegotiation: true,
+     transport: signalR.HttpTransportType.WebSockets})
+    .build();
 
     connection.start().then(function () {
       console.log('signalR Connected in travel-mode');

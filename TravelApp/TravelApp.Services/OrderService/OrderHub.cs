@@ -22,12 +22,12 @@ namespace TravelApp.Services.OrderService
         {
             await this.Groups.AddToGroupAsync(this.Context.ConnectionId, groupName);
 
-            await this.hub.Clients.Group(groupName).MessageReceived("Send", $"{Context.ConnectionId} has joined the group {groupName}.");
+            //await this.hub.Clients.Group(groupName).MessageReceived("Send", $"{Context.ConnectionId} has joined the group {groupName}.");
         }
 
         public async Task SendMessage(string user, string message, string groupName)
         {
-            await this.hub.Clients.GroupExcept(groupName, this.Context.ConnectionId).MessageReceived(user, message);
+            //await this.hub.Clients.GroupExcept(groupName, this.Context.ConnectionId).MessageReceived(user, message);
         }
     }
 }

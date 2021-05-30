@@ -43,10 +43,17 @@ export class LoginPage implements OnInit {
       this.route.navigate(['menu/travelling'])
     }
 
+    // const connection = new signalR.HubConnectionBuilder()
+    //   .configureLogging(signalR.LogLevel.Information)
+    //   .withUrl(`${environment.signalRUrl}/orderHub`)
+    //   .build();
+
     const connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.signalRUrl}/orderHub`)
-      .build();
+       .configureLogging(signalR.LogLevel.Information)
+       .withUrl(`${environment.signalRUrl}/orderHub`, {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets})
+       .build();
 
     connection.start().then(function () {
       console.log('signalR Connected in login');
