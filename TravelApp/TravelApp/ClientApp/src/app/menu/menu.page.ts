@@ -78,11 +78,16 @@ export class MenuPage implements OnInit {
 
   ngOnInit() {
     this.checkValues();
-     const connection = new signalR.HubConnectionBuilder()
+    //  const connection = new signalR.HubConnectionBuilder()
+    //    .configureLogging(signalR.LogLevel.Information)
+    //    .withUrl(`${environment.signalRUrl}/orderHub`, {
+    //     skipNegotiation: true,
+    //     transport: signalR.HttpTransportType.WebSockets})
+    //    .build();
+
+    const connection = new signalR.HubConnectionBuilder()
        .configureLogging(signalR.LogLevel.Information)
-       .withUrl(`${environment.signalRUrl}/orderHub`, {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets})
+       .withUrl(`${environment.signalRUrl}/orderHub`)
        .build();
 
      connection.start().then(function () {
