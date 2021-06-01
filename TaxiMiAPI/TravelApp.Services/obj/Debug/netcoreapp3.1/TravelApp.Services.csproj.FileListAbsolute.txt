@@ -18,3 +18,26 @@ C:\Taxi\Taxu\TravelApp\TravelApp.Services\obj\Debug\netcoreapp3.1\TravelApp.Serv
 C:\Taxi\Taxu\TravelApp\TravelApp.Services\obj\Debug\netcoreapp3.1\TravelApp.Services.csproj.CopyComplete
 C:\Taxi\Taxu\TravelApp\TravelApp.Services\obj\Debug\netcoreapp3.1\TravelApp.Services.dll
 C:\Taxi\Taxu\TravelApp\TravelApp.Services\obj\Debug\netcoreapp3.1\TravelApp.Services.pdb
+<<<<<<< HEAD
+=======
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Services.deps.json
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Services.dll
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Services.pdb
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Common.dll
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Data.dll
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Infrastructure.dll
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Mappings.dll
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Models.dll
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Data.pdb
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Infrastructure.pdb
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Mappings.pdb
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Models.pdb
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\bin\Debug\netcoreapp3.1\TravelApp.Common.pdb
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\obj\Debug\netcoreapp3.1\TravelApp.Services.csprojAssemblyReference.cache
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\obj\Debug\netcoreapp3.1\TravelApp.Services.AssemblyInfoInputs.cache
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\obj\Debug\netcoreapp3.1\TravelApp.Services.AssemblyInfo.cs
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\obj\Debug\netcoreapp3.1\TravelApp.Services.csproj.CoreCompileInputs.cache
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\obj\Debug\netcoreapp3.1\TravelApp.Services.csproj.CopyComplete
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\obj\Debug\netcoreapp3.1\TravelApp.Services.dll
+C:\TaxiMi\TaxiMiAPI\TravelApp.Services\obj\Debug\netcoreapp3.1\TravelApp.Services.pdb
+>>>>>>> master

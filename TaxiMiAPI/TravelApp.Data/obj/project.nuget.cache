@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "S60mJMqqYaMQ9ST3crV/qcNmQsIfb2Riczx7ACKS4FC8a0jDhjMBBQT+/TH1S7p+mx6hepL5Nb3uH0SkMoFt1w==",
+=======
+  "dgSpecHash": "gm0jV2qvi1sbBdYg/+VkCWBsShGlC8+i3XcJ+XWr45ML+0xxG/6TogWi859Uwdjzkl50QEUUtvO1LORLyjnDxw==",
+>>>>>>> master
   "success": true,
   "projectFilePath": "C:\\TaxiMi\\TaxiMiAPI\\TravelApp.Data\\TravelApp.Data.csproj",
   "expectedPackageFiles": [
