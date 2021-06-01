@@ -32,7 +32,6 @@ C:\TaxiMi\TaxiMiAPI\TravelApp.Data\bin\Debug\netcoreapp3.1\TravelApp.Infrastruct
 C:\TaxiMi\TaxiMiAPI\TravelApp.Data\bin\Debug\netcoreapp3.1\TravelApp.Models.pdb
 C:\TaxiMi\TaxiMiAPI\TravelApp.Data\bin\Debug\netcoreapp3.1\TravelApp.Common.pdb
 C:\TaxiMi\TaxiMiAPI\TravelApp.Data\bin\Debug\netcoreapp3.1\TravelApp.Mappings.pdb
-C:\TaxiMi\TaxiMiAPI\TravelApp.Data\obj\Debug\netcoreapp3.1\TravelApp.Data.csprojAssemblyReference.cache
 C:\TaxiMi\TaxiMiAPI\TravelApp.Data\obj\Debug\netcoreapp3.1\TravelApp.Data.AssemblyInfoInputs.cache
 C:\TaxiMi\TaxiMiAPI\TravelApp.Data\obj\Debug\netcoreapp3.1\TravelApp.Data.AssemblyInfo.cs
 C:\TaxiMi\TaxiMiAPI\TravelApp.Data\obj\Debug\netcoreapp3.1\TravelApp.Data.csproj.CoreCompileInputs.cache
@@ -40,3 +39,4 @@ C:\TaxiMi\TaxiMiAPI\TravelApp.Data\obj\Debug\netcoreapp3.1\TravelApp.Data.csproj
 C:\TaxiMi\TaxiMiAPI\TravelApp.Data\obj\Debug\netcoreapp3.1\TravelApp.Data.dll
 C:\TaxiMi\TaxiMiAPI\TravelApp.Data\obj\Debug\netcoreapp3.1\TravelApp.Data.pdb
 C:\TaxiMi\TaxiMiAPI\TravelApp.Data\obj\Debug\netcoreapp3.1\TravelApp.Data.genruntimeconfig.cache
+C:\TaxiMi\TaxiMiAPI\TravelApp.Data\obj\Debug\netcoreapp3.1\TravelApp.Data.csproj.AssemblyReference.cache

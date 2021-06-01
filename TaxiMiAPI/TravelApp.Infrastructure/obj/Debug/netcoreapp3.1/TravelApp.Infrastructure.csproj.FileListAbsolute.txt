@@ -23,10 +23,10 @@ C:\TaxiMi\TaxiMiAPI\TravelApp.Infrastructure\bin\Debug\netcoreapp3.1\TravelApp.M
 C:\TaxiMi\TaxiMiAPI\TravelApp.Infrastructure\bin\Debug\netcoreapp3.1\TravelApp.Common.pdb
 C:\TaxiMi\TaxiMiAPI\TravelApp.Infrastructure\bin\Debug\netcoreapp3.1\TravelApp.Mappings.pdb
 C:\TaxiMi\TaxiMiAPI\TravelApp.Infrastructure\bin\Debug\netcoreapp3.1\TravelApp.Models.pdb
-C:\TaxiMi\TaxiMiAPI\TravelApp.Infrastructure\obj\Debug\netcoreapp3.1\TravelApp.Infrastructure.csprojAssemblyReference.cache
 C:\TaxiMi\TaxiMiAPI\TravelApp.Infrastructure\obj\Debug\netcoreapp3.1\TravelApp.Infrastructure.AssemblyInfoInputs.cache
 C:\TaxiMi\TaxiMiAPI\TravelApp.Infrastructure\obj\Debug\netcoreapp3.1\TravelApp.Infrastructure.AssemblyInfo.cs
 C:\TaxiMi\TaxiMiAPI\TravelApp.Infrastructure\obj\Debug\netcoreapp3.1\TravelApp.Infrastructure.csproj.CoreCompileInputs.cache
 C:\TaxiMi\TaxiMiAPI\TravelApp.Infrastructure\obj\Debug\netcoreapp3.1\TravelApp.Infrastructure.csproj.CopyComplete
 C:\TaxiMi\TaxiMiAPI\TravelApp.Infrastructure\obj\Debug\netcoreapp3.1\TravelApp.Infrastructure.dll
 C:\TaxiMi\TaxiMiAPI\TravelApp.Infrastructure\obj\Debug\netcoreapp3.1\TravelApp.Infrastructure.pdb
+C:\TaxiMi\TaxiMiAPI\TravelApp.Infrastructure\obj\Debug\netcoreapp3.1\TravelApp.Infrastructure.csproj.AssemblyReference.cache
