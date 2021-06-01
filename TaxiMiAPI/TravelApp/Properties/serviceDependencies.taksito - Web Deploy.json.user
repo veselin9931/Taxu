@@ -1,0 +1,59 @@
+{
+  "dependencies": {
+    "signalr1": {
+      "restored": true,
+      "restoreTime": "2021-05-25T12:26:35.0267948Z"
+    },
+    "mssql1": {
+      "restored": true,
+      "restoreTime": "2021-05-25T12:27:05.7222204Z"
+    }
+  },
+  "parameters": {
+    "taksito.resourceGroupLocation": {
+      "Name": "taksito.resourceGroupLocation",
+      "Type": null,
+      "Value": "centralus"
+    },
+    "signalr1.resourceGroupName": {
+      "Name": "signalr1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "TaxiMi"
+    },
+    "mssql1.resourceGroupLocation": {
+      "Name": "mssql1.resourceGroupLocation",
+      "Type": "location",
+      "Value": "centralus"
+    },
+    "signalr1.resourceGroupLocation": {
+      "Name": "signalr1.resourceGroupLocation",
+      "Type": "location",
+      "Value": "centralus"
+    },
+    "taksito.subscriptionId": {
+      "Name": "taksito.subscriptionId",
+      "Type": "subscription",
+      "Value": "7c51cc59-7aeb-4aa3-97ae-fab62ec74c02"
+    },
+    "taksito.resourceName": {
+      "Name": "taksito.resourceName",
+      "Type": null,
+      "Value": "taksito"
+    },
+    "mssql1.resourceGroupName": {
+      "Name": "mssql1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "free"
+    },
+    "taksito.resourceGroupName": {
+      "Name": "taksito.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "free"
+    },
+    "subscriptionId": {
+      "Name": "subscriptionId",
+      "Type": "subscription",
+      "Value": "7c51cc59-7aeb-4aa3-97ae-fab62ec74c02"
+    }
+  }
+}

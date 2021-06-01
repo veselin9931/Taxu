@@ -1,0 +1,12 @@
+C:\Taxi\Taxu\TravelApp\TravelApp.Models\bin\Release\netcoreapp3.1\TravelApp.Models.deps.json
+C:\Taxi\Taxu\TravelApp\TravelApp.Models\bin\Release\netcoreapp3.1\TravelApp.Models.dll
+C:\Taxi\Taxu\TravelApp\TravelApp.Models\bin\Release\netcoreapp3.1\TravelApp.Models.pdb
+C:\Taxi\Taxu\TravelApp\TravelApp.Models\bin\Release\netcoreapp3.1\TravelApp.Common.dll
+C:\Taxi\Taxu\TravelApp\TravelApp.Models\bin\Release\netcoreapp3.1\TravelApp.Common.pdb
+C:\Taxi\Taxu\TravelApp\TravelApp.Models\obj\Release\netcoreapp3.1\TravelApp.Models.csprojAssemblyReference.cache
+C:\Taxi\Taxu\TravelApp\TravelApp.Models\obj\Release\netcoreapp3.1\TravelApp.Models.AssemblyInfoInputs.cache
+C:\Taxi\Taxu\TravelApp\TravelApp.Models\obj\Release\netcoreapp3.1\TravelApp.Models.AssemblyInfo.cs
+C:\Taxi\Taxu\TravelApp\TravelApp.Models\obj\Release\netcoreapp3.1\TravelApp.Models.csproj.CoreCompileInputs.cache
+C:\Taxi\Taxu\TravelApp\TravelApp.Models\obj\Release\netcoreapp3.1\TravelApp.Models.csproj.CopyComplete
+C:\Taxi\Taxu\TravelApp\TravelApp.Models\obj\Release\netcoreapp3.1\TravelApp.Models.dll
+C:\Taxi\Taxu\TravelApp\TravelApp.Models\obj\Release\netcoreapp3.1\TravelApp.Models.pdb

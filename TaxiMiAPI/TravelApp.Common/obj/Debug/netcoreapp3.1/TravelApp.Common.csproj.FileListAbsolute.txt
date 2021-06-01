@@ -1,0 +1,9 @@
+C:\Taxi\Taxu\TravelApp\TravelApp.Common\bin\Debug\netcoreapp3.1\TravelApp.Common.deps.json
+C:\Taxi\Taxu\TravelApp\TravelApp.Common\bin\Debug\netcoreapp3.1\TravelApp.Common.dll
+C:\Taxi\Taxu\TravelApp\TravelApp.Common\bin\Debug\netcoreapp3.1\TravelApp.Common.pdb
+C:\Taxi\Taxu\TravelApp\TravelApp.Common\obj\Debug\netcoreapp3.1\TravelApp.Common.csprojAssemblyReference.cache
+C:\Taxi\Taxu\TravelApp\TravelApp.Common\obj\Debug\netcoreapp3.1\TravelApp.Common.AssemblyInfoInputs.cache
+C:\Taxi\Taxu\TravelApp\TravelApp.Common\obj\Debug\netcoreapp3.1\TravelApp.Common.AssemblyInfo.cs
+C:\Taxi\Taxu\TravelApp\TravelApp.Common\obj\Debug\netcoreapp3.1\TravelApp.Common.csproj.CoreCompileInputs.cache
+C:\Taxi\Taxu\TravelApp\TravelApp.Common\obj\Debug\netcoreapp3.1\TravelApp.Common.dll
+C:\Taxi\Taxu\TravelApp\TravelApp.Common\obj\Debug\netcoreapp3.1\TravelApp.Common.pdb

@@ -1,0 +1,16 @@
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\bin\Release\netcoreapp3.1\TravelApp.Infrastructure.deps.json
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\bin\Release\netcoreapp3.1\TravelApp.Infrastructure.dll
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\bin\Release\netcoreapp3.1\TravelApp.Infrastructure.pdb
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\bin\Release\netcoreapp3.1\TravelApp.Common.dll
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\bin\Release\netcoreapp3.1\TravelApp.Mappings.dll
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\bin\Release\netcoreapp3.1\TravelApp.Models.dll
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\bin\Release\netcoreapp3.1\TravelApp.Common.pdb
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\bin\Release\netcoreapp3.1\TravelApp.Mappings.pdb
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\bin\Release\netcoreapp3.1\TravelApp.Models.pdb
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\obj\Release\netcoreapp3.1\TravelApp.Infrastructure.csprojAssemblyReference.cache
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\obj\Release\netcoreapp3.1\TravelApp.Infrastructure.AssemblyInfoInputs.cache
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\obj\Release\netcoreapp3.1\TravelApp.Infrastructure.AssemblyInfo.cs
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\obj\Release\netcoreapp3.1\TravelApp.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\obj\Release\netcoreapp3.1\TravelApp.Infrastructure.csproj.CopyComplete
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\obj\Release\netcoreapp3.1\TravelApp.Infrastructure.dll
+C:\Taxi\Taxu\TravelApp\TravelApp.Infrastructure\obj\Release\netcoreapp3.1\TravelApp.Infrastructure.pdb
