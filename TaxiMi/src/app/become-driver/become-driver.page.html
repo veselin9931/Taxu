@@ -17,93 +17,72 @@
 <ion-content padding class="background">
     <div class="row mt-2">
         <div class="col">
-            <!-- <div class="row mt-2">
-              <div class="col-1">
-                <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
-              </div>
-              <div class="col-9">
-                <h5 (click)=goBack() class="back">Back</h5>
-              </div>
-            </div> -->
-            <!--<div class="row">
-                <div class="col text-center">
-                    <ion-text class="centered" color="dark">
-                        <h2 class="text">Become a driver</h2>
-                        <hr>
-                        <h5 class="text">Please upload your documents, so we can verify your account</h5>
-                    </ion-text>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <ion-text color="dark">
-                                <hr>
-                                <h5 class="text">Click the button below and upload both image for your drivers license and your id card.</h5>
-                            </ion-text>
-
-                            <input type="file" #file placeholder="Choose file" (change)="uploadLicense(file.files)" style="display:none;">
-                            <ion-button class="my-label mt-3" (click)="file.click()" expand="full" color="dark">Upload</ion-button>
-                            <div class="col-md-4 mt-2">
-                                <div class="progress form-group" *ngIf="progress > 0">
-                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
-                                    </div>
-                                </div>
-
-                                <span class="upload" *ngIf="progress > 0">
-                                    {{progress}}%
-                                </span>
-                                <span class="upload" *ngIf="message">
-                                    {{message}}
-                                </span>
-                            </div>
-                        </div>
-                    </div>-->
-            <!-- <form [formGroup]="form" novalidate class="col-md-6">
-
-              <div class="form-group col mt-5 text-center">
-                <ion-input formControlName="driverLicense" type="text" class="form-control"
-                  placeholder="Driver License Number" [ngClass]="{ 'is-invalid': submitted && f.driverLicense.errors }">
-                </ion-input>
-                <div *ngIf="submitted && f.driverLicense.errors" class="invalid-feedback">
-                  <div *ngIf="f.driverLicense.errors.required">The field is required!</div>
-                </div>
-              </div>
-
-
-              <div class="form-group col mt-5 text-center">
-                <ion-input formControlName="idCardNumber" type="text" class="form-control" placeholder="ID Card Number"
-                  [ngClass]="{ 'is-invalid': submitted && f.idCardNumber.errors }">
-                </ion-input>
-                <div *ngIf="submitted && f.idCardNumber.errors" class="invalid-feedback">
-                  <div *ngIf="f.idCardNumber.errors.required">The field is required!</div>
-                </div>
-              </div>
-
-              <div class="col-md-12 mt-3">
-                <ion-button (click)="onSubmit()" type="submit" color="dark">Submit</ion-button>
-              </div>
-            </form> -->
-            <!--</div>
-            </div>-->
         </div>
     </div>
     
     <ion-content padding (change)="upload()">
         <div class="col text-center">
             <ion-text class="centered" color="dark">
-                <h2 class="text">Become a driver</h2>
+                <h3 class="text">Become a driver</h3>
 
-                <h5 class="text">Please upload your documents, so we can verify your account</h5>
-
-                <ion-text color="dark">
-
-                    <h5 class="text">Click the button below and upload both image for your drivers license and your id card.</h5>
-                </ion-text>
-
-                <hr>
+                <hr />
+                <h5 class="text mb-3">Please upload the following documents:</h5>
             </ion-text>
-
         </div>
-        <app-multi-file-upload></app-multi-file-upload>
+        
+        <div class="input-group">
+            <div class="input-group mb-1">
+                <label type="text" class="form-control">1. ID card front</label>
+                <div class="input-group-append">
+                  <span>
+                    <app-multi-file-upload></app-multi-file-upload>
+                  </span>
+                </div>
+              </div>
+
+              <div class="input-group mb-1">
+                <label type="text" class="form-control">2. ID card back</label>
+                <div class="input-group-append">
+                    <span>
+                        <app-multi-file-upload></app-multi-file-upload>
+                      </span>
+                </div>
+              </div>
+
+              <div class="input-group mb-1">
+                <label type="text" class="form-control">3. Driver's license front</label>
+                <div class="input-group-append">
+                    <span>
+                        <app-multi-file-upload></app-multi-file-upload>
+                      </span>
+                </div>
+              </div>
+
+              <div class="input-group mb-1">
+                <label type="text" class="form-control">4. Driver's license back</label>
+                <div class="input-group-append">
+                    <span>
+                        <app-multi-file-upload></app-multi-file-upload>
+                      </span>
+                </div>
+              </div>
+          </div> 
+
+          
+
+
+        <ion-list>
+            <ion-reorder-group disabled="false">
+                <ion-item *ngFor="let item of uploader.queue">
+                    <ion-label>
+                        {{ item?.file?.name }}
+                    </ion-label>
+                </ion-item>
+            </ion-reorder-group>
+        </ion-list>
+
+        
+
         <div *ngIf="checker">
 
             <div class="col-md-4 mt-2">
@@ -130,9 +109,8 @@
         </ion-list>
 
 
-        <div class="col-md-12 mt-3">
-            <ion-button (click)="onSubmit()" type="submit" color="dark">Submit</ion-button>
-
+        <div class="text-center mt-3">
+            <button (click)="onSubmit()" type="submit" class="btn btn-dark">Submit</button>
         </div>
     </ion-content>
 

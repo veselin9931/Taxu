@@ -12,6 +12,8 @@ namespace TaxiMi.Infrastructure.HubConfig
 
         Task CreatedAccount();
 
+        Task OnUpload(string userId);
+        
         Task LoggedIn();
         Task CarAction(string driverId);
 

@@ -30,26 +30,18 @@
             <ion-label class="my-label" color="dark"> {{'Register' | translate}} </ion-label>
           </ion-item>
 
+          <ion-item *ngIf="isLoggedIn" routerLink="/menu/favourite-orders">
+            <ion-icon color="dark" slot="start" name="star-outline"></ion-icon>
+            <ion-label class="my-label" color="dark"> {{'Favourites' | translate}} </ion-label>
+          </ion-item>
+
+
           <ion-item *ngIf="isLoggedIn" routerLink="/menu/travelling">
             <ion-icon color="dark" slot="start" name="bicycle-outline"></ion-icon>
             <ion-label class="my-label" color="dark"> {{'Travel' | translate}} </ion-label>
           </ion-item>
 
-          <ion-item *ngIf="isLoggedIn && documentConfirmed == false && isVerified == true" routerLink="/menu/verifying">
-            <ion-icon color="dark" name="person-outline" slot="start"></ion-icon>
-            <ion-label class="my-label" color="dark"> {{'Profile' | translate}} </ion-label>
-          </ion-item>
-
-          <ion-item *ngIf="isLoggedIn && documentConfirmed == false && isVerified == false" routerLink="/menu/become-driver">
-            <ion-icon color="dark" name="person-outline" slot="start"></ion-icon>
-            <ion-label class="my-label" color="dark"> {{'Profile' | translate}} </ion-label>
-          </ion-item>
-
-          <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true" routerLink="/menu/driver-profile">
-            <ion-icon color="dark" name="person-outline" slot="start"></ion-icon>
-            <ion-label class="my-label" color="dark"> {{'Profile' | translate}} </ion-label>
-          </ion-item>
-
+          
           <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true && driverCars.length >= 1"
             routerLink="/menu/categories">
             <ion-icon color="dark" name="car-outline" slot="start"></ion-icon>
@@ -68,12 +60,22 @@
             <ion-label class="my-label" color="dark"> {{'Drive' | translate}} </ion-label>
           </ion-item>
 
-
-          <ion-item *ngIf="isLoggedIn" routerLink="/menu/favourite-orders">
-            <ion-icon color="dark" slot="start" name="star-outline"></ion-icon>
-            <ion-label class="my-label" color="dark"> {{'Favourites' | translate}} </ion-label>
+          <ion-item *ngIf="isLoggedIn && documentConfirmed == false && isVerified == true" routerLink="/menu/verifying">
+            <ion-icon color="dark" name="person-outline" slot="start"></ion-icon>
+            <ion-label class="my-label" color="dark"> {{'Profile' | translate}} </ion-label>
           </ion-item>
 
+          <ion-item *ngIf="isLoggedIn && documentConfirmed == false && isVerified == false" routerLink="/menu/become-driver">
+            <ion-icon color="dark" name="person-outline" slot="start"></ion-icon>
+            <ion-label class="my-label" color="dark"> {{'Profile' | translate}} </ion-label>
+          </ion-item>
+
+          <ion-item *ngIf="isLoggedIn && isVerified && documentConfirmed == true" routerLink="/menu/driver-profile">
+            <ion-icon color="dark" name="person-outline" slot="start"></ion-icon>
+            <ion-label class="my-label" color="dark"> {{'Profile' | translate}} </ion-label>
+          </ion-item>
+
+         
           <ion-item *ngIf="isLoggedIn" routerLink="/menu/report">
             <ion-icon color="dark" slot="start" name="alert-circle-outline"></ion-icon>
             <ion-label class="my-label" color="dark"> {{'Report' | translate}} </ion-label>

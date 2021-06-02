@@ -8,8 +8,8 @@ export const environment = {
    //  signalRUrl: 'https://taksito.azurewebsites.net',
    // apiUrl: 'https://localhost:44377',
    // signalRUrl: 'https://localhost:44377',
-   apiUrl: 'http://taximiapi.com.aspbg.net',
-   signalRUrl: 'http://taximiapi.com.aspbg.net',
+   apiUrl: 'http://www.taximiapi.com.aspbg.net',
+   signalRUrl: 'http://www.taximiapi.com.aspbg.net',
    // apiUrl: 'http://192.168.0.4:3000',
    // signalRUrl: 'http://192.168.0.4:3000',
     

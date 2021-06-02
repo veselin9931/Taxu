@@ -1,14 +1,14 @@
-
 <div class="file-input-container ">
     <label>
         <input type="file" ng2FileSelect [uploader]="uploader" multiple />
-        Add Files
+        <ion-icon name="add-outline" color="dark"></ion-icon>
     </label>
 </div>
 
-<h3>Files: {{ uploader?.queue?.length }}</h3>
+<!-- <h3>Files: {{ uploader?.queue?.length }}</h3> -->
+<br>
 
-<ion-list>
+<!-- <ion-list>
     <ion-reorder-group (ionItemReorder)="reorderFiles($event)" disabled="false">
         <ion-item *ngFor="let item of uploader.queue">
             <ion-label>
@@ -17,4 +17,4 @@
             <ion-reorder></ion-reorder>
         </ion-item>
     </ion-reorder-group>
-</ion-list>
+</ion-list> -->

@@ -102,7 +102,7 @@ namespace TaxiMi.Controllers
 
                     if (result)
                     {
-                        await this.hub.Clients.All.BroadcastMessage();
+                        await this.hub.Clients.All.OnUpload(userId);
                         return this.Ok(result);
                     }
 

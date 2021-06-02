@@ -16,7 +16,7 @@ import { AccountService, AlertService } from 'src/_services';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-    submitted = false;
+    submitted: boolean;
     err = '';
   form: FormGroup;
   loading = false;
@@ -26,7 +26,6 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder,
     private alertService: AlertService,
     private accountService: AccountService,
-    private http: HttpClient,
     private translate: TranslateService,
     private popoverController: PopoverController) {
     this.isLoggedIn = localStorage.getItem("user");
@@ -60,10 +59,6 @@ export class LoginPage implements OnInit {
     }).catch(function (err) {
       return console.log(err.toString());
     });
-
-    connection.on('LoggedIn', () => {
-      this.onSubmit();
-    });
   }
 
   get f() { return this.form.controls; }
@@ -85,18 +80,18 @@ export class LoginPage implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.clearForm();
-          console.log(data);
           this.accountService.updateDriving(this.accountService.userValue.id, false)
             .subscribe(data => {
               console.log('success')
             });
-          this.route.navigate(['menu/travelling']);
+            this.route.navigate(['menu/travelling']);
+            this.loading = false;
+
         },
           error => {
               console.log(error.error.message);
               this.err = error.error.message
-          this.loading = false;
+              this.loading = false;
         });
 
   }

@@ -86,7 +86,7 @@ namespace TaxiMi
 
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://www.taximiapi.com.aspbg.net")
+                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://www.taximiapi.com.aspbg.net/", "http://localhost:8100/")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
@@ -96,7 +96,6 @@ namespace TaxiMi
             services.AddMvc();
 
             services.AddSignalR();
-            //.AddAzureSignalR();
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>

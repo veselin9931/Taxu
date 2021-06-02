@@ -23,12 +23,11 @@
                     <form [formGroup]="form" novalidate class="col">
                         <div *ngIf="isCompleted == false" class="form-group col mt-2">
                             <p (click)="locationMap()" *ngIf="this.orderService.chosenLocation != null">
-                                <ion-icon class="mr-2" name="analytics-outline"></ion-icon>
+                                <ion-icon class="mr-2" name="location-outline"></ion-icon>
                                 {{this.orderService.chosenLocation}}
                             </p>
                             <p (click)="locationMap()" *ngIf="this.orderService.chosenLocation == null">
-                                <ion-icon class="mr-2" name="analytics-outline"></ion-icon>{{'Click here to choose
-                                starting point'| translate}}.
+                                <ion-icon class="mr-2" name="location-outline"></ion-icon>{{'Take me from here'| translate}}.
                             </p>
                             <hr />
                         </div>
@@ -38,8 +37,7 @@
                                 {{this.orderService.chosenDestination}}
                             </p>
                             <p (click)="destinationMap()" *ngIf="this.orderService.chosenDestination == null">
-                                <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{'Click here to choose
-                                destination' |translate}}.
+                                <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{'Choose the destination' |translate}}.
                             </p>
                         </div>
 
@@ -56,9 +54,11 @@
                         <div *ngIf="isCompleted == false" class="col-md-12 text-center">
                             <ion-select (ionChange)="onSelectChange($event)"
                                 [placeholder]='"Additional options (optional)" | translate' multiple="true">
-                                <ion-select-option value="With pets">{{'With pets' | translate}} + 2.20$
+                                <!-- <ion-select-option value="With pets">{{'Pets' | translate}} + 2.20$
+                                </ion-select-option> -->
+                                <ion-select-option value="With pets">{{'Pets' | translate}} + 2.20$
                                 </ion-select-option>
-                                <ion-select-option value="With stroller">{{'With stroller' | translate}}
+                                <ion-select-option value="With stroller">{{'Baggage' | translate}}
                                 </ion-select-option>
                                 <ion-select-option value="Special needs">{{'Special needs' | translate}}
                                 </ion-select-option>
@@ -70,7 +70,7 @@
                             <ion-select (ionChange)="onSelectCar($event)"
                                 [placeholder]='"Car type (optional)" | translate'>
                                 <ion-select-option value="Normal">{{'Normal' | translate}}</ion-select-option>
-                                <ion-select-option value="Comfort">{{'Comfort' | translate}} + 1$</ion-select-option>
+                                <ion-select-option value="Comfort">Comfort + 1$</ion-select-option>
                             </ion-select>
                         </div>
 
