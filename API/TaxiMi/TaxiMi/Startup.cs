@@ -54,7 +54,6 @@ namespace TaxiMi
                .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

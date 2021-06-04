@@ -25,11 +25,11 @@
             var logger = serviceProvider.GetService<ILoggerFactory>().CreateLogger(typeof(ApplicationDbContextSeeder));
 
             var seeders = new List<ISeeder>
-                          {
-                              new RolesSeeder(),
+                          {   
                               new CarTypesSeeder(),
                               new ReportTypeSeeder(),
                               new ProfitRecordSeeder(),
+                              new RolesSeeder(),
                           };
 
             foreach (var seeder in seeders)

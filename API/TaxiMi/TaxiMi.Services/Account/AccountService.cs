@@ -59,10 +59,17 @@ namespace TaxiMi.Services.Account
             user.PasswordSalt = Convert.ToBase64String(passwordSalt);
 
             user.EmailConfirmed = true;
-
          
-
             var result = await this.userRepository.CreateAsync(user);
+
+            if (!this.userRepository.Users.Any())
+            {
+                user.IsAdmin = true;
+                await this.userRepository.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
+            }
+
+            await this.userRepository.AddToRoleAsync(user, GlobalConstants.UserRoleName);
+            user.IsAdmin = false;
 
             return user;
         }
