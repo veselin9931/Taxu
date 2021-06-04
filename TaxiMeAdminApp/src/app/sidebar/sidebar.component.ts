@@ -28,7 +28,8 @@ export const ROUTES: RouteInfo[] = [
 
 export class SidebarComponent implements OnInit {
     public menuItems: any[];
-    isLoggedIn;
+  isLoggedIn;
+  isAdmin;
 
     constructor(private route: Router){}
     ngOnInit() {
@@ -55,7 +56,8 @@ export class SidebarComponent implements OnInit {
     }
 
     checkValues() {
-        this.isLoggedIn = localStorage.getItem("user");
+      this.isLoggedIn = localStorage.getItem("user");
+      console.log(localStorage.getItem("user"));
     }
 
     logout() {

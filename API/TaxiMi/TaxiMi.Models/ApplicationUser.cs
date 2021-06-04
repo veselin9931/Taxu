@@ -37,6 +37,8 @@ namespace TaxiMi.Models
         public Driver Driver { get; set; }
 
         public string DriverId { get; set; }
+
+        public bool IsAdmin { get; set; }
         
     }
 }
