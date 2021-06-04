@@ -112,13 +112,6 @@ export class DrivingModePage implements OnInit {
       .withUrl(`${environment.signalRUrl}/orderHub`)
       .build();
 
-    // const connection = new signalR.HubConnectionBuilder()
-    //    .configureLogging(signalR.LogLevel.Information)
-    //    .withUrl(`${environment.signalRUrl}/orderHub`, {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets})
-    //    .build();
-
     connection.start().then(function () {
       console.log('signalR Connected in driving-mode');
     }).catch(function (err) {
@@ -206,25 +199,24 @@ export class DrivingModePage implements OnInit {
       (response, status) => {
         if (status === "OK") {
           this.subscriptions.push(this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
-            .subscribe(() => { }));
-
-          if (Capacitor.getPlatform() === 'ios') {
-            window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
-            console.log('ios platform')
-            directionsRenderer.setDirections(response);
-            this.isStarted = true;
-          }
-          if (Capacitor.platform == 'android') {
-            window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-            directionsRenderer.setDirections(response);
-            this.isStarted = true;
-          }
-          else {
-            window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-            directionsRenderer.setDirections(response);
-            this.isStarted = true;
-          }
-
+            .subscribe(() => {
+              if (Capacitor.getPlatform() === 'ios') {
+                window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
+                console.log('ios platform')
+                directionsRenderer.setDirections(response);
+                this.isStarted = true;
+              }
+              if (Capacitor.platform == 'android') {
+                window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+                directionsRenderer.setDirections(response);
+                this.isStarted = true;
+              }
+              else {
+                window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+                directionsRenderer.setDirections(response);
+                this.isStarted = true;
+              }
+             }));
 
         } else {
           window.alert("Directions request failed due to " + status);
@@ -273,6 +265,7 @@ export class DrivingModePage implements OnInit {
             directionsRenderer.setDirections(response);
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
           }
+          this.startTrip();
         } else {
           console.log("failed")
 
@@ -280,7 +273,6 @@ export class DrivingModePage implements OnInit {
         }
       }
     );
-    this.startTrip();
     directionsRenderer.setMap(this.map);
   }
 

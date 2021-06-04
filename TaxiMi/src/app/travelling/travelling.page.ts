@@ -85,15 +85,8 @@ export class TravellingPage implements OnInit {
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.signalRUrl}/orderHub`, HttpTransportType.WebSockets | HttpTransportType.LongPolling)
+      .withUrl(`${environment.signalRUrl}/orderHub`)
       .build();
-
-    // const connection = new signalR.HubConnectionBuilder()
-    //    .configureLogging(signalR.LogLevel.Information)
-    //    .withUrl(`${environment.signalRUrl}/orderHub`, {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets})
-    //    .build();
 
     connection.start().then(function () {
       console.log('signalR Connected in travelling');
@@ -139,6 +132,10 @@ export class TravellingPage implements OnInit {
     connection.on('LocateDriver', (driverId: string) => {
       
     });
+
+    connection.on('BroadcastMessage', () => {
+      console.log('broadcasted from travelling')
+    });
   }
   async presentOrderAcceptedNotification() {
     await LocalNotifications.schedule({
@@ -151,12 +148,7 @@ export class TravellingPage implements OnInit {
       ]
     })
   }
-  // ionViewDidLeave() {
-  //   for (const subscription of this.subscriptions) {
-  //     console.log(subscription)
-  //     subscription.unsubscribe();
-  //   }
-  // }
+  
 
   ionViewDidEnter() {
     this.checkorder();

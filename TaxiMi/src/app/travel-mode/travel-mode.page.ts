@@ -88,13 +88,6 @@ export class TravelModePage implements OnInit {
       .withUrl(`${environment.signalRUrl}/orderHub`)
       .build();
 
-    // const connection = new signalR.HubConnectionBuilder()
-    //    .configureLogging(signalR.LogLevel.Information)
-    //    .withUrl(`${environment.signalRUrl}/orderHub`, {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets})
-    //    .build();
-
     connection.start().then(function () {
       console.log('signalR Connected in travel-mode');
     }).catch(function (err) {
@@ -454,6 +447,7 @@ export class TravelModePage implements OnInit {
             this.subscriptions.push(this.driverService.voteUp(this.driverId)
               .subscribe(x => { }));
             this.route.navigate(['menu/travelling']);
+            window.location.reload();
           }
         },
         {
@@ -463,6 +457,7 @@ export class TravelModePage implements OnInit {
             this.subscriptions.push(this.driverService.voteDown(this.driverId)
               .subscribe(x => { }));
             this.route.navigate(['menu/travelling']);
+            window.location.reload();
           }
         },
         {
@@ -470,6 +465,7 @@ export class TravelModePage implements OnInit {
           role: 'cancel',
           handler: () => {
             this.route.navigate(['menu/travelling']);
+            window.location.reload();
           }
         },
         {
