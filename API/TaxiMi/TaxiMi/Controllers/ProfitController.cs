@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TaxiMi.Common;
 using TaxiMi.Services.ProfitService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,6 +23,7 @@ namespace TaxiMi.Controllers
         }
         // GET: api/<ProfitController>
         [HttpGet]
+        //[Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Get()
         {
             var result = await this.profitService.GetTotalProfit();

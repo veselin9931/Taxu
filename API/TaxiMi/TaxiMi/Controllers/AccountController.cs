@@ -6,11 +6,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using TaxiMi.Common;
 using TaxiMi.Infrastructure.HubConfig;
 using TaxiMi.Infrastructure.ViewModels;
 using TaxiMi.Models;
@@ -63,13 +65,16 @@ namespace TaxiMi.Controllers
         }
 
         // GET: api/<AccountController>
+        //[Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         [HttpGet("user/")]
         public IEnumerable<ApplicationUser> GetAllUsers()
         {
             return this.userService.GetAll().Where(a => a.IsDeleted == false).AsEnumerable();
         }
+
         // GET: api/<AccountController>
         [HttpGet]
+        //[Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IEnumerable<ApplicationUser> GetAllDrivers()
         {
             return this.userService.GetAll().Where(a => a.DriverId != null).AsEnumerable();
@@ -168,6 +173,7 @@ namespace TaxiMi.Controllers
                 ChoosenLanguage = user.ChoosenLanguage,
                 Timer = DateTime.UtcNow,
                 AlertTriggered = user.AlertTriggered,
+                IsAdmin = user.IsAdmin,
             });
         }
 

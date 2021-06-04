@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TaxiMi.Common;
 using TaxiMi.Infrastructure.HubConfig;
 using TaxiMi.Infrastructure.InputModels.TripInput;
 using TaxiMi.Services.OrderService;
@@ -30,6 +32,7 @@ namespace TaxiMi.Controllers
 
         // GET: api/<TripController>
         [HttpGet]
+        //[Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Get()
         {
             var trips = await this.tripService.GetAllCompletedTripsAsync();

@@ -60,16 +60,19 @@ namespace TaxiMi.Services.Account
 
             user.EmailConfirmed = true;
          
-            var result = await this.userRepository.CreateAsync(user);
 
             if (!this.userRepository.Users.Any())
             {
+                await this.userRepository.CreateAsync(user);
                 user.IsAdmin = true;
                 await this.userRepository.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
             }
-
-            await this.userRepository.AddToRoleAsync(user, GlobalConstants.UserRoleName);
-            user.IsAdmin = false;
+            else
+            {
+                await this.userRepository.CreateAsync(user);
+                await this.userRepository.AddToRoleAsync(user, GlobalConstants.UserRoleName);
+                user.IsAdmin = false;
+            }
 
             return user;
         }
