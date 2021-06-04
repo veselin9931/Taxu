@@ -69,6 +69,8 @@ namespace TaxiMi.Services.ImageService
 
             this.repository.Update(img);
 
+            await this.repository.SaveChangesAsync();
+
             return true;
         }
 
