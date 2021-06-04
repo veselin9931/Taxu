@@ -124,8 +124,8 @@ namespace TaxiMi.Controllers
             var image = await this.service.DeleteImageAsync(id);
 
             if (image)
-            {
-                await this.hub.Clients.All.BroadcastMessage();
+            { 
+                await this.hub.Clients.All.OnUpload(id);
                 return this.Ok(image);
             }
 
