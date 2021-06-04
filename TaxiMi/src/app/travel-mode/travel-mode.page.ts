@@ -15,7 +15,6 @@ import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-import { HttpTransportType } from '@aspnet/signalr';
 const { Geolocation, LocalNotifications } = Plugins;
 declare var google: any;
 
@@ -77,8 +76,7 @@ export class TravelModePage implements OnInit {
 
   ngOnInit() {
     this.checkorder();
-    // this.chatService.stop();
-    // this.chatService.start();
+   
 
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
@@ -125,17 +123,17 @@ export class TravelModePage implements OnInit {
         }))
     });
 
-    // connection.on('LocateDriver', (driverId) => {
-    //   this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
-    //     .subscribe(x => {
-    //       this.subscriptions.push(this.driverService.getDriver(driverId)
-    //         .subscribe(driver => {
-    //           if (driver.id == driverId) {
-    //             this.loadMap(this.mapRef, driver.applicationUserId);
-    //           }
-    //         }))
-    //     }))
-    // });
+    connection.on('LocateDriver', (driverId) => {
+      this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
+        .subscribe(x => {
+          this.subscriptions.push(this.driverService.getDriver(driverId)
+            .subscribe(driver => {
+              if (driver.id == driverId) {
+                this.loadMap(this.mapRef, driver.applicationUserId);
+              }
+            }))
+        }))
+    });
 
     connection.on('NotifyArrived', (orderId: string) => {
       this.subscriptions.push(this.orderService.getOrderById(orderId)
@@ -181,6 +179,8 @@ export class TravelModePage implements OnInit {
     this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
+          this.chatService.stop();
+          this.chatService.start();
           this.totalPrice = data.totalPrice;
           this.orderStatus = data.status;
           this.orderAcceptedBy = data.acceptedBy;

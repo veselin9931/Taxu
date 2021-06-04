@@ -132,10 +132,6 @@ export class TravellingPage implements OnInit {
     connection.on('LocateDriver', (driverId: string) => {
       
     });
-
-    connection.on('BroadcastMessage', () => {
-      console.log('broadcasted from travelling')
-    });
   }
   async presentOrderAcceptedNotification() {
     await LocalNotifications.schedule({
@@ -197,10 +193,14 @@ export class TravellingPage implements OnInit {
     //Gets the loc and lng if we come from "Favourites" page
     if (this.form.value.location == undefined) {
       this.locationError();
+      this.isSubmitted = false;
+
     }
 
     if (this.form.value.destination == undefined) {
       this.destinationError();
+      this.isSubmitted = false;
+
     }
 
     if (!this.form.valid) {
@@ -393,6 +393,7 @@ export class TravellingPage implements OnInit {
         {
           text: 'Ok',
           role: 'Ok',
+          
         }
       ]
     });

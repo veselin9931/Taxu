@@ -23,7 +23,7 @@ export class MenuPage implements OnInit {
   isLoggedIn;
   driverId: string;
   isVerified: boolean;
-  documentConfirmed= false;
+  documentConfirmed = false;
   driverCars = [];
   accessedPath = "";
 
@@ -57,24 +57,24 @@ export class MenuPage implements OnInit {
     private translate: TranslateService,
     private popoverController: PopoverController,
     private backgroundMode: BackgroundMode) {
-      this.isLoggedIn = localStorage.getItem("user");
-      if(this.isLoggedIn){
-        this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
-        this.backgroundMode.enable();
-      } else {
-        this.translate.setDefaultLang('en');
-      }
-      this.subscriptions.push(this.router.events.subscribe((event: RouterEvent) => {
-      if(event && event.url){
-        if(event.url == "/menu/driving"){
-          if(this.isLoggedIn && this.isVerified && this.documentConfirmed && this.driverCars.length >= 1){
+    this.isLoggedIn = localStorage.getItem("user");
+    if (this.isLoggedIn) {
+      this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+      this.backgroundMode.enable();
+    } else {
+      this.translate.setDefaultLang('en');
+    }
+    this.subscriptions.push(this.router.events.subscribe((event: RouterEvent) => {
+      if (event && event.url) {
+        if (event.url == "/menu/driving") {
+          if (this.isLoggedIn && this.isVerified && this.documentConfirmed && this.driverCars.length >= 1) {
             event.url = '/menu/driving'
           }
         }
         //this.selectedPath = event.url;
       }
     }));
-   }
+  }
 
   ngOnInit() {
     this.checkValues();
@@ -86,24 +86,40 @@ export class MenuPage implements OnInit {
     //    .build();
 
     const connection = new signalR.HubConnectionBuilder()
-       .configureLogging(signalR.LogLevel.Information)
-       .withUrl(`${environment.signalRUrl}/orderHub`)
-       .build();
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl(`${environment.signalRUrl}/orderHub`)
+      .build();
 
-     connection.start().then(function () {
-       console.log('signalR Connected in menu');
-     }).catch(function (err) {
+    connection.start().then(function () {
+      console.log('signalR Connected in menu');
+    }).catch(function (err) {
       console.log("Reconnecting in 1 sec.");
       setTimeout(() => connection.start(), 1000);
-     });
+    });
 
-     connection.on('BroadcastMessage', () => {
+    connection.on('BroadcastMessage', () => {
       this.checkValues();
     });
 
-     connection.on('LoggedIn', () => {
-       this.checkValues();
-     });
+    connection.on('LoggedIn', () => {
+      this.checkValues();
+    });
+
+    connection.on('CreatedOrder', () => {
+
+    });
+
+    connection.on('OrderDeleted', () => {
+
+    });
+
+    connection.on('WalletAction', () => {
+
+    });
+
+    connection.on('CompleteOrder', () => {
+
+    });
   }
 
   // ionViewDidLeave() {
@@ -113,11 +129,11 @@ export class MenuPage implements OnInit {
   //   }
   // }
 
-  checkValues(){
+  checkValues() {
     this.isLoggedIn = localStorage.getItem("user");
 
     if (this.isLoggedIn) {
-     
+
       this.subscriptions.push(this.accountService.getById(this.accountService.userValue.id)
         .subscribe(x => {
           this.isVerified = x.isDriver;
@@ -126,16 +142,16 @@ export class MenuPage implements OnInit {
             this.subscriptions.push(this.driverService.getDriver(x.driverId)
               .subscribe(d => {
                 this.subscriptions.push(this.driverService.getDriverCars(x.driverId)
-                .subscribe(cars => {
-                  this.driverCars = cars;
-                }));
+                  .subscribe(cars => {
+                    this.driverCars = cars;
+                  }));
 
                 this.documentConfirmed = d.documentConfirmation;
               }))
           }
         }))
-    }else if(this.isLoggedIn == null){
-        this.router.navigate(['menu/home']);
+    } else if (this.isLoggedIn == null) {
+      this.router.navigate(['menu/home']);
     }
   }
 
@@ -143,9 +159,9 @@ export class MenuPage implements OnInit {
     this.accountService.logout();
     this.isLoggedIn = "";
     this.router.navigate(['menu/home'])
-    .then(() => {
-      window.location.reload();
-    })
+      .then(() => {
+        window.location.reload();
+      })
   }
 
   async openLanguagePopover(ev) {

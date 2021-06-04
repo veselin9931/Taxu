@@ -56,6 +56,7 @@ export class DrivingPage implements OnInit {
       setTimeout(() => connection.start(), 1000);
     });
 
+
     connection.on('BroadcastMessage', () => {
       console.log('broadcasted from driving')
     });

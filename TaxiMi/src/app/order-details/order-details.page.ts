@@ -4,7 +4,6 @@ import * as signalR from '@aspnet/signalr';
 import { Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { AnyTxtRecord } from 'dns';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Order } from 'src/_models';
@@ -132,14 +131,16 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
           }
         }))
     });
-  }
 
-  // ionViewDidLeave() {
-  //   for (const subscription of this.subscriptions) {
-  //     console.log(subscription)
-  //     subscription.unsubscribe();
-  //   }
-  // }
+    connection.on('OrderDeleted', (orderId: string) => {
+      this.subscriptions.push(this.orderService.getOrderById(orderId)
+        .subscribe(order => {
+          if (this.order.id == order.id) {
+           this.OrderTaken();
+          }
+        }))
+    });
+  }
 
   ionViewDidEnter() {
     this.orderDiv.style.display = 'block';
@@ -269,7 +270,7 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
   offer(value) {
     this.subscriptions.push(this.orderService.getOrderById(this.order.id)
       .subscribe(x => {
-        if (x == null) {
+        if (x.status == 'Canceled') {
           this.OrderTaken();
           this.router.navigate(['menu/driving']);
           return;
@@ -330,7 +331,7 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
   acceptOrder(order) {
     this.subscriptions.push(this.orderService.getOrderById(order.id)
       .subscribe(x => {
-        if (x == null) {
+        if (x.status == 'Canceled') {
           this.OrderTaken();
           this.router.navigate(['menu/driving']);
           return;

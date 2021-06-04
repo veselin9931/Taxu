@@ -20,11 +20,11 @@ export class SignalrService {
       .withUrl(`${environment.signalRUrl}/orderHub`)
       .build();
 
-    this.hubConnection.onclose(err => {
-      console.log('SignalR hub connection closed.');
-      this.stopHubAndunSubscribeToServerEvents();
-      this.restartConnection(err);
-    });
+    // this.hubConnection.onclose(err => {
+    //   console.log('SignalR hub connection closed.');
+    //   this.stopHubAndunSubscribeToServerEvents();
+    //   this.restartConnection(err);
+    // });
   }
   private restartConnection(err: Error): void {
     console.log(`Error ${err}`);
@@ -38,21 +38,50 @@ export class SignalrService {
       .start()
       .then(() => {
         console.log('SignalR Hub connection started');
-        this.subscribeToServerEvents();
+        //this.subscribeToServerEvents();
       })
       .catch(err => {
         this.restartConnection(err);
       });
-  }
-  
-  private subscribeToServerEvents(): void {
-    this.hubConnection.on('CreatedOrder', (data: any) => {
-      this.dataReceived.emit('CreatedOrder:' + data);
-    });
 
-  }
-  private stopHubAndunSubscribeToServerEvents(): void {
-    this.hubConnection.off('CreatedOrder');
-    this.hubConnection.stop().then(() => console.log('Hub connection stopped'));
+      this.hubConnection.on('CreatedOrder', () => {});
+
+      this.hubConnection.on('BroadcastMessage', () => { console.log('xoxo')});
+
+      this.hubConnection.on('CreatedAccount', () => {});
+
+      this.hubConnection.on('OnUpload', () => {});
+
+      this.hubConnection.on('LoggedIn', () => {});
+
+      this.hubConnection.on('CarAction', () => {});
+
+      this.hubConnection.on('WalletAction', () => {});
+
+      this.hubConnection.on('Voted', () => {});
+
+      this.hubConnection.on('LocateDriver', () => {});
+
+      this.hubConnection.on('Navigate', () => {});
+
+      this.hubConnection.on('IncrementDecrement', () => {});
+
+      this.hubConnection.on('OfferMorePrice', () => {});
+
+      this.hubConnection.on('NotifyDriver', () => {});
+
+      this.hubConnection.on('NotifyArrived', () => {});
+
+      this.hubConnection.on('OrderAccepted', () => {});
+
+      this.hubConnection.on('CompleteOrder', () => {});
+
+      this.hubConnection.on('OrderWaiting', () => {});
+
+      this.hubConnection.on('OrderDeleted', () => {});
+
+      this.hubConnection.on('MessageReceived', () => {});
+
+      this.hubConnection.on('StartTrip', () => {});
   }
 }

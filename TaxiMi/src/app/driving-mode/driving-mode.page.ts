@@ -25,7 +25,7 @@ declare var google: any;
   templateUrl: './driving-mode.page.html',
   styleUrls: ['./driving-mode.page.scss'],
 })
-export class DrivingModePage implements OnInit {
+export class DrivingModePage implements OnInit, OnDestroy {
   public currentTrip: Trip;
   categoryType;
 
@@ -101,6 +101,11 @@ export class DrivingModePage implements OnInit {
   //   }
   // }
   ngOnInit() {
+
+    this.id = setInterval(() => {
+      this.watchPos();
+    }, 3000);
+
     this.getAcceptedTrip();
     this.isStarted = false;
     this.subscriptions.push(this.chatService.retrieveMappedObject()
@@ -119,7 +124,7 @@ export class DrivingModePage implements OnInit {
       setTimeout(() => connection.start(), 1000);
     });
 
-    
+
 
     connection.on('OrderDeleted', (orderId: string) => {
       this.subscriptions.push(this.orderService.getCanceledOrderById(orderId)
@@ -152,8 +157,23 @@ export class DrivingModePage implements OnInit {
     connection.on('LocateDriver', (driverId: string) => {
 
     });
+
+    connection.on('WalletAction', () => {
+
+    });
+
+    connection.on('CompleteOrder', () => {
+
+    });
+
+
   }
 
+  ngOnDestroy() {
+    if (this.id) {
+      clearInterval(this.id);
+    }
+  }
 
   ionViewDidEnter() {
     if (this.accountService.userValue.isDrivingNow == true) {
@@ -216,7 +236,7 @@ export class DrivingModePage implements OnInit {
                 directionsRenderer.setDirections(response);
                 this.isStarted = true;
               }
-             }));
+            }));
 
         } else {
           window.alert("Directions request failed due to " + status);
@@ -380,8 +400,8 @@ export class DrivingModePage implements OnInit {
         if (x == null) {
           return;
         }
-        // this.chatService.stop();
-        // this.chatService.start();
+        this.chatService.stop();
+        this.chatService.start();
         this.tripStatus = x.status;
         this.currentTrip = x;
 
@@ -404,10 +424,6 @@ export class DrivingModePage implements OnInit {
 
             this.tripDistance = order.tripDistance;
             this.calculateEta(order);
-
-            // setInterval(() => {
-            //   this.watchPos();
-            // }, 3000);
 
             this.subscriptions.push(this.driverService.getDriver(this.accountService.userValue.driverId)
               .subscribe(s => {
