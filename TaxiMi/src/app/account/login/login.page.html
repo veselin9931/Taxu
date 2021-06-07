@@ -5,7 +5,7 @@
     </ion-buttons>
 
     <ion-title>
-        <ion-label>TaxiMi</ion-label>
+        <ion-label>Cyber</ion-label>
     </ion-title>
 
     <ion-buttons slot="end">
@@ -16,12 +16,13 @@
 <ion-content padding class="background" *ngIf="!isLoggedIn" >
   <div class="row mt-2">
     <div class="col text-center">
-      <ion-text class="centered" color="dark">
-        <div class="col mt-3">
-          <h1 class="text">TAXI MI</h1>
-          <h4 class="subtitle fonted">{{'Always at a fixed price' | translate}}</h4>
+      <ion-text class="centered">
+        <div class="col mt-1">
+          <img src="../../../assets/logo_trans_230x120.png" alt="image">
+          <!-- <h1 class="text">Cyber</h1> -->
+          
         </div>
-
+        <h4 class="subtitle fonted">{{'Enter your credentials' | translate}}</h4>
       </ion-text>
     </div>
   </div>
@@ -33,7 +34,7 @@
               <ion-text *ngIf="err" color="danger">
                   <div class="text-center">{{err}}</div>
               </ion-text>
-              <div class="form-group col mt-5 text-center">
+              <div class="form-group col mt-2 text-center">
                   <ion-input formControlName="username" type="text" class="form-control"
                              [placeholder]='"Email" | translate' [ngClass]="{ 'is-invalid':submitted == true && f.username.errors }"></ion-input>
                   <div *ngIf="submitted == true && f.username.errors" class="invalid-feedback">
