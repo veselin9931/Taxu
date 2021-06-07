@@ -62,12 +62,14 @@ namespace TaxiMi
             .AddCookie()
             .AddJwtBearer(cfg =>
             {
-
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
                 cfg.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidIssuer = this.Configuration["Tokens:Issuer"],
-                    ValidAudience = this.Configuration["Tokens:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["Tokens:Key"]))
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["JwtTokenValidation:Secret"])),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
                 };
             });
 
@@ -135,11 +137,11 @@ namespace TaxiMi
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
             app.UseCors("CorsPolicy");
+            app.UseAuthentication();
             app.UseAuthorization();
 
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
