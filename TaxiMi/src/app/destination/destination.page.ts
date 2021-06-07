@@ -22,6 +22,9 @@ export class DestinationPage implements OnInit {
     public loading: boolean;
     public progress: number;
 
+//markerUrl = 'http://maps.gstatic.com/mapfiles/markers2/marker.png'
+markerUrl = 'https://image.flaticon.com/icons/png/24/727/727598.png'
+
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
   @ViewChild('myButton') myButton: ElementRef;
 
@@ -67,7 +70,6 @@ export class DestinationPage implements OnInit {
 
     var marker = new google.maps.Marker({
       position: new google.maps.LatLng(myLatLng),
-      icon: 'http://maps.gstatic.com/mapfiles/markers2/marker.png',
       map: this.map
     });
 
@@ -97,7 +99,6 @@ export class DestinationPage implements OnInit {
 
         marker = new google.maps.Marker({
           position: place.geometry.location,
-          icon: 'http://maps.gstatic.com/mapfiles/markers2/marker.png',
           map: this.map
         });
 
@@ -126,12 +127,6 @@ export class DestinationPage implements OnInit {
         marker.setMap(null);
       }
 
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(myLatLng),
-        icon: 'http://maps.gstatic.com/mapfiles/markers2/marker.png',
-        map: this.map
-      });
-
       this.orderService.userDestinationLat = myLatLng.lat;
       this.orderService.userDestinationLong = myLatLng.lng;
 
@@ -144,10 +139,10 @@ export class DestinationPage implements OnInit {
           if (status == "OK") {
             if (results[0]) {
               this.address = results[0].formatted_address;
-              var infowindow = new google.maps.InfoWindow({
-                content: `${this.address}`
-              });
-              infowindow.open(this.map, marker);
+              // var infowindow = new google.maps.InfoWindow({
+              //   content: `${this.address}`
+              // });
+              // infowindow.open(this.map, marker);
             }
           }
         })

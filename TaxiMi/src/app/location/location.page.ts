@@ -7,6 +7,7 @@ import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
+
 const { Geolocation } = Plugins;
 declare var google: any;
 
@@ -20,7 +21,9 @@ export class LocationPage implements OnInit {
   map: any;
   latitude: any;
   longitude: any;
-search: any;
+  search: any; 
+  //markerUrl = 'http://maps.gstatic.com/mapfiles/markers2/marker.png'
+  markerUrl = 'https://image.flaticon.com/icons/png/24/727/727598.png'
   @ViewChild('map', { read: ElementRef, static: true }) mapRef: ElementRef;
   @ViewChild('myButton') myButton: ElementRef;
 
@@ -64,7 +67,7 @@ search: any;
 
     var marker = new google.maps.Marker({
       position: new google.maps.LatLng(myLatLng),
-      icon: 'http://maps.gstatic.com/mapfiles/markers2/marker.png',
+      icon: this.markerUrl,
       map: this.map
     });
 
@@ -93,7 +96,6 @@ search: any;
 
         marker = new google.maps.Marker({
           position: place.geometry.location,
-          icon: 'http://maps.gstatic.com/mapfiles/markers2/marker.png',
           map: this.map
         });
 
@@ -122,12 +124,6 @@ search: any;
         marker.setMap(null);
       }
 
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(myLatLng),
-        icon: 'http://maps.gstatic.com/mapfiles/markers2/marker.png',
-        map: this.map
-      });
-
       this.orderService.userLocationLat = myLatLng.lat;
       this.orderService.userLocationLong = myLatLng.lng;
       //Get Location
@@ -139,10 +135,10 @@ search: any;
           if (status == "OK") {
             if (results[0]) {
               this.address = results[0].formatted_address;
-              var infowindow = new google.maps.InfoWindow({
-                content: `${this.address}`
-              });
-              infowindow.open(this.map, marker);
+              // var infowindow = new google.maps.InfoWindow({
+              //   content: `${this.address}`
+              // });
+              // infowindow.open(this.map, marker);
             }
           }
         })

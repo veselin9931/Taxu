@@ -9,6 +9,7 @@ import { MultiFileUploadComponent } from '../multi-file-upload/multi-file-upload
 import { FileLikeObject, FileUploader } from 'ng2-file-upload';
 import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-become-driver',
@@ -20,6 +21,7 @@ export class BecomeDriverPage implements OnInit {
   imgPath: string;
   imgType = "personalImg";
   pics: any;
+  isDisabled: any;
   public progress: number;
   public message: string;
   public checker: boolean;
@@ -34,7 +36,8 @@ export class BecomeDriverPage implements OnInit {
     private accountService: AccountService,
     private location: Location,
     private imageService: ImageService,
-    private driverService: DriverService) { }
+    private driverService: DriverService,
+    private alertController: AlertController) { }
 
   ngOnInit() {
     this.getDocs();
@@ -57,14 +60,7 @@ export class BecomeDriverPage implements OnInit {
      });
 
      connection.on('OnUpload', (userId: string) => {
-       if(this.accountService.userValue.id == userId){
-        this.getDocs();
-        if (this.getDocs.length >= 4) {
-          this.checker = true
-        }
-       }
-      this.checker = false;
-  
+      this.getDocs();
     });
   }
 
@@ -80,50 +76,15 @@ export class BecomeDriverPage implements OnInit {
       .subscribe(x => {
         console.log(x);
         this.pics = x;
-
+        if(this.pics.length !== 4){
+          this.isDisabled = true;
+        }
       });
   }
 
-  upload() {
-
-    let files = this.fileField.getFiles();
-    console.log(files);
-
-    let formData = new FormData();
-
-    files.forEach((file) => {
-      formData.append('files[]', file.rawFile, file.name);
-    });
-
-
-    this.imageService.upload(formData, this.folderName, this.applicationUserId, this.imgType)
-      .subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress)
-          this.progress = Math.round(100 * event.loaded / event.total);
-        else if (event.type === HttpEventType.Response) {
-          this.message = 'Documents uploaded successfully.';
-        }
-        switch (event.type) {
-          case HttpEventType.Sent:
-            console.log('Request has been made!');
-            break;
-          case HttpEventType.ResponseHeader:
-            console.log('Response header has been received!');
-            break;
-          case HttpEventType.UploadProgress:
-            this.progress = Math.round(event.loaded / event.total * 100);
-            break;
-          case HttpEventType.Response:
-            setTimeout(() => {
-              this.progress = 0;
-            }, 1500);
-        }
-      })
-
-  }
-
-  uploadLicense(files) {
-    if (files.length === 0) {
+  upload(files){
+    
+    if (files === 0) {
       return;
     }
 
@@ -132,29 +93,106 @@ export class BecomeDriverPage implements OnInit {
     formData.append('file', fileToUpload, fileToUpload.name);
 
     this.imageService.upload(formData, this.folderName, this.applicationUserId, this.imgType)
-      .subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress)
+    .subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress)
           this.progress = Math.round(100 * event.loaded / event.total);
         else if (event.type === HttpEventType.Response) {
           this.message = 'Documents uploaded successfully.';
         }
-        switch (event.type) {
-          case HttpEventType.Sent:
-            console.log('Request has been made!');
-            break;
-          case HttpEventType.ResponseHeader:
-            console.log('Response header has been received!');
-            break;
-          case HttpEventType.UploadProgress:
-            this.progress = Math.round(event.loaded / event.total * 100);
-            break;
-          case HttpEventType.Response:
-            setTimeout(() => {
-              this.progress = 0;
-            }, 1500);
+      switch (event.type) {
+        case HttpEventType.Sent:
+          console.log('Request has been made!');
+          break;
+        case HttpEventType.ResponseHeader:
+          console.log('Response header has been received!');
+          break;
+        case HttpEventType.UploadProgress:
+          this.progress = Math.round(event.loaded / event.total * 100);
+          break;
+        case HttpEventType.Response:
+          setTimeout(() => {
+            this.progress = 0;
+          }, 1500);
         }
-      })
+    })
   }
+
+  removePicture(id: string){
+    this.picDelete(id);
+   
+  }
+
+  // upload() {
+
+  //   let files = this.fileField.getFiles();
+  //   console.log(files);
+
+  //   let formData = new FormData();
+
+  //   files.forEach((file) => {
+  //     formData.append('files[]', file.rawFile, file.name);
+  //   });
+
+
+  //   this.imageService.upload(formData, this.folderName, this.applicationUserId, this.imgType)
+  //     .subscribe(event => {
+  //       if (event.type === HttpEventType.UploadProgress)
+  //         this.progress = Math.round(100 * event.loaded / event.total);
+  //       else if (event.type === HttpEventType.Response) {
+  //         this.message = 'Documents uploaded successfully.';
+  //       }
+  //       switch (event.type) {
+  //         case HttpEventType.Sent:
+  //           console.log('Request has been made!');
+  //           break;
+  //         case HttpEventType.ResponseHeader:
+  //           console.log('Response header has been received!');
+  //           break;
+  //         case HttpEventType.UploadProgress:
+  //           this.progress = Math.round(event.loaded / event.total * 100);
+  //           break;
+  //         case HttpEventType.Response:
+  //           setTimeout(() => {
+  //             this.progress = 0;
+  //           }, 1500);
+  //       }
+  //     })
+
+  // }
+
+  // uploadLicense(files) {
+  //   if (files.length === 0) {
+  //     return;
+  //   }
+
+  //   let fileToUpload = <File>files[0];
+  //   const formData = new FormData();
+  //   formData.append('file', fileToUpload, fileToUpload.name);
+
+  //   this.imageService.upload(formData, this.folderName, this.applicationUserId, this.imgType)
+  //     .subscribe(event => {
+  //       if (event.type === HttpEventType.UploadProgress)
+  //         this.progress = Math.round(100 * event.loaded / event.total);
+  //       else if (event.type === HttpEventType.Response) {
+  //         this.message = 'Documents uploaded successfully.';
+  //       }
+  //       switch (event.type) {
+  //         case HttpEventType.Sent:
+  //           console.log('Request has been made!');
+  //           break;
+  //         case HttpEventType.ResponseHeader:
+  //           console.log('Response header has been received!');
+  //           break;
+  //         case HttpEventType.UploadProgress:
+  //           this.progress = Math.round(event.loaded / event.total * 100);
+  //           break;
+  //         case HttpEventType.Response:
+  //           setTimeout(() => {
+  //             this.progress = 0;
+  //           }, 1500);
+  //       }
+  //     })
+  // }
 
   goBack() {
     this.location.back();
@@ -163,15 +201,15 @@ export class BecomeDriverPage implements OnInit {
   onSubmit() {
     this.imageService.getUserDocuments(this.applicationUserId)
       .subscribe(x => {
-        if (x[1].path) {
+        if (this.pics.length >= 4) {
           let data = { ApplicationUserId: this.applicationUserId };
           this.driverService.createDriver(data)
             .subscribe(() => {
               this.route.navigate(['menu/car-register']);
             })
         } else if (x.id == null) {
-          this.message = 'Please upload at least 2 pictures!'
-
+          
+          this.notEnoughImages();
         }
         else {
           this.message = 'Please upload your documents!'
@@ -179,7 +217,41 @@ export class BecomeDriverPage implements OnInit {
       })
   }
 
+  async notEnoughImages() {
+    const popup = await this.alertController.create({
+      header: 'You have to upload 4 document pictures.',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'Ok',
+          
+        }
+      ]
+    });
+    await popup.present();
+  }
 
+  async picDelete(id: string) {
+    const popup = await this.alertController.create({
+      header: 'Delete the picture?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.imageService.removeDocument(id)
+            .subscribe(x => {
+              console.log('Image removed sucessfully')
+            })
+          }
+        },
+        {
+          text: 'No',
+          role: 'no'
+        }
+      ]
+    });
+    await popup.present();
+  }
 }
 
 
