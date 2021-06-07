@@ -67,6 +67,7 @@ namespace TaxiMi.Controllers
         // GET: api/<AccountController>
         //[Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         [HttpGet("user/")]
+        [Authorize]
         public IEnumerable<ApplicationUser> GetAllUsers()
         {
             return this.userService.GetAll().Where(a => a.IsDeleted == false).AsEnumerable();
@@ -74,7 +75,7 @@ namespace TaxiMi.Controllers
 
         // GET: api/<AccountController>
         [HttpGet]
-        //[Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        [Authorize]
         public IEnumerable<ApplicationUser> GetAllDrivers()
         {
             return this.userService.GetAll().Where(a => a.DriverId != null).AsEnumerable();
@@ -150,7 +151,8 @@ namespace TaxiMi.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.Token)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

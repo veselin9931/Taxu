@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-
 import { environment } from 'environments/environment';
 import { User } from '_models';
 @Injectable({ providedIn: 'root' })
@@ -15,7 +13,7 @@ export class AccountService {
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
     this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
     this.user = this.userSubject.asObservable();
@@ -23,6 +21,12 @@ export class AccountService {
 
   public get userValue(): User {
     return this.userSubject.value;
+  }
+
+  headerGerneration(): HttpHeaders {
+    const user = this.userValue;
+
+    return new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` });
   }
 
   login(username, password) {
@@ -48,13 +52,15 @@ export class AccountService {
 
   //Drivers
   getAll() {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let headers = this.headerGerneration();
+
     return this.http.get<User[]>(`${environment.apiUrl}/api/account`, { headers, responseType: 'json' });
   }
 
   //Users
   getAllUsers() {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let headers = this.headerGerneration();
+    console.log(headers)
     return this.http.get<User[]>(`${environment.apiUrl}/api/account/user/`, { headers, responseType: 'json' });
   }
 
