@@ -7,6 +7,8 @@ import { Location } from '@angular/common';
 import { ImageService } from 'src/_services/image/image.service';
 import { HttpEventType } from '@angular/common/http';
 import { AlertController } from '@ionic/angular';
+import * as signalR from '@aspnet/signalr';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-car-register',
   templateUrl: './car-register.page.html',
@@ -44,6 +46,22 @@ export class CarRegisterPage implements OnInit {
       driverId: [''],
       type: [''],
     })
+
+    const connection = new signalR.HubConnectionBuilder()
+       .configureLogging(signalR.LogLevel.Information)
+       .withUrl(`${environment.signalRUrl}/orderHub`)
+       .build();
+
+     connection.start().then(function () {
+       console.log('signalR Connected in menu');
+     }).catch(function (err) {
+      console.log("Reconnecting in 1 sec.");
+      setTimeout(() => connection.start(), 1000);
+     });
+
+     connection.on('OnUpload', (userId: string) => {
+      this.getDocs();
+    });
   }
 
   get f() { return this.form.controls; }

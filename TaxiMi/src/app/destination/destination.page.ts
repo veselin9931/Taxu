@@ -18,12 +18,14 @@ export class DestinationPage implements OnInit {
   address: string;
   map: any;
   latitude: any;
-    longitude: any;
-    public loading: boolean;
-    public progress: number;
+  longitude: any;
+  public loading: boolean;
+  public progress: number;
 
-//markerUrl = 'http://maps.gstatic.com/mapfiles/markers2/marker.png'
-markerUrl = 'https://image.flaticon.com/icons/png/24/727/727598.png'
+  //markerUrl = 'http://maps.gstatic.com/mapfiles/markers2/marker.png'
+  // markerUrl = 'https://image.flaticon.com/icons/png/24/727/727598.png'
+  markerUrl = '../../assets/location.png';
+
 
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
   @ViewChild('myButton') myButton: ElementRef;
@@ -33,11 +35,11 @@ markerUrl = 'https://image.flaticon.com/icons/png/24/727/727598.png'
     private translate: TranslateService,
     private popoverController: PopoverController,
     private accountService: AccountService) {
-      this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+    this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
 
   ngOnInit(): void {
-    
+
   }
 
   ionViewDidEnter() {
@@ -46,12 +48,12 @@ markerUrl = 'https://image.flaticon.com/icons/png/24/727/727598.png'
   }
 
   onSubmit() {
-      this.orderService.chosenDestination = this.address;
-      this.loading = true;
+    this.orderService.chosenDestination = this.address;
+    this.loading = true;
     this.route.navigate(['menu/travelling'])
   }
 
-  
+
 
   async loadMap(mapRef: ElementRef) {
     const coordinates = await Geolocation.getCurrentPosition();

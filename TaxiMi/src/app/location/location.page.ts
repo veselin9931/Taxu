@@ -23,7 +23,9 @@ export class LocationPage implements OnInit {
   longitude: any;
   search: any; 
   //markerUrl = 'http://maps.gstatic.com/mapfiles/markers2/marker.png'
-  markerUrl = 'https://image.flaticon.com/icons/png/24/727/727598.png'
+  //markerUrl = 'https://image.flaticon.com/icons/png/24/727/727598.png'
+  markerUrl = '../../assets/location.png'
+
   @ViewChild('map', { read: ElementRef, static: true }) mapRef: ElementRef;
   @ViewChild('myButton') myButton: ElementRef;
 
