@@ -6,6 +6,7 @@ import { DriverService } from 'src/_services/driver/driver.service';
 import { Location } from '@angular/common';
 import { ImageService } from 'src/_services/image/image.service';
 import { HttpEventType } from '@angular/common/http';
+import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-car-register',
   templateUrl: './car-register.page.html',
@@ -15,7 +16,7 @@ export class CarRegisterPage implements OnInit {
   form: FormGroup;
   submitted = false;
   loading = false;
-
+  pics: any;
   userId: string;
   driverId: string;
 
@@ -30,9 +31,11 @@ export class CarRegisterPage implements OnInit {
     private driverService: DriverService,
     private accountService: AccountService,
     private location: Location,
-    private imageService: ImageService) { this.userId = this.accountService.userValue.id; }
+    private imageService: ImageService,
+    private alertController: AlertController) { this.userId = this.accountService.userValue.id; }
 
   ngOnInit() {
+    this.getDocs();
     this.form = this.formBuilder.group({
       model: ['', Validators.required],
       registrationNumber: ['', Validators.required],
@@ -45,11 +48,28 @@ export class CarRegisterPage implements OnInit {
 
   get f() { return this.form.controls; }
 
+  getDocs() {
+    this.imageService.getUserCarPictures(this.userId)
+      .subscribe(x => {
+        this.pics = x;
+        console.log(this.pics)
+      })
+  }
+
+  removePicture(id: string){
+    this.picDelete(id);
+   
+  }
+
   onSubmit() {
     this.submitted = true;
 
     if (!this.form.valid) {
       return;
+    } 
+    
+    if(this.pics.length != 4){
+      this.notEnoughImages();
     } else {
       this.accountService.getById(this.userId)
         .subscribe(x => {
@@ -61,17 +81,17 @@ export class CarRegisterPage implements OnInit {
               this.clearForm();
               this.driverService.getDriverCars(x.driverId)
                 .subscribe(d => {
-                  
+
                   if (d.length != 0) {
                     this.route.navigateByUrl('menu/driver-profile');
                   } else {
                     this.imageService.getUserCarPictures(this.userId)
-                    .subscribe(x => {
-                      if(x[2].path){
-                        this.route.navigateByUrl('menu/verifying');
-                      }
-                    })
-                    
+                      .subscribe(x => {
+                        if (x[2].path) {
+                          this.route.navigateByUrl('menu/verifying');
+                        }
+                      })
+
                   }
                 })
             })
@@ -81,7 +101,7 @@ export class CarRegisterPage implements OnInit {
     }
   }
 
-  upload(files){
+  upload(files) {
     if (files.length === 0) {
       return;
     }
@@ -91,32 +111,68 @@ export class CarRegisterPage implements OnInit {
     formData.append('file', fileToUpload, fileToUpload.name);
 
     this.imageService.upload(formData, this.folderName, this.userId, this.imgType)
-    .subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress)
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress)
           this.progress = Math.round(100 * event.loaded / event.total);
         else if (event.type === HttpEventType.Response) {
           this.message = 'Documents uploaded successfully.';
         }
-      switch (event.type) {
-        case HttpEventType.Sent:
-          console.log('Request has been made!');
-          break;
-        case HttpEventType.ResponseHeader:
-          console.log('Response header has been received!');
-          break;
-        case HttpEventType.UploadProgress:
-          this.progress = Math.round(event.loaded / event.total * 100);
-          break;
-        case HttpEventType.Response:
-          setTimeout(() => {
-            this.progress = 0;
-          }, 1500);
+        switch (event.type) {
+          case HttpEventType.Sent:
+            console.log('Request has been made!');
+            break;
+          case HttpEventType.ResponseHeader:
+            console.log('Response header has been received!');
+            break;
+          case HttpEventType.UploadProgress:
+            this.progress = Math.round(event.loaded / event.total * 100);
+            break;
+          case HttpEventType.Response:
+            setTimeout(() => {
+              this.progress = 0;
+            }, 1500);
         }
-    })
+      })
   }
 
   goBack() {
     this.location.back();
+  }
+
+  async notEnoughImages() {
+    const popup = await this.alertController.create({
+      header: 'You have to upload 4 car and car document pictures.',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'Ok',
+          
+        }
+      ]
+    });
+    await popup.present();
+  }
+
+  async picDelete(id: string) {
+    const popup = await this.alertController.create({
+      header: 'Delete the picture?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.imageService.removeDocument(id)
+            .subscribe(x => {
+              console.log('Image removed sucessfully')
+            })
+          }
+        },
+        {
+          text: 'No',
+          role: 'no'
+        }
+      ]
+    });
+    await popup.present();
   }
 
   clearForm() {

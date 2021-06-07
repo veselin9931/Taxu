@@ -19,8 +19,8 @@
         <div class="col">
         </div>
     </div>
-    
-    <ion-content padding (change)="upload()">
+
+    <ion-content padding>
         <div class="col text-center">
             <ion-text class="centered" color="dark">
                 <h3 class="text">Become a driver</h3>
@@ -29,46 +29,66 @@
                 <h5 class="text mb-3">Please upload the following documents:</h5>
             </ion-text>
         </div>
-        
+
         <div class="input-group">
             <div class="input-group mb-1">
                 <label type="text" class="form-control">1. ID card front</label>
                 <div class="input-group-append">
-                  <span>
-                    <app-multi-file-upload></app-multi-file-upload>
-                  </span>
+                    <span>
+                        <input type="file" #file1 placeholder="Choose file" (change)="upload(file1.files)"
+                            style="display:none;">
+                        <label>
+                            <ion-icon name="add-outline" color="dark" (click)="file1.click()"></ion-icon>
+                            <!-- <app-multi-file-upload></app-multi-file-upload> -->
+                        </label>
+                    </span>
                 </div>
-              </div>
+            </div>
 
-              <div class="input-group mb-1">
+            <div class="input-group mb-1">
                 <label type="text" class="form-control">2. ID card back</label>
                 <div class="input-group-append">
                     <span>
-                        <app-multi-file-upload></app-multi-file-upload>
-                      </span>
+                        <input type="file" #file2 placeholder="Choose file" (change)="upload(file2.files)"
+                            style="display:none;">
+                        <label>
+                            <ion-icon name="add-outline" color="dark" (click)="file2.click()"></ion-icon>
+                            <!-- <app-multi-file-upload></app-multi-file-upload> -->
+                        </label>
+                    </span>
                 </div>
-              </div>
+            </div>
 
-              <div class="input-group mb-1">
+            <div class="input-group mb-1">
                 <label type="text" class="form-control">3. Driver's license front</label>
                 <div class="input-group-append">
                     <span>
-                        <app-multi-file-upload></app-multi-file-upload>
-                      </span>
+                        <input type="file" #file3 placeholder="Choose file" (change)="upload(file3.files)"
+                            style="display:none;">
+                        <label>
+                            <ion-icon name="add-outline" color="dark" (click)="file3.click()"></ion-icon>
+                            <!-- <app-multi-file-upload></app-multi-file-upload> -->
+                        </label>
+                    </span>
                 </div>
-              </div>
+            </div>
 
-              <div class="input-group mb-1">
+            <div class="input-group mb-1">
                 <label type="text" class="form-control">4. Driver's license back</label>
                 <div class="input-group-append">
                     <span>
-                        <app-multi-file-upload></app-multi-file-upload>
-                      </span>
+                        <input type="file" #file4 placeholder="Choose file" (change)="upload(file4.files)"
+                            style="display:none;">
+                        <label>
+                            <ion-icon name="add-outline" color="dark" (click)="file4.click()"></ion-icon>
+                            <!-- <app-multi-file-upload></app-multi-file-upload> -->
+                        </label>
+                    </span>
                 </div>
-              </div>
-          </div> 
+            </div>
+        </div>
 
-          
+
 
 
         <ion-list>
@@ -76,18 +96,21 @@
                 <ion-item *ngFor="let item of uploader.queue">
                     <ion-label>
                         {{ item?.file?.name }}
+
+
                     </ion-label>
                 </ion-item>
             </ion-reorder-group>
         </ion-list>
 
-        
+
 
         <div *ngIf="checker">
 
             <div class="col-md-4 mt-2">
                 <div class="progress form-group" *ngIf="progress > 0">
-                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                        [style.width.%]="progress">
                     </div>
                 </div>
 
@@ -101,16 +124,22 @@
         </div>
         <ion-list>
             <ion-item *ngFor="let pic of pics">
-                <ion-thumbnail item-left>
-                    <img src="{{pic.path}}" />	&nbsp;
-                </ion-thumbnail>
-                &nbsp;- {{pic.type}}
+                <a class="text list-group-item list-group-item-action flex-column align-items-start">
+                    <p>
+                        <img src="{{pic.path}}" />
+                        <div class="text-center">
+                            <h5 class="mb-1 fonted"></h5>
+                            <button class="btn btn-danger" (click)="removePicture(pic.id)">Remove picture</button>
+
+                        </div>
+                </a>
+
             </ion-item>
         </ion-list>
 
 
-        <div class="text-center mt-3">
-            <button (click)="onSubmit()" type="submit" class="btn btn-dark">Submit</button>
+        <div class="text-center mb-3">
+            <button [disabled]="this.isDisabled == false" (click)="onSubmit()" type="submit" class="btn btn-dark">Submit</button>
         </div>
     </ion-content>
 

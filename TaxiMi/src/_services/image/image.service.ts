@@ -42,6 +42,13 @@ export class ImageService {
       );
   }
 
+  removeDocument(id: string): Observable<Image> {
+    return this.httpClient.delete<Image>(`${environment.apiUrl}/api/image/${id}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   handleError(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
