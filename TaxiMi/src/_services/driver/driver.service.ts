@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Driver, Order, User } from 'src/_models';
 import { Car } from 'src/_models/car';
+import { SharedService } from '../shared/shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,32 +17,35 @@ export class DriverService {
   public applicationUserId: string;
   public categoryType: string;
   public categoryCloseCount: number;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sharedService: SharedService) { }
+
 
   public getDriverHistory(userId: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${environment.apiUrl}/api/order/history/${userId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order/history/${userId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   public getLastCompletedOrder(userId: string): Observable<Order> {
-    return this.http.get<Order>(`${environment.apiUrl}/api/order/completed/${userId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Order>(`${environment.apiUrl}/api/order/completed/${userId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   public getDriver(driverId: string): Observable<Driver> {
-    return this.http.get<Driver>(`${environment.apiUrl}/api/driver/${driverId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Driver>(`${environment.apiUrl}/api/driver/${driverId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   public createDriver(data) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
+    const headers = this.sharedService.headerGerneration();
     return this.http.post(`${environment.apiUrl}/api/driver`, data, { headers, responseType: 'text' })
       .pipe(
         catchError(this.handleError)
@@ -49,28 +53,31 @@ export class DriverService {
   }
 
   public getDriverCars(driverId: string): Observable<Car[]> {
-    return this.http.get<Car[]>(`${environment.apiUrl}/api/car/driver/${driverId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Car[]>(`${environment.apiUrl}/api/car/driver/${driverId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   public getDriverActiveCar(driverId: string): Observable<Car> {
-    return this.http.get<Car>(`${environment.apiUrl}/api/car/driver/active/${driverId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Car>(`${environment.apiUrl}/api/car/driver/active/${driverId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   public getDriverByReferral(referral: string): Observable<Driver> {
-    return this.http.get<Driver>(`${environment.apiUrl}/api/driver/referral/${referral}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Driver>(`${environment.apiUrl}/api/driver/referral/${referral}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   public locateDriver(driverId: string, lat: string, lng: string): Observable<Driver>{
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Driver>(`${environment.apiUrl}/api/driver/location/${driverId}/${lat}/${lng}`, { headers, responseType: 'json' },)
     .pipe(
       catchError(this.handleError)
@@ -78,7 +85,7 @@ export class DriverService {
   }
 
   public voteUp(driverId: string): Observable<Driver>{
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Driver>(`${environment.apiUrl}/api/driver/voteUp/${driverId}`, { headers, responseType: 'json' },)
     .pipe(
       catchError(this.handleError)
@@ -86,7 +93,7 @@ export class DriverService {
   }
 
   public voteDown(driverId: string): Observable<Driver>{
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Driver>(`${environment.apiUrl}/api/driver/voteDown/${driverId}`, { headers, responseType: 'json' },)
     .pipe(
       catchError(this.handleError)
@@ -94,7 +101,7 @@ export class DriverService {
   }
 
   public lowerDriverCommission(driverId: string): Observable<Driver>{
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Driver>(`${environment.apiUrl}/api/driver/${driverId}`, { headers, responseType: 'json' },)
     .pipe(
       catchError(this.handleError)
@@ -102,7 +109,7 @@ export class DriverService {
   }
 
   public activeCar(id: string, driverId: string): Observable<Car> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Car>(`${environment.apiUrl}/api/car/${id}/${driverId}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
@@ -111,8 +118,7 @@ export class DriverService {
   
 
   public createCar(data) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
+    const headers = this.sharedService.headerGerneration();
     return this.http.post(`${environment.apiUrl}/api/car`, data, { headers, responseType: 'text' })
       .pipe(
         catchError(this.handleError)
@@ -120,14 +126,15 @@ export class DriverService {
   }
 
   public deleteCar(id: string): Observable<Car> {
-    return this.http.delete<Car>(`${environment.apiUrl}/api/car/${id}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.delete<Car>(`${environment.apiUrl}/api/car/${id}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   public  cancelOrderFromDriver(orderId: string): Observable<Car> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Car>(`${environment.apiUrl}/api/order/waiting/${orderId}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)

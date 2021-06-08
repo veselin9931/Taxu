@@ -22,6 +22,7 @@ using TaxiMi.Services.OrderService;
 namespace TaxiMi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class OrderController : ControllerBase
     {

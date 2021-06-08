@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ using TaxiMi.Services.OrderService;
 namespace TaxiMi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class DriverController : ControllerBase
     {

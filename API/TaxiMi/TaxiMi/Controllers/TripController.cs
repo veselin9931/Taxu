@@ -16,6 +16,7 @@ using TaxiMi.Services.TripService;
 namespace TaxiMi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class TripController : ControllerBase
     {
@@ -32,7 +33,6 @@ namespace TaxiMi.Controllers
 
         // GET: api/<TripController>
         [HttpGet]
-        //[Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Get()
         {
             var trips = await this.tripService.GetAllCompletedTripsAsync();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using TaxiMi.Services.WalletService;
 namespace TaxiMi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class WalletController : ControllerBase
     {
@@ -24,13 +26,6 @@ namespace TaxiMi.Controllers
         {
             this.walletService = walletService;
             this.hub = hub;
-        }
-
-        // GET: api/<WalletController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
         }
 
         // GET api/<WalletController>/5

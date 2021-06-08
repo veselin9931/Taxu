@@ -16,7 +16,7 @@ export class AccountService {
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
     this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
     this.user = this.userSubject.asObservable();
@@ -48,15 +48,17 @@ export class AccountService {
   }
 
   getAll() {
-    return this.http.get<User[]>(`${environment.apiUrl}/users`);
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
+    return this.http.get<User[]>(`${environment.apiUrl}/users`, {headers});
   }
 
   getById(id: string) {
-    return this.http.get<User>(`${environment.apiUrl}/api/account/${id}`);
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
+    return this.http.get<User>(`${environment.apiUrl}/api/account/${id}`, {headers});
   }
 
   updateDriving(id, value): Observable<User> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
     return this.http.put<User>(`${environment.apiUrl}/api/account/${id}/${value}`, { headers, responseType: 'json' },)
       .pipe(map(x => {
         // update stored user if the logged in user updated their own record
@@ -73,7 +75,7 @@ export class AccountService {
   }
 
   updateAlert(id, value): Observable<User> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
     return this.http.put<User>(`${environment.apiUrl}/api/account/${id}/alert/${value}`, { headers, responseType: 'json' },)
       .pipe(map(x => {
         // update stored user if the logged in user updated their own record
@@ -90,7 +92,7 @@ export class AccountService {
   }
 
   updateLanguage(id, value): Observable<User> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
     return this.http.put<User>(`${environment.apiUrl}/api/account/${id}/language/${value}`, { headers, responseType: 'json' },)
       .pipe(map(x => {
         // update stored user if the logged in user updated their own record
@@ -107,7 +109,8 @@ export class AccountService {
   }
 
   update(id, params) {
-    return this.http.put(`${environment.apiUrl}/api/${id}`, params)
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
+    return this.http.put(`${environment.apiUrl}/api/${id}`, params,{headers})
       .pipe(map(x => {
         // update stored user if the logged in user updated their own record
         if (id == this.userValue.id) {
@@ -123,7 +126,8 @@ export class AccountService {
   }
 
   delete(id: string) {
-    return this.http.delete(`${environment.apiUrl}/api/${id}`)
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
+    return this.http.delete(`${environment.apiUrl}/api/${id}`, {headers})
       .pipe(map(x => {
         // auto logout if the logged in user deleted their own record
         if (id == this.userValue.id) {

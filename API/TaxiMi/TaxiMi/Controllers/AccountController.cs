@@ -24,6 +24,7 @@ using TaxiMi.Services.OrderService;
 namespace TaxiMi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -67,7 +68,6 @@ namespace TaxiMi.Controllers
         // GET: api/<AccountController>
         //[Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         [HttpGet("user/")]
-        [Authorize]
         public IEnumerable<ApplicationUser> GetAllUsers()
         {
             return this.userService.GetAll().Where(a => a.IsDeleted == false).AsEnumerable();
@@ -75,7 +75,6 @@ namespace TaxiMi.Controllers
 
         // GET: api/<AccountController>
         [HttpGet]
-        [Authorize]
         public IEnumerable<ApplicationUser> GetAllDrivers()
         {
             return this.userService.GetAll().Where(a => a.DriverId != null).AsEnumerable();
@@ -127,6 +126,7 @@ namespace TaxiMi.Controllers
 
         // POST api/<AccountController>
         [HttpPost("authenticate")]
+        [AllowAnonymous]
         [Route("/authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] LoginViewModel userDto)
         {
@@ -180,6 +180,7 @@ namespace TaxiMi.Controllers
         }
 
         // PUT api/<AccountController>/5/true,false
+        [AllowAnonymous]
         [HttpPut("{id}/{value}")]
         public async Task<IActionResult> Put(string id, bool value)
         {

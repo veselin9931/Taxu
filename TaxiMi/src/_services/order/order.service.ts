@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { FavouriteOrder, Order } from 'src/_models';
+import { SharedService } from '../shared/shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,10 +30,10 @@ export class OrderService {
   public userDestinationLong: number;
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sharedService: SharedService) { }
 
   public createOrder(data) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
 
     return this.http.post(`${environment.apiUrl}/api/order`, data, { headers, responseType: 'text' })
       .pipe(
@@ -41,7 +42,7 @@ export class OrderService {
   }
 
   addToFavourites(data) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
 
     return this.http.post(`${environment.apiUrl}/api/order/favourites`, data, { headers, responseType: 'text' })
       .pipe(
@@ -50,14 +51,16 @@ export class OrderService {
   }
 
   getMyFavourites(userId: string): Observable<FavouriteOrder[]> {
-    return this.http.get<FavouriteOrder[]>(`${environment.apiUrl}/api/order/favourites/${userId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<FavouriteOrder[]>(`${environment.apiUrl}/api/order/favourites/${userId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   deleteFavouriteOrder(orderId: string): Observable<FavouriteOrder> {
-    return this.http.delete<FavouriteOrder>(`${environment.apiUrl}/api/order/favourites/${orderId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.delete<FavouriteOrder>(`${environment.apiUrl}/api/order/favourites/${orderId}`, {headers})
       .pipe(
         tap(data => console.log('deleted favourite order: ', JSON.stringify(data))),
         catchError(this.handleError)
@@ -65,7 +68,7 @@ export class OrderService {
   }
 
   public getDirections(locationLat, locationLng, destinationLat, destinationLng) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
 
     return this.http.post(`https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${locationLat},${locationLng}&destinations=${destinationLat}%2C${destinationLng}%7C&key=AIzaSyAEvlXdM4joG4bNVT5l-tJSk9lUSGhxMNw`, { headers, responseType: 'text' })
       .pipe(
@@ -74,63 +77,71 @@ export class OrderService {
   }
 
   getOrderById(id: string): Observable<Order> {
-    return this.http.get<Order>(`${environment.apiUrl}/api/order/id/${id}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Order>(`${environment.apiUrl}/api/order/id/${id}`, {headers})
       .pipe(
         tap(data => this.order = data)
       );
   }
 
   getCanceledOrderById(id: string): Observable<Order> {
-    return this.http.get<Order>(`${environment.apiUrl}/api/order/canceled/${id}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Order>(`${environment.apiUrl}/api/order/canceled/${id}`, {headers})
       .pipe(
         tap(data => this.order = data)
       );
   }
 
   getLastCompletedOrder(userId: string): Observable<Order> {
-    return this.http.get<Order>(`${environment.apiUrl}/api/order/completed/${userId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Order>(`${environment.apiUrl}/api/order/completed/${userId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getMyOrder(userId: string): Observable<Order> {
-    return this.http.get<Order>(`${environment.apiUrl}/api/order/${userId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Order>(`${environment.apiUrl}/api/order/${userId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getOrderForChat(userId: string): Observable<Order> {
-    return this.http.get<Order>(`${environment.apiUrl}/api/order/chat/${userId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Order>(`${environment.apiUrl}/api/order/chat/${userId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getAllOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order`, {headers})
       .pipe(
         catchError(this.handleError)
       )
   }
 
   getNormalOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${environment.apiUrl}/api/order/normal`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order/normal`, {headers})
       .pipe(
         catchError(this.handleError)
       )
   }
 
   getComfortOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${environment.apiUrl}/api/order/comfort`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Order[]>(`${environment.apiUrl}/api/order/comfort`, {headers})
       .pipe(
         catchError(this.handleError)
       )
   }
 
   acceptOrder(orderId: string, driverId: string): Observable<Order> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}/${driverId}`, { headers, responseType: 'json' },)
       .pipe(
         tap(data => this.driverId = driverId),
@@ -140,7 +151,7 @@ export class OrderService {
   }
 
   updateOrderEta(orderId: string, value: string): Observable<Order> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Order>(`${environment.apiUrl}/api/order/eta/${orderId}/${value}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
@@ -148,7 +159,7 @@ export class OrderService {
   }
 
   updateDriverArrived(orderId: string): Observable<Order> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Order>(`${environment.apiUrl}/api/order/arrived/${orderId}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
@@ -156,7 +167,7 @@ export class OrderService {
   }
 
   rateOrder(orderId: string): Observable<Order> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Order>(`${environment.apiUrl}/api/order/rate/${orderId}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
@@ -164,7 +175,7 @@ export class OrderService {
   }
 
   increaseOrderPrice(id: string, amount: number): Observable<Order> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Order>(`${environment.apiUrl}/api/order/increase/${id}/${amount}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
@@ -173,7 +184,7 @@ export class OrderService {
   }
 
   completeOrder(orderId: string): Observable<Order> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Order>(`${environment.apiUrl}/api/order/${orderId}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
@@ -182,7 +193,8 @@ export class OrderService {
   }
 
   deleteOrder(orderId: string): Observable<Order> {
-    return this.http.delete<Order>(`${environment.apiUrl}/api/order/${orderId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.delete<Order>(`${environment.apiUrl}/api/order/${orderId}`, {headers})
       .pipe(
         tap(data => console.log('deleted order: ', JSON.stringify(data))),
         catchError(this.handleError)
@@ -190,8 +202,7 @@ export class OrderService {
   }
 
   driverIncreaseOrderPrice(orderId: string, amount: number, driverId: string): Observable<Order> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Order>(`${environment.apiUrl}/api/order/increased/${orderId}/${amount}/${driverId}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
@@ -199,7 +210,7 @@ export class OrderService {
   }
 
   resetIncreasing(orderId: string): Observable<Order> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
 
     return this.http.put<Order>(`${environment.apiUrl}/api/order/reset/${orderId}`, { headers, responseType: 'json' },)
       .pipe(
@@ -209,7 +220,7 @@ export class OrderService {
 
 
   increasedOrderAccept(orderId: string, value: boolean): Observable<Order> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();;
 
     return this.http.put<Order>(`${environment.apiUrl}/api/order/accepted/increase/${orderId}/${value}`, { headers, responseType: 'json' },)
       .pipe(
@@ -218,7 +229,7 @@ export class OrderService {
   }
 
   incrementOrderPrice(orderId: string): Observable<Order> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
 
     return this.http.put<Order>(`${environment.apiUrl}/api/order/increment/${orderId}`, { headers, responseType: 'json' },)
       .pipe(
@@ -227,7 +238,7 @@ export class OrderService {
   }
 
   decrementOrderPrice(orderId: string): Observable<Order> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
 
     return this.http.put<Order>(`${environment.apiUrl}/api/order/decrement/${orderId}`, { headers, responseType: 'json' },)
       .pipe(

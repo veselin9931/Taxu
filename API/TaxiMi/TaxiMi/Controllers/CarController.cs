@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TaxiMi.Infrastructure.HubConfig;
 using TaxiMi.Infrastructure.InputModels.CarInput;
-using TaxiMi.Infrastructure.ViewModels;
 using TaxiMi.Services.CarService;
 using TaxiMi.Services.DriverService;
 using TaxiMi.Services.OrderService;
@@ -17,6 +13,7 @@ using TaxiMi.Services.OrderService;
 namespace TaxiMi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class CarController : ControllerBase
     {

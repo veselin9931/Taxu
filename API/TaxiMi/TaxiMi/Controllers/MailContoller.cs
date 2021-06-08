@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using TaxiMi.Models.Email;
 using TaxiMi.Services.EmailSender;
 
 [Route("api/[controller]")]
+[Authorize]
 [ApiController]
 public class MailController : ControllerBase
 {

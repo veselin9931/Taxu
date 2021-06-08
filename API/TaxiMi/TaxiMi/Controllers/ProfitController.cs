@@ -12,6 +12,7 @@ using TaxiMi.Services.ProfitService;
 namespace TaxiMi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ProfitController : ControllerBase
     {

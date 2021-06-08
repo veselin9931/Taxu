@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace TaxiMi.Controllers
 {
 
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ImageController : ControllerBase
     {
