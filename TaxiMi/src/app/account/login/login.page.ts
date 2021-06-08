@@ -21,7 +21,7 @@ export class LoginPage implements OnInit {
   form: FormGroup;
   loading = false;
   isLoggedIn;
-
+  logo = '../../../../resources/IMG_6400.JPG';
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
