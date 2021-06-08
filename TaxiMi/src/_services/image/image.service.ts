@@ -4,16 +4,18 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Image } from '../../_models'
+import { SharedService } from '../shared/shared.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private sharedService: SharedService) { }
 
   upload(data: any, folderName: string, userId: string, type: string): Observable<HttpEvent<any>> {
-    return this.httpClient.post(`${environment.apiUrl}/api/image/${folderName}/${userId}/${type}`, data, {
+    const headers = this.sharedService.headerGerneration();
+    return this.httpClient.post(`${environment.apiUrl}/api/image/${folderName}/${userId}/${type}`, data, {headers,
       reportProgress: true,
       observe: "events"
     }).pipe(
@@ -22,28 +24,32 @@ export class ImageService {
   }
 
   getMyPicture(userId: string): Observable<Image> {
-    return this.httpClient.get<Image>(`${environment.apiUrl}/api/image/user/${userId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.httpClient.get<Image>(`${environment.apiUrl}/api/image/user/${userId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getUserDocuments(userId: string): Observable<Image> {
-    return this.httpClient.get<Image>(`${environment.apiUrl}/api/image/documents/${userId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.httpClient.get<Image>(`${environment.apiUrl}/api/image/documents/${userId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getUserCarPictures(userId: string): Observable<Image> {
-    return this.httpClient.get<Image>(`${environment.apiUrl}/api/image/cars/${userId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.httpClient.get<Image>(`${environment.apiUrl}/api/image/cars/${userId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   removeDocument(id: string): Observable<Image> {
-    return this.httpClient.delete<Image>(`${environment.apiUrl}/api/image/${id}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.httpClient.delete<Image>(`${environment.apiUrl}/api/image/${id}`, {headers})
       .pipe(
         catchError(this.handleError)
       );

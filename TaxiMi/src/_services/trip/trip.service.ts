@@ -5,6 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Trip } from 'src/_models';
 import { AccountService } from '../account.service';
+import { SharedService } from '../shared/shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,10 @@ export class TripService {
   public currentTripDriverId = this.accountService.userValue.id;
   public currentOrder = "";
   
-  constructor(private http: HttpClient, private accountService: AccountService) { }
+  constructor(private http: HttpClient, private accountService: AccountService, private sharedService: SharedService) { }
 
   public createTrip(data) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     this.currentTripOrderId = data.orderId;
     this.currentOrder = data.order;
 
@@ -31,7 +32,8 @@ export class TripService {
   }
 
   getTrip(applicationUserId: string): Observable<Trip> {
-    return this.http.get<Trip>(`${environment.apiUrl}/api/trip/${applicationUserId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Trip>(`${environment.apiUrl}/api/trip/${applicationUserId}`, {headers})
       .pipe(
         tap(data => this.trip = data),
         catchError(this.handleError)
@@ -39,7 +41,7 @@ export class TripService {
   }
 
   startTrip(tripId: string): Observable<Trip> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Trip>(`${environment.apiUrl}/api/trip/start/${tripId}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
@@ -48,7 +50,7 @@ export class TripService {
   }
 
   navigateToUser(tripId: string, orderId: string): Observable<Trip> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Trip>(`${environment.apiUrl}/api/trip/navigate/${tripId}/${orderId}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
@@ -57,7 +59,7 @@ export class TripService {
   }
 
   cancelTrip(tripId: string): Observable<Trip> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Trip>(`${environment.apiUrl}/api/trip/cancel/${tripId}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
@@ -66,7 +68,7 @@ export class TripService {
 
 
   completeTrip(tripId: string): Observable<Trip> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Trip>(`${environment.apiUrl}/api/trip/finish/${tripId}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)

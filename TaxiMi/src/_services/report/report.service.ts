@@ -3,16 +3,17 @@ import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { SharedService } from '../shared/shared.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sharedService: SharedService) { }
 
   public createReport(data) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
 
     return this.http.post(`${environment.apiUrl}/api/report`, data, { headers, responseType: 'text' })
       .pipe(

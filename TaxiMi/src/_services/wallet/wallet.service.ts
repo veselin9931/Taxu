@@ -4,16 +4,18 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Wallet } from 'src/_models';
+import { SharedService } from '../shared/shared.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WalletService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sharedService: SharedService) { }
 
   public getMyWallet(userId: string): Observable<Wallet> {
-    return this.http.get<Wallet>(`${environment.apiUrl}/api/wallet/${userId}`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Wallet>(`${environment.apiUrl}/api/wallet/${userId}`, {headers})
       .pipe(
         catchError(this.handleError)
       );
@@ -21,7 +23,7 @@ export class WalletService {
 
 
   public chargeWallet(userId: string, amount: number): Observable<Wallet> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Wallet>(`${environment.apiUrl}/api/wallet/increase/${userId}/${amount}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
@@ -30,7 +32,7 @@ export class WalletService {
   }
 
   public dischargeWallet(userId: string, amount: number): Observable<Wallet> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Wallet>(`${environment.apiUrl}/api/wallet/decrease/${userId}/${amount}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)

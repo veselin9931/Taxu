@@ -4,22 +4,24 @@ import { Profit } from '../../_models';
 import { environment } from '../../environments/environment'
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { SharedService } from '../shared/shared.service';
 @Injectable({
   providedIn: 'root'
 })
 export class ProfitService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private sharedService: SharedService) { }
 
   public getTotalProfit(): Observable<Profit> {
-    return this.http.get<Profit>(`${environment.apiUrl}/api/profit`)
+    const headers = this.sharedService.headerGerneration();
+    return this.http.get<Profit>(`${environment.apiUrl}/api/profit`, {headers})
       .pipe(
         catchError(this.handleError)
       );
   }
 
   public addToProfit(value: number): Observable<Profit>{
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.sharedService.headerGerneration();
     return this.http.put<Profit>(`${environment.apiUrl}/api/profit/${value}`, { headers, responseType: 'json' },)
     .pipe(
       catchError(this.handleError)
