@@ -44,21 +44,23 @@ export class AccountService {
   }
 
   register(user: User) {
-    return this.http.post(`${environment.apiUrl}/api/account`, user);
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json'});
+
+    return this.http.post(`${environment.apiUrl}/api/account`, user, {headers});
   }
 
   getAll() {
-    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json'});
     return this.http.get<User[]>(`${environment.apiUrl}/users`, {headers});
   }
 
   getById(id: string) {
-    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json'});
     return this.http.get<User>(`${environment.apiUrl}/api/account/${id}`, {headers});
   }
 
   updateDriving(id, value): Observable<User> {
-    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json'});
     return this.http.put<User>(`${environment.apiUrl}/api/account/${id}/${value}`, { headers, responseType: 'json' },)
       .pipe(map(x => {
         // update stored user if the logged in user updated their own record
@@ -75,7 +77,7 @@ export class AccountService {
   }
 
   updateAlert(id, value): Observable<User> {
-    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json'});
     return this.http.put<User>(`${environment.apiUrl}/api/account/${id}/alert/${value}`, { headers, responseType: 'json' },)
       .pipe(map(x => {
         // update stored user if the logged in user updated their own record
@@ -109,7 +111,7 @@ export class AccountService {
   }
 
   update(id, params) {
-    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put(`${environment.apiUrl}/api/${id}`, params,{headers})
       .pipe(map(x => {
         // update stored user if the logged in user updated their own record
@@ -126,7 +128,7 @@ export class AccountService {
   }
 
   delete(id: string) {
-    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json'});
     return this.http.delete(`${environment.apiUrl}/api/${id}`, {headers})
       .pipe(map(x => {
         // auto logout if the logged in user deleted their own record

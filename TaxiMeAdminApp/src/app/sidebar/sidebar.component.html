@@ -10,7 +10,7 @@
      MENU
     </a>
   </div>
-    <ul class="nav">
+    <ul class="nav" *ngIf='isLoggedIn && isAdmin'>
         <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
             <a *ngIf='isLoggedIn' [routerLink]="[menuItem.path]">
                 <i class="nc-icon {{menuItem.icon}}"></i>
@@ -34,4 +34,29 @@
           </a>
       </li>
     </ul>
+
+    <ul class="nav" *ngIf='!isAdmin'>
+      <li *ngFor="let menuItemUs of menuItemsForUsers" routerLinkActive="active">
+          <a *ngIf='isLoggedIn' [routerLink]="[menuItemUs.path]">
+              <i class="nc-icon {{menuItemUs.icon}}"></i>
+              <p>{{menuItemUs.title}}</p>
+          </a>
+
+          
+      </li>
+
+      <li *ngIf='!isLoggedIn' routerLinkActive="active">
+        <a routerLink="/login">
+          <i class="nc-icon nc-single-02"></i>
+          <p>Login</p>
+      </a>
+      </li>
+
+      <li *ngIf='isLoggedIn' routerLinkActive="active">
+        <a (click)='logout()' routerLink="/login">
+            <i class="nc-icon nc-button-power"></i>
+            <p>Logout</p>
+        </a>
+    </li>
+  </ul>
 </div>

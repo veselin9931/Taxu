@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { PopoverController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { first } from 'rxjs/operators';
 import { LanguagePopoverPage } from 'src/app/language-popover/language-popover.page';
@@ -18,8 +18,8 @@ import { DriverService } from 'src/_services/driver/driver.service';
 export class RegisterPage implements OnInit {
   submitted = false;
   loading = false;
-    form: FormGroup;
-    err = '';
+  form: FormGroup;
+  err = '';
 
   constructor(private route: Router,
     private formBuilder: FormBuilder,
@@ -27,9 +27,10 @@ export class RegisterPage implements OnInit {
     private alertService: AlertService,
     private driverService: DriverService,
     private translate: TranslateService,
-    private popoverController: PopoverController) { this.translate.setDefaultLang('en'); }
+    private popoverController: PopoverController,
+    private alertController: AlertController) { this.translate.setDefaultLang('en'); }
 
-    
+
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -41,79 +42,71 @@ export class RegisterPage implements OnInit {
       phone: ['', Validators.required],
       referral: ['']
 
-    },{
+    }, {
       validators: this.ConfirmedValidator('password', 'confirmPassword')
     })
 
-    
+
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
       .withUrl(`${environment.signalRUrl}/orderHub`)
       .build();
 
-    // const connection = new signalR.HubConnectionBuilder()
-    //    .configureLogging(signalR.LogLevel.Information)
-    //    .withUrl(`${environment.signalRUrl}/orderHub`, {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets})
-    //    .build();
-       
     connection.start().then(function () {
       console.log('signalR Connected in register');
     }).catch(function (err) {
       return console.log(err.toString());
     });
 
-    connection.on('CreatedAccount', () => {
-      this.onSubmit();
-    });
+
   }
 
   get f() { return this.form.controls; }
 
-  onSubmit(){
+  onSubmit() {
     this.submitted = true;
 
     if (!this.form.valid) {
       return;
-      }
+    }
 
     this.loading = true;
     this.accountService.register(this.form.value)
-    .pipe(first())
-    .subscribe(
+      .pipe(first())
+      .subscribe(
         data => {
-        this.driverService.getDriverByReferral(this.form.value.referral)
-        .subscribe(driver => {
-          if(driver){
-            this.driverService.lowerDriverCommission(driver.id)
-            .subscribe(x => {
-              console.log(x)
-            })
-          }else{
-            console.log('The referral does not exists!')
+          // this.driverService.getDriverByReferral(this.form.value.referral)
+          // .subscribe(driver => {
+          //   if(driver){
+          //     this.driverService.lowerDriverCommission(driver.id)
+          //     .subscribe(x => {
+          //       console.log(x)
+          //     })
+          //   }else{
+          //     console.log('The referral does not exists!')
 
-          }
-        })
-        this.route.navigate(['menu/home']);
-        console.log(data)
-      },
+          //   }
+          // })
+          this.presentAlert();
+          this.route.navigate(['menu/home']);
+          console.log(data)
+        },
         error => {
 
-            console.log(error.error);
-            this.err = error.error;
+          console.log(error.error);
+          this.err = error.error;
 
-        this.loading = false;
-      }
-    )
+          this.loading = false;
+        }
+      )
   }
 
-  signIn(){
+  signIn() {
     this.route.navigate(['menu/home']);
   }
 
-  goBack(){
+  goBack() {
     this.route.navigate(['menu/home']);
   }
 
@@ -125,18 +118,29 @@ export class RegisterPage implements OnInit {
     await popover.present();
   }
 
-  ConfirmedValidator(controlName: string, matchingControlName: string){
+  ConfirmedValidator(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
-        const control = formGroup.controls[controlName];
-        const matchingControl = formGroup.controls[matchingControlName];
-        if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
-            return;
-        }
-        if (control.value !== matchingControl.value) {
-            matchingControl.setErrors({ confirmedValidator: true });
-        } else {
-            matchingControl.setErrors(null);
-        }
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+      if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+        return;
+      }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ confirmedValidator: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
     }
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Successfull registration',
+      message: 'Log in and book a car.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 }

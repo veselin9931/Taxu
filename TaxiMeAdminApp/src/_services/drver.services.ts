@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 import { Router } from "@angular/router";
 import { Driver } from "_models/driver";
+import { SharedService } from "./shared-service/shared.service";
 @Injectable({ providedIn: 'root' })
 export class DriverService {
     public user: Observable<Driver>;
@@ -16,22 +17,25 @@ export class DriverService {
   
     constructor(
       private router: Router,
-      private http: HttpClient
+      private http: HttpClient,
+      private shared: SharedService
     ) {
       this.userSubject = new BehaviorSubject<Driver>(JSON.parse(localStorage.getItem('user')));
       this.user = this.userSubject.asObservable();
     }
 
   getById(id): Observable<Driver> {
-    return this.http.get<Driver>(`${environment.apiUrl}/api/driver/${id}`);
+    const headers = this.shared.headerGerneration();
+    return this.http.get<Driver>(`${environment.apiUrl}/api/driver/${id}`, {headers});
   }
 
   getAll(): Observable<Driver[]> {
-    return this.http.get<Driver[]>(`${environment.apiUrl}/api/driver`);
+    const headers = this.shared.headerGerneration();
+    return this.http.get<Driver[]>(`${environment.apiUrl}/api/driver`, {headers});
   }
 
   confirmDriver(id) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.shared.headerGerneration();
     return this.http.get(`${environment.apiUrl}/api/driver/confirm/${id}`, { headers, responseType: 'json'  });
   }
 }
