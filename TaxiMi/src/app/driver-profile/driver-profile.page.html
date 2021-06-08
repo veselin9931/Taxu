@@ -5,7 +5,7 @@
     </ion-buttons>
 
     <ion-title>
-      <ion-label>TaxiMi</ion-label>
+      <ion-label>Profile</ion-label>
     </ion-title>
 
     <ion-buttons slot="end">
@@ -37,16 +37,18 @@
             </ion-chip>
           </h6>
           <ion-chip (click)="chargeCash()">
-            <ion-label class="my-label text">{{'Click to charge your account' | translate}}</ion-label>
+            <ion-label class="my-label text">
+              <a href="https://taximidrive.netlify.app/#/login">{{'Click to charge your account' | translate}}</a>
+            </ion-label>
           </ion-chip>
           <h6 class="ranking my-label text">{{'My rating' | translate}}: <ion-chip>
               <ion-label>{{rating}}</ion-label>
             </ion-chip>
           </h6>
-          <h6 class="ranking my-label text">{{'Commission' | translate}}: <ion-chip>
+          <!-- <h6 class="ranking my-label text">{{'Commission' | translate}}: <ion-chip>
               <ion-label>{{driverCommission}}%</ion-label>
             </ion-chip>
-          </h6>
+          </h6> -->
         </div>
         
           <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">

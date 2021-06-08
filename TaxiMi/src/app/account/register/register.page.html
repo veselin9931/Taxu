@@ -5,7 +5,7 @@
     </ion-buttons>
 
     <ion-title>
-        <ion-label>TaxiMi</ion-label>
+        <ion-label>Register</ion-label>
     </ion-title>
 
     <ion-buttons slot="end">
@@ -14,17 +14,17 @@
   </ion-toolbar>
 </ion-header>
 <ion-content padding class="background">
-  <div class="row mt-2">
+  <div class="row">
     <div class="col">
-      <div class="row mt-2">
+      <div class="row">
 
       </div>
-      <ion-text class="text-center" color="light">
-        <div class="col-md-5 mt-3">
+      <ion-text class="text-center" color="dark">
+        <!-- <div class="col-md-5 mt-3">
           <h2 class="text">
             {{'Register' | translate}}
           </h2>
-        </div>
+        </div> -->
 
         <div class="row text-center">
             <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="col-md-6">
@@ -87,14 +87,14 @@
                 </div> -->
 
                 <div class="col-md-12 mt-3">
-                    <ion-button type="submit" color="light"> {{'Register' | translate}}</ion-button>
+                    <button type="submit" class="btn btn-info"> {{'Register' | translate}}</button>
                 </div>
             </form>
 
 
             <div class="col-md-6 mt-3">
                 <p class="fonted">{{'Already have an account' | translate}}?</p>
-                <ion-button (click)="signIn()" type="submit" color="danger">{{'Sign in' | translate}}</ion-button>
+                <button (click)="signIn()" type="submit" class="btn btn-warning">{{'Sign in' | translate}}</button>
 
             </div>
         </div>
