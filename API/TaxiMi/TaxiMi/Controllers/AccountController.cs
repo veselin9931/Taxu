@@ -24,7 +24,6 @@ using TaxiMi.Services.OrderService;
 namespace TaxiMi.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -82,7 +81,6 @@ namespace TaxiMi.Controllers
 
         //POST api/<AccountController>
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] RegisterViewModel model)
         {
             if (model == null || !this.ModelState.IsValid)
@@ -127,7 +125,6 @@ namespace TaxiMi.Controllers
 
         // POST api/<AccountController>
         [HttpPost("authenticate")]
-        [AllowAnonymous]
         [Route("/authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] LoginViewModel userDto)
         {
@@ -152,8 +149,8 @@ namespace TaxiMi.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, user.Token)
+                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    //new Claim(ClaimTypes.Role, user.Token)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -180,8 +177,6 @@ namespace TaxiMi.Controllers
             });
         }
 
-        // PUT api/<AccountController>/5/true,false
-        [AllowAnonymous]
         [HttpPut("{id}/{value}")]
         public async Task<IActionResult> Put(string id, bool value)
         {
