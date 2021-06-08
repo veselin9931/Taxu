@@ -3,7 +3,7 @@ export const environment = {
 //   apiUrl: 'http://www.taximiapi.com.aspbg.net',
 //  signalRUrl: 'http://www.taximiapi.com.aspbg.net',
 
-apiUrl: 'https://taksito.azurewebsites.net',
-signalRUrl: 'https://taksito.azurewebsites.net',
+apiUrl: 'https://localhost:44377',
+signalRUrl: 'https://localhost:44377',
 
 };
