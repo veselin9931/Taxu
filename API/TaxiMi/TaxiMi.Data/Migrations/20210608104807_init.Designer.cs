@@ -10,8 +10,8 @@ using TaxiMi.Data;
 namespace TaxiMi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210604113600_Inisti")]
-    partial class Inisti
+    [Migration("20210608104807_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -324,6 +324,9 @@ namespace TaxiMi.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -559,7 +562,6 @@ namespace TaxiMi.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userId")

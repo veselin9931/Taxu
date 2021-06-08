@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TaxiMi.Data.Migrations
 {
-    public partial class dbchanges : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -62,7 +62,7 @@ namespace TaxiMi.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     userId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -210,6 +210,8 @@ namespace TaxiMi.Data.Migrations
                     ChoosenLanguage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DriverId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DriverId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsAdmin = table.Column<bool>(type: "bit", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),

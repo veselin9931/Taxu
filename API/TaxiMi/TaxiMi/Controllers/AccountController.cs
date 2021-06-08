@@ -82,6 +82,7 @@ namespace TaxiMi.Controllers
 
         //POST api/<AccountController>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] RegisterViewModel model)
         {
             if (model == null || !this.ModelState.IsValid)

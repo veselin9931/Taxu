@@ -92,7 +92,7 @@ export class AccountService {
   }
 
   updateLanguage(id, value): Observable<User> {
-    const headers =new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.userValue.token}` });
+    const headers =new HttpHeaders({ 'Content-Type': 'application/json'});
     return this.http.put<User>(`${environment.apiUrl}/api/account/${id}/language/${value}`, { headers, responseType: 'json' },)
       .pipe(map(x => {
         // update stored user if the logged in user updated their own record

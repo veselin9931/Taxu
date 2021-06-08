@@ -50,7 +50,7 @@ export class SidebarComponent implements OnInit {
             return console.log(err.toString());
         });
 
-        connection.on('BroadcastMessage', () => {
+        connection.on('LoggedIn', () => {
             this.checkValues();
         });
     }
