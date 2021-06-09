@@ -69,7 +69,9 @@ export class UserDetailsComponent implements OnInit {
       .subscribe(driver => {
         this.sharedService.getCarsImages(driver.applicationUserId)
           .subscribe(cars => {
-            this.carImages = cars;
+            if(cars){
+              this.carImages = cars;
+            }
           })
       })
   }

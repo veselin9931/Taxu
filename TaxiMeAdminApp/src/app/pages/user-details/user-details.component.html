@@ -52,8 +52,8 @@
     </div>
 </div>
 
-<h2>Car data:</h2>
-<div class="row">
+<h2 *ngIf="this.carImages.length > 0">Car data:</h2>
+<div  *ngIf="this.carImages.length > 0"  class="row">
     <div class="col">
         <div class="table-responsive">
             <table class="table">

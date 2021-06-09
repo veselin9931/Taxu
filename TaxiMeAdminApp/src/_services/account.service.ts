@@ -53,7 +53,6 @@ export class AccountService {
   //Drivers
   getAll() {
     let headers = this.headerGerneration();
-
     return this.http.get<User[]>(`${environment.apiUrl}/api/account`, { headers, responseType: 'json' });
   }
 

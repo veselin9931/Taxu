@@ -14,8 +14,7 @@ export class ImageService {
   constructor(private httpClient: HttpClient, private sharedService: SharedService) { }
 
   upload(data: any, folderName: string, userId: string, type: string): Observable<HttpEvent<any>> {
-    const headers = this.sharedService.headerGerneration();
-    return this.httpClient.post(`${environment.apiUrl}/api/image/${folderName}/${userId}/${type}`, data, {headers,
+    return this.httpClient.post(`${environment.apiUrl}/api/image/${folderName}/${userId}/${type}`, data, {
       reportProgress: true,
       observe: "events"
     }).pipe(

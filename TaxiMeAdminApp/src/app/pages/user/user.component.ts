@@ -29,12 +29,30 @@ export class UserComponent implements OnInit {
         if (!this.isLoggedIn) {
             this.route.navigate(['/login'])
         }
-        this.accountService.getAll().subscribe(data => {
+        this.driverService.getConfirmed().subscribe(data => {
+            data.forEach(driver => {
+                this.accountService.getById(driver.applicationUserId)
+                .subscribe(user => {
+                    driver.firstName = user.firstName;
+                    driver.lastName = user.lastName;
+                    driver.phone = user.phone;
+                    driver.userName = user.userName;
+                })
+            });
             this.userStatus = data
         });
 
         this.driverService.getAll().subscribe(data => {
+            data.forEach(driver => {
+                this.accountService.getById(driver.applicationUserId)
+                .subscribe(user => {
+                    driver.firstName = user.firstName;
+                    driver.lastName = user.lastName;
+                })
+            });
             this.driverData = data;
+            console.log(data)
+
         });
 
         this.carService.getAllUnconfirmedCars()

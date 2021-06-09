@@ -5,4 +5,8 @@ export class Driver {
     documentConfirmatiom: boolean;
     comission: DoubleRange;
     applicationUserId: string;
+    firstName: string;
+    lastName: string;
+    phone: number;
+    userName: string;
 }

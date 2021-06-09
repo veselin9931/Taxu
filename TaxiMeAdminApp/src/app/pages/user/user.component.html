@@ -6,8 +6,13 @@
         <thead class=" text-primary">
           <tr>
             <th>
-              ID
+              First name
             </th>
+
+            <th>
+              Last name
+            </th>
+
             <th>
               Action
             </th>
@@ -16,7 +21,11 @@
         <tbody>
           <tr *ngFor="let driver of driverData" >
             <td>
-              {{driver.id}}
+              {{driver.firstName}}
+            </td>
+
+            <td>
+              {{driver.lastName}}
             </td>
 
             <td>

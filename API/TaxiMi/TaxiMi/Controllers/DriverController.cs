@@ -88,16 +88,30 @@ namespace TaxiMi.Controllers
 
         // GET: api/<AccountController>
         [HttpGet]
-        public IEnumerable<DriverViewModel> GetAllDrivers()
+        public async Task<IActionResult> GetAllDrivers()
         {
-            var drivers = this.driverService.GetAllDrivers();
+            var drivers = await this.driverService.GetUnconfirmedDrivers();
 
             if (drivers != null)
             {
-                return drivers;
+                return this.Ok(drivers);
             }
 
-            return new List<DriverViewModel> { };
+            return this.NoContent();
+        }
+
+        // GET: api/<AccountController>
+        [HttpGet("confirmed")]
+        public async Task<IActionResult> GetAllConfirmedDrivers()
+        {
+            var drivers = await this.driverService.GetConfirmedDrivers();
+
+            if (drivers != null)
+            {
+                return this.Ok(drivers);
+            }
+
+            return this.NoContent();
         }
 
 

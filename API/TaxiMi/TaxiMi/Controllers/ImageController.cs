@@ -93,6 +93,7 @@ namespace TaxiMi.Controllers
 
         // POST api/<ImageController>
         [HttpPost("{folderName}/{userId}/{type}"), DisableRequestSizeLimit]
+        [AllowAnonymous]
         public async Task<IActionResult> Post(string folderName, string userId, string type)
         {
             if (this.ModelState.IsValid)

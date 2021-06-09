@@ -34,6 +34,11 @@ export class DriverService {
     return this.http.get<Driver[]>(`${environment.apiUrl}/api/driver`, {headers});
   }
 
+  getConfirmed(): Observable<Driver[]> {
+    const headers = this.shared.headerGerneration();
+    return this.http.get<Driver[]>(`${environment.apiUrl}/api/driver/confirmed`, {headers});
+  }
+
   confirmDriver(id) {
     const headers = this.shared.headerGerneration();
     return this.http.get(`${environment.apiUrl}/api/driver/confirm/${id}`, { headers, responseType: 'json'  });

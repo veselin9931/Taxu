@@ -106,24 +106,23 @@ namespace TaxiMi.Services.DriverService
             return result > 0 ? new DriverViewModel() { Comission = driver.Comission, DocumentConfirmatiom = driver.DocumentConfirmation, Id = driver.Id } : null; 
         }
 
-        public IEnumerable<DriverViewModel> GetAllDrivers()
-        {
-            var drivers = this.repository.All().Where(d => d.DocumentConfirmation != true).Select(a =>
-            new DriverViewModel()
-            { 
-                Comission = a.Comission,
-                DocumentConfirmatiom = a.DocumentConfirmation,
-                Id = a.Id
-            });
-
-            return drivers;
-        }
+        public async Task<IList<Driver>> GetUnconfirmedDrivers()
+         => await this.repository
+            .All()
+            .Where(d => d.DocumentConfirmation != true)
+            .ToListAsync();
 
         public Driver GetById(string id)
         => this.repository.All().FirstOrDefault(x => x.Id == id);
 
         public Driver GetByReferral(string referral)
         => this.repository.All()?.FirstOrDefault(x => x.Referal == referral);
+
+        public async Task<IList<Driver>> GetConfirmedDrivers()
+         => await this.repository
+            .All()
+            .Where(d => d.DocumentConfirmation == true)
+            .ToListAsync();
 
         public DriverViewModel GetDriver(string id)
         {

@@ -154,6 +154,7 @@ namespace TaxiMi.Controllers
 
         // PUT api/<CarController>/5
         [HttpPut("{id}/{driverId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Put(string id, string driverId)
         {
             var result = this.service.ActivateCar(id, driverId);

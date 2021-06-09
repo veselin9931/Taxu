@@ -16,7 +16,10 @@ namespace TaxiMi.Services.DriverService
 
         Task<bool> ConfirmDriver(string driverId);
 
-        IEnumerable<DriverViewModel> GetAllDrivers();
+        public Task<IList<Driver>> GetUnconfirmedDrivers();
+
+        public Task<IList<Driver>> GetConfirmedDrivers();
+
 
         public Task<bool> LowerCommission(string id);
 
