@@ -15,8 +15,8 @@
 </ion-header>
 
 <ion-content>
-  <button *ngIf="mapVisible == false" class="fonted btn btn-info col-md-12" (click)="showMap()">Show map</button>
-  <button *ngIf="mapVisible == true" class="fonted btn btn-info col-md-12" (click)="hideMap()">Show details</button>
+  <button *ngIf="mapVisible == false" class="fonted btn btn-info col-md-12" (click)="showMap()">{{'Show map' | translate}}</button>
+  <button *ngIf="mapVisible == true" class="fonted btn btn-info col-md-12" (click)="hideMap()">{{'Show details' | translate}}</button>
   <div id="order"  class="col-md-10">
     <div  class="list-group mt-2">
       <a class="text list-group-item list-group-item-action flex-column align-items-start">
@@ -36,12 +36,12 @@
               *ngIf="order.withPets == true || order.withStroller == true || order.special == true">{{'Additional
               options' | translate}}:</small>
             <ul>
-              <li *ngIf="order.withPets == true">{{'With pets' | translate}}</li>
-              <li *ngIf="order.withStroller == true">{{'With stroller' | translate}}</li>
+              <li *ngIf="order.withPets == true">{{'Pets' | translate}}</li>
+              <li *ngIf="order.withStroller == true">{{'Baggage' | translate}}</li>
               <li *ngIf="order.special == true">{{'Special needs' | translate}}</li>
             </ul>
 
-            <small *ngIf="order.carType">Desired car type:</small>
+            <small *ngIf="order.carType">{{'Desired car type' | translate}}:</small>
             <ul *ngIf="order.carType">
               <li>{{order.carType}}</li>
             </ul>
@@ -61,7 +61,7 @@
                 translate}}</button>
             </div>
             <hr />
-            <p *ngIf="canIncrease == true" class="text-center">Offer more price to order</p>
+            <p *ngIf="canIncrease == true" class="text-center">{{'Offer more price to order' | translate}}</p>
             <div *ngIf="canIncrease == true" class="d-flex w-100 justify-content-between">
               <button type="button" (click)="offer(0.50)" class="btn btn-info btn-sm">+0.50$</button>
               <button type="button" (click)="offer(1)" class="btn btn-info btn-sm">+1$</button>

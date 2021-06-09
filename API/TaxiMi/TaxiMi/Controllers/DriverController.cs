@@ -33,6 +33,7 @@ namespace TaxiMi.Controllers
         }
 
         [HttpPut("voteUp/{driverId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> VoteUp(string driverId)
         {
            var result = await this.driverService.VoteUp(driverId);
@@ -47,6 +48,7 @@ namespace TaxiMi.Controllers
         }
 
         [HttpPut("voteDown/{driverId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> VoteDown(string driverId)
         {
             var result = await this.driverService.VoteDown(driverId);
@@ -131,6 +133,7 @@ namespace TaxiMi.Controllers
 
         // POST api/<DriverController>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] DriverInputModel input)
         {
             if (!this.ModelState.IsValid || input == null)
@@ -159,6 +162,7 @@ namespace TaxiMi.Controllers
 
         // PUT api/<DriverController>/5
         [HttpPut("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Put(string id)
         {
             var driver = await this.driverService.LowerCommission(id);
@@ -174,6 +178,7 @@ namespace TaxiMi.Controllers
 
         // PUT api/<DriverController>/5
         [HttpPut("location/{id}/{lat}/{lng}")]
+        [AllowAnonymous]
         public async Task<IActionResult> ChangeDriverLocation(string id, string lat, string lng)
         {
             var result = await this.driverService.ChangeLocation(id, lat, lng);

@@ -50,6 +50,7 @@ namespace TaxiMi.Controllers
 
         // PUT api/<WalletController>/5
         [HttpPut("increase/{userId}/{amount}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Charge(string userId, decimal amount)
         {
             var result = await this.walletService.Charge(userId, amount);
@@ -65,6 +66,7 @@ namespace TaxiMi.Controllers
 
         // PUT api/<WalletController>/5
         [HttpPut("decrease/{userId}/{amount}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Discharge(string userId, decimal amount)
         {
             var result = await this.walletService.Decrease(userId, amount);

@@ -122,6 +122,7 @@ namespace TaxiMi.Controllers
 
         // DELETE api/<imageController>/5
         [HttpDelete("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Delete(string id)
         {
             var image = await this.service.DeleteImageAsync(id);

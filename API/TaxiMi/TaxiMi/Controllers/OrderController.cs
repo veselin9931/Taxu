@@ -189,6 +189,7 @@ namespace TaxiMi.Controllers
 
         // POST api/<OrderController>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] CreateOrderInputModel input)
         {
             if (this.ModelState.IsValid)
@@ -219,6 +220,7 @@ namespace TaxiMi.Controllers
 
         // POST api/<OrderController>
         [HttpPost("favourites")]
+        [AllowAnonymous]
         public async Task<IActionResult> AddToFavourites([FromBody] CreateOrderInputModel input)
         {
             if (this.ModelState.IsValid)
@@ -277,6 +279,7 @@ namespace TaxiMi.Controllers
 
         // DELETE api/<OrderController>/5
         [HttpDelete("favourites/{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteFavourite(string id)
         {
             var order = await this.orderService.DeleteFavourite(id);
@@ -292,6 +295,7 @@ namespace TaxiMi.Controllers
 
         // PUT api/<OrderController>/orderId/driverId
         [HttpPut("{orderId}/{driverId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> AcceptOrder(string orderId, string driverId)
         {
             var accepted = await this.orderService.AcceptOrderAsync(orderId, driverId);
@@ -309,6 +313,7 @@ namespace TaxiMi.Controllers
         }
 
         [HttpPut("waiting/{orderId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> MakeOrderInWaiting(string orderId)
         {
             var accepted = await this.orderService.MakeOrderInWaitingAsync(orderId);
@@ -324,6 +329,7 @@ namespace TaxiMi.Controllers
 
         // PUT api/<OrderController>/eta/orderId/value
         [HttpPut("eta/{orderId}/{value}")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateEta(string orderId, string value)
         {
             var accepted = await this.orderService.UpdateEtaAsync(orderId, value);
@@ -339,6 +345,7 @@ namespace TaxiMi.Controllers
 
         // PUT api/<OrderController>/orderId
         [HttpPut("{orderId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> CompleteOrder(string orderId)
         {
             var complete = await this.orderService.CompleteOrderAsync(orderId);
@@ -355,6 +362,7 @@ namespace TaxiMi.Controllers
 
         // PUT api/<OrderController>/orderId/increaseAmount
         [HttpPut("increase/{orderId}/{amount}")]
+        [AllowAnonymous]
         public async Task<IActionResult> IncreaseAmount(string orderId, decimal amount)
         {
             var increase = await this.orderService.IncreaseOrderPriceAsync(orderId, amount);
@@ -369,6 +377,7 @@ namespace TaxiMi.Controllers
         }
 
         [HttpPut("arrived/{orderId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateDriverArrived(string orderId)
         {
             var order = await this.orderService.UpdateDriverArrivedAsync(orderId);
@@ -383,6 +392,7 @@ namespace TaxiMi.Controllers
         }
 
         [HttpPut("reset/{orderId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> ResetIncreasing(string orderId)
         {
             var order = await this.orderService.ResetIncreasePriceAsync(orderId);
@@ -398,6 +408,7 @@ namespace TaxiMi.Controllers
         }
 
         [HttpPut("increased/{orderId}/{amount}/{driverId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdatePriceIncreased(string orderId, decimal amount, string driverId)
         {
             var order = await this.orderService.UpdatePriceIncreasedAsync(orderId, amount, driverId);
@@ -412,6 +423,7 @@ namespace TaxiMi.Controllers
         }
 
         [HttpPut("accepted/increase/{orderId}/{value}")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateIncreaseAccepted(string orderId, bool value)
         {
             var order = await this.orderService.UpdateIncreaseAcceptedAsync(orderId, value);
@@ -426,6 +438,7 @@ namespace TaxiMi.Controllers
         }
 
         [HttpPut("increment/{orderId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> IncrementOrderPrice(string orderId)
         {
             var order = await this.orderService.IncrementPriceAsync(orderId);
@@ -440,6 +453,7 @@ namespace TaxiMi.Controllers
         }
 
         [HttpPut("decrement/{orderId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> DecrementOrderPrice(string orderId)
         {
             var order = await this.orderService.DecrementPriceAsync(orderId);
@@ -456,6 +470,7 @@ namespace TaxiMi.Controllers
 
         // DELETE api/<OrderController>/5
         [HttpDelete("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Delete(string id)
         {
             var order = await this.orderService.Delete(id);

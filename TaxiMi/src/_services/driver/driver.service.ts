@@ -77,8 +77,7 @@ export class DriverService {
   }
 
   public locateDriver(driverId: string, lat: string, lng: string): Observable<Driver>{
-    const headers = this.sharedService.headerGerneration();
-    return this.http.put<Driver>(`${environment.apiUrl}/api/driver/location/${driverId}/${lat}/${lng}`, { headers, responseType: 'json' },)
+    return this.http.put<Driver>(`${environment.apiUrl}/api/driver/location/${driverId}/${lat}/${lng}`, {responseType: 'json' },)
     .pipe(
       catchError(this.handleError)
     );

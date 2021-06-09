@@ -46,12 +46,14 @@ namespace TaxiMi.Controllers
 
         // POST api/<ProfitController>
         [HttpPost]
+        [AllowAnonymous]
         public void Post([FromBody] string value)
         {
         }
 
         // PUT api/<ProfitController>/5
         [HttpPut("{value}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Put(decimal value)
         {
             var result = await this.profitService.AddToProfit(value);

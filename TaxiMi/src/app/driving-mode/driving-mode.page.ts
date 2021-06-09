@@ -338,24 +338,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
   }
 
   finishTrip() {
-    this.subscriptions.push(this.tripService.completeTrip(this.currentTrip.id)
-      .subscribe(trip => {
-        if (trip) {
-          this.tripStatus = trip.status;
-        }
-        this.subscriptions.push(this.orderService.completeOrder(this.currentTrip.orderId)
-          .subscribe(() => { }));
-
-      }))
-
-    //trigger the driver's driving now property to false
-    let userId = this.accountService.userValue.id;
-    let value = this.accountService.userValue.isDrivingNow = false;
-
-    this.subscriptions.push(this.accountService.updateDriving(userId, value)
-      .subscribe());
-    this.isDrivingNow = this.accountService.userValue.isDrivingNow;
-    this.route.navigate(['menu/driving'])
+    this.completeTripAlert();
   }
 
   async openLanguagePopover(ev) {
@@ -494,6 +477,48 @@ export class DrivingModePage implements OnInit, OnDestroy {
         }
       ]
     });
+    await popup.present();
+  }
+
+
+  async completeTripAlert() {
+    const popup = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Are you sure you want to finish the trip?',
+      //message: '<img src = "../assets/default.png" width="1px" height="1px">',
+
+      buttons: [
+        {
+          text: 'Yes',
+          role: 'cancel',
+          handler: () => {
+            this.subscriptions.push(this.tripService.completeTrip(this.currentTrip.id)
+            .subscribe(trip => {
+              if (trip) {
+                this.tripStatus = trip.status;
+              }
+              this.subscriptions.push(this.orderService.completeOrder(this.currentTrip.orderId)
+                .subscribe(() => { }));
+      
+              //trigger the driver's driving now property to false
+              let userId = this.accountService.userValue.id;
+              let value = this.accountService.userValue.isDrivingNow = false;
+      
+              this.subscriptions.push(this.accountService.updateDriving(userId, value)
+                .subscribe());
+              this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+              this.route.navigate(['menu/driving']);
+            }))
+      
+      
+          }
+        },
+        {
+          text: 'No'
+        }
+      ]
+    });
+
     await popup.present();
   }
 }

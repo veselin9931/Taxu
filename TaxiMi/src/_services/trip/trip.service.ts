@@ -41,8 +41,7 @@ export class TripService {
   }
 
   startTrip(tripId: string): Observable<Trip> {
-    const headers = this.sharedService.headerGerneration();
-    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/start/${tripId}`, { headers, responseType: 'json' },)
+    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/start/${tripId}`, {  responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
       );
@@ -50,8 +49,7 @@ export class TripService {
   }
 
   navigateToUser(tripId: string, orderId: string): Observable<Trip> {
-    const headers = this.sharedService.headerGerneration();
-    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/navigate/${tripId}/${orderId}`, { headers, responseType: 'json' },)
+    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/navigate/${tripId}/${orderId}`, {  responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
       );
@@ -59,8 +57,7 @@ export class TripService {
   }
 
   cancelTrip(tripId: string): Observable<Trip> {
-    const headers = this.sharedService.headerGerneration();
-    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/cancel/${tripId}`, { headers, responseType: 'json' },)
+    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/cancel/${tripId}`, { responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
       );
@@ -68,8 +65,7 @@ export class TripService {
 
 
   completeTrip(tripId: string): Observable<Trip> {
-    const headers = this.sharedService.headerGerneration();
-    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/finish/${tripId}`, { headers, responseType: 'json' },)
+    return this.http.put<Trip>(`${environment.apiUrl}/api/trip/finish/${tripId}`, { responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
       );

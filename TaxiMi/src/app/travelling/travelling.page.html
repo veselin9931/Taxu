@@ -7,7 +7,7 @@
 
 
             <ion-title>
-                <ion-label>Travel</ion-label>
+                <ion-label>{{'Travel'| translate}}</ion-label>
             </ion-title>
 
             <ion-buttons slot="end">
@@ -37,7 +37,7 @@
                                 {{this.orderService.chosenDestination}}
                             </p>
                             <p (click)="destinationMap()" *ngIf="this.orderService.chosenDestination == null">
-                                <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{'Choose the destination' |translate}}.
+                                <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{'Choose destination' | translate}}.
                             </p>
                         </div>
 
@@ -70,7 +70,7 @@
                             <ion-select (ionChange)="onSelectCar($event)"
                                 [placeholder]='"Car type (optional)" | translate'>
                                 <ion-select-option value="Normal">{{'Normal' | translate}}</ion-select-option>
-                                <ion-select-option value="Comfort">Comfort + 1$</ion-select-option>
+                                <ion-select-option value="Comfort">{{'Comfort' | translate}} + 1$</ion-select-option>
                             </ion-select>
                         </div>
 

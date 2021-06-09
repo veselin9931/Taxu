@@ -61,6 +61,7 @@ namespace TaxiMi.Controllers
 
         // POST api/<TripController>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] CreateTripInputModel model)
         {
             var result = await this.tripService.CreateTrip(model);
@@ -76,6 +77,8 @@ namespace TaxiMi.Controllers
 
         // PUT api/<TripController>/5
         [HttpPut("finish/{id}")]
+        [AllowAnonymous]
+
         public async Task<IActionResult> FinishTrip(string id)
         {
             var complete = await this.tripService.FinishTripAsync(id);
@@ -90,6 +93,7 @@ namespace TaxiMi.Controllers
 
         // PUT api/<TripController>/5
         [HttpPut("start/{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> StartTrip(string id)
         {
             var complete = await this.tripService.StartTripAsync(id);
@@ -106,6 +110,8 @@ namespace TaxiMi.Controllers
 
         // PUT api/<TripController>/5
         [HttpPut("navigate/{id}/{orderId}")]
+        [AllowAnonymous]
+
         public async Task<IActionResult> NavigateToUser(string id, string orderId)
         {
             var complete = await this.tripService.NavigateToUserAsync(id);
@@ -122,6 +128,8 @@ namespace TaxiMi.Controllers
 
         // PUT api/<TripController>/5
         [HttpPut("cancel/{id}")]
+        [AllowAnonymous]
+
         public async Task<IActionResult> CancelTrip(string id)
         {
             var trip = await this.tripService.CancelTripAsync(id);

@@ -50,6 +50,7 @@ namespace TaxiMi.Controllers
 
         // POST api/<ReportController>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post(CreateReportInputModel inputModel)
         {
             if (this.ModelState.IsValid)

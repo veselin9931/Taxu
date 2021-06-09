@@ -11,8 +11,9 @@ import { AccountService } from 'src/_services';
 export class LanguagePopoverPage implements OnInit {
   selected = "";
   languages = [
-    { text: 'English', value: 'en', img: '../../assets/english.png' },
-    { text: 'Spanish', value: 'es', img: '../../assets/spain.png' }
+    { text: 'Български', value: 'bg', img: '../../assets/bulgaria.png' },
+    { text: 'English', value: 'en', img: '../../assets/english.png' }
+    //{ text: 'Spanish', value: 'es', img: '../../assets/spain.png' }
   ];
 
   constructor(private popoverController: PopoverController,

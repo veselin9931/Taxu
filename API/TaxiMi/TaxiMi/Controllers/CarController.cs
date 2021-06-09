@@ -127,6 +127,7 @@ namespace TaxiMi.Controllers
 
         // POST api/<CarController>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post(CreateCarInputModel input)
         {
             if (!this.ModelState.IsValid || input == null)
@@ -170,6 +171,7 @@ namespace TaxiMi.Controllers
 
         // DELETE api/<CarController>/5
         [HttpDelete("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Delete(string id)
         {
             var r = await this.service.DeleteCar(id);

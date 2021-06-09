@@ -1,5 +1,6 @@
 {
     "Additional options (optional)": "Additional options (optional)",
+    "Desired car type" : "Desired car type",
     "With pets": "With pets",
     "With stroller": "With stroller",
     "Special needs": "Special needs",
@@ -92,5 +93,11 @@
     "Comfort": "Comfort",
     "Car type (optional)": "Car type (optional)",
     "Closest": "Closest",
-    "All": "All"
+    "All": "All",
+    "Categories": "Categories",
+    "Order details": "Order details",
+    "Details": "Details",
+    "Show map": "Show map",
+    "Show details": "Show details",
+    "Offer more price to order" : "Offer more price to order"
   }
