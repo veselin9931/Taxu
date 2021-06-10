@@ -70,7 +70,7 @@ namespace TaxiMi.Services.WalletService
         {
             var wallet = this.repository.All().FirstOrDefault(w => w.ApplicationUserId == userId);
 
-            return new WalletViewModel() { Ammount = wallet.Ammount, Confirmation = wallet.Confirmation };
+            return new WalletViewModel();
         }
 
         public WalletViewModel GetWallet(string id)

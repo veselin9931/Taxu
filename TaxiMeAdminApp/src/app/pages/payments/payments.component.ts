@@ -20,6 +20,7 @@ export class PaymentsComponent implements OnInit {
   getWalletAmount() {
     this.sharedSerice.getMyWallet(this.accountService.userValue.id)
       .subscribe(x => {
+        console.log(x)
         if (x.ammount) {
           this.walletAmount = x.ammount;
         } else {
