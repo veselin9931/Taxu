@@ -13,7 +13,7 @@ import { SharedService } from '_services/shared-service/shared.service';
 
 export class DashboardComponent implements OnInit {
   isLoggedIn;
-  totalProfit: number;
+  totalProfit: string;
   totalTrips: number;
   totalUsers: number;
   totalDrivers: number;
@@ -230,7 +230,7 @@ export class DashboardComponent implements OnInit {
   getTotalProfit() {
     this.sharedService.getTotalProfit()
       .subscribe(x => {
-        this.totalProfit = x.result;
+        this.totalProfit = x.toString();
       })
   }
 
