@@ -85,10 +85,20 @@ export class MenuPage implements OnInit {
     //     transport: signalR.HttpTransportType.WebSockets})
     //    .build();
 
+    // const connection = new signalR.HubConnectionBuilder()
+    //   .configureLogging(signalR.LogLevel.Information)
+    //   .withUrl(`${environment.signalRUrl}/orderHub`)
+    //   .build();
+
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl(`${environment.signalRUrl}/orderHub`)
+      .withUrl(`${environment.signalRUrl}/orderHub`, {
+        skipNegotiation: false,
+        transport: signalR.HttpTransportType.WebSockets |
+          signalR.HttpTransportType.LongPolling
+      })
       .build();
+
 
     connection.start().then(function () {
       console.log('signalR Connected in menu');
