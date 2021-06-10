@@ -7,9 +7,9 @@ export const environment = {
   production: false,
   //apiUrl: 'https://localhost:44329'
   //apiUrl: 'http://taxu.azurewebsites.net'
-  // apiUrl: 'http://www.taximiapi.com.aspbg.net',
-  // signalRUrl: 'http://www.taximiapi.com.aspbg.net',
-   apiUrl: 'https://localhost:44377',
-    signalRUrl: 'https://localhost:44377',
+  apiUrl: 'http://www.taximiapi.com.aspbg.net',
+  signalRUrl: 'http://www.taximiapi.com.aspbg.net',
+  //  apiUrl: 'https://localhost:44377',
+  //   signalRUrl: 'https://localhost:44377',
 
 };
