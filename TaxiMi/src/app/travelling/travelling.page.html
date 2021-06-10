@@ -27,7 +27,7 @@
                                 {{this.orderService.chosenLocation}}
                             </p>
                             <p (click)="locationMap()" *ngIf="this.orderService.chosenLocation == null">
-                                <ion-icon class="mr-2" name="location-outline"></ion-icon>{{'Take me from here'| translate}}.
+                                <ion-icon class="mr-2" name="location-outline"></ion-icon>{{'Take me from here'| translate}}
                             </p>
                             <hr />
                         </div>
@@ -37,7 +37,7 @@
                                 {{this.orderService.chosenDestination}}
                             </p>
                             <p (click)="destinationMap()" *ngIf="this.orderService.chosenDestination == null">
-                                <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{'Choose destination' | translate}}.
+                                <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{'Choose destination' | translate}}
                             </p>
                         </div>
 
@@ -74,6 +74,16 @@
                             </ion-select>
                         </div>
 
+                        <!-- <div class="row">
+                            <div class="col">
+                                <img src="../../assets/normal.png" width="90" height="90">
+                            </div>
+
+                            <div class="col">
+                                <img src="../../assets/comfort.png"width="90" height="90">
+
+                            </div>
+                        </div> -->
 
                         <div *ngIf="orderStatus == 'Waiting'" class="form-group col mt-3">
                             <div class="d-flex w-100 justify-content-between">
