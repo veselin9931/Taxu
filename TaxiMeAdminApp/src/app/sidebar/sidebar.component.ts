@@ -16,10 +16,12 @@ export const ROUTES: RouteInfo[] = [
     { path: '/home', title: 'Начало', icon: 'nc-bank', class: '' , isAdmin: false},
     { path: '/dashboard', title: 'Админ панел', icon: 'nc-badge', class: '', isAdmin: true},
     { path: '/user', title: 'Потребители', icon: 'nc-single-02', class: '', isAdmin: true},
-    { path: '/reports', title: 'Докладвай проблем', icon: 'nc-paper', class: '', isAdmin: true },
+    { path: '/reports', title: 'Проблеми', icon: 'nc-paper', class: '', isAdmin: true },
     { path: '/payments', title: 'Плащания', icon: 'nc-money-coins', class: '' , isAdmin: false},
     { path: '/download', title: 'Изтегли', icon: 'nc-cloud-download-93', class: '' , isAdmin: false},
-    { path: '/FAQ', title: 'Често задавани въпроси', icon: 'nc-chat-33', class: '' , isAdmin: false},
+    { path: '/faq', title: 'Често задавани въпроси', icon: 'nc-chat-33', class: '' , isAdmin: false},
+    { path: '/about', title: 'За компанията', icon: 'nc-badge', class: '' , isAdmin: false},
+
 ];
 
 

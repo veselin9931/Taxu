@@ -7,7 +7,7 @@
       </div>
     </a>
     <a href="#" class="simple-text logo-normal">
-     MENU
+     Меню
     </a>
   </div>
     <ul class="nav" *ngIf='isLoggedIn && isAdmin'>
@@ -23,14 +23,14 @@
         <li *ngIf='!isLoggedIn' routerLinkActive="active">
           <a routerLink="/login">
             <i class="nc-icon nc-single-02"></i>
-            <p>Login</p>
+            <p>Вход</p>
         </a>
         </li>
 
         <li *ngIf='isLoggedIn' routerLinkActive="active">
           <a (click)='logout()' routerLink="/login">
               <i class="nc-icon nc-button-power"></i>
-              <p>Logout</p>
+              <p>Изход</p>
           </a>
       </li>
     </ul>
@@ -48,14 +48,14 @@
       <li *ngIf='!isLoggedIn' routerLinkActive="active">
         <a routerLink="/login">
           <i class="nc-icon nc-single-02"></i>
-          <p>Login</p>
+          <p>Вход</p>
       </a>
       </li>
 
       <li *ngIf='isLoggedIn' routerLinkActive="active">
         <a (click)='logout()' routerLink="/login">
             <i class="nc-icon nc-button-power"></i>
-            <p>Logout</p>
+            <p>Изход</p>
         </a>
     </li>
   </ul>
