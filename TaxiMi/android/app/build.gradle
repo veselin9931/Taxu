@@ -6,8 +6,8 @@ android {
         applicationId "com.taxibeta.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 19
-        versionName "19"
+        versionCode 20
+        versionName "20"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
