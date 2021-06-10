@@ -19,6 +19,9 @@ import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
 import { CarDetailsComponent } from './pages/car-details/car-details.component';
 import { PaymentsComponent } from './pages/payments/payments.component';
+import { HomeComponent } from './pages/home/home/home.component';
+import { FaqComponent } from './pages/faq/faq/faq.component';
+import { AboutComponent } from './pages/about/about/about.component';
 
 
 @NgModule({
@@ -28,7 +31,10 @@ import { PaymentsComponent } from './pages/payments/payments.component';
     LoginComponent,
     UserDetailsComponent,
     CarDetailsComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    HomeComponent,
+    FaqComponent,
+    AboutComponent
   ],
   imports: [ 
     BrowserModule /* or CommonModule */, 

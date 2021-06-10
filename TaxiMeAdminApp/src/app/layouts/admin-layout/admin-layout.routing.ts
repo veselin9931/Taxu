@@ -12,6 +12,9 @@ import { UserDetailsComponent } from 'app/pages/user-details/user-details.compon
 import { CarDetailsComponent } from 'app/pages/car-details/car-details.component';
 import { LoginComponent } from 'app/login/login.component';
 import { PaymentsComponent } from 'app/pages/payments/payments.component';
+import { HomeComponent } from 'app/pages/home/home/home.component';
+import { FaqComponent } from 'app/pages/faq/faq/faq.component';
+import { AboutComponent } from 'app/pages/about/about/about.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -25,6 +28,12 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent },
     { path: 'login',        component: LoginComponent },
-    { path: 'payments',        component: PaymentsComponent }
+    { path: 'payments',        component: PaymentsComponent },
+    { path: 'home',        component: HomeComponent },
+    { path: 'faq',        component: FaqComponent },
+    { path: 'about',        component: AboutComponent }
+
+
+
 
 ];
