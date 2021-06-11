@@ -13,8 +13,9 @@ namespace TaxiMi.Data.Seeding
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            await SeedCarTypesAsync(dbContext.Options, SubOrederOptionsNames.Opt1, SubOrderOptionsPrices.Opt2);
-        
+            await SeedCarTypesAsync(dbContext.Options, SubOrederOptionsNames.Opt1, SubOrderOptionsPrices.Opt1);
+            await SeedCarTypesAsync(dbContext.Options, SubOrederOptionsNames.Opt2, SubOrderOptionsPrices.Opt2);
+
         }
 
         private static async Task SeedCarTypesAsync(DbSet<SubOrderOptions> orderOptions, string options, decimal price)
