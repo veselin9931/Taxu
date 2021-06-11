@@ -39,6 +39,8 @@ namespace TaxiMi.Data
 
         public DbSet<SuburbanOrder> SuburbanOrders { get; set; }
 
+        public DbSet<SubOrderOptions> Options { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
