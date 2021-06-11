@@ -38,10 +38,10 @@ export class CarRegisterPage implements OnInit {
     private imageService: ImageService,
     private alertController: AlertController,
     private popoverController: PopoverController,
-    private translate: TranslateService) { 
+    private translate: TranslateService) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
-      this.userId = this.accountService.userValue.id; 
-    }
+    this.userId = this.accountService.userValue.id;
+  }
 
   ngOnInit() {
     this.getDocs();
@@ -53,22 +53,27 @@ export class CarRegisterPage implements OnInit {
       driverId: [''],
       type: [''],
     })
-
+    
     const connection = new signalR.HubConnectionBuilder()
-       .configureLogging(signalR.LogLevel.Information)
-       .withUrl(`${environment.signalRUrl}/orderHub`)
-       .build();
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl(`${environment.signalRUrl}/orderHub`)
+      .build();
 
-     connection.start().then(function () {
-       console.log('signalR Connected in menu');
-     }).catch(function (err) {
+    connection.start().then(function () {
+      console.log('signalR Connected in menu');
+    }).catch(function (err) {
       console.log("Reconnecting in 1 sec.");
       setTimeout(() => connection.start(), 1000);
-     });
+    });
 
-     connection.on('OnUpload', (userId: string) => {
+    connection.on('OnUpload', (userId: string) => {
       this.getDocs();
     });
+  }
+
+  ionViewDidEnter(){
+    this.clearCarImages();
+
   }
 
   get f() { return this.form.controls; }
@@ -81,21 +86,35 @@ export class CarRegisterPage implements OnInit {
       })
   }
 
-  removePicture(id: string){
+  removePicture(id: string) {
     this.picDelete(id);
-   
+
   }
 
-
+  clearCarImages() {
+    this.imageService.getUserCarPictures(this.userId)
+    .subscribe(x => {
+      this.pics = x;
+      if(this.pics.length > 0){
+        this.pics.forEach(pic => {
+          this.imageService.removeDocument(pic.id)
+            .subscribe(x => {
+              console.log('Image removed sucessfully')
+            })
+        });
+      }
+    })
+    
+  }
 
   onSubmit() {
     this.submitted = true;
 
     if (!this.form.valid) {
       return;
-    } 
-    
-    if(this.pics.length != 4){
+    }
+
+    if (this.pics.length != 4) {
       this.notEnoughImages();
     } else {
       this.accountService.getById(this.userId)
@@ -169,13 +188,13 @@ export class CarRegisterPage implements OnInit {
           {
             text: 'Ok',
             role: 'Ok',
-            
+
           }
         ]
       });
       await popup.present();
     })
-    
+
   }
 
   async picDelete(id: string) {
@@ -187,9 +206,9 @@ export class CarRegisterPage implements OnInit {
             text: text['Yes'],
             handler: () => {
               this.imageService.removeDocument(id)
-              .subscribe(x => {
-                console.log('Image removed sucessfully')
-              })
+                .subscribe(x => {
+                  console.log('Image removed sucessfully')
+                })
             }
           },
           {
