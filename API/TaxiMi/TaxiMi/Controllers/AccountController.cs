@@ -96,7 +96,7 @@ namespace TaxiMi.Controllers
                 Phone = model.Phone,
                 UserName = model.Username,
                 IsDrivingNow = model.IsDrivingNow,
-                ChoosenLanguage = "en"   
+                ChoosenLanguage = "bg"   
                 
             };
 

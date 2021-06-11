@@ -66,12 +66,9 @@ namespace TaxiMi.Services.WalletService
             return false;
         }
 
-        public WalletViewModel GetUserWallet(string userId)
-        {
-            var wallet = this.repository.All().FirstOrDefault(w => w.ApplicationUserId == userId);
-
-            return new WalletViewModel();
-        }
+        public Wallet GetUserWallet(string userId)
+               => this.repository.All().FirstOrDefault(w => w.ApplicationUserId == userId);
+        
 
         public WalletViewModel GetWallet(string id)
         {

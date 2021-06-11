@@ -27,7 +27,7 @@
     </ion-item> -->
           <ion-item *ngIf="!isLoggedIn" routerLink="/menu/home">
             <ion-icon color="dark" slot="start" name="log-in-outline"></ion-icon>
-            <ion-label class="my-label" color="dark"> {{'Register' | translate}} </ion-label>
+            <ion-label class="my-label" color="dark"> {{'Home' | translate}} </ion-label>
           </ion-item>
 
           <ion-item *ngIf="isLoggedIn" routerLink="/menu/favourite-orders">

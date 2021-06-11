@@ -47,13 +47,13 @@
 
           <p>
             <button *ngIf="tripStatus == 'Navigating'" (click)="onTheAddress()" type="button"
-              class="fonted btn btn-info btn-sm btn-block">Im on the address</button>
+              class="fonted btn btn-info btn-sm btn-block">{{'Im on the address' | translate}}</button>
           </p>
 
           <p>
             <button (click)="callDriver()" class="fonted btn btn-warning btn-sm btn-block" (click)="clearMessages()"
               type="button">
-              <ion-icon name="call" class="mr-2"></ion-icon>Call passenger
+              <ion-icon name="call" class="mr-2"></ion-icon>{{'Call passenger' | translate}}
             </button>
           </p>
 

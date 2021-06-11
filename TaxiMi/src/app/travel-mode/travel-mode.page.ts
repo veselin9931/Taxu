@@ -76,8 +76,6 @@ export class TravelModePage implements OnInit {
 
   ngOnInit() {
     this.checkorder();
-   
-
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
 
@@ -393,35 +391,39 @@ export class TravelModePage implements OnInit {
   }
 
   async alertForCancel() {
-    const popup = await this.alertController.create({
-      header: 'Are you sure you want to cancel the order?',
-      message: 'Your rating will decrease!',
-      buttons: [
-        {
-          text: 'Confirm',
-          handler: () => {
-            this.subscriptions.push(this.tripService.getTrip(this.orderAcceptedBy)
-              .subscribe(trip => {
-                this.subscriptions.push(this.tripService.cancelTrip(trip.id)
-                  .subscribe(x => {
-                    this.subscriptions.push(this.accountService.updateDriving(this.orderAcceptedBy, false)
-                      .subscribe(() => {
-                      }));
-                    this.accountService.userValue.isDrivingNow = false;
-                    this.subscriptions.push(this.orderService.deleteOrder(trip.orderId)
-                      .subscribe(() => this.route.navigate(['menu/travelling'])));
+    this.translate.get(['Are you sure you want to cancel the order?', 'Your rating will decrease!', 'Confirm', 'Cancel'])
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          header: text['Are you sure you want to cancel the order?'],
+          message: text['Your rating will decrease!'],
+          buttons: [
+            {
+              text: text['Confirm'],
+              handler: () => {
+                this.subscriptions.push(this.tripService.getTrip(this.orderAcceptedBy)
+                  .subscribe(trip => {
+                    this.subscriptions.push(this.tripService.cancelTrip(trip.id)
+                      .subscribe(x => {
+                        this.subscriptions.push(this.accountService.updateDriving(this.orderAcceptedBy, false)
+                          .subscribe(() => {
+                          }));
+                        this.accountService.userValue.isDrivingNow = false;
+                        this.subscriptions.push(this.orderService.deleteOrder(trip.orderId)
+                          .subscribe(() => this.route.navigate(['menu/travelling'])));
 
-                  }));
-              }))
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        }
-      ]
-    });
-    await popup.present();
+                      }));
+                  }))
+              }
+            },
+            {
+              text: text['Cancel'],
+              role: 'cancel'
+            }
+          ]
+        });
+        await popup.present();
+      })
+
   }
 
   async openLanguagePopover(ev) {
@@ -434,80 +436,90 @@ export class TravelModePage implements OnInit {
 
   //ALERTS
   async completedOrderAlert() {
-    const popup = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'You have reached the final destination! Did you enjoyed the trip?',
-      //message: '<img src = "../assets/default.png" width="1px" height="1px">',
+    this.translate.get(['You have reached the final destination! Did you enjoyed the trip?', 'Yes', 'No', 'Cancel', 'Report a problem'])
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: text['You have reached the final destination! Did you enjoyed the trip?'],
+          //message: '<img src = "../assets/default.png" width="1px" height="1px">',
 
-      buttons: [
-        {
-          text: 'Yes',
-          role: 'cancel',
-          handler: () => {
-            this.subscriptions.push(this.driverService.voteUp(this.driverId)
-              .subscribe(x => { }));
-            this.route.navigate(['menu/travelling']);
-            window.location.reload();
-          }
-        },
-        {
-          text: 'No',
-          role: 'no',
-          handler: () => {
-            this.subscriptions.push(this.driverService.voteDown(this.driverId)
-              .subscribe(x => { }));
-            this.route.navigate(['menu/travelling']);
-            window.location.reload();
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            this.route.navigate(['menu/travelling']);
-            window.location.reload();
-          }
-        },
-        {
-          text: 'Report a problem',
-          role: 'cancel',
-          handler: () => {
-            this.route.navigate(['menu/report']);
-          },
-        }
-      ]
-    });
-    this.route.navigate(['menu/travelling']);
+          buttons: [
+            {
+              text: text['Yes'],
+              role: 'cancel',
+              handler: () => {
+                this.subscriptions.push(this.driverService.voteUp(this.driverId)
+                  .subscribe(x => { }));
+                this.route.navigate(['menu/travelling']);
+                window.location.reload();
+              }
+            },
+            {
+              text: text['No'],
+              role: 'no',
+              handler: () => {
+                this.subscriptions.push(this.driverService.voteDown(this.driverId)
+                  .subscribe(x => { }));
+                this.route.navigate(['menu/travelling']);
+                window.location.reload();
+              }
+            },
+            {
+              text: text['Cancel'],
+              role: 'cancel',
+              handler: () => {
+                this.route.navigate(['menu/travelling']);
+                window.location.reload();
+              }
+            },
+            {
+              text: text['Report a problem'],
+              role: 'cancel',
+              handler: () => {
+                this.route.navigate(['menu/report']);
+              },
+            }
+          ]
+        });
+        this.route.navigate(['menu/travelling']);
 
-    await popup.present();
+        await popup.present();
+      })
   }
   async successAddedFavourite() {
-    const popup = await this.alertController.create({
-      header: 'Successfully added to favourites!',
+    this.translate.get(['Successfully added to favourites!', 'Cancel'])
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          header: text['Successfully added to favourites!'],
 
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        }
-      ]
-    });
-    await popup.present();
+          buttons: [
+            {
+              text: text['Cancel'],
+              role: 'cancel',
+            }
+          ]
+        });
+        await popup.present();
+      })
+
   }
 
   async canceledOrder() {
-    const popup = await this.alertController.create({
-      header: 'Order is cancelled by the driver.',
+    this.translate.get(['Order is cancelled by the driver.'])
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          header: text['Order is cancelled by the driver.'],
 
-      buttons: [
-        {
-          text: 'Ok',
-          handler: () => {
-            this.route.navigate(['menu/travelling']);
-          }
-        }
-      ]
-    });
-    await popup.present();
+          buttons: [
+            {
+              text: 'Ok',
+              handler: () => {
+                this.route.navigate(['menu/travelling']);
+              }
+            }
+          ]
+        });
+        await popup.present();
+      })
   }
 }
