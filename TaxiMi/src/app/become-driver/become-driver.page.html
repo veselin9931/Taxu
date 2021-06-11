@@ -9,7 +9,7 @@
         </ion-title>
 
         <ion-buttons slot="end">
-            <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+            <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -23,16 +23,16 @@
     <ion-content padding>
         <div class="col text-center">
             <ion-text class="centered" color="dark">
-                <h3 class="text">Become a driver</h3>
+                <h3 class="text">{{'Become a driver' | translate}}</h3>
 
                 <hr />
-                <h5 class="text mb-3">Please upload the following documents:</h5>
+                <h5 class="text mb-3">{{'Please upload pictures of the following documents' | translate}}:</h5>
             </ion-text>
         </div>
 
         <div class="input-group">
             <div class="input-group mb-1">
-                <label type="text" class="form-control">1. ID card front</label>
+                <label type="text" class="form-control">1. {{'ID card front' | translate}}</label>
                 <div class="input-group-append">
                     <span>
                         <input type="file" #file1 placeholder="Choose file" (change)="upload(file1.files)"
@@ -46,7 +46,7 @@
             </div>
 
             <div class="input-group mb-1">
-                <label type="text" class="form-control">2. ID card back</label>
+                <label type="text" class="form-control">2. {{'ID card back' | translate}}</label>
                 <div class="input-group-append">
                     <span>
                         <input type="file" #file2 placeholder="Choose file" (change)="upload(file2.files)"
@@ -60,7 +60,7 @@
             </div>
 
             <div class="input-group mb-1">
-                <label type="text" class="form-control">3. Driver's license front</label>
+                <label type="text" class="form-control">3. {{'Driver license front' | translate}}</label>
                 <div class="input-group-append">
                     <span>
                         <input type="file" #file3 placeholder="Choose file" (change)="upload(file3.files)"
@@ -74,7 +74,7 @@
             </div>
 
             <div class="input-group mb-1">
-                <label type="text" class="form-control">4. Driver's license back</label>
+                <label type="text" class="form-control">4. {{'Driver license back' | translate}}</label>
                 <div class="input-group-append">
                     <span>
                         <input type="file" #file4 placeholder="Choose file" (change)="upload(file4.files)"
@@ -129,7 +129,7 @@
                         <img src="{{pic.path}}" />
                         <div class="text-center">
                             <h5 class="mb-1 fonted"></h5>
-                            <button class="btn btn-danger" (click)="removePicture(pic.id)">Remove picture</button>
+                            <button class="btn btn-danger" (click)="removePicture(pic.id)">{{'Delete' | translate}}</button>
 
                         </div>
                 </a>
@@ -139,7 +139,7 @@
 
 
         <div class="text-center mb-3">
-            <button [disabled]="this.isDisabled == false" (click)="onSubmit()" type="submit" class="btn btn-dark">Submit</button>
+            <button [disabled]="this.isDisabled == false" (click)="onSubmit()" type="submit" class="btn btn-dark">{{'Submit' | translate}}</button>
         </div>
     </ion-content>
 

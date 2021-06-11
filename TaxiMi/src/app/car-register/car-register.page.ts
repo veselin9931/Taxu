@@ -6,9 +6,11 @@ import { DriverService } from 'src/_services/driver/driver.service';
 import { Location } from '@angular/common';
 import { ImageService } from 'src/_services/image/image.service';
 import { HttpEventType } from '@angular/common/http';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
+import { LanguagePopoverPage } from '../language-popover/language-popover.page';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-car-register',
   templateUrl: './car-register.page.html',
@@ -34,7 +36,12 @@ export class CarRegisterPage implements OnInit {
     private accountService: AccountService,
     private location: Location,
     private imageService: ImageService,
-    private alertController: AlertController) { this.userId = this.accountService.userValue.id; }
+    private alertController: AlertController,
+    private popoverController: PopoverController,
+    private translate: TranslateService) { 
+    this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+      this.userId = this.accountService.userValue.id; 
+    }
 
   ngOnInit() {
     this.getDocs();
@@ -79,6 +86,8 @@ export class CarRegisterPage implements OnInit {
    
   }
 
+
+
   onSubmit() {
     this.submitted = true;
 
@@ -99,23 +108,10 @@ export class CarRegisterPage implements OnInit {
               this.clearForm();
               this.driverService.getDriverCars(x.driverId)
                 .subscribe(d => {
-
-                  if (d.length != 0) {
-                    this.route.navigateByUrl('menu/driver-profile');
-                  } else {
-                    this.imageService.getUserCarPictures(this.userId)
-                      .subscribe(x => {
-                        if (x[2].path) {
-                          this.route.navigateByUrl('menu/verifying');
-                        }
-                      })
-
-                  }
+                  this.route.navigateByUrl('menu/verifying');
                 })
             })
         });
-
-
     }
   }
 
@@ -157,40 +153,53 @@ export class CarRegisterPage implements OnInit {
     this.location.back();
   }
 
-  async notEnoughImages() {
-    const popup = await this.alertController.create({
-      header: 'You have to upload 4 car and car document pictures.',
-      buttons: [
-        {
-          text: 'Ok',
-          role: 'Ok',
-          
-        }
-      ]
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
     });
-    await popup.present();
+    await popover.present();
+  }
+
+  async notEnoughImages() {
+    this.translate.get(['You have to upload 4 document pictures.']).subscribe(async text => {
+      const popup = await this.alertController.create({
+        header: text['You have to upload 4 document pictures.'],
+        buttons: [
+          {
+            text: 'Ok',
+            role: 'Ok',
+            
+          }
+        ]
+      });
+      await popup.present();
+    })
+    
   }
 
   async picDelete(id: string) {
-    const popup = await this.alertController.create({
-      header: 'Delete the picture?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-            this.imageService.removeDocument(id)
-            .subscribe(x => {
-              console.log('Image removed sucessfully')
-            })
+    this.translate.get(['Delete the picture?', 'Yes', 'No']).subscribe(async text => {
+      const popup = await this.alertController.create({
+        header: text['Delete the picture?'],
+        buttons: [
+          {
+            text: text['Yes'],
+            handler: () => {
+              this.imageService.removeDocument(id)
+              .subscribe(x => {
+                console.log('Image removed sucessfully')
+              })
+            }
+          },
+          {
+            text: text['No'],
+            role: 'no'
           }
-        },
-        {
-          text: 'No',
-          role: 'no'
-        }
-      ]
-    });
-    await popup.present();
+        ]
+      });
+      await popup.present();
+    })
   }
 
   clearForm() {

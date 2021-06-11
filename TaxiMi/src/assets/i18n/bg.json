@@ -1,6 +1,6 @@
 {
     "Additional options (optional)": "Допълнителни изисквания",
-    "Desired car type" : "Изискване за кола",
+    "Desired car type": "Изискване за кола",
     "Pets": "Животни",
     "Baggage": "Багаж",
     "Special needs": "Специални нужди",
@@ -97,6 +97,26 @@
     "Details": "Детайли",
     "Show map": "Покажи картата",
     "Show details": "Покажи детайли",
-    "Offer more price to order" : "Предложи по-голяма сума"
-    
+    "Offer more price to order": "Предложи по-голяма сума",
+    "Delete the picture?": "Изтриване на снимката?",
+    "Yes": "Да",
+    "No": "Не",
+    "Become a driver": "Стани шофьор",
+    "Please upload pictures of the following documents": "Моля качете снимки на следните документи",
+    "ID card front": "Лична карта отпред",
+    "ID card back": "Лична карта отзаад",
+    "Driver license front": "Шофьорска книжка отпред",
+    "Driver license back": "Шофьорска книжка отзад",
+    "You have to upload 4 document pictures.": "Трябва да качите точно 4 снимки на вашите документи.",
+    "Car information": "Добави автомобил",
+    "Model": "Марка/Модел",
+    "Click to choose car type": "Избери тип",
+    "Color": "Цвят",
+    "Capacity": "Места",
+    "Front car picture": "Снимка на автомобила отпред",
+    "Rear car picture": "Снимка на автомобила отзад",
+    "Car insurance picture": "Снимка на застраховка",
+    "Technical review picture": "Снимка на преглед",
+  "Registration Number":"Регистрационен номер"
+
 }
