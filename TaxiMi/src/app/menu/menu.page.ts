@@ -62,7 +62,7 @@ export class MenuPage implements OnInit {
       this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
       this.backgroundMode.enable();
     } else {
-      this.translate.setDefaultLang('en');
+      this.translate.setDefaultLang('bg');
     }
     this.subscriptions.push(this.router.events.subscribe((event: RouterEvent) => {
       if (event && event.url) {
@@ -78,17 +78,6 @@ export class MenuPage implements OnInit {
 
   ngOnInit() {
     this.checkValues();
-    //  const connection = new signalR.HubConnectionBuilder()
-    //    .configureLogging(signalR.LogLevel.Information)
-    //    .withUrl(`${environment.signalRUrl}/orderHub`, {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets})
-    //    .build();
-
-    // const connection = new signalR.HubConnectionBuilder()
-    //   .configureLogging(signalR.LogLevel.Information)
-    //   .withUrl(`${environment.signalRUrl}/orderHub`)
-    //   .build();
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)

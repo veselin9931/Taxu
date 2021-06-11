@@ -35,13 +35,6 @@ export class FavouriteOrdersPage implements OnInit {
       .withUrl(`${environment.signalRUrl}/orderHub`)
       .build();
 
-    // const connection = new signalR.HubConnectionBuilder()
-    //    .configureLogging(signalR.LogLevel.Information)
-    //    .withUrl(`${environment.signalRUrl}/orderHub`, {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets})
-    //    .build();
-
     connection.start().then(function () {
       console.log('signalR Connected in travelling');
     }).catch(function (err) {
@@ -53,13 +46,6 @@ export class FavouriteOrdersPage implements OnInit {
     });
 
   }
-
-  // ionViewDidLeave() {
-  //   for (const subscription of this.subscriptions) {
-  //     console.log(subscription)
-  //     subscription.unsubscribe();
-  //   }
-  // }
 
   getMyOrders() {
     this.subscriptions.push(this.orderService.getMyFavourites(this.accountService.userValue.id)
@@ -74,10 +60,7 @@ export class FavouriteOrdersPage implements OnInit {
   }
 
   remove(id: string) {
-    this.subscriptions.push(this.orderService.deleteFavouriteOrder(id)
-      .subscribe(x => {
-        this.successDeletedFavourite();
-      }))
+    this.deleteConfirmation(id);
   }
 
   async openLanguagePopover(ev) {
@@ -88,19 +71,48 @@ export class FavouriteOrdersPage implements OnInit {
     await popover.present();
   }
 
+  async deleteConfirmation(id) {
+    this.translate.get(['Delete from favourites?', 'Yes', 'No'])
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          header: text['Delete from favourites?'],
+
+          buttons: [
+            {
+              text: text['Yes'],
+              handler: () => {
+                this.subscriptions.push(this.orderService.deleteFavouriteOrder(id)
+                  .subscribe(x => {
+                    this.successDeletedFavourite();
+                  }))
+              }
+            },
+            {
+              text: text['No']
+            }
+          ]
+        });
+
+        await popup.present();
+      })
+
+  }
+
   async successDeletedFavourite() {
-    const popup = await this.alertController.create({
-      header: 'Successfully removed the trip!',
+    this.translate.get(['Successfully removed the trip!'])
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          header: text['Successfully removed the trip!'],
 
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        }
-      ]
-    });
+          buttons: [
+            {
+              text: 'Ok',
+            }
+          ]
+        });
 
-    await popup.present();
+        await popup.present();
+      })
 
   }
 }

@@ -152,25 +152,28 @@ export class ReportPage implements OnInit {
   }
 
   async reportCompleted() {
-    const popup = await this.alertController.create({
-      header: 'Report',
-      message: 'Your report is sent successfully',
-      buttons: [
-        {
-          text: 'Confirm',
-          handler: data => {
-            if (this.isDriver == true) {
-              this.route.navigate(['menu/driving']);
-
-            } else {
-              this.route.navigate(['menu/travelling']);
+    this.translate.get(['Report', 'Your report is sent successfully', 'Confirm'])
+    .subscribe(async text => {
+      const popup = await this.alertController.create({
+        message: text['Your report is sent successfully'],
+        buttons: [
+          {
+            text: text['Confirm'],
+            handler: () => {
+              if (this.isDriver == true) {
+                this.route.navigate(['menu/driving']);
+  
+              } else {
+                this.route.navigate(['menu/travelling']);
+              }
             }
           }
-        }
-      ]
-    });
-
-    await popup.present();
+        ]
+      });
+  
+      await popup.present();
+    })
+    
 
   }
 

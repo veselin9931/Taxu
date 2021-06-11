@@ -427,98 +427,110 @@ export class DrivingModePage implements OnInit, OnDestroy {
   }
 
   async alertForCancel() {
-    const popup = await this.alertController.create({
-      header: 'Are you sure you want to cancel the order?',
-      message: 'Your rating will decrease!',
-      buttons: [
-        {
-          text: 'Confirm',
-          handler: () => {
-            this.subscriptions.push(this.driverService.cancelOrderFromDriver(this.order.id)
-              .subscribe(x => {
-                this.subscriptions.push(this.tripService.cancelTrip(this.currentTrip.id)
-                  .subscribe(() => {
-                    this.accountService.userValue.isDrivingNow = false;
-                    this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, false)
-                      .subscribe(() => {
-                        this.subscriptions.push(this.driverService.voteDown(this.accountService.userValue.driverId)
-                          .subscribe(() => {
-                            this.route.navigate(['menu/driving']);
-                          }))
-                      }));
-                  }))
-              }));
+    this.translate.get(['Are you sure you want to cancel the order?', 'Your rating will decrease!', 'Confirm', 'Cancel'])
+    .subscribe(async text => {
+      const popup = await this.alertController.create({
+        header: text['Are you sure you want to cancel the order?'],
+        message: text['Your rating will decrease!'],
+        buttons: [
+          {
+            text: text['Confirm'],
+            handler: () => {
+              this.subscriptions.push(this.driverService.cancelOrderFromDriver(this.order.id)
+                .subscribe(x => {
+                  this.subscriptions.push(this.tripService.cancelTrip(this.currentTrip.id)
+                    .subscribe(() => {
+                      this.accountService.userValue.isDrivingNow = false;
+                      this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, false)
+                        .subscribe(() => {
+                          this.subscriptions.push(this.driverService.voteDown(this.accountService.userValue.driverId)
+                            .subscribe(() => {
+                              this.route.navigate(['menu/driving']);
+                            }))
+                        }));
+                    }))
+                }));
+            }
+          },
+          {
+            text: text['Cancel'],
+            role: 'cancel'
           }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        }
-      ]
-    });
-    await popup.present();
+        ]
+      });
+      await popup.present();
+    })
+    
   }
 
   async canceledOrder() {
-    const popup = await this.alertController.create({
-      header: 'Order is cancelled by the customer.',
-
-      buttons: [
-        {
-          text: 'Ok',
-          handler: () => {
-            this.accountService.userValue.isDrivingNow = false;
-
-            this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, false)
-              .subscribe(() => {
-                this.route.navigate(['menu/driving']);
-              }));
+    this.translate.get(['Order is cancelled by the customer.'])
+    .subscribe(async text => {
+      const popup = await this.alertController.create({
+        header: text['Order is cancelled by the customer.'],
+  
+        buttons: [
+          {
+            text: 'Ok',
+            handler: () => {
+              this.accountService.userValue.isDrivingNow = false;
+  
+              this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, false)
+                .subscribe(() => {
+                  this.route.navigate(['menu/driving']);
+                }));
+            }
           }
-        }
-      ]
-    });
-    await popup.present();
+        ]
+      });
+      await popup.present();
+    })
+    
   }
 
 
   async completeTripAlert() {
-    const popup = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Are you sure you want to finish the trip?',
-      //message: '<img src = "../assets/default.png" width="1px" height="1px">',
-
-      buttons: [
-        {
-          text: 'Yes',
-          role: 'cancel',
-          handler: () => {
-            this.subscriptions.push(this.tripService.completeTrip(this.currentTrip.id)
-            .subscribe(trip => {
-              if (trip) {
-                this.tripStatus = trip.status;
-              }
-              this.subscriptions.push(this.orderService.completeOrder(this.currentTrip.orderId)
-                .subscribe(() => { }));
-      
-              //trigger the driver's driving now property to false
-              let userId = this.accountService.userValue.id;
-              let value = this.accountService.userValue.isDrivingNow = false;
-      
-              this.subscriptions.push(this.accountService.updateDriving(userId, value)
-                .subscribe());
-              this.isDrivingNow = this.accountService.userValue.isDrivingNow;
-              this.route.navigate(['menu/driving']);
-            }))
-      
-      
+    this.translate.get(['Are you sure you want to finish the trip?', 'Yes', 'No'])
+    .subscribe(async text => {
+      const popup = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: text['Are you sure you want to finish the trip?'],
+        //message: '<img src = "../assets/default.png" width="1px" height="1px">',
+  
+        buttons: [
+          {
+            text: text['Yes'],
+            role: 'cancel',
+            handler: () => {
+              this.subscriptions.push(this.tripService.completeTrip(this.currentTrip.id)
+              .subscribe(trip => {
+                if (trip) {
+                  this.tripStatus = trip.status;
+                }
+                this.subscriptions.push(this.orderService.completeOrder(this.currentTrip.orderId)
+                  .subscribe(() => { }));
+        
+                //trigger the driver's driving now property to false
+                let userId = this.accountService.userValue.id;
+                let value = this.accountService.userValue.isDrivingNow = false;
+        
+                this.subscriptions.push(this.accountService.updateDriving(userId, value)
+                  .subscribe());
+                this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+                this.route.navigate(['menu/driving']);
+              }))
+        
+        
+            }
+          },
+          {
+            text: text['No']
           }
-        },
-        {
-          text: 'No'
-        }
-      ]
-    });
-
-    await popup.present();
+        ]
+      });
+  
+      await popup.present();
+    })
+    
   }
 }

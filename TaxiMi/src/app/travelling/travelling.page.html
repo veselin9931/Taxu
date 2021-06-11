@@ -27,7 +27,7 @@
                                 {{this.orderService.chosenLocation}}
                             </p>
                             <p (click)="locationMap()" *ngIf="this.orderService.chosenLocation == null">
-                                <ion-icon class="mr-2" name="location-outline"></ion-icon>{{'Take me from here'| translate}}.
+                                <ion-icon class="mr-2" name="location-outline"></ion-icon>{{'Take me from here'| translate}}
                             </p>
                             <hr />
                         </div>
@@ -37,7 +37,7 @@
                                 {{this.orderService.chosenDestination}}
                             </p>
                             <p (click)="destinationMap()" *ngIf="this.orderService.chosenDestination == null">
-                                <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{'Choose destination' | translate}}.
+                                <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{'Choose destination' | translate}}
                             </p>
                         </div>
 
@@ -56,7 +56,7 @@
                                 [placeholder]='"Additional options (optional)" | translate' multiple="true">
                                 <!-- <ion-select-option value="With pets">{{'Pets' | translate}} + 2.20$
                                 </ion-select-option> -->
-                                <ion-select-option value="With pets">{{'Pets' | translate}} + 2.20$
+                                <ion-select-option value="With pets">{{'Pets' | translate}} + 2.20 лв.
                                 </ion-select-option>
                                 <ion-select-option value="With stroller">{{'Baggage' | translate}}
                                 </ion-select-option>
@@ -70,17 +70,27 @@
                             <ion-select (ionChange)="onSelectCar($event)"
                                 [placeholder]='"Car type (optional)" | translate'>
                                 <ion-select-option value="Normal">{{'Normal' | translate}}</ion-select-option>
-                                <ion-select-option value="Comfort">{{'Comfort' | translate}} + 1$</ion-select-option>
+                                <ion-select-option value="Comfort">{{'Comfort' | translate}} + 1 лв.</ion-select-option>
                             </ion-select>
                         </div>
 
+                        <!-- <div class="row">
+                            <div class="col">
+                                <img src="../../assets/normal.png" width="90" height="90">
+                            </div>
+
+                            <div class="col">
+                                <img src="../../assets/comfort.png"width="90" height="90">
+
+                            </div>
+                        </div> -->
 
                         <div *ngIf="orderStatus == 'Waiting'" class="form-group col mt-3">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="fonted">{{'Increase amount' | translate}}</h5>
                                 <a class="mr-1">
                                     <button class="btn btn-light btn-sm mr-1" (click)="increment()">+</button>
-                                    <button class="btn btn-light btn-sm">{{orderTotalPrice}}$</button>
+                                    <button class="btn btn-light btn-sm">{{orderTotalPrice}} лв.</button>
                                     <button class="btn btn-light btn-sm ml-1" (click)="decrement()">-</button>
                                 </a>
 
@@ -115,9 +125,8 @@
         <div class="row">
             <div class="col">
                 <div class="d-flex w-100 justify-content-between">
-                    <button *ngIf="isCompleted == true" class="ml-3 btn btn-info fonted"
-                        (click)="cancelOrder()">{{'Cost'|
-                        translate}} : {{orderTotalPrice}}$</button>
+                    <button *ngIf="isCompleted == true" class="ml-3 btn btn-info fonted">{{'Cost'|
+                        translate}} : {{orderTotalPrice}} лв.</button>
 
                     <button *ngIf="isCompleted == true" class="mr-3 btn btn-danger fonted"
                         (click)="cancelOrder()">{{'Cancel'| translate}}</button>

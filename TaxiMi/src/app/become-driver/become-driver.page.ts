@@ -9,7 +9,9 @@ import { MultiFileUploadComponent } from '../multi-file-upload/multi-file-upload
 import { FileLikeObject, FileUploader } from 'ng2-file-upload';
 import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
 @Component({
   selector: 'app-become-driver',
@@ -37,7 +39,12 @@ export class BecomeDriverPage implements OnInit {
     private location: Location,
     private imageService: ImageService,
     private driverService: DriverService,
-    private alertController: AlertController) { }
+    private alertController: AlertController,
+    private popoverController: PopoverController,
+    private translate: TranslateService) {
+    this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+
+     }
 
   ngOnInit() {
     this.getDocs();
@@ -117,82 +124,9 @@ export class BecomeDriverPage implements OnInit {
     })
   }
 
-  removePicture(id: string){
+   removePicture(id: string){
     this.picDelete(id);
-   
   }
-
-  // upload() {
-
-  //   let files = this.fileField.getFiles();
-  //   console.log(files);
-
-  //   let formData = new FormData();
-
-  //   files.forEach((file) => {
-  //     formData.append('files[]', file.rawFile, file.name);
-  //   });
-
-
-  //   this.imageService.upload(formData, this.folderName, this.applicationUserId, this.imgType)
-  //     .subscribe(event => {
-  //       if (event.type === HttpEventType.UploadProgress)
-  //         this.progress = Math.round(100 * event.loaded / event.total);
-  //       else if (event.type === HttpEventType.Response) {
-  //         this.message = 'Documents uploaded successfully.';
-  //       }
-  //       switch (event.type) {
-  //         case HttpEventType.Sent:
-  //           console.log('Request has been made!');
-  //           break;
-  //         case HttpEventType.ResponseHeader:
-  //           console.log('Response header has been received!');
-  //           break;
-  //         case HttpEventType.UploadProgress:
-  //           this.progress = Math.round(event.loaded / event.total * 100);
-  //           break;
-  //         case HttpEventType.Response:
-  //           setTimeout(() => {
-  //             this.progress = 0;
-  //           }, 1500);
-  //       }
-  //     })
-
-  // }
-
-  // uploadLicense(files) {
-  //   if (files.length === 0) {
-  //     return;
-  //   }
-
-  //   let fileToUpload = <File>files[0];
-  //   const formData = new FormData();
-  //   formData.append('file', fileToUpload, fileToUpload.name);
-
-  //   this.imageService.upload(formData, this.folderName, this.applicationUserId, this.imgType)
-  //     .subscribe(event => {
-  //       if (event.type === HttpEventType.UploadProgress)
-  //         this.progress = Math.round(100 * event.loaded / event.total);
-  //       else if (event.type === HttpEventType.Response) {
-  //         this.message = 'Documents uploaded successfully.';
-  //       }
-  //       switch (event.type) {
-  //         case HttpEventType.Sent:
-  //           console.log('Request has been made!');
-  //           break;
-  //         case HttpEventType.ResponseHeader:
-  //           console.log('Response header has been received!');
-  //           break;
-  //         case HttpEventType.UploadProgress:
-  //           this.progress = Math.round(event.loaded / event.total * 100);
-  //           break;
-  //         case HttpEventType.Response:
-  //           setTimeout(() => {
-  //             this.progress = 0;
-  //           }, 1500);
-  //       }
-  //     })
-  // }
 
   goBack() {
     this.location.back();
@@ -217,40 +151,53 @@ export class BecomeDriverPage implements OnInit {
       })
   }
 
-  async notEnoughImages() {
-    const popup = await this.alertController.create({
-      header: 'You have to upload 4 document pictures.',
-      buttons: [
-        {
-          text: 'Ok',
-          role: 'Ok',
-          
-        }
-      ]
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
     });
-    await popup.present();
+    await popover.present();
+  }
+
+  async notEnoughImages() {
+    this.translate.get(['You have to upload 4 document pictures.']).subscribe(async text => {
+      const popup = await this.alertController.create({
+        header: text['You have to upload 4 document pictures.'],
+        buttons: [
+          {
+            text: 'Ok',
+            role: 'Ok',
+            
+          }
+        ]
+      });
+      await popup.present();
+    })
+    
   }
 
   async picDelete(id: string) {
-    const popup = await this.alertController.create({
-      header: 'Delete the picture?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-            this.imageService.removeDocument(id)
-            .subscribe(x => {
-              console.log('Image removed sucessfully')
-            })
+    this.translate.get(['Delete the picture?', 'Yes', 'No']).subscribe(async text => {
+      const popup = await this.alertController.create({
+        header: text['Delete the picture?'],
+        buttons: [
+          {
+            text: text['Yes'],
+            handler: () => {
+              this.imageService.removeDocument(id)
+              .subscribe(x => {
+                console.log('Image removed sucessfully')
+              })
+            }
+          },
+          {
+            text: text['No'],
+            role: 'no'
           }
-        },
-        {
-          text: 'No',
-          role: 'no'
-        }
-      ]
-    });
-    await popup.present();
+        ]
+      });
+      await popup.present();
+    })
   }
 }
 

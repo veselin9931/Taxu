@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using TaxiMi.Infrastructure.ViewModels;
+using TaxiMi.Models;
 
 namespace TaxiMi.Services.WalletService
 {
@@ -10,7 +11,7 @@ namespace TaxiMi.Services.WalletService
     {
         WalletViewModel GetWallet(string id);
 
-        WalletViewModel GetUserWallet(string userId);
+        Wallet GetUserWallet(string userId);
 
         Task<string> CreateWallet(string applicationUserId);
 

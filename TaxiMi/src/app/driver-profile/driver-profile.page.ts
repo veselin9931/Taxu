@@ -191,10 +191,7 @@ export class DriverProfilePage implements OnInit {
   }
 
   deleteCar(id: string) {
-    this.subscriptions.push(this.driverService.deleteCar(id)
-      .subscribe(x => {
-        console.log(x);
-      }))
+   this.deleteCarConfirmation(id);
   }
 
   goBack() {
@@ -210,24 +207,47 @@ export class DriverProfilePage implements OnInit {
   }
 
   async presentAlert() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Confirmation',
-      message: 'Your car is not confirmet yet.',
-      buttons: ['OK']
-    });
+    this.translate.get(['Confirmation', 'Your car is not confirmet yet.'])
+    .subscribe(async text => {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: text['Confirmation'],
+        message: text['Your car is not confirmet yet.'],
+        buttons: ['OK']
+      });
+  
+      await alert.present();
+    })
+    
+  }
 
-    await alert.present();
+  async deleteCarConfirmation(id: string) {
+    this.translate.get(['Delete the car?', 'Yes', 'No'])
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          header: text['Delete the car?'],
+
+          buttons: [
+            {
+              text: text['Yes'],
+              handler: () => {
+                this.subscriptions.push(this.driverService.deleteCar(id)
+                .subscribe(x => {
+                  console.log(x);
+                }))
+              }
+            },
+            {
+              text: text['No'],
+              
+            }
+          ]
+        });
+        await popup.present();
+      })
   }
 
   chargeCash() {
     this.route.navigate(['menu/payments'])
   }
-
-  // ionViewDidLeave() {
-  //   for (const subscription of this.subscriptions) {
-  //     console.log(subscription)
-  //     subscription.unsubscribe();
-  //   }
-  // }
 }

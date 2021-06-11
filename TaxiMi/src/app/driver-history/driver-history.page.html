@@ -9,7 +9,8 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
+
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -18,8 +19,8 @@
     <div class="col">
       <div class="row">
         <div class="col-md-12 text-center">
-          <ion-text class="centered" color="light">
-            <h2 class="text">My history</h2>
+          <ion-text class="centered">
+            <h2 class="text">{{'My history' | translate}}</h2>
             <hr>
           </ion-text>
         </div>
@@ -28,14 +29,14 @@
 
           <a class="text list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="text mb-1">Daily earnings</h5>
-              <small>Today: {{currentDate |  date:'MM/dd/yyyy h:mm'}}</small>
+              <h5 class="text mb-1">{{'Daily earnings' | translate}}</h5>
+              <small>{{'Today' | translate}}: {{currentDate |  date:'MM/dd/yyyy h:mm'}}</small>
 
             </div>
 
             <div class="row">
               <div class="col-md-12 text-center">
-                <h5 class="text">Profit: {{dailyProfit}}$</h5>
+                <h5 class="text">{{'Total' | translate}}: {{dailyProfit}} лв.</h5>
               </div>
             </div>
           </a>
@@ -46,17 +47,17 @@
 
             <a class="text list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
-                <h5 class="text mb-1">Order details</h5>
+                <h5 class="text mb-1">{{'Order details' | translate}}</h5>
                 <small>{{order.createdOn |  date:'MM/dd/yyyy h:mm'}}</small>
               </div>
-              <p class="mb-1 text">Passenger: {{order.applicationUser.firstName}} {{order.applicationUser.lastName}}</p>
-              <p class="mb-1 text">Phone number: {{order.applicationUser.phone}}</p>
-              <p class="mb-1 text">Location: {{order.location}}</p>
-              <p class="mb-1 text">Destination: {{order.destination}}</p>
+              <p class="mb-1 text">{{'Passenger' | translate}}: {{order.applicationUser.firstName}} {{order.applicationUser.lastName}}</p>
+              <p class="mb-1 text">{{'Phone number' | translate}}: {{order.applicationUser.phone}}</p>
+              <p class="mb-1 text">{{'Location' | translate}}: {{order.location}}</p>
+              <p class="mb-1 text">{{'Destination' | translate}}: {{order.destination}}</p>
 
               <div class="row">
                 <div class="col-md-12">
-                  <small class="text">Profit: {{order.totalPrice}}$</small>
+                  <small class="text">{{'Profit' | translate}}: {{order.totalPrice}} лв.</small>
                 </div>
               </div>
             </a>

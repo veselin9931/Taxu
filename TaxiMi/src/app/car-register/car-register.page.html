@@ -9,102 +9,74 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-icon id="toolbarIcon" name="language-outline"></ion-icon>
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
+      
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content padding class="background">
   <div class="row mt-2">
     <div class="col">
-      <!-- <div class="row mt-2">
-        <div class="col-1">
-          <ion-icon class="backIcon ml-2" name="chevron-back-outline"></ion-icon>
-        </div>
-        <div class="col-9">
-          <h5 (click)=goBack() class="back">Back</h5>
-        </div>
-      </div> -->
 
       <div class="row">
         <div class="col text-center">
-          <ion-text class="centered">
-            <h3 class="text">Car information</h3>
-            <hr>
-          </ion-text>
+          <ion-text class="centered" color="dark">
+            <h3 class="text">{{'Car information' | translate}}</h3>
 
-          <form [formGroup]="form" novalidate class="col-md-6">
+            <hr />
+            
+        </ion-text>
+          <form [formGroup]="form" novalidate class="col-md-6 mt-1">
 
             <div class="form-group col text-center">
-              <ion-input formControlName="model" type="text" class="form-control" placeholder="Model"
+              <ion-input formControlName="model" type="text" class="form-control" [placeholder]='"Model" | translate'
                 [ngClass]="{ 'is-invalid': submitted && f.model.errors }">
               </ion-input>
               <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
-                <div *ngIf="f.model.errors.required">The field is required!</div>
+                <div *ngIf="f.model.errors.required">{{'The field is required' | translate}}!</div>
               </div>
             </div>
 
             <div class="form-group col text-center">
               <select formControlName="type" class="form-control" id="exampleFormControlSelect1">
-                <option value="" disabled selected hidden>Click to choose car type</option>
-                <option value="1">Normal</option>
-                <option value="2">Comfort</option>
+                <option value="" disabled selected hidden>{{'Click to choose car type' | translate}}</option>
+                <option value="1">{{'Normal' | translate}}</option>
+                <option value="2">{{'Comfort' | translate}}</option>
               </select>
             </div>
 
             <div class="form-group col text-center">
-              <ion-input formControlName="color" type="text" class="form-control" placeholder="Color"
+              <ion-input formControlName="color" type="text" class="form-control" [placeholder]='"Color" | translate'
                 [ngClass]="{ 'is-invalid': submitted && f.color.errors }">
               </ion-input>
               <div *ngIf="submitted && f.color.errors" class="invalid-feedback">
-                <div *ngIf="f.color.errors.required">The field is required!</div>
+                <div *ngIf="f.color.errors.required">{{'The field is required' | translate}}!</div>
               </div>
             </div>
 
             <div class="form-group col text-center">
-              <ion-input formControlName="capacity" type="number" class="form-control" placeholder="Capacity"
+              <ion-input formControlName="capacity" type="number" class="form-control" [placeholder]='"Capacity" | translate'
                 [ngClass]="{ 'is-invalid': submitted && f.capacity.errors }">
               </ion-input>
               <div *ngIf="submitted && f.capacity.errors" class="invalid-feedback">
-                <div *ngIf="f.capacity.errors.required">The field is required!</div>
+                <div *ngIf="f.capacity.errors.required">{{'The field is required' | translate}}!</div>
               </div>
             </div>
 
             <div class="form-group col text-center">
               <ion-input formControlName="registrationNumber" type="text" class="form-control"
-                placeholder="Registration Number"
+              [placeholder]='"Registration Number" | translate'
                 [ngClass]="{ 'is-invalid': submitted && f.registrationNumber.errors }">
               </ion-input>
               <div *ngIf="submitted && f.registrationNumber.errors" class="invalid-feedback">
-                <div *ngIf="f.registrationNumber.errors.required">The field is required!</div>
+                <div *ngIf="f.registrationNumber.errors.required">{{'The field is required' | translate}}!</div>
               </div>
             </div>
 
-            <!-- <div class="form-group col mt-5 text-center">
-                  <input type="file" #file1 placeholder="Choose file" (change)="upload(file1.files)" style="display:none;">
-                  <ion-button expand="shape" (click)="file1.click()">Car photo 1</ion-button>
-                  <input type="file" #file2 placeholder="Choose file" (change)="upload(file2.files)" style="display:none;">
-                  <ion-button expand="shape" (click)="file2.click()">Car photo 2</ion-button>
-                  <input type="file" #file3 placeholder="Choose file" (change)="upload(file3.files)" style="display:none;">
-                  <ion-button expand="shape" (click)="file3.click()">Car photo 3</ion-button>
-
-                  <div class="col-md-4 mt-2">
-                      <div class="progress form-group" *ngIf="progress > 0">
-                          <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
-                          </div>
-                      </div>
-
-                      <span class="upload" *ngIf="progress > 0">
-                          {{progress}}%
-                      </span>
-                      <span class="upload" *ngIf="message">
-                          {{message}}
-                      </span>
-                  </div>
-              </div> -->
-
+            <h5 class="text mb-3">{{'Please upload pictures of the following documents' | translate}}:</h5>
               <div class="input-group text-left">
                 <div class="input-group mb-1">
-                  <label type="text" class="form-control">1. Front car picture</label>
+                  <label type="text" class="form-control">1. {{'Front car picture' | translate}}</label>
                   <div class="input-group-append">
                     <span>
                       <input type="file" #file1 placeholder="Choose file" (change)="upload(file1.files)"
@@ -118,7 +90,7 @@
                 </div>
             
                 <div class="input-group mb-1">
-                  <label type="text" class="form-control">2. Rear car picture</label>
+                  <label type="text" class="form-control">2. {{'Rear car picture' | translate}}</label>
                   <div class="input-group-append">
                     <span>
                       <input type="file" #file2 placeholder="Choose file" (change)="upload(file2.files)"
@@ -132,7 +104,7 @@
                 </div>
             
                 <div class="input-group mb-1">
-                  <label type="text" class="form-control">3. Car insurance picture</label>
+                  <label type="text" class="form-control">3. {{'Car insurance picture' | translate}}</label>
                   <div class="input-group-append">
                     <span>
                       <input type="file" #file3 placeholder="Choose file" (change)="upload(file3.files)"
@@ -146,7 +118,7 @@
                 </div>
             
                 <div class="input-group mb-1">
-                  <label type="text" class="form-control">4. Technical review picture</label>
+                  <label type="text" class="form-control">4. {{'Technical review picture' | translate}}</label>
                   <div class="input-group-append">
                     <span>
                       <input type="file" #file4 placeholder="Choose file" (change)="upload(file4.files)"
@@ -167,7 +139,7 @@
                             <img src="{{pic.path}}" />
                             <div class="text-center">
                                 <h5 class="mb-1 fonted"></h5>
-                                <button class="btn btn-danger" (click)="removePicture(pic.id)">Remove picture</button>
+                                <button class="btn btn-danger" (click)="removePicture(pic.id)"> {{'Delete' | translate}}</button>
     
                             </div>
                     </a>
@@ -176,7 +148,7 @@
             </ion-list>
 
             <div class="col-md-12 mt-3">
-              <ion-button type="submit" (click)="onSubmit()" color="light">Submit</ion-button>
+              <button type="submit" (click)="onSubmit()" class="btn btn-info">{{'Submit' | translate}}</button>
             </div>
 
           </form>

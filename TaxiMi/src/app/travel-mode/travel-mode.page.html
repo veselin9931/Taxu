@@ -34,12 +34,12 @@
           <hr />
           <div class="d-flex w-100 justify-content-between">
             <p *ngIf="this.accountService.userValue.alertTriggered == true">
-              Price: {{totalPrice}}$ | {{secsDiff * 1000 | date:'mm:ss' }}
+              {{'Price' | translate}}: {{totalPrice}} лв. | {{secsDiff * 1000 | date:'mm:ss' }}
             </p>
             <p *ngIf="this.accountService.userValue.alertTriggered == false">
-              Price: {{totalPrice}}$
+              {{'Price' | translate}}: {{totalPrice}} лв.
             </p>
-            <button (click)="callDriver()" class="fonted btn btn-warning mb-1" (click)="clearMessages()" type="button"><ion-icon name="call" class="mr-2"></ion-icon>Call driver
+            <button (click)="callDriver()" class="fonted btn btn-warning mb-1" (click)="clearMessages()" type="button"><ion-icon name="call" class="mr-2"></ion-icon>{{'Call driver' | translate}}
             </button>
             
           </div>

@@ -6,6 +6,9 @@ import { Location } from '@angular/common';
 import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
 import { Subscription } from 'rxjs';
+import { AlertController, PopoverController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 @Component({
   selector: 'app-driver-history',
   templateUrl: './driver-history.page.html',
@@ -21,7 +24,11 @@ export class DriverHistoryPage implements OnInit {
   currentDate = new Date();
   constructor(private driverService: DriverService,
     private accountService: AccountService,
-    private locationPage: Location,) {}
+    private alertController: AlertController,
+    private popoverController: PopoverController,
+    private translate: TranslateService) {
+    this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+  }
 
   ngOnInit() {
     this.getHistory();
@@ -30,13 +37,6 @@ export class DriverHistoryPage implements OnInit {
       .configureLogging(signalR.LogLevel.Information)
       .withUrl(`${environment.signalRUrl}/orderHub`)
       .build();
-
-    // const connection = new signalR.HubConnectionBuilder()
-    //    .configureLogging(signalR.LogLevel.Information)
-    //    .withUrl(`${environment.signalRUrl}/orderHub`, {
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets})
-    //    .build();
 
     connection.start().then(function () {
       console.log('signalR Connected in history');
@@ -72,8 +72,12 @@ export class DriverHistoryPage implements OnInit {
     }))
   }
 
-  goBack(){
-    this.locationPage.back();
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
   }
   
 }
