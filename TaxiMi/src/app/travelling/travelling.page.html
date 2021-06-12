@@ -27,7 +27,8 @@
                                 {{this.orderService.chosenLocation}}
                             </p>
                             <p (click)="locationMap()" *ngIf="this.orderService.chosenLocation == null">
-                                <ion-icon class="mr-2" name="location-outline"></ion-icon>{{'Take me from here'| translate}}
+                                <ion-icon class="mr-2" name="location-outline"></ion-icon>{{'Take me from here'|
+                                translate}}
                             </p>
                             <hr />
                         </div>
@@ -37,7 +38,8 @@
                                 {{this.orderService.chosenDestination}}
                             </p>
                             <p (click)="destinationMap()" *ngIf="this.orderService.chosenDestination == null">
-                                <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{'Choose destination' | translate}}
+                                <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{'Choose destination' |
+                                translate}}
                             </p>
                         </div>
 
@@ -51,11 +53,29 @@
                             </p>
                         </div>
 
-                        <div *ngIf="isCompleted == false" class="col-md-12 text-center">
+                        <div *ngIf="isCompleted == false" class="text-center mb-2">
+                            <hr>
+
+                            <ion-label>{{'Additional options' | translate}}</ion-label>
+                            <br>
+                        </div>
+                        <div *ngIf="isCompleted == false" class="col-md-12 text-left">
+                            
+                            <ion-checkbox color="dark" (ionChange)="onSelectChange($event)" value="With pets">
+                            </ion-checkbox>
+                            <ion-label class="ml-2"><ion-icon name="paw"></ion-icon> {{'Pets' | translate}} + 2.20 лв.</ion-label>
+                            <br>
+                            <ion-checkbox color="dark" (ionChange)="onSelectChange($event)" value="With stroller">
+                            </ion-checkbox>
+                            <ion-label class="ml-2"><ion-icon name="bag-handle"></ion-icon> {{'Baggage' | translate}}</ion-label>
+                            <br>
+                            <ion-checkbox color="dark" (ionChange)="onSelectChange($event)" value="Special needs">
+                            </ion-checkbox>
+                            <ion-label class="ml-2"><ion-icon name="information-circle"></ion-icon> {{'Special needs' | translate}}</ion-label>
+                        </div>
+                        <!-- <div *ngIf="isCompleted == false" class="col-md-12 text-center">
                             <ion-select (ionChange)="onSelectChange($event)"
                                 [placeholder]='"Additional options (optional)" | translate' multiple="true">
-                                <!-- <ion-select-option value="With pets">{{'Pets' | translate}} + 2.20$
-                                </ion-select-option> -->
                                 <ion-select-option value="With pets">{{'Pets' | translate}} + 2.20 лв.
                                 </ion-select-option>
                                 <ion-select-option value="With stroller">{{'Baggage' | translate}}
@@ -63,46 +83,68 @@
                                 <ion-select-option value="Special needs">{{'Special needs' | translate}}
                                 </ion-select-option>
                             </ion-select>
-                        </div>
+                        </div> -->
                         <hr />
 
-                        <div *ngIf="isCompleted == false" class="col-md-12 text-center">
+                        <!-- <div *ngIf="isCompleted == false" class="col-md-12 text-center">
                             <ion-select (ionChange)="onSelectCar($event)"
                                 [placeholder]='"Car type (optional)" | translate'>
                                 <ion-select-option value="Normal">{{'Normal' | translate}}</ion-select-option>
                                 <ion-select-option value="Comfort">{{'Comfort' | translate}} + 1 лв.</ion-select-option>
                             </ion-select>
+                        </div> -->
+
+                        <div *ngIf="isCompleted == false" class="row text-center">
+                            <div class="col-md-12 mb-2">
+                                <ion-label>{{'Car type (optional)' | translate}}</ion-label>
+                            </div>
+                            <div (click)="onSelectCar('normal')" class="col">
+                                <img id="normal" src="../../assets/normtext.png" width="100" height="100"
+                                [ngStyle]="{
+                                    'border': carValue =='normal' ? '3px solid rgb(255, 208, 0)' : '3px solid rgb(109, 109, 109)'
+                                  }">
+                            </div>
+
+                            <div (click)="onSelectCar('comfort')" class="col">
+                                <img id="comfort" src="../../assets/comftext.png"width="100" height="100"
+                                [ngStyle]="{
+                                    'border': carValue =='comfort' ? '3px solid rgb(255, 208, 0)' : '3px solid rgb(109, 109, 109)'
+                                  }">
+
+                            </div>
                         </div>
 
-                        <!-- <div class="row">
-                            <div class="col">
-                                <img src="../../assets/normal.png" width="90" height="90">
-                            </div>
+                         <div *ngIf="isCompleted == false" class="col-md-12 text-center mt-2">
+                            <ion-select (ionChange)="onSelectTime($event)"
+                                [placeholder]='"When should the driver arrive?" | translate'>
+                                <ion-select-option value="Now">{{'Now' | translate}}</ion-select-option>
+                                <ion-select-option value="15min">{{'After 15 mins' | translate}}</ion-select-option>
+                                <ion-select-option value="30mins">{{'After 30 mins' | translate}}</ion-select-option>
+                                <ion-select-option value="1hour">{{'After 1 hour' | translate}}</ion-select-option>
+                                <ion-select-option value="2hours">{{'After 2 hours' | translate}}</ion-select-option>
+                            </ion-select>
+                        </div>
 
-                            <div class="col">
-                                <img src="../../assets/comfort.png"width="90" height="90">
-
-                            </div>
-                        </div> -->
+                       
 
                         <div *ngIf="orderStatus == 'Waiting'" class="form-group col mt-3">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="fonted">{{'Increase amount' | translate}}</h5>
                                 <a class="mr-1">
-                                    <button class="btn btn-light btn-sm mr-1" (click)="increment()">+</button>
                                     <button class="btn btn-light btn-sm">{{orderTotalPrice}} лв.</button>
-                                    <button class="btn btn-light btn-sm ml-1" (click)="decrement()">-</button>
+                                    <!-- <button class="btn btn-light btn-sm ml-1" (click)="decrement()">-</button> -->
+                                    <button class="btn btn-light btn-sm ml-1" (click)="increment()">+</button>
                                 </a>
 
                             </div>
                             <hr />
                         </div>
-                        
+
                         <div class="row text-center">
                             <div class="col-md-12">
 
-                                <button [disabled]="isSubmitted" *ngIf="isCompleted == false" type="button" (click)="onSubmit()"
-                                        class="mt-3 btn btn-warning fonted">
+                                <button [disabled]="isSubmitted" *ngIf="isCompleted == false" type="button"
+                                    (click)="onSubmit()" class="mt-3 btn btn-warning fonted">
                                     {{'Make a order'| translate}}
                                     <span *ngIf="isSubmitted" class="spinner-border spinner-border-sm mr-1"></span>
                                 </button>

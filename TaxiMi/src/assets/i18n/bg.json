@@ -144,5 +144,12 @@
     "Total": "Общо",
     "Today": "Днес",
     "Passenger": "Пътник",
-    "Phone number": "Тел. номер"
+    "Phone number": "Тел. номер",
+    "Additional options": "Допълнителни опции",
+    "When should the driver arrive?": "Кога да пристигне шофьорът?",
+    "Now": "Сега",
+    "After 15 mins": "След 15 минути",
+    "After 30 mins": "След 30 минути",
+    "After 1 hour": "След 1 час",
+    "After 2 hours": "След 2 часа"
 }

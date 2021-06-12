@@ -63,12 +63,11 @@
             <hr />
             <p *ngIf="canIncrease == true" class="text-center">{{'Offer more price to order' | translate}}</p>
             <div *ngIf="canIncrease == true" class="d-flex w-100 justify-content-between">
-              <button type="button" (click)="offer(0.50)" class="btn btn-info btn-sm">+0.50 лв.</button>
-              <button type="button" (click)="offer(1)" class="btn btn-info btn-sm">+1 лв.</button>
-              <button type="button" (click)="offer(2)" class="btn btn-info btn-sm">+2 лв.</button>
-              <button type="button" (click)="offer(3)" class="btn btn-info btn-sm">+3 лв.</button>
-              <button type="button" (click)="offer(4)" class="btn btn-info btn-sm">+4 лв.</button>
-              <button type="button" (click)="offer(5)" class="btn btn-info btn-sm">+5 лв.</button>
+              <button type="button" (click)="offer(1)" class="btn btn-info btn-sm">+1лв</button>
+              <button type="button" (click)="offer(2)" class="btn btn-info btn-sm">+2лв</button>
+              <button type="button" (click)="offer(3)" class="btn btn-info btn-sm">+3лв</button>
+              <button type="button" (click)="offer(4)" class="btn btn-info btn-sm">+4лв</button>
+              <button type="button" (click)="offer(5)" class="btn btn-info btn-sm">+5лв</button>
             </div>
           </div>
         </div>

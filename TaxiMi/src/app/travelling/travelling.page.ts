@@ -42,7 +42,7 @@ export class TravellingPage implements OnInit {
   //User html properties
   firstName = "";
   lastName = "";
-
+  carValue = 'normal';
   location: string;
   destination: string;
 
@@ -340,28 +340,46 @@ export class TravellingPage implements OnInit {
 
 
 
-  onSelectCar($event) {
-    let type = $event.detail.value;
-    if (type == "Normal") {
-      this.form.value.carType = type;
-    }
-    if (type == "Comfort") {
-      this.form.value.carType = type;
-    }
+  onSelectCar(value) {
+    this.carValue = value;
+    this.form.value.carType = this.carValue;
+  }
+
+  onSelectTime($event) {
+    // let type = $event.detail.value;
+    // if (type == "Normal") {
+    //   this.form.value.carType = type;
+    // }
+    // if (type == "Comfort") {
+    //   this.form.value.carType = type;
+    // }
   }
 
   onSelectChange($event) {
-    $event.detail.value.forEach(element => {
-      if (element == "With pets") {
-        this.form.value.withPets = true;
-      }
-      if (element == "With stroller") {
-        this.form.value.withStroller = true;
-      }
-      if (element == "Special needs") {
-        this.form.value.special = true;
-      }
-    });
+    console.log($event.detail)
+    if($event.detail.value == "With pets" && $event.detail.checked == true){
+      this.form.value.withPets = true;
+    }
+
+    if($event.detail.value == "With stroller" && $event.detail.checked == true){
+      this.form.value.withStroller = true;
+    } 
+
+    if($event.detail.value == "Special needs" && $event.detail.checked == true){
+      this.form.value.special = true;
+    } 
+
+    if($event.detail.value == "With pets" && $event.detail.checked == false){
+      this.form.value.withPets = false;
+    }
+
+    if($event.detail.value == "With stroller" && $event.detail.checked == false){
+      this.form.value.withStroller = false;
+    } 
+
+    if($event.detail.value == "Special needs" && $event.detail.checked == false){
+      this.form.value.special = false;
+    }
   }
 
   async openLanguagePopover(ev) {

@@ -140,10 +140,19 @@
   "Your report is sent successfully": "Your report is sent successfully",
   "Home": "Home",
   "My history": "My history",
-  "Daily earnings":"Daily earnings",
-  "Profit":"Profit",
+  "Daily earnings": "Daily earnings",
+  "Profit": "Profit",
   "Total": "Total",
   "Today": "Today",
   "Passenger": "Passenger",
-  "Phone number": "Phone number"
+  "Phone number": "Phone number",
+  "Additional options": "Additional options",
+  "Baggage": "Baggage",
+  "Pets": "Pets",
+  "When should the driver arrive?": "When should the driver arrive?",
+  "Now": "Now",
+  "After 15 mins": "After 15 mins",
+  "After 30 mins": "After 30 mins",
+  "After 1 hour": "After 1 hour",
+  "After 2 hours": "After 2 hours"
 }
