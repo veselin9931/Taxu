@@ -25,24 +25,85 @@ namespace TaxiMi.Services.OrderService.SubOrderService
         public SuburbanOrder GetOrderByUserId(string userId)
         => this.repository.All()?.OrderByDescending(x => x.CreatedOn).FirstOrDefault(x => x.ApplicationUserId == userId && x.Status != "Completed");
 
-        public Task<bool> AcceptSubOrderAsync(string id, string driverId)
+        public async Task<bool> AcceptSubOrderAsync(string id, string driverId)
         {
-            throw new NotImplementedException();
+            var currentOrder = this.GetSubOrderById(id);
+
+            if (currentOrder != null)
+            {
+                currentOrder.Status = "Accepted";
+                currentOrder.AcceptedBy = driverId;
+
+                this.repository.Update(currentOrder);
+
+                await this.repository.SaveChangesAsync();
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Accepting a order failed!");
         }
 
-        public Task<bool> ChangeSubOrderStatusAsync(string orderId, string status)
+        public async Task<bool> ChangeSubOrderStatusAsync(string orderId, string status)
         {
-            throw new NotImplementedException();
+            var currentOrder = this.GetSubOrderById(orderId);
+
+            if (currentOrder != null)
+            {
+                currentOrder.Status = status;
+
+                this.repository.Update(currentOrder);
+
+                await this.repository.SaveChangesAsync();
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Order id is invalid");
         }
 
-        public Task<bool> CompleteOrderAsync(string id)
+        public async Task<bool> CompleteOrderAsync(string id)
         {
-            throw new NotImplementedException();
+            var currentOrder = this.GetSubOrderById(id);
+
+            if (currentOrder != null)
+            {
+                currentOrder.Status = "Completed";
+
+                this.repository.Update(currentOrder);
+
+                await this.repository.SaveChangesAsync();
+
+                return true;
+            }
+
+            throw new InvalidOperationException("Completing a order failed!");
         }
 
-        public Task<string> CreateSubOrder(CreateSubOrderInputModel input)
+        public async Task<string> CreateSubOrder(CreateSubOrderInputModel input)
         {
-            throw new NotImplementedException();
+            if (input != null)
+            {
+                var order = new SuburbanOrder()
+                {
+                    AcceptedBy = input.AcceptedBy,
+                    ApplicationUserId = input.ApplicationUserId,
+                    Info = input.Info,
+                    Status = input.Status,
+                    CreatedOn = DateTime.UtcNow,
+                    OptionsId = input.OptionsId,
+                    //TotalPrice = 
+                };
+
+                this.repository.Add(order);
+
+                await this.repository.SaveChangesAsync();
+
+
+                return order.Id;
+            }
+
+            throw new InvalidOperationException("Creating order failed!");
         }
 
         public async Task<bool> Delete(string orderId)
