@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { AlertController, PopoverController } from '@ionic/angular';
+import { AlertController, IonDatetime, PopoverController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
@@ -11,7 +11,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Subscription } from 'rxjs';
 import { LocalNotifications } from '@capacitor/core';
-import { HttpTransportType } from '@aspnet/signalr';
 
 @Component({
   selector: 'app-travelling',
@@ -19,6 +18,10 @@ import { HttpTransportType } from '@aspnet/signalr';
   styleUrls: ['./travelling.page.scss'],
 })
 export class TravellingPage implements OnInit {
+  customPickerOptions: any;
+
+  @ViewChild('mydt') mydt: IonDatetime;
+
   public currentTrip: Trip;
   private user = this.accountService.userValue;
   public loading: boolean;
@@ -59,6 +62,35 @@ export class TravellingPage implements OnInit {
     private popoverController: PopoverController,
     private alertController: AlertController) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
+    this.translate.get(['Now', 'Cancel', 'Choose'])
+      .subscribe(text => {
+        this.customPickerOptions = {
+          buttons: [
+            {
+              text: text['Now'],
+              handler: () => {
+                let date = new Date();
+                this.mydt.value = `${date.getHours()}:${date.getMinutes()}`;
+                console.log(this.mydt.value)
+              }
+            },
+            {
+              text: text['Cancel']
+            },
+            {
+              text: text['Choose'],
+              handler: (res) => {
+                this.mydt.value = `${res.hour.text}:${res.minute.text}`;
+                // this.form.value.pickUpTime = this.mydt.value;
+                console.log(res.hour.text)
+                console.log(res.minute.text)
+
+                //set form value to chosen time
+              }
+            }
+          ]
+        }
+      })
   }
 
   ngOnInit() {
@@ -80,7 +112,9 @@ export class TravellingPage implements OnInit {
       withPets: false,
       withStroller: false,
       special: false,
-      carType: ''
+      carType: '',
+      description: '',
+      pickUpTime: ''
     })
 
     const connection = new signalR.HubConnectionBuilder()
@@ -101,7 +135,7 @@ export class TravellingPage implements OnInit {
     connection.on("IncrementDecrement", (orderId) => {
       this.subscriptions.push(this.orderService.getOrderById(orderId)
         .subscribe((data) => {
-          (Math.round(this.orderTotalPrice * 100) / 100).toFixed(2);
+          (Math.round(this.orderTotalPrice * 100) / 100);
           this.orderTotalPrice = data.totalPrice;
         }));
     });
@@ -130,7 +164,7 @@ export class TravellingPage implements OnInit {
     });
 
     connection.on('LocateDriver', (driverId: string) => {
-      
+
     });
   }
   async presentOrderAcceptedNotification() {
@@ -144,7 +178,7 @@ export class TravellingPage implements OnInit {
       ]
     })
   }
-  
+
 
   ionViewDidEnter() {
     this.checkorder();
@@ -227,7 +261,6 @@ export class TravellingPage implements OnInit {
           // this.estimatedDuration = response.routes[0].legs[0].duration.text;
           this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
           this.orderTotalPrice = this.orderTotalDestination * 0.90;
-
           //Additional option with additional price
           if (this.form.value.withPets == true) {
             this.orderTotalPrice += 2.20;
@@ -235,6 +268,7 @@ export class TravellingPage implements OnInit {
           if (this.form.value.carType == "Comfort") {
             this.orderTotalPrice += 1;
           }
+          //this.orderTotalPrice = this.orderTotalPrice.toFixed(2);
 
           this.form.value.totalPrice = this.orderTotalPrice;
           this.form.value.tripDistance = this.orderTotalDestination;
@@ -255,6 +289,7 @@ export class TravellingPage implements OnInit {
                   .subscribe());
               }))
           }
+          console.log(this.order)
         } else {
           this.isSubmitted = false;
           window.alert("Directions request failed due to " + status);
@@ -289,11 +324,58 @@ export class TravellingPage implements OnInit {
 
   }
 
+  // priceUpdate() {
+  //   if (this.form.value.withPets == false) {
+  //     this.orderTotalPrice = this.orderTotalPrice + 2.20;
+  //   }
+
+  //   if (this.form.value.withPets == true) {
+  //     this.orderTotalPrice = this.orderTotalPrice - 2.20;
+  //   }
+  // }
+
+  onSelectCar(value) {
+    this.carValue = value;
+    // if(this.form.value.carType === 'comfort' && this.carValue === 'normal'){
+    //   this.form.value.carType = value;
+    //   this.orderTotalPrice -=1;
+    // }
+
+    // if((this.form.value.carType === 'normal' || this.form.value.carType === '') && this.carValue === 'comfort'){
+    //   this.form.value.carType = value;
+    //   this.orderTotalPrice += 1;
+    // }
+
+    this.form.value.carType = value;
+  }
   //Order functionallity - waiting for driver
   checkorder() {
+    const directionsService = new google.maps.DirectionsService();
+    directionsService.route(
+      {
+        origin: {
+          lat: this.orderService.userLocationLat,
+          lng: this.orderService.userLocationLong
+        },
+        destination: {
+          lat: this.orderService.userDestinationLat,
+          lng: this.orderService.userDestinationLong,
+        },
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      (response, status) => {
+        if (status === "OK") {
+          this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
+          this.orderTotalPrice = this.orderTotalDestination * 0.90;
+        }
+      }
+    );
+
+
+
     this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
-        if (data) {
+        if (data.status != 'Canceled') {
           this.orderService.currentOrderId = data.id;
           this.location = data.location;
           this.destination = data.destination;
@@ -340,48 +422,6 @@ export class TravellingPage implements OnInit {
 
 
 
-  onSelectCar(value) {
-    this.carValue = value;
-    this.form.value.carType = this.carValue;
-  }
-
-  onSelectTime($event) {
-    // let type = $event.detail.value;
-    // if (type == "Normal") {
-    //   this.form.value.carType = type;
-    // }
-    // if (type == "Comfort") {
-    //   this.form.value.carType = type;
-    // }
-  }
-
-  onSelectChange($event) {
-    console.log($event.detail)
-    if($event.detail.value == "With pets" && $event.detail.checked == true){
-      this.form.value.withPets = true;
-    }
-
-    if($event.detail.value == "With stroller" && $event.detail.checked == true){
-      this.form.value.withStroller = true;
-    } 
-
-    if($event.detail.value == "Special needs" && $event.detail.checked == true){
-      this.form.value.special = true;
-    } 
-
-    if($event.detail.value == "With pets" && $event.detail.checked == false){
-      this.form.value.withPets = false;
-    }
-
-    if($event.detail.value == "With stroller" && $event.detail.checked == false){
-      this.form.value.withStroller = false;
-    } 
-
-    if($event.detail.value == "Special needs" && $event.detail.checked == false){
-      this.form.value.special = false;
-    }
-  }
-
   async openLanguagePopover(ev) {
     const popover = await this.popoverController.create({
       component: LanguagePopoverPage,
@@ -411,7 +451,7 @@ export class TravellingPage implements OnInit {
         {
           text: 'Ok',
           role: 'Ok',
-          
+
         }
       ]
     });

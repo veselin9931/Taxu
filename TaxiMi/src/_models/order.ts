@@ -32,4 +32,6 @@ export class Order {
     increasedByDriver: number;
     increaseAccepted: boolean;
     increasedBy: string;
+    pickUpTime: string;
+    description: string;
 }

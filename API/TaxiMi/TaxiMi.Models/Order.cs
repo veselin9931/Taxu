@@ -34,6 +34,10 @@ namespace TaxiMi.Models
         public decimal IncreasePrice { get; set; }
 
         public decimal IncreasedByDriver { get; set; }
+        
+        public string Description { get; set; }
+
+        public string PickUpTime { get; set; }
 
         public bool IncreaseAccepted { get; set; }
 

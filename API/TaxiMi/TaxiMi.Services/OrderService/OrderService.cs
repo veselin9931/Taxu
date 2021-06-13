@@ -91,7 +91,9 @@ namespace TaxiMi.Services.OrderService
                     TripDistance = input.TripDistance,
                     WithPets = input.WithPets,
                     WithStroller = input.WithStroller,
-                    Special = input.Special
+                    Special = input.Special,
+                    Description = input.Description,
+                    PickUpTime = input.PickUpTime
                 };
 
                 this.orderRepository.Add(order);

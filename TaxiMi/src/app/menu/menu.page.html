@@ -37,8 +37,13 @@
 
 
           <ion-item *ngIf="isLoggedIn" routerLink="/menu/travelling">
-            <ion-icon color="dark" slot="start" name="bicycle-outline"></ion-icon>
+            <ion-icon color="dark" slot="start" name="walk-outline"></ion-icon>
             <ion-label class="my-label" color="dark"> {{'Travel' | translate}} </ion-label>
+          </ion-item>
+
+          <ion-item *ngIf="isLoggedIn" routerLink="/menu/out-of-town">
+            <ion-icon color="dark" slot="start" name="bicycle-outline"></ion-icon>
+            <ion-label class="my-label" color="dark"> {{'Out of town' | translate}} </ion-label>
           </ion-item>
 
           

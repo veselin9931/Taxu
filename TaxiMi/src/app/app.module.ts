@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertComponent } from './alert/alert.component';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-
+import { DatePicker } from '@ionic-native/date-picker/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
@@ -44,6 +44,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SplashScreen,
     AndroidPermissions,
     Geolocation,
+    DatePicker,
     LocationAccuracy,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],

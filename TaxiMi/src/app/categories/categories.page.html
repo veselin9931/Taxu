@@ -37,6 +37,14 @@
           <ion-label>{{'Comfort' | translate}}</ion-label>
           <ion-chip>{{comfortCount}}</ion-chip>
         </ion-item>
+        <ion-item (click)='outOfTown()'>
+          <ion-label>{{'Out of town' | translate}}</ion-label>
+          <ion-chip>0</ion-chip>
+        </ion-item>
+        <ion-item (click)='booked()'>
+          <ion-label>{{'Booked' | translate}}</ion-label>
+          <ion-chip>0</ion-chip>
+        </ion-item>
       </ion-list>
     </div>
     

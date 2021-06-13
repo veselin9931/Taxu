@@ -19,8 +19,11 @@ namespace TaxiMi.Infrastructure.InputModels.OrderInput
 
         public string LocationLat { get; set; }
 
+        public string PickUpTime { get; set; }
+
         public string LocationLong { get; set; }
 
+        public string Description { get; set; }
         public bool WithStroller { get; set; }
 
         public string CarType { get; set; }

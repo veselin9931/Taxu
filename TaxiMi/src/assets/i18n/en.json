@@ -154,5 +154,12 @@
   "After 15 mins": "After 15 mins",
   "After 30 mins": "After 30 mins",
   "After 1 hour": "After 1 hour",
-  "After 2 hours": "After 2 hours"
+  "After 2 hours": "After 2 hours",
+  "Out of town" : "Out of town",
+  "Booked": "Booked",
+  "Additional requirements": "Additional requirements",
+  "Choose": "Choose",
+  "Choose time for your travel" : "Choose time for your travel",
+  "Time":"Time",
+  "Pickup time": "Pickup time"
 }

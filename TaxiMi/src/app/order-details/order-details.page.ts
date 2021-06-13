@@ -22,7 +22,7 @@ declare var google: any;
   templateUrl: './order-details.page.html',
   styleUrls: ['./order-details.page.scss'],
 })
-export class OrderDetailsPage implements OnInit, OnDestroy {
+export class OrderDetailsPage implements OnInit {
   public orderId = this.route.snapshot.params.id;
   tripPriceForDriver: number;
   applicationUserId = this.accountService.userValue.id;
@@ -61,7 +61,9 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
     increasedByDriver: null,
     increaseAccepted: null,
     increasedBy: null,
-    special: null
+    special: null,
+    pickUpTime: null,
+    description: null
   };
   mapId: any
   orderDiv: any;
@@ -89,11 +91,7 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
 
   }
-  ngOnDestroy(): void {
-    console.log('aleluq')
-  }
   ngOnInit() {
-
     this.mapId = document.getElementById("map");
     this.mapId.style.display = 'none';
     this.orderDiv = document.getElementById("order");
@@ -103,13 +101,6 @@ export class OrderDetailsPage implements OnInit, OnDestroy {
       .configureLogging(signalR.LogLevel.Information)
       .withUrl(`${environment.signalRUrl}/orderHub`)
       .build();
-
-    // const connection = new signalR.HubConnectionBuilder()
-    // .configureLogging(signalR.LogLevel.Information)
-    // .withUrl(`${environment.signalRUrl}/orderHub`, {
-    //  skipNegotiation: true,
-    //  transport: signalR.HttpTransportType.WebSockets})
-    // .build();
 
     connection.start().then(function () {
       console.log('signalR Connected in travel-mode');

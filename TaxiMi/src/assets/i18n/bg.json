@@ -1,5 +1,5 @@
 {
-    "Additional options (optional)": "Допълнителни изисквания",
+    "Additional options (optional)": "Допълнителни опции",
     "Desired car type": "Изискване за кола",
     "Pets": "Животни",
     "Baggage": "Багаж",
@@ -151,5 +151,13 @@
     "After 15 mins": "След 15 минути",
     "After 30 mins": "След 30 минути",
     "After 1 hour": "След 1 час",
-    "After 2 hours": "След 2 часа"
+    "After 2 hours": "След 2 часа",
+    "Out of town": "Извънградско",
+    "Booked": "Резервирани",
+    "Additional requirements": "Допълнителни изисквания",
+    "Choose": "Избери",
+    "Choose time for your travel": "Избери час за пътуването",
+    "Time": "Час",
+  "Pickup time": "Час за взимане"
+
 }
