@@ -22,6 +22,8 @@ import { PaymentsComponent } from './pages/payments/payments.component';
 import { HomeComponent } from './pages/home/home/home.component';
 import { FaqComponent } from './pages/faq/faq/faq.component';
 import { AboutComponent } from './pages/about/about/about.component';
+import { DownloadComponent } from './pages/download/download.component';
+import { SuccesfullPaymentComponent } from './pages/succesfull-payment/succesfull-payment.component';
 
 
 @NgModule({
@@ -34,7 +36,9 @@ import { AboutComponent } from './pages/about/about/about.component';
     PaymentsComponent,
     HomeComponent,
     FaqComponent,
-    AboutComponent
+    AboutComponent,
+    DownloadComponent,
+    SuccesfullPaymentComponent
   ],
   imports: [ 
     BrowserModule /* or CommonModule */, 

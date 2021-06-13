@@ -2,11 +2,12 @@ import { Routes } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './pages/home/home/home.component';
 
 export const AppRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'home',
     pathMatch: 'full',
   }, {
     path: '',
@@ -18,7 +19,7 @@ export const AppRoutes: Routes = [
   }]},
   
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'home',
+    component: HomeComponent
   }
 ]

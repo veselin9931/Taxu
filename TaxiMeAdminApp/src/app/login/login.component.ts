@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
         data => {
           this.clearForm();
           console.log(data);
-          this.route.navigate(['dashboard']);
+          this.route.navigate(['home']);
 
         },
         error => {
