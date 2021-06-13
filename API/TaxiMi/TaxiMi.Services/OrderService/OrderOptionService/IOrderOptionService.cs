@@ -14,5 +14,6 @@ namespace TaxiMi.Services.OrderService.OrderOptionService
         public string GetDestinationById(int optId);
 
         public string GeLocation(int optId);
+
     }
 }
