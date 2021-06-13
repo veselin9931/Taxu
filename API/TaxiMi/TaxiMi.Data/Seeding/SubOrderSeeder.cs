@@ -23,7 +23,7 @@ namespace TaxiMi.Data.Seeding
             var types = await orderOptions.FirstOrDefaultAsync(t => t.Location + " - " +t.Destination  == options);
             if (types == null)
             {
-                var result = await orderOptions.AddAsync(new SubOrderOptions() { Location = options.Split(" - ")[0], Destination = options.Split(" - ")[1], Price = price });
+                var result = await orderOptions.AddAsync(new SubOrderOptions() { Location = options.Split(" - ")[0], Destination = options.Split(" - ")[1], TotalPrice = price });
 
                 //TODO: Add err msg
 

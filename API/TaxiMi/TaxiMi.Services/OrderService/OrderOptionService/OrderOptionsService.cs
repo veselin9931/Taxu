@@ -22,7 +22,7 @@ namespace TaxiMi.Services.OrderService.OrderOptionService
 
         public string GetDestinationById(int optId) => this.repository.All().FirstOrDefault(opt => opt.Id == optId).Destination;
 
-        public decimal GetOrderOptionPriceById(int optId) => this.repository.All().FirstOrDefault(opt => opt.Id == optId).Price;
+        public decimal GetOrderOptionPriceById(int optId) => this.repository.All().FirstOrDefault(opt => opt.Id == optId).TotalPrice;
 
     }
 }

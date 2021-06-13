@@ -21,6 +21,8 @@ namespace TaxiMi.Infrastructure.HubConfig
         Task Voted(string driverId);
         Task CreatedOrder();
 
+        Task CreatedSubOrder();
+
         Task LocateDriver(string driverId);
         Task Navigate(string orderId);
 

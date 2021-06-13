@@ -7,16 +7,19 @@ using System.Threading.Tasks;
 using TaxiMi.Common.Repositories;
 using TaxiMi.Infrastructure.InputModels.OrderInput;
 using TaxiMi.Models;
+using TaxiMi.Services.OrderService.OrderOptionService;
 
 namespace TaxiMi.Services.OrderService.SubOrderService
 {
     public class SubOrderSevice : ISubOrderService
     {
         private readonly IDeletableEntityRepository<SuburbanOrder> repository;
+        private readonly IOrderOptionService orderOptionService;
 
-        public SubOrderSevice(IDeletableEntityRepository<SuburbanOrder> repository)
+        public SubOrderSevice(IDeletableEntityRepository<SuburbanOrder> repository, IOrderOptionService  orderOptionService)
         {
             this.repository = repository;
+            this.orderOptionService = orderOptionService;
         }
 
         public SuburbanOrder GetSubOrderById(string id)
@@ -92,7 +95,7 @@ namespace TaxiMi.Services.OrderService.SubOrderService
                     Status = input.Status,
                     CreatedOn = DateTime.UtcNow,
                     OptionsId = input.OptionsId,
-                    //TotalPrice = 
+                    TotalPrice = this.orderOptionService.GetOrderOptionPriceById(input.OptionsId)
                 };
 
                 this.repository.Add(order);

@@ -30,7 +30,7 @@ namespace TaxiMi.Models
 
         public DateTime Date { get; set; }
 
-        public string OptionsId { get; set; }
+        public int OptionsId { get; set; }
 
     }
 }
