@@ -51,6 +51,7 @@
     "cordova-plugin-background-mode": "^0.7.3",
     "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-nativegeocoder": "^3.4.1",
+    "date-fns": "^2.22.1",
     "ionic-custom-alert": "0.0.2",
     "leaflet": "^1.7.1",
     "mapbox-gl": "^2.1.1",

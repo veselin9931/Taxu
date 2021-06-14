@@ -6,11 +6,12 @@ using TaxiMi.Common.BaseModels;
 
 namespace TaxiMi.Models
 {
-    public class SuburbanOrder : BaseDeletableModel<string>
+    public class SuburbanOrder : BaseDeletableModel<string>, IAuditInfo
     {
         public SuburbanOrder()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.CreatedOn = DateTime.UtcNow;
         }
 
         public ApplicationUser ApplicationUser { get; set; }
@@ -28,7 +29,7 @@ namespace TaxiMi.Models
 
         public string Info { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         public int OptionsId { get; set; }
 

@@ -95,13 +95,13 @@ namespace TaxiMi.Services.OrderService.SubOrderService
                     Status = input.Status,
                     CreatedOn = DateTime.UtcNow,
                     OptionsId = input.OptionsId,
-                    TotalPrice = this.orderOptionService.GetOrderOptionPriceById(input.OptionsId)
+                    TotalPrice = this.orderOptionService.GetOrderOptionPriceById(input.OptionsId),
+                    Date = input.Date + " | " + input.Time
                 };
 
                 this.repository.Add(order);
 
                 await this.repository.SaveChangesAsync();
-
 
                 return order.Id;
             }
@@ -127,6 +127,7 @@ namespace TaxiMi.Services.OrderService.SubOrderService
                .OrderBy(x => x.CreatedOn)
                .ToListAsync();
 
-     
+        public SuburbanOrder GetByUserId(string userId)
+         => this.repository.All().FirstOrDefault(a => a.ApplicationUserId == userId);
     }
 }

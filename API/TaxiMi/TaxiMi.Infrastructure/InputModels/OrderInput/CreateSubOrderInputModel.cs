@@ -20,7 +20,9 @@ namespace TaxiMi.Infrastructure.InputModels.OrderInput
 
         public string Info { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
+
+        public string Time { get; set; }
 
         public int OptionsId { get; set; }
     }

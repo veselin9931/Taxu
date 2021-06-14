@@ -19,7 +19,9 @@ namespace TaxiMi.Infrastructure.ViewModels
 
         public string Info { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
+
+        public string CreatedOn { get; set; }
 
 
     }
