@@ -19,9 +19,9 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 export class OutOfTownPage implements OnInit {
 
 
-    private options: SubOrderOpt[] = [];
+    public options: SubOrderOpt[] = [];
     private subscriptions: Subscription[] = [];
-    private user = this.accountService.userValue;
+    public user = this.accountService.userValue;
     isLoggedIn: boolean;
     subOrder: SubOrder;
     form: FormGroup;
