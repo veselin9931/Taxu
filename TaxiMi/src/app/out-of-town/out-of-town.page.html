@@ -15,5 +15,49 @@
 </ion-header>
 
 <ion-content>
-  
+    <ion-item>
+        <ion-label>Trip</ion-label>
+        <ion-select>
+            <ion-select-option value="brown">Sofia - Plovdiv | 99.00 lv.</ion-select-option>
+            <ion-select-option value="blonde">Blonde</ion-select-option>
+            <ion-select-option value="black">Black</ion-select-option>
+            <ion-select-option value="red">Red</ion-select-option>
+        </ion-select>
+    </ion-item>
+    <ion-item>
+        <ion-label>Data</ion-label>
+        <ion-datetime displayFormat="MM-DD" placeholder="Select date"></ion-datetime>
+    </ion-item>
+    <ion-item>
+        <ion-label>Time</ion-label>
+        <ion-datetime displayFormat="THH:mм" placeholder="Select time"></ion-datetime>
+    </ion-item>
+    <ion-item>
+        <ion-label position="floating">Info</ion-label>
+        <ion-input></ion-input>
+    </ion-item>
+
 </ion-content>
+
+<ion-footer *ngIf="isCompleted == true" class="ion-no-border">
+    <ion-toolbar>
+        <!-- <ion-title>Choosen location</ion-title> -->
+        <div class="row">
+            <div class="col">
+                <div class="d-flex w-100 justify-content-between">
+                    <button *ngIf="isCompleted == true" class="ml-3 btn btn-info fonted">
+                        {{'Cost'| translate'}} : {{orderTotalPrice |  number : '1.2-2'}} лв.
+                    </button>
+
+                    <button *ngIf="isCompleted == true" class="mr-3 btn btn-danger fonted"
+                            (click)="cancelOrder()">
+                        {{'Cancel'| translate}}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+
+    </ion-toolbar>
+</ion-footer>
