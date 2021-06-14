@@ -47,7 +47,7 @@ namespace TaxiMi.Controllers
 
         // POST api/<SubOrderController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateSubOrderInputModel input)
+        public async Task<IActionResult> Post(CreateSubOrderInputModel input)
         {
             if (this.ModelState.IsValid)
             {
@@ -92,6 +92,30 @@ namespace TaxiMi.Controllers
 
             return this.Ok(viewModel) ;
         }
+
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetByUserId(string userId)
+        {
+            var order = this.subOrderService.GetByUserId(userId);
+
+            SubOrderViewModel viewModel = null;
+            if (order != null)
+            {
+                viewModel = new SubOrderViewModel()
+                {
+                    Id = order.Id,
+                    ApplicationUserId = order.ApplicationUserId,
+                    Date = order.Date,
+                    Destination = this.orderOptionService.GetDestinationById(order.OptionsId),
+                    Location = this.orderOptionService.GeLocation(order.OptionsId),
+                    Info = order.Info,
+                    Price = this.orderOptionService.GetOrderOptionPriceById(order.OptionsId)
+                };
+            }
+
+            return this.Ok(viewModel);
+        }
+
 
         // PUT api/<SubOrderController>/5
         [HttpPut("{id}")]

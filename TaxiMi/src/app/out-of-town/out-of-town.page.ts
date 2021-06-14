@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as signalR from '@aspnet/signalr';
-import { PopoverController } from '@ionic/angular';
+import { IonDatetime, PopoverController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SubOrder } from '../../_models/suborder';
@@ -10,6 +10,7 @@ import { AccountService } from '../../_services';
 import { OptionsService } from '../../_services/suborder/options.service';
 import { SuborderService } from '../../_services/suborder/suborder.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
+import { format } from "date-fns";
 
 @Component({
     selector: 'app-out-of-town',
@@ -17,13 +18,17 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
     styleUrls: ['./out-of-town.page.scss'],
 })
 export class OutOfTownPage implements OnInit {
+    customPickerOptions: any;
 
+    @ViewChild('myd') myd: IonDatetime;
+    @ViewChild('myt') myt: IonDatetime;
 
-    private options: SubOrderOpt[] = [];
+    public options;
     private subscriptions: Subscription[] = [];
     private user = this.accountService.userValue;
-    isLoggedIn: boolean;
+    isLoggedIn: boolean = false;
     subOrder: SubOrder;
+    subOrderId: string;
     form: FormGroup;
     status = '';
     isSubmitted = false;
@@ -33,14 +38,24 @@ export class OutOfTownPage implements OnInit {
 
 
     ngOnInit() {
+        if (this.user.token) {
+            this.isLoggedIn = true;
+        }
+
+        this.subscriptions.push(this.subOrderService.getSubOrderByUserId(this.user.id)
+            .subscribe(x => {
+                this.subOrder = x;
+                this.isSubmitted = true;
+                console.log(x);
+            }));
 
         this.form = this.formBuilder.group({
-            applicationUserId: [''],
+            applicationUserId: this.user.id,
             status: 'Waiting',
             info: '',
             date: '',
             time: '',
-            optionId: '',
+            optionsId: '',
         })
 
         const connection = new signalR.HubConnectionBuilder()
@@ -73,20 +88,30 @@ export class OutOfTownPage implements OnInit {
     onSubmit() {
         this.isSubmitted = true;
 
+        console.log(format(new Date(this.myd.value), "yyyy-MM-dd"), format(new Date(this.myt.value), "HH-mm"));
+
+        this.form.patchValue({
+            time: format(new Date(this.myd.value), "MM-dd"),
+            date: format(new Date(this.myt.value), "HH-mm")
+        });
 
         if (!this.form.valid) {
             return;
         } else {
+            console.log(this.form.value);
             this.subscriptions.push(this.subOrderService.createSubOrder(this.form.value)
                 .subscribe(x => {
+                    
                     this.status = this.form.value.status;
-                    //this.subscriptions.push(this.subOrderService.getMyOrder(this.user.id)
-                   //     .subscribe());
+                    this.subOrderId = x;
+                    
+                    this.subscriptions.push(this.subOrderService.getMyOrder(this.subOrderId)
+                        .subscribe(x => {
+                            this.subOrder = x;
+                        }));
+
                 }))
         }
-        console.log(this.subOrder)
-
-
     }
 
 

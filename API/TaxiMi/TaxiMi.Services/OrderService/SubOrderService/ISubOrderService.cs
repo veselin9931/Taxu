@@ -15,6 +15,8 @@ namespace TaxiMi.Services.OrderService.SubOrderService
 
         public Task<bool> Delete(string orderId);
 
+        public SuburbanOrder GetByUserId(string userId);
+
         public SuburbanOrder GetSubOrderById(string id);
 
         public Task<bool> AcceptSubOrderAsync(string id, string driverId);

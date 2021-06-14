@@ -15,35 +15,74 @@
 </ion-header>
 
 <ion-content>
-    <ion-item>
-        <ion-label>Trip</ion-label>
-        <ion-select [(ngModel)]="options">
-            <ion-select-option *ngFor="let option of options" value="{{option.id}}">{{option.location}} --> {{option.destination}} | {{option.totalPrice}} BGN</ion-select-option>
-        </ion-select>
-    </ion-item>
-    <ion-item>
-        <ion-label>Data</ion-label>
-        <ion-datetime displayFormat="MM-DD" placeholder="Select date"></ion-datetime>
-    </ion-item>
-    <ion-item>
-        <ion-label>Time</ion-label>
-        <ion-datetime displayFormat="THH:mì" placeholder="Select time"></ion-datetime>
-    </ion-item>
-    <ion-item>
-        <ion-label position="floating">Info</ion-label>
-        <ion-input></ion-input>
-    </ion-item>
-    <div class="row text-center pt-4">
+
+    <form [formGroup]="form" novalidate class="col pt-4">
+        <ion-item>
+            <ion-label>Trip</ion-label>
+            <ion-select formControlName="optionsId">
+                <ion-select-option *ngFor="let option of options" value="{{option.id}}">{{option.location}} --> {{option.destination}} | {{option.totalPrice}} BGN</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label>Data</ion-label>
+            <ion-datetime displayFormat="MM-DD"
+                          placeholder="Select date"
+                          formControlName="date"
+                          #myt
+                          [pickerOptions]="customPickerOptions"></ion-datetime>
+        </ion-item>
+        <ion-item>
+            <ion-label>Time</ion-label>
+            <ion-datetime displayFormat="HH:mm"
+                          placeholder="time"
+                          formControlName="time"
+                          #myd
+                          [pickerOptions]="customPickerOptions"></ion-datetime>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Info</ion-label>
+            <ion-input formControlName="info"></ion-input>
+        </ion-item>
+    </form>
+
+
+    <div *ngIf="subOrder" id="order" class="col-md-10 pt-2">
+        <div class="list-group mt-2">
+            <a class="text list-group-item list-group-item-action flex-column align-items-start">
+                <p id="warningicn"> <ion-icon name="alert-circle"></ion-icon>  Date: {{subOrder.date}}</p>
+                <div class="text-center">
+                    <p> {{subOrder.location}} <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{subOrder.destination}}</p>
+                </div>
+                <hr />
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1 fonted"></h5>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p *ngIf="subOrder.info">{{'Additional requirements' | translate}}:</p>
+                        <text>
+                            {{subOrder.info}}
+                        </text>
+                    </div>
+                </div>
+
+            </a>
+        </div>
+    </div>
+
+    <div class="row text-center pt-4 pb-3">
         <div class="col-md-12">
             <button [disabled]="isSubmitted" type="button"
                     (click)="onSubmit()" class="mt-1 btn btn-warning fonted">
                 {{'Make a order'| translate}}
                 <span *ngIf="isSubmitted" class="spinner-border spinner-border-sm mr-1"></span>
             </button>
-         </div>
+        </div>
     </div>
 
 </ion-content>
+
+
 
 <ion-footer *ngIf="isCompleted == true" class="ion-no-border">
     <ion-toolbar>

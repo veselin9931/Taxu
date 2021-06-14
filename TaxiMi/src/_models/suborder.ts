@@ -9,5 +9,6 @@ export class SubOrder {
     totalPrice: number;
     acceptedBy: string;
     info: string;
-    date: Date;
+    date: string;
+    createdOn: Date;
 }
