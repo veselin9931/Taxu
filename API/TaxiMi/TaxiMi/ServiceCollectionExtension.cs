@@ -20,6 +20,7 @@ using TaxiMi.Services.EmailSender;
 using TaxiMi.Services.ImageService;
 using TaxiMi.Services.OrderService;
 using TaxiMi.Services.OrderService.OrderOptionService;
+using TaxiMi.Services.OrderService.SubOrderService;
 using TaxiMi.Services.ProfitService;
 using TaxiMi.Services.ReportService;
 using TaxiMi.Services.TripService;
@@ -43,6 +44,7 @@ namespace TaxiMi
             services.AddTransient<IReportService, ReportService>();
             services.AddTransient<IProfitService, ProfitService>();
             services.AddTransient<IMailService, MailService>();
+            services.AddTransient<ISubOrderService, SubOrderSevice>();
             services.AddTransient<IOrderOptionService, OrderOptionsService>();
 
             services.AddSingleton<IHttpContextAccessor,

@@ -17,11 +17,8 @@
 <ion-content>
     <ion-item>
         <ion-label>Trip</ion-label>
-        <ion-select>
-            <ion-select-option value="brown">Sofia - Plovdiv | 99.00 lv.</ion-select-option>
-            <ion-select-option value="blonde">Blonde</ion-select-option>
-            <ion-select-option value="black">Black</ion-select-option>
-            <ion-select-option value="red">Red</ion-select-option>
+        <ion-select [(ngModel)]="options">
+            <ion-select-option *ngFor="let option of options" value="{{option.id}}">{{option.location}} --> {{option.destination}} | {{option.totalPrice}} BGN</ion-select-option>
         </ion-select>
     </ion-item>
     <ion-item>
@@ -36,6 +33,15 @@
         <ion-label position="floating">Info</ion-label>
         <ion-input></ion-input>
     </ion-item>
+    <div class="row text-center pt-4">
+        <div class="col-md-12">
+            <button [disabled]="isSubmitted" type="button"
+                    (click)="onSubmit()" class="mt-1 btn btn-warning fonted">
+                {{'Make a order'| translate}}
+                <span *ngIf="isSubmitted" class="spinner-border spinner-border-sm mr-1"></span>
+            </button>
+         </div>
+    </div>
 
 </ion-content>
 
