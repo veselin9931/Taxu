@@ -50,6 +50,15 @@ export class SuborderService {
             );
     }
 
+    public editStatus(orderId, data) {
+        const headers = this.sharedService.headerGerneration();
+
+        return this.http.put(`${environment.apiUrl}/api/SubOrder/${orderId}`, data, { headers, responseType: 'text' })
+            .pipe(
+                catchError(this.handleError)
+            );
+    }
+
     deleteOrder(id: string) {
         const headers = this.sharedService.headerGerneration();
         return this.http.delete(`${environment.apiUrl}/api/suborder/${id}`, { headers })

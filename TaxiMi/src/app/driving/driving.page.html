@@ -54,9 +54,9 @@
                                 <small><i class="far fa-calendar"></i> {{subOrder.date}}</small>
                             </div>
                             
-                            <h3 class="mt-1">{{subOrder.location}} <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon> {{subOrder.destination}}</h3>
+                            <h4 class="mt-1 text-center ">{{subOrder.location}} <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon> {{subOrder.destination}}</h4>
                             <div class="d-flex w-100 justify-content-between">
-                                <button class="fonted btn btn-info" (click)="acceptOrder(order)" type="button">{{'Accept' | translate}}</button>
+                                <button class="fonted btn btn-info" (click)="acceptSubOrder(subOrder)" type="button">{{'Accept' | translate}}</button>
                             </div>
                         </a>
 

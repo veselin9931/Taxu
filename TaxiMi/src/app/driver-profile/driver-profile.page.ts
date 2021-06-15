@@ -249,5 +249,9 @@ export class DriverProfilePage implements OnInit {
 
   chargeCash() {
     this.route.navigate(['menu/payments'])
-  }
+    }
+
+    reservation() {
+        this.route.navigate(['menu/reservations'])
+    }
 }

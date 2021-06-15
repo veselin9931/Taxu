@@ -2,7 +2,7 @@ import { User } from ".";
 
 export class SubOrder {
     id: string;
-    optionId: string;
+    optionsId: string;
     status: string;
     applicationUser: User;
     applicationUserId: string;

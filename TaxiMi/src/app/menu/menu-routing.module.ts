@@ -98,7 +98,11 @@ const routes: Routes = [
       {
         path: 'booked-travels',
         loadChildren: () => import('../booked-travels/booked-travels.module').then( m => m.BookedTravelsPageModule)
-      }
+        },
+        {
+            path: 'reservations',
+            loadChildren: () => import('../reservations/reservations.module').then(m => m.ReservationsPageModule)
+        }
     ]
   }
 ];

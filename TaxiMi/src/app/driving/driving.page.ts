@@ -30,8 +30,8 @@ export class DrivingPage implements OnInit {
     isSubOreder;
 
     orders: Order[] = [];
-    subOrders: SubOrder[] =[];
-  closeOrders: Order[] = [];
+    subOrders: SubOrder[] = [];
+    closeOrders: Order[] = [];
   //Map
   distance: any;
 
@@ -147,20 +147,34 @@ export class DrivingPage implements OnInit {
                 }
 
                 this.isSubOreder = true;
+                this.subOrders = data.filter(a => a.status == 'Waiting');
+                console.log(this.subOrders);
 
-                this.subOrders.filter(o => {
-                    this.optionService.getOptionById(o.id).subscribe(data => {
+                this.subOrders.forEach(o => {
+                    let id = o.optionsId;
+                    this.optionService.getOptionById(id).subscribe(data => {
                         let opt: SubOrderOpt = data;
 
                         o.location = opt.location
                         o.destination = opt.destination
 
                     });
-                   
                 })
-                this.subOrders = data;
+
+                console.log(this.subOrders);
             } ));
-  }
+    }
+
+    acceptSubOrder(subOrder: SubOrder) {
+        this.subscriptions.push(this.subOrderService.editStatus(subOrder.id, { aceptedBy: this.accountService.userValue.id, status: 'Accepted' })
+            .subscribe(data => {
+                if (data) {
+                    this.route.navigate(['menu/reservations'])  
+                }
+
+                
+            }))
+    }
 
   getAllOrders(rating) {
     this.subscriptions.push(this.orderService.getAllOrders()
