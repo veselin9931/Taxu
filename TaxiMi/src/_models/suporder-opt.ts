@@ -10,4 +10,6 @@ export class SubOrderOpt {
     acceptedBy: string;
     info: string;
     date: Date;
+    location: string;
+    destination: string;
 }

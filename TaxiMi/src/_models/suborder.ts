@@ -11,4 +11,6 @@ export class SubOrder {
     info: string;
     date: string;
     createdOn: Date;
+    location: string;
+    destination: string;
 }

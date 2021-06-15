@@ -14,6 +14,8 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Subscription } from 'rxjs';
 import { HttpTransportType } from '@aspnet/signalr';
 import { SuborderService } from '../../_services/suborder/suborder.service';
+import { OptionsService } from '../../_services/suborder/options.service';
+import { SubOrderOpt } from '../../_models/suporder-opt';
 
 const { Geolocation } = Plugins;
 declare var google: any;
@@ -43,7 +45,8 @@ export class DrivingPage implements OnInit {
     private driverService: DriverService,
     private translate: TranslateService,
       private popoverController: PopoverController,
-      private subOrderService: SuborderService
+      private subOrderService: SuborderService,
+      private optionService: OptionsService
 
   ) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
@@ -144,7 +147,17 @@ export class DrivingPage implements OnInit {
                 }
 
                 this.isSubOreder = true;
-                console.log(data);
+
+                this.subOrders.filter(o => {
+                    this.optionService.getOptionById(o.id).subscribe(data => {
+                        let opt: SubOrderOpt = data;
+
+                        o.location = opt.location
+                        o.destination = opt.destination
+
+                    });
+                   
+                })
                 this.subOrders = data;
             } ));
   }

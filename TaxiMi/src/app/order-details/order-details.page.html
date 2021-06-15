@@ -66,8 +66,7 @@
             <div class="d-flex w-100 justify-content-between">
 
               <small class="fonted">{{'Total cost' | translate}}: {{order.totalPrice}} лв.</small>
-              <button class="fonted btn btn-info" (click)="acceptOrder(order)" type="button">{{'Accept' |
-                translate}}</button>
+              <button class="fonted btn btn-info" (click)="acceptOrder(order)" type="button">{{'Accept' |translate}}</button>
             </div>
             <hr />
             <p *ngIf="canIncrease == true" class="text-center">{{'Offer more price to order' | translate}}</p>

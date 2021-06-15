@@ -45,6 +45,12 @@ namespace TaxiMi.Controllers
         public IEnumerable<SubOrderOptions> Get()
             => this.orderOptionService.GetAll();
 
+        [HttpGet("options/{id}")]
+        public async Task<IActionResult> GetById(int id)
+            =>
+            this.Ok(this.orderOptionService.GetAll()
+                .FirstOrDefault(a => a.Id == id));
+
         // POST api/<SubOrderController>
         [HttpPost]
         public async Task<IActionResult> Post(CreateSubOrderInputModel input)

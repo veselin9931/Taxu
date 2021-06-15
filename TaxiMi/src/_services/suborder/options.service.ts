@@ -24,6 +24,15 @@ export class OptionsService {
             );
     }
 
+    public getOptionById(id: string) {
+        const headers = this.sharedService.headerGerneration();
+
+        return this.http.get<SubOrderOpt>(`${environment.apiUrl}/api/suborder/options/${id}`, { headers })
+            .pipe(
+                catchError(this.handleError)
+            );
+    }
+
     handleError(error) {
         let errorMessage = '';
         if (error.error instanceof ErrorEvent) {
