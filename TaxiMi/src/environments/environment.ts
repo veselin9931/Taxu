@@ -10,8 +10,8 @@ export const environment = {
       // signalRUrl: 'https://localhost:44377',
       
 
-   apiUrl: 'http://www.mycybercab.com',
-   signalRUrl: 'http://www.mycybercab.com',
+   apiUrl: 'https://cyber.api.mycybercab.com',
+   signalRUrl: 'https://cyber.api.mycybercab.com',
    // apiUrl: 'http://192.168.0.4:3000',
    // signalRUrl: 'http://192.168.0.4:3000',
 
