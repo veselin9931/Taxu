@@ -350,28 +350,32 @@ export class TravellingPage implements OnInit {
   }
   //Order functionallity - waiting for driver
   checkorder() {
-    const directionsService = new google.maps.DirectionsService();
-    directionsService.route(
-      {
-        origin: {
-          lat: this.orderService.userLocationLat,
-          lng: this.orderService.userLocationLong
+
+    if(this.orderService.userLocationLat){
+      const directionsService = new google.maps.DirectionsService();
+      directionsService.route(
+        {
+          origin: {
+            lat: this.orderService.userLocationLat,
+            lng: this.orderService.userLocationLong
+          },
+          destination: {
+            lat: this.orderService.userDestinationLat,
+            lng: this.orderService.userDestinationLong,
+          },
+          travelMode: google.maps.TravelMode.DRIVING,
         },
-        destination: {
-          lat: this.orderService.userDestinationLat,
-          lng: this.orderService.userDestinationLong,
-        },
-        travelMode: google.maps.TravelMode.DRIVING,
-      },
-      (response, status) => {
-        if (status === "OK") {
-          this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
-          this.orderTotalPrice = this.orderTotalDestination * 0.90;
+        (response, status) => {
+          if (status === "OK") {
+            this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
+            this.orderTotalPrice = this.orderTotalDestination * 0.90;
+          }
         }
-      }
-    );
-
-
+      );
+  
+  
+    }
+   
 
     this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
