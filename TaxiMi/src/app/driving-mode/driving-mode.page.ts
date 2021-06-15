@@ -221,7 +221,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
           this.subscriptions.push(this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
             .subscribe(() => {
               if (Capacitor.getPlatform() === 'ios') {
-                window.open(`http://maps.apple.com/?q=Mexican+Restaurant`);
+                window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
                 console.log('ios platform')
                 directionsRenderer.setDirections(response);
                 this.isStarted = true;

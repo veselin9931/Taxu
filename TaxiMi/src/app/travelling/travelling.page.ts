@@ -348,10 +348,33 @@ export class TravellingPage implements OnInit {
 
     this.form.value.carType = value;
   }
+
+  mapopenios() {
+    window.open(`http://maps.apple.com/?daddr=Bulgaria&dirflg=d&t=m`);
+  }
+
+  mapopenios2() {
+    window.open(`maps://maps.google.com/maps?daddr=lat,long&amp;ll=`);
+
+  }
+
+  mapopengoogle() {
+    window.open(`http://maps.google.com/maps?daddr=lat,long&amp;ll="`);
+
+  }
+
+  iphone() {
+    window.open("maps://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=");
+  }
+
+  google() {
+
+    window.open("https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=");
+  }
   //Order functionallity - waiting for driver
   checkorder() {
 
-    if(this.orderService.userLocationLat){
+    if (this.orderService.userLocationLat) {
       const directionsService = new google.maps.DirectionsService();
       directionsService.route(
         {
@@ -372,10 +395,10 @@ export class TravellingPage implements OnInit {
           }
         }
       );
-  
-  
+
+
     }
-   
+
 
     this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {

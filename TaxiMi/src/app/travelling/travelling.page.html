@@ -167,6 +167,31 @@
                                     {{orderTotalPrice |  number : '1.2-2'}} лв. | {{'Make a order'| translate}}
                                     <span *ngIf="isSubmitted" class="spinner-border spinner-border-sm mr-1"></span>
                                 </button>
+
+                                <button type="button"
+                                    (click)="mapopenios()" class="mt-1 btn btn-warning fonted">
+                                    mapopenios
+                                </button>
+
+                                <button type="button"
+                                (click)="mapopenios2()" class="mt-1 btn btn-warning fonted">
+                                mapopenios2
+                            </button>
+
+                                <button type="button"
+                                    (click)="mapopengoogle()" class="mt-1 btn btn-warning fonted">
+                                    mapopengoogle
+                                </button>
+
+                                <button type="button"
+                                    (click)="iphone()" class="mt-1 btn btn-warning fonted">
+                                   iphone
+                                </button>
+
+                                <button type="button"
+                                    (click)="google()" class="mt-1 btn btn-warning fonted">
+                                    google
+                                </button>
                             </div>
                         </div>
                     </form>
