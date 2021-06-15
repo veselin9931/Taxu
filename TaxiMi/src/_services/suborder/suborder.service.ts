@@ -10,6 +10,7 @@ import { SharedService } from '../shared/shared.service';
   providedIn: 'root'
 })
 export class SuborderService {
+   
   
 
     constructor(private http: HttpClient, private sharedService: SharedService) { }
@@ -42,6 +43,13 @@ export class SuborderService {
             );
     }
 
+    deleteOrder(id: string) {
+        const headers = this.sharedService.headerGerneration();
+        return this.http.delete(`${environment.apiUrl}/api/suborder/${id}`, { headers })
+            .pipe(
+                catchError(this.handleError)
+            );
+    }
 
     handleError(error) {
         let errorMessage = '';

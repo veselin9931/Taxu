@@ -112,7 +112,17 @@ namespace TaxiMi.Services.OrderService.SubOrderService
         public async Task<bool> Delete(string orderId)
         {
             var order = this.GetSubOrderById(orderId);
+
+            if (order == null)
+            {
+                throw new ArgumentException();
+            }
+
             order.Status = "Canceled";
+            order.IsDeleted = true;
+            order.DeletedOn = DateTime.UtcNow;
+
+            this.repository.Update(order);
 
             var result = await this.repository.SaveChangesAsync();
 

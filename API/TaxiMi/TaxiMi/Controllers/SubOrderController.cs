@@ -124,9 +124,20 @@ namespace TaxiMi.Controllers
         }
 
         // DELETE api/<SubOrderController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{orderId}")]
+        public async Task<IActionResult> Delete(string orderId)
         {
+            try
+            {
+                bool result = await this.subOrderService.Delete(orderId);
+
+                return this.Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            
         }
     }
 }

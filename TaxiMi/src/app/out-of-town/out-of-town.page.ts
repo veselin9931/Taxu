@@ -44,9 +44,12 @@ export class OutOfTownPage implements OnInit {
 
         this.subscriptions.push(this.subOrderService.getSubOrderByUserId(this.user.id)
             .subscribe(x => {
-                this.subOrder = x;
-                this.isSubmitted = true;
-                console.log(x);
+                if (x) {
+                    this.subOrder = x;
+                    this.isSubmitted = true;
+                    console.log(x);
+                }
+                
             }));
 
         this.form = this.formBuilder.group({
@@ -104,8 +107,8 @@ export class OutOfTownPage implements OnInit {
                     
                     this.status = this.form.value.status;
                     this.subOrderId = x;
-                    
-                    this.subscriptions.push(this.subOrderService.getMyOrder(this.subOrderId)
+
+                    this.subscriptions.push(this.subOrderService.getSubOrderByUserId(this.user.id)
                         .subscribe(x => {
                             this.subOrder = x;
                         }));
@@ -114,6 +117,14 @@ export class OutOfTownPage implements OnInit {
         }
     }
 
+
+    cancelOrder() {
+                this.subscriptions.push(this.subOrderService.deleteOrder(this.subOrder.id)
+                    .subscribe(() => {
+                        this.isCompleted = false;
+                        this.isSubmitted = false;
+                    }))
+    }
 
     async openLanguagePopover(ev) {
         const popover = await this.popoverController.create({

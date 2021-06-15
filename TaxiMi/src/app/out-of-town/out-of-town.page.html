@@ -16,7 +16,7 @@
 
 <ion-content>
 
-    <form [formGroup]="form" novalidate class="col pt-4">
+    <form *ngIf="!isSubmitted" [formGroup]="form" novalidate class="col pt-4">
         <ion-item>
             <ion-label>Trip</ion-label>
             <ion-select formControlName="optionsId">
@@ -46,12 +46,12 @@
     </form>
 
 
-    <div *ngIf="subOrder" id="order" class="col-md-10 pt-2">
+    <div *ngIf="isSubmitted" id="order" class="col-md-10 pt-2">
         <div class="list-group mt-2">
             <a class="text list-group-item list-group-item-action flex-column align-items-start">
                 <p id="warningicn"> <ion-icon name="alert-circle"></ion-icon>  Date: {{subOrder.date}}</p>
                 <div class="text-center">
-                    <p> {{subOrder.location}} <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{subOrder.destination}}</p>
+                    <h4> {{subOrder.location}} <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{subOrder.destination}}</h4>
                 </div>
                 <hr />
                 <div class="d-flex w-100 justify-content-between">
@@ -60,17 +60,27 @@
                 <div class="row">
                     <div class="col">
                         <p *ngIf="subOrder.info">{{'Additional requirements' | translate}}:</p>
-                        <text>
+                        <p>
                             {{subOrder.info}}
-                        </text>
+                        </p>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p *ngIf="subOrder.info">{{'Price' | translate}}: {{subOrder.price}} BNG</p>
+
+                    </div>
+
+                    <button *ngIf="subOrder" class="mr-2 btn btn-danger fonted" (click)="cancelOrder()"> {{'Cancel'| translate}} </button>
+
+                   
                 </div>
 
             </a>
         </div>
     </div>
 
-    <div class="row text-center pt-4 pb-3">
+    <div *ngIf="!isSubmitted" class="row text-center pt-4 pb-3">
         <div class="col-md-12">
             <button [disabled]="isSubmitted" type="button"
                     (click)="onSubmit()" class="mt-1 btn btn-warning fonted">
