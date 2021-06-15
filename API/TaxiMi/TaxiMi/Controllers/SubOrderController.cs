@@ -119,8 +119,16 @@ namespace TaxiMi.Controllers
 
         // PUT api/<SubOrderController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(string id, [FromBody] ChangeSubOrderInputModel inputModel)
         {
+            var r = await this.subOrderService.ChangeSubOrderStatusAsync(id, inputModel);
+
+            if (r)
+            {
+                return this.Ok(r);
+            }
+
+           return this.BadRequest(r);
         }
 
         // DELETE api/<SubOrderController>/5

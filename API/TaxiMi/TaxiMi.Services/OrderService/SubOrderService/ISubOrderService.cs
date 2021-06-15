@@ -11,7 +11,7 @@ namespace TaxiMi.Services.OrderService.SubOrderService
 
         public Task<string> CreateSubOrder(CreateSubOrderInputModel input);
 
-        public Task<bool> ChangeSubOrderStatusAsync(string orderId, string status);
+        public Task<bool> ChangeSubOrderStatusAsync(string orderId, ChangeSubOrderInputModel input);
 
         public Task<bool> Delete(string orderId);
 

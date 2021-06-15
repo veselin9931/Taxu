@@ -47,13 +47,20 @@ namespace TaxiMi.Services.OrderService.SubOrderService
             throw new InvalidOperationException("Accepting a order failed!");
         }
 
-        public async Task<bool> ChangeSubOrderStatusAsync(string orderId, string status)
+        public async Task<bool> ChangeSubOrderStatusAsync(string orderId, ChangeSubOrderInputModel inputModel)
         {
             var currentOrder = this.GetSubOrderById(orderId);
 
             if (currentOrder != null)
             {
-                currentOrder.Status = status;
+
+
+                currentOrder.Status = inputModel.Status;
+
+                if (currentOrder.Status == "Accepted")
+                {
+                    currentOrder.AcceptedBy = inputModel.AcceptedBy;
+                }
 
                 this.repository.Update(currentOrder);
 

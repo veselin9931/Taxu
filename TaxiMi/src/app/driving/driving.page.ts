@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { Order } from 'src/_models';
+import { SubOrder } from 'src/_models/suborder';
 import { AccountService } from 'src/_services';
 import { OrderService } from 'src/_services/order/order.service';
 import { PopoverController } from '@ionic/angular';
@@ -12,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Subscription } from 'rxjs';
 import { HttpTransportType } from '@aspnet/signalr';
+import { SuborderService } from '../../_services/suborder/suborder.service';
 
 const { Geolocation } = Plugins;
 declare var google: any;
@@ -22,9 +24,11 @@ declare var google: any;
   styleUrls: ['./driving.page.scss'],
 })
 export class DrivingPage implements OnInit {
-  categoryType;
+    categoryType;
+    isSubOreder;
 
-  orders: Order[] = [];
+    orders: Order[] = [];
+    subOrders: SubOrder[] =[];
   closeOrders: Order[] = [];
   //Map
   distance: any;
@@ -38,12 +42,18 @@ export class DrivingPage implements OnInit {
     private accountService: AccountService,
     private driverService: DriverService,
     private translate: TranslateService,
-    private popoverController: PopoverController) {
+      private popoverController: PopoverController,
+      private subOrderService: SuborderService
+
+  ) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
     this.getMyLocation();
   }
 
-  ngOnInit(): void {
+    ngOnInit(): void {
+
+    this.isSubOreder = false;
+
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
       .withUrl(`${environment.signalRUrl}/orderHub`, HttpTransportType.WebSockets | HttpTransportType.LongPolling)
@@ -103,20 +113,40 @@ export class DrivingPage implements OnInit {
     }
     this.driverService.getDriver(this.accountService.userValue.driverId)
       .subscribe(x => {
-        if (this.driverService.categoryType == 'Normal') {
+          if (this.driverService.categoryType == 'Normal') {
+              this.isSubOreder = false;
           this.getNormalOrders(x.rating);
-        } else if (this.driverService.categoryType == 'Comfort') {
-          this.getComfortOrders(x.rating);
-        } else if (this.driverService.categoryType == 'Closest') {
+          } else if (this.driverService.categoryType == 'Comfort') {
+              this.isSubOreder = false;
+            this.getComfortOrders(x.rating);
+        } else if (this.driverService.categoryType == 'Out of town') {
+            this.getOutOfTown();
+          } else if (this.driverService.categoryType == 'Closest') {
+              this.isSubOreder = false;
           this.getClosestOrders(x.rating);
-        } else if (this.driverService.categoryType == 'All') {
+          } else if (this.driverService.categoryType == 'All') {
+              this.isSubOreder = false;
           this.getAllOrders(x.rating);
-        } else if (this.driverService.categoryType == undefined) {
+          } else if (this.driverService.categoryType == undefined) {
+              this.isSubOreder = false;
           this.driverService.categoryType == 'All';
           this.getAllOrders(x.rating);
         }
       })
 
+  }
+
+    getOutOfTown() {
+        this.subscriptions.push(this.subOrderService.getAllSubOrders()
+            .subscribe(data => {
+                if (data == null) {
+                    return;
+                }
+
+                this.isSubOreder = true;
+                console.log(data);
+                this.subOrders = data;
+            } ));
   }
 
   getAllOrders(rating) {

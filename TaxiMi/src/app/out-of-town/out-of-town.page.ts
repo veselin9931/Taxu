@@ -10,7 +10,7 @@ import { AccountService } from '../../_services';
 import { OptionsService } from '../../_services/suborder/options.service';
 import { SuborderService } from '../../_services/suborder/suborder.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
-// import { format } from "date-fns";
+import { format } from "date-fns";
 
 @Component({
     selector: 'app-out-of-town',
@@ -91,12 +91,12 @@ export class OutOfTownPage implements OnInit {
     onSubmit() {
         this.isSubmitted = true;
 
-        // console.log(format(new Date(this.myd.value), "yyyy-MM-dd"), format(new Date(this.myt.value), "HH-mm"));
+         console.log(format(new Date(this.myd.value), "yyyy-MM-dd"), format(new Date(this.myt.value), "HH-mm"));
 
-        // this.form.patchValue({
-        //     time: format(new Date(this.myd.value), "MM-dd"),
-        //     date: format(new Date(this.myt.value), "HH-mm")
-        // });
+         this.form.patchValue({
+             time: format(new Date(this.myd.value), "MM-dd"),
+             date: format(new Date(this.myt.value), "HH-mm")
+         });
 
         if (!this.form.valid) {
             return;
