@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
 import { OrderService } from 'src/_services/order/order.service';
+import { SuborderService } from '../../_services/suborder/suborder.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 
 @Component({
@@ -22,19 +23,24 @@ export class CategoriesPage implements OnInit {
   normalCount: number;
   comfortCount: number;
   allCount: number;
+    subOrderCount: number;
+
   constructor(private popoverController: PopoverController,
     private translate: TranslateService,
     private accountService: AccountService,
     private route: Router,
     public driverService: DriverService,
-    private orderService: OrderService) {
+      private orderService: OrderService,
+      private subOrderService: SuborderService
+  ) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
   }
 
   ngOnInit() {
     this.getNormalCount();
     this.getComfortCount();
-    this.getAllCount();
+      this.getAllCount();
+      this.getSubOrderCount();
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
       .withUrl(`${environment.signalRUrl}/orderHub`)
@@ -100,7 +106,12 @@ export class CategoriesPage implements OnInit {
   getAllCount() {
     this.subscriptions.push(this.orderService.getAllOrders()
       .subscribe(x => this.allCount = x.length))
-  }
+    }
+
+    getSubOrderCount() {
+        this.subscriptions.push(this.subOrderService.getAllSubOrders()
+            .subscribe(x => this.subOrderCount = x.length))
+    }
 
   async openLanguagePopover(ev) {
     const popover = await this.popoverController.create({

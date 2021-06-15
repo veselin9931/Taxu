@@ -15,6 +15,13 @@ export class SuborderService {
 
     constructor(private http: HttpClient, private sharedService: SharedService) { }
 
+    getAllSubOrders() {
+        const headers = this.sharedService.headerGerneration();
+        return this.http.get<SubOrder[]>(`${environment.apiUrl}/api/suborder`, { headers })
+            .pipe(
+                catchError(this.handleError)
+            );
+    }
 
     getSubOrderByUserId(userId: string) {
         const headers = this.sharedService.headerGerneration();
