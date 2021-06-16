@@ -197,13 +197,10 @@ export class DrivingModePage implements OnInit, OnDestroy {
   }
 
   async navigateToUserAndCalculateDistance() {
-    const directionsService = new google.maps.DirectionsService();
-    const directionsRenderer = new google.maps.DirectionsRenderer();
-    const coordinates = await Geolocation.getCurrentPosition();
-    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
     const userLatLng = { lat: this.order.locationLat, lng: this.order.locationLong };
     let userLat = +userLatLng.lat;
     let userLng = +userLatLng.lng;
+<<<<<<< .mine
     directionsService.route(
       {
         origin: {
@@ -237,63 +234,82 @@ export class DrivingModePage implements OnInit, OnDestroy {
                 this.isStarted = true;
               }
             }));
+=======
 
-        } else {
-          window.alert("Directions request failed due to " + status);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> .theirs
+
+    this.subscriptions.push(this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
+      .subscribe(() => {
+        if (Capacitor.getPlatform() === 'ios') {
+          window.open(`maps://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
+          console.log('ios platform')
+          this.isStarted = true;
         }
-      }
-    );
-
-    directionsRenderer.setMap(this.map);
+        if (Capacitor.platform == 'android') {
+          window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+          this.isStarted = true;
+        }
+        else {
+          window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+          this.isStarted = true;
+        }
+      }));
   }
 
   //Set directions to user's destination
   async navigateToPointAndCalculateDistance() {
-    const directionsService = new google.maps.DirectionsService();
-    const directionsRenderer = new google.maps.DirectionsRenderer();
-    const coordinates = await Geolocation.getCurrentPosition();
-    const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };
     const userLatLng = { lat: this.order.destinationLat, lng: this.order.destinationLong };
     let userLat = +userLatLng.lat;
     let userLng = +userLatLng.lng;
-    directionsService.route(
-      {
-        origin: {
-          lat: myLatLng.lat,
-          lng: myLatLng.lng
-        },
-        destination: {
-          lat: userLat,
-          lng: userLng,
-        },
-        travelMode: google.maps.TravelMode.DRIVING,
-      },
-      (response, status) => {
-        if (status === "OK") {
-          if (Capacitor.getPlatform() == 'ios') {
-            console.log('ios platform')
-            directionsRenderer.setDirections(response);
-            window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
-          }
-          if (Capacitor.getPlatform() == 'android') {
-            console.log('android or web platform')
-            directionsRenderer.setDirections(response);
-            window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-          }
-          else {
-            console.log('web platform')
-            directionsRenderer.setDirections(response);
-            window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-          }
-          this.startTrip();
-        } else {
-          console.log("failed")
 
-          window.alert("Directions request failed due to " + status);
+    this.subscriptions.push(this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
+      .subscribe(() => {
+        if (Capacitor.getPlatform() === 'ios') {
+          window.open(`maps://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
+          console.log('ios platform')
+          this.isStarted = true;
         }
-      }
-    );
-    directionsRenderer.setMap(this.map);
+        if (Capacitor.platform == 'android') {
+          window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+          this.isStarted = true;
+        }
+        else {
+          window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+          this.isStarted = true;
+        }
+      }));
   }
 
   msgDto: Message = new Message();
@@ -428,109 +444,109 @@ export class DrivingModePage implements OnInit, OnDestroy {
 
   async alertForCancel() {
     this.translate.get(['Are you sure you want to cancel the order?', 'Your rating will decrease!', 'Confirm', 'Cancel'])
-    .subscribe(async text => {
-      const popup = await this.alertController.create({
-        header: text['Are you sure you want to cancel the order?'],
-        message: text['Your rating will decrease!'],
-        buttons: [
-          {
-            text: text['Confirm'],
-            handler: () => {
-              this.subscriptions.push(this.driverService.cancelOrderFromDriver(this.order.id)
-                .subscribe(x => {
-                  this.subscriptions.push(this.tripService.cancelTrip(this.currentTrip.id)
-                    .subscribe(() => {
-                      this.accountService.userValue.isDrivingNow = false;
-                      this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, false)
-                        .subscribe(() => {
-                          this.subscriptions.push(this.driverService.voteDown(this.accountService.userValue.driverId)
-                            .subscribe(() => {
-                              this.route.navigate(['menu/driving']);
-                            }))
-                        }));
-                    }))
-                }));
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          header: text['Are you sure you want to cancel the order?'],
+          message: text['Your rating will decrease!'],
+          buttons: [
+            {
+              text: text['Confirm'],
+              handler: () => {
+                this.subscriptions.push(this.driverService.cancelOrderFromDriver(this.order.id)
+                  .subscribe(x => {
+                    this.subscriptions.push(this.tripService.cancelTrip(this.currentTrip.id)
+                      .subscribe(() => {
+                        this.accountService.userValue.isDrivingNow = false;
+                        this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, false)
+                          .subscribe(() => {
+                            this.subscriptions.push(this.driverService.voteDown(this.accountService.userValue.driverId)
+                              .subscribe(() => {
+                                this.route.navigate(['menu/driving']);
+                              }))
+                          }));
+                      }))
+                  }));
+              }
+            },
+            {
+              text: text['Cancel'],
+              role: 'cancel'
             }
-          },
-          {
-            text: text['Cancel'],
-            role: 'cancel'
-          }
-        ]
-      });
-      await popup.present();
-    })
-    
+          ]
+        });
+        await popup.present();
+      })
+
   }
 
   async canceledOrder() {
     this.translate.get(['Order is cancelled by the customer.'])
-    .subscribe(async text => {
-      const popup = await this.alertController.create({
-        header: text['Order is cancelled by the customer.'],
-  
-        buttons: [
-          {
-            text: 'Ok',
-            handler: () => {
-              this.accountService.userValue.isDrivingNow = false;
-  
-              this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, false)
-                .subscribe(() => {
-                  this.route.navigate(['menu/driving']);
-                }));
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          header: text['Order is cancelled by the customer.'],
+
+          buttons: [
+            {
+              text: 'Ok',
+              handler: () => {
+                this.accountService.userValue.isDrivingNow = false;
+
+                this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, false)
+                  .subscribe(() => {
+                    this.route.navigate(['menu/driving']);
+                  }));
+              }
             }
-          }
-        ]
-      });
-      await popup.present();
-    })
-    
+          ]
+        });
+        await popup.present();
+      })
+
   }
 
 
   async completeTripAlert() {
     this.translate.get(['Are you sure you want to finish the trip?', 'Yes', 'No'])
-    .subscribe(async text => {
-      const popup = await this.alertController.create({
-        cssClass: 'my-custom-class',
-        header: text['Are you sure you want to finish the trip?'],
-        //message: '<img src = "../assets/default.png" width="1px" height="1px">',
-  
-        buttons: [
-          {
-            text: text['Yes'],
-            role: 'cancel',
-            handler: () => {
-              this.subscriptions.push(this.tripService.completeTrip(this.currentTrip.id)
-              .subscribe(trip => {
-                if (trip) {
-                  this.tripStatus = trip.status;
-                }
-                this.subscriptions.push(this.orderService.completeOrder(this.currentTrip.orderId)
-                  .subscribe(() => { }));
-        
-                //trigger the driver's driving now property to false
-                let userId = this.accountService.userValue.id;
-                let value = this.accountService.userValue.isDrivingNow = false;
-        
-                this.subscriptions.push(this.accountService.updateDriving(userId, value)
-                  .subscribe());
-                this.isDrivingNow = this.accountService.userValue.isDrivingNow;
-                this.route.navigate(['menu/driving']);
-              }))
-        
-        
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: text['Are you sure you want to finish the trip?'],
+          //message: '<img src = "../assets/default.png" width="1px" height="1px">',
+
+          buttons: [
+            {
+              text: text['Yes'],
+              role: 'cancel',
+              handler: () => {
+                this.subscriptions.push(this.tripService.completeTrip(this.currentTrip.id)
+                  .subscribe(trip => {
+                    if (trip) {
+                      this.tripStatus = trip.status;
+                    }
+                    this.subscriptions.push(this.orderService.completeOrder(this.currentTrip.orderId)
+                      .subscribe(() => { }));
+
+                    //trigger the driver's driving now property to false
+                    let userId = this.accountService.userValue.id;
+                    let value = this.accountService.userValue.isDrivingNow = false;
+
+                    this.subscriptions.push(this.accountService.updateDriving(userId, value)
+                      .subscribe());
+                    this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+                    this.route.navigate(['menu/driving']);
+                  }))
+
+
+              }
+            },
+            {
+              text: text['No']
             }
-          },
-          {
-            text: text['No']
-          }
-        ]
-      });
-  
-      await popup.present();
-    })
-    
+          ]
+        });
+
+        await popup.present();
+      })
+
   }
 }
