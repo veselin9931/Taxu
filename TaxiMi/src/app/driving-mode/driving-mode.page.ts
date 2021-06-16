@@ -200,76 +200,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
     const userLatLng = { lat: this.order.locationLat, lng: this.order.locationLong };
     let userLat = +userLatLng.lat;
     let userLng = +userLatLng.lng;
-<<<<<<< .mine
-    directionsService.route(
-      {
-        origin: {
-          lat: myLatLng.lat,
-          lng: myLatLng.lng
-        },
-        destination: {
-          lat: userLat,
-          lng: userLng,
-        },
-        travelMode: google.maps.TravelMode.DRIVING,
-      },
-      (response, status) => {
-        if (status === "OK") {
-          this.subscriptions.push(this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
-            .subscribe(() => {
-              if (Capacitor.getPlatform() === 'ios') {
-                window.open(`http://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
-                console.log('ios platform')
-                directionsRenderer.setDirections(response);
-                this.isStarted = true;
-              }
-              if (Capacitor.platform == 'android') {
-                window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-                directionsRenderer.setDirections(response);
-                this.isStarted = true;
-              }
-              else {
-                window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-                directionsRenderer.setDirections(response);
-                this.isStarted = true;
-              }
-            }));
-=======
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> .theirs
-
+    
     this.subscriptions.push(this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
       .subscribe(() => {
         if (Capacitor.getPlatform() === 'ios') {
