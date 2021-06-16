@@ -56,6 +56,7 @@ export class CategoriesPage implements OnInit {
       this.getNormalCount();
       this.getComfortCount();
       this.getAllCount();
+      this.getSubOrderCount();
     });
     
     if (this.isDrivingNow == true) {

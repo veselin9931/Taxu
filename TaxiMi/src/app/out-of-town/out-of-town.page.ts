@@ -101,10 +101,74 @@ export class OutOfTownPage implements OnInit {
         connection.on('CreatedSubOrder', () => {
         });
 
+        connection.on('CancelSubOrder', (id) => {
+            this.subscriptions.push(this.subOrderService.getSubOrderByUserId(this.user.id)
+                .subscribe(x => {
+                    if (x.status == 'Waiting' && x.id == id) {
+                        console.log(x);
+                        this.subOrder = x;
+                        this.subOrder.isAccepted = false
+                        this.isAccepted = false
+                        this.isSubmitted = true;
+
+                    }
+
+                }));
+        });
+
+        connection.on('FinishSubOrder', (id) => {
+            
+            this.subOrder.isAccepted = false
+            this.isAccepted = false
+            this.isSubmitted = false;
+
+            this.clearForm();
+
+            
+        });
+
+        connection.on('AcceptSubOrder', (subOrderId) => {
+            this.subscriptions.push(this.subOrderService.getSubOrderByUserId(this.user.id)
+                .subscribe(x => {
+                    if (x) {
+                        console.log(x);
+                        this.subOrder = x;
+                        this.subOrder.isAccepted = x.acceptedBy != '';
+                        this.isAccepted = x.acceptedBy != '';
+                        this.isSubmitted = true;
+
+                        if (this.subOrder.isAccepted) {
+                            if (this.subOrder.id == subOrderId) {
+                                this.accountService.getById(this.subOrder.acceptedBy).subscribe(
+                                    d => {
+                                        let dr = d;
+                                        this.driver = dr;
+                                        console.log(this.driver);
+                                    }
+                                );
+                            }
+                           
+                        }
+                    }
+
+                }));
+        });
+
         this.getMyOptions();
 
     }
 
+    clearForm() {
+        this.form.reset({
+            applicationUserId: this.user.id,
+            status: 'Waiting',
+            info: '',
+            date: '',
+            time: '',
+            optionsId: 0,
+            acceptedBy: ''
+        })
+    }
 
     getMyOptions() {
         this.subscriptions.push(this.optionService.getOptions()

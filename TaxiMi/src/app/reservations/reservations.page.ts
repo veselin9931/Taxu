@@ -1,8 +1,12 @@
+import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import * as signalR from '@aspnet/signalr';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { PopoverController } from '@ionic/angular';
 import { sub } from 'date-fns/esm/fp';
 import { Subscription } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { SubOrder } from '../../_models/suborder';
 import { SubOrderOpt } from '../../_models/suporder-opt';
 import { AccountService } from '../../_services';
@@ -22,7 +26,9 @@ export class ReservationsPage implements OnInit {
         private accountService: AccountService,
         private subOrderService: SuborderService,
         private optionsService: OptionsService,
-        private callNumber: CallNumber)
+        private callNumber: CallNumber,
+        private route: Router,
+    )
     { }
 
     public options;
@@ -43,8 +49,38 @@ export class ReservationsPage implements OnInit {
         this.getSubOrderByStatusAccepted('Accepted');
         this.getSubOrderByStatusProgress('InProgress');
 
-        console.log(this.progressOrders)
-   
+
+        const connection = new signalR.HubConnectionBuilder()
+            .configureLogging(signalR.LogLevel.Information)
+            .withUrl(`${environment.signalRUrl}/orderHub`)
+            .build();
+
+        connection.start().then(function () {
+            console.log('signalR Connected in travelling');
+        }).catch(function (err) {
+            return console.log(err);
+        });
+
+        connection.on('InProgressSubOrder', (id) => {
+            this.getSubOrderByStatusAccepted('Accepted');
+            this.getSubOrderByStatusProgress('InProgress');
+        });
+
+        connection.on('FinishSubOrder', (id) => {
+            this.getSubOrderByStatusAccepted('Accepted');
+            this.getSubOrderByStatusProgress('InProgress');
+        });
+
+        connection.on('OrderDeleted', (id) => {
+            this.getSubOrderByStatusAccepted('Accepted');
+            this.getSubOrderByStatusProgress('InProgress');
+        });
+
+        connection.on('AcceptSubOrder', (id) => {
+            this.getSubOrderByStatusAccepted('Accepted');
+            this.getSubOrderByStatusProgress('InProgress');
+        });
+
     }
 
 
@@ -55,14 +91,12 @@ export class ReservationsPage implements OnInit {
                     return;
                 }
 
-                console.log(data, "Data");
+                console.log(data, "Progress");
                 this.progressOrders = data.filter(o => o.acceptedBy == this.accountService.userValue.id);
-                console.log(this.progressOrders, "AfterFilter");
                 this.progressOrders.forEach(o => {
                     let id = o.optionsId;
                     this.optionsService.getOptionById(id).subscribe(data => {
                         let opt: SubOrderOpt = data;
-
                         o.location = opt.location
                         o.destination = opt.destination
 
@@ -78,14 +112,12 @@ export class ReservationsPage implements OnInit {
                     return;
                 }
 
-                console.log(data, "Data");
+                console.log(data, "Accepted");
                 this.mySubOrders = data.filter(o => o.acceptedBy == this.accountService.userValue.id);
-                console.log(this.mySubOrders, "AfterFilter");
                 this.mySubOrders.forEach(o => {
                     let id = o.optionsId;
                     this.optionsService.getOptionById(id).subscribe(data => {
                         let opt: SubOrderOpt = data;
-
                         o.location = opt.location
                         o.destination = opt.destination
 
@@ -93,34 +125,12 @@ export class ReservationsPage implements OnInit {
                 })
             }));
     }
-    acceptByUser(subOrder: SubOrder) {
 
-        console.log(subOrder);
-        this.subscriptions.push(this.subOrderService.editStatus(subOrder.id, { acceptedBy: this.accountService.userValue.id, status: 'InProgress' })
+    acceptByUser(orderid) {
+        this.subscriptions.push(this.subOrderService.inProgressSubOrders(orderid)
             .subscribe(data => {
                 if (data) {
-                    this.subscriptions.push(this.subOrderService.getAllSubOrders('InProgress')
-                        .subscribe(data => {
-                            if (data == null) {
-                                return;
-                            }
-
-                            console.log(data);
-                            this.subOrders = data;
-                            this.progressOrders = this.subOrders.filter(o => o.acceptedBy === this.accountService.userValue.id);
-
-                            this.mySubOrders.forEach(o => {
-                                let id = o.optionsId;
-                                this.optionsService.getOptionById(id).subscribe(data => {
-                                    let opt: SubOrderOpt = data;
-
-                                    o.location = opt.location
-                                    o.destination = opt.destination
-
-                                });
-                            })
-
-                        })); 
+                    this.getSubOrderByStatusProgress('InProgress');
                 }
 
 
@@ -128,10 +138,10 @@ export class ReservationsPage implements OnInit {
     }
 
     cancelOrder(subOrder: SubOrder) {
-        this.subscriptions.push(this.subOrderService.editStatus(subOrder.id, { acceptedBy: '', status: 'Waiting' })
+        this.subscriptions.push(this.subOrderService.refuseSubOrder(subOrder.id)
             .subscribe(data => {
                 if (data) {
-
+                    this.route.navigate(['menu/categories'])
                 }
 
 
@@ -139,7 +149,7 @@ export class ReservationsPage implements OnInit {
     }
 
     closeOrder(subOrder: SubOrder) {
-        this.subscriptions.push(this.subOrderService.editStatus(subOrder.id, { acceptedBy: this.user.id, status: 'Canceled' })
+        this.subscriptions.push(this.subOrderService.closedSubOrder(subOrder.id)
             .subscribe(data => {
                 if (data) {
                     this.subOrderService.deleteOrder(subOrder.id).subscribe(data => {
@@ -148,8 +158,6 @@ export class ReservationsPage implements OnInit {
                         }
                     })
                 }
-
-
             }))
     }
 

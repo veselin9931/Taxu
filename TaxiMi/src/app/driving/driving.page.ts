@@ -81,10 +81,6 @@ export class DrivingPage implements OnInit {
     connection.on('OrderDeleted', () => {
       this.getData();
     });
-
-    connection.on('OrderAccepted', () => {
-      this.getData();
-    });
   }
 
   ionViewDidEnter() {

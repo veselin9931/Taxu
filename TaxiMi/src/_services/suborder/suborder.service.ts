@@ -23,6 +23,37 @@ export class SuborderService {
             );
     }
 
+    refuseSubOrder(orderId: string) {
+        const headers = this.sharedService.headerGerneration();
+        return this.http.put(`${environment.apiUrl}/api/suborder/refuse/${orderId}`, { status: "Waiting" }, { headers })
+            .pipe(
+                catchError(this.handleError)
+            );
+    }
+    closedSubOrder(orderId) {
+        const headers = this.sharedService.headerGerneration();
+        return this.http.put(`${environment.apiUrl}/api/suborder/closed/${orderId}`, {status: "Canceled"}, { headers })
+            .pipe(
+                catchError(this.handleError)
+            );
+    }
+
+    acceptedSubOrders(orderId: string) {
+        const headers = this.sharedService.headerGerneration();
+        return this.http.put(`${environment.apiUrl}/api/suborder/accepted/${orderId}`, { status: "Accepted" }, { headers })
+            .pipe(
+                catchError(this.handleError)
+            );
+    }
+
+    inProgressSubOrders(orderId: string) {
+        const headers = this.sharedService.headerGerneration();
+        return this.http.put(`${environment.apiUrl}/api/suborder/inProgress/${orderId}`, { status: "InProgress" }, { headers })
+            .pipe(
+                catchError(this.handleError)
+            );
+    }
+
     getSubOrderByUserId(userId: string) {
         const headers = this.sharedService.headerGerneration();
         return this.http.get<SubOrder>(`${environment.apiUrl}/api/suborder/user/${userId}`, { headers })

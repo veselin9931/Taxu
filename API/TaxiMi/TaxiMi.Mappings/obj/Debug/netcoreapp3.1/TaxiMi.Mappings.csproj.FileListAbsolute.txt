@@ -7,3 +7,12 @@ C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\obj\Debug\netcoreapp3.1\TaxiMi.Mappings.Ass
 C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\obj\Debug\netcoreapp3.1\TaxiMi.Mappings.csproj.CoreCompileInputs.cache
 C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\obj\Debug\netcoreapp3.1\TaxiMi.Mappings.dll
 C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\obj\Debug\netcoreapp3.1\TaxiMi.Mappings.pdb
+C:\Taxu\API\TaxiMi\TaxiMi.Mappings\bin\Debug\netcoreapp3.1\TaxiMi.Mappings.deps.json
+C:\Taxu\API\TaxiMi\TaxiMi.Mappings\bin\Debug\netcoreapp3.1\TaxiMi.Mappings.dll
+C:\Taxu\API\TaxiMi\TaxiMi.Mappings\bin\Debug\netcoreapp3.1\TaxiMi.Mappings.pdb
+C:\Taxu\API\TaxiMi\TaxiMi.Mappings\obj\Debug\netcoreapp3.1\TaxiMi.Mappings.csprojAssemblyReference.cache
+C:\Taxu\API\TaxiMi\TaxiMi.Mappings\obj\Debug\netcoreapp3.1\TaxiMi.Mappings.AssemblyInfoInputs.cache
+C:\Taxu\API\TaxiMi\TaxiMi.Mappings\obj\Debug\netcoreapp3.1\TaxiMi.Mappings.AssemblyInfo.cs
+C:\Taxu\API\TaxiMi\TaxiMi.Mappings\obj\Debug\netcoreapp3.1\TaxiMi.Mappings.csproj.CoreCompileInputs.cache
+C:\Taxu\API\TaxiMi\TaxiMi.Mappings\obj\Debug\netcoreapp3.1\TaxiMi.Mappings.dll
+C:\Taxu\API\TaxiMi\TaxiMi.Mappings\obj\Debug\netcoreapp3.1\TaxiMi.Mappings.pdb

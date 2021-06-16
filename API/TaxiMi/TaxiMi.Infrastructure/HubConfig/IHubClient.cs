@@ -46,5 +46,13 @@ namespace TaxiMi.Infrastructure.HubConfig
         Task OrderDeleted(string orderId);
 
         Task MessageReceived(string user, string message);
+
+        Task CancelSubOrder(string subOrderId);
+
+        Task AcceptSubOrder(string subOrderId);
+
+        Task InProgressSubOrder(string subOrderId);
+
+        Task FinishSubOrder(string subOrderId);
     }
 }

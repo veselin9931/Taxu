@@ -36,9 +36,13 @@ namespace TaxiMi.Controllers
 
         // GET: api/<SubOrderController>
         [HttpGet("status/{status}")]
-        public async Task<IEnumerable<SuburbanOrder>> GetAll(string status) => 
-            await this.subOrderService.GetAllSubOrdersAsync(status);
+        public async Task<IEnumerable<SuburbanOrder>> GetAll(string status)
+        {
+            var r = await this.subOrderService.GetAllSubOrdersAsync(status);
+            await this.hub.Clients.All.BroadcastMessage();
 
+            return r;
+        }
 
         // GET api/<SubOrderController>/5
         [HttpGet("options")]
@@ -118,6 +122,7 @@ namespace TaxiMi.Controllers
                     Info = order.Info,
                     Price = this.orderOptionService.GetOrderOptionPriceById(order.OptionsId),
                     AcceptedBy = order.AcceptedBy,
+                    Status = order.Status
                 };
             }
 
@@ -133,10 +138,68 @@ namespace TaxiMi.Controllers
 
             if (r)
             {
+                await this.hub.Clients.All.AcceptSubOrder(id);
                 return this.Ok(r);
             }
 
            return this.BadRequest(r);
+        }
+
+        [HttpPut("accepted/{id}")]
+        public async Task<IActionResult> Accepted(string id, [FromBody] ChangeSubOrderInputModel inputModel)
+        {
+            var r = await this.subOrderService.ChangeSubOrderStatusAsync(id, inputModel);
+
+            if (r)
+            {
+                await this.hub.Clients.All.AcceptSubOrder(id);
+                return this.Ok(r);
+            }
+
+            return this.BadRequest(r);
+        }
+
+
+        [HttpPut("refuse/{id}")]
+        public async Task<IActionResult> Refuse(string id, [FromBody] ChangeSubOrderInputModel inputModel)
+        {
+            var r = await this.subOrderService.ChangeSubOrderStatusAsync(id, inputModel);
+
+            if (r)
+            {
+                await this.hub.Clients.All.CancelSubOrder(id);
+                return this.Ok(r);
+            }
+
+            return this.BadRequest(r);
+        }
+
+        [HttpPut("closed/{id}")]
+        public async Task<IActionResult> Closed(string id, [FromBody] ChangeSubOrderInputModel inputModel)
+        {
+            var r = await this.subOrderService.ChangeSubOrderStatusAsync(id, inputModel);
+
+            if (r)
+            {
+                await this.hub.Clients.All.FinishSubOrder(id);
+                return this.Ok(r);
+            }
+
+            return this.BadRequest(r);
+        }
+
+        [HttpPut("inProgress/{id}")]
+        public async Task<IActionResult> InProgress(string id, [FromBody] ChangeSubOrderInputModel inputModel)
+        {
+            var r = await this.subOrderService.ChangeSubOrderStatusAsync(id, inputModel);
+
+            if (r)
+            {
+                await this.hub.Clients.All.InProgressSubOrder(id);
+                return this.Ok(r);
+            }
+
+            return this.BadRequest(r);
         }
 
         // DELETE api/<SubOrderController>/5
@@ -145,8 +208,9 @@ namespace TaxiMi.Controllers
         {
             try
             {
+               
                 bool result = await this.subOrderService.Delete(orderId);
-
+          
                 return this.Ok(result);
             }
             catch (Exception e)

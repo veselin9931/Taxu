@@ -10,3 +10,15 @@ C:\TaxiMi\API\TaxiMi\TaxiMi.Models\obj\Debug\netcoreapp3.1\TaxiMi.Models.csproj.
 C:\TaxiMi\API\TaxiMi\TaxiMi.Models\obj\Debug\netcoreapp3.1\TaxiMi.Models.csproj.CopyComplete
 C:\TaxiMi\API\TaxiMi\TaxiMi.Models\obj\Debug\netcoreapp3.1\TaxiMi.Models.dll
 C:\TaxiMi\API\TaxiMi\TaxiMi.Models\obj\Debug\netcoreapp3.1\TaxiMi.Models.pdb
+C:\Taxu\API\TaxiMi\TaxiMi.Models\bin\Debug\netcoreapp3.1\TaxiMi.Models.deps.json
+C:\Taxu\API\TaxiMi\TaxiMi.Models\bin\Debug\netcoreapp3.1\TaxiMi.Models.dll
+C:\Taxu\API\TaxiMi\TaxiMi.Models\bin\Debug\netcoreapp3.1\TaxiMi.Models.pdb
+C:\Taxu\API\TaxiMi\TaxiMi.Models\bin\Debug\netcoreapp3.1\TaxiMi.Common.dll
+C:\Taxu\API\TaxiMi\TaxiMi.Models\bin\Debug\netcoreapp3.1\TaxiMi.Common.pdb
+C:\Taxu\API\TaxiMi\TaxiMi.Models\obj\Debug\netcoreapp3.1\TaxiMi.Models.csprojAssemblyReference.cache
+C:\Taxu\API\TaxiMi\TaxiMi.Models\obj\Debug\netcoreapp3.1\TaxiMi.Models.AssemblyInfoInputs.cache
+C:\Taxu\API\TaxiMi\TaxiMi.Models\obj\Debug\netcoreapp3.1\TaxiMi.Models.AssemblyInfo.cs
+C:\Taxu\API\TaxiMi\TaxiMi.Models\obj\Debug\netcoreapp3.1\TaxiMi.Models.csproj.CoreCompileInputs.cache
+C:\Taxu\API\TaxiMi\TaxiMi.Models\obj\Debug\netcoreapp3.1\TaxiMi.Models.csproj.CopyComplete
+C:\Taxu\API\TaxiMi\TaxiMi.Models\obj\Debug\netcoreapp3.1\TaxiMi.Models.dll
+C:\Taxu\API\TaxiMi\TaxiMi.Models\obj\Debug\netcoreapp3.1\TaxiMi.Models.pdb
