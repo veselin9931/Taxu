@@ -2858,7 +2858,10 @@
         },
         "runtime": {
           "bin/placeholder/TaxiMi.Data.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "TaxiMi.Infrastructure/1.0.0": {
         "type": "project",
@@ -2928,7 +2931,10 @@
         },
         "runtime": {
           "bin/placeholder/TaxiMi.Services.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -4589,12 +4595,11 @@
       ]
     },
     "runtime.native.System.IO.Compression/4.3.0": {
-      "sha512": "INBPonS5QPEgn7naufQFXJEp3zX6L4bwHgJ/ZH78aBTpeNfQMtf7C6VrAFhlq2xxWBveIOWyFzQjJ8XzHMhdOQ==",
+      "sha512": "b+V9JC/Ii3sR659flBeaBJww111425tgjcDS1k+hqV4sGh9FALRDBvJnDtQ895gAzpPTUOFDHdqaZ2Et7BpZMg==",
       "type": "package",
       "path": "runtime.native.system.io.compression/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -5005,12 +5010,11 @@
       ]
     },
     "System.Collections.NonGeneric/4.3.0": {
-      "sha512": "prtjIEMhGUnQq6RnPEYLpFt8AtLbp9yq2zxOSrY7KJJZrw25Fi97IzBqY7iqssbM61Ek5b8f3MG/sG1N2sN5KA==",
+      "sha512": "LE/oChpRvkSi3U25u0KnJcI44JeDZ1QJCyN4qFDx2uusEypdqR24w7lKYw21eYe5esuCBuc862wRmpF63Yy1KQ==",
       "type": "package",
       "path": "system.collections.nongeneric/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -5271,12 +5275,11 @@
       ]
     },
     "System.ComponentModel.TypeConverter/4.3.0": {
-      "sha512": "16pQ6P+EdhcXzPiEK4kbA953Fu0MNG2ovxTZU81/qsCd1zPRsKc3uif5NgvllCY598k6bI0KUyKW8fanlfaDQg==",
+      "sha512": "HZiP0DwTHJ+C+rdFqP47nBYUh5283kcwXIGY2zOVVhsJmVI/2tYiX2zNRdjRQRHsTox58Ydkec6h0pWSh8wAsw==",
       "type": "package",
       "path": "system.componentmodel.typeconverter/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8881,12 +8884,11 @@
       ]
     },
     "System.Threading.ThreadPool/4.3.0": {
-      "sha512": "k/+g4b7vjdd4aix83sTgC9VG6oXYKAktSfNIJUNGxPEj7ryEOfzHHhfnmsZvjxawwcD9HyWXKCXmPjX8U4zeSw==",
+      "sha512": "SrCOmTvvOOCmJT4BBxdZcwhz6XEMsjBGZvGSVorOxdCznaUNeVotEjDfXGIZ8gcGo00qgPbTV6puHDgcFYl6Iw==",
       "type": "package",
       "path": "system.threading.threadpool/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9294,28 +9296,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\malek\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\Veselin Georgiew\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi\\TaxiMi.csproj",
+      "projectUniqueName": "C:\\Taxu\\API\\TaxiMi\\TaxiMi\\TaxiMi.csproj",
       "projectName": "TaxiMi",
-      "projectPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi\\TaxiMi.csproj",
-      "packagesPath": "C:\\Users\\malek\\.nuget\\packages\\",
-      "outputPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi\\obj\\",
+      "projectPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi\\TaxiMi.csproj",
+      "packagesPath": "C:\\Users\\Veselin Georgiew\\.nuget\\packages\\",
+      "outputPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\malek\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\Veselin Georgiew\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -9328,11 +9326,11 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj": {
-              "projectPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj"
+            "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj": {
+              "projectPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj"
             },
-            "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Services\\TaxiMi.Services.csproj": {
-              "projectPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Services\\TaxiMi.Services.csproj"
+            "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Services\\TaxiMi.Services.csproj": {
+              "projectPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Services\\TaxiMi.Services.csproj"
             }
           }
         }
@@ -9393,7 +9391,7 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[3.1.15, 3.1.15]"
+            "version": "[3.1.14, 3.1.14]"
           }
         ],
         "frameworkReferences": {
@@ -9404,7 +9402,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   },
