@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    
+
+    <ion-title>
+        <ion-label>{{'Choose starting point' | translate}}</ion-label>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+  
+</ion-header>
+<ion-item>
+  <ion-input id="searchTextField" type="text" [placeholder]='"Search location" | translate' clearInput></ion-input>
+</ion-item>
+<ion-content class="noScroll">
+  <div #map id="map"></div>
+  <div #marker id="marker"></div>
+  
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="text-center">
+    <!-- <ion-title>Choosen location</ion-title> -->
+    <button (click)="onSubmit()" class="btn btn-info text-center">{{'Take me from here' | translate}}</button>
+    
+  </ion-toolbar>
+</ion-footer>
+
+<ion-footer>
+  <ion-toolbar class="text-center">
+    <p>{{address}}</p>
+  </ion-toolbar>
+
+  
+</ion-footer>

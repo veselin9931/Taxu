@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title *ngIf="isDrivingNow == false">
+        <!-- <ion-label>{{'Orders' | translate}}</ion-label> -->
+        <ion-label>{{'Categories' | translate}}</ion-label>
+
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="background">
+  <div class="row mt-2 text-center">
+    <div class="col-md-12">
+      <ion-list>
+        <ion-item (click)='all()'>
+          <ion-label>{{'All' | translate}}</ion-label>
+          <ion-chip>{{allCount}}</ion-chip>
+        </ion-item>
+        <ion-item (click)='closest()'>
+          <ion-label>{{'Closest' | translate}}</ion-label>
+          <ion-chip *ngIf="driverService.categoryCloseCount != null">{{driverService.categoryCloseCount}}</ion-chip>
+          <ion-chip *ngIf="driverService.categoryCloseCount == undefined">{{allCount}}</ion-chip>
+        </ion-item>
+        <ion-item (click)='normal()'>
+          <ion-label>{{'Normal' | translate}}</ion-label>
+          <ion-chip>{{normalCount}}</ion-chip>
+        </ion-item>
+        <ion-item (click)='comfort()'>
+          <ion-label>{{'Comfort' | translate}}</ion-label>
+          <ion-chip>{{comfortCount}}</ion-chip>
+        </ion-item>
+        <ion-item (click)='outOfTown()'>
+          <ion-label>{{'Out of town' | translate}}</ion-label>
+          <ion-chip>{{subOrderCount}}</ion-chip>
+        </ion-item>
+        <ion-item (click)='booked()'>
+          <ion-label>{{'Booked' | translate}}</ion-label>
+          <ion-chip>0</ion-chip>
+        </ion-item>
+      </ion-list>
+    </div>
+    
+    
+    </div>
+
+
+</ion-content>

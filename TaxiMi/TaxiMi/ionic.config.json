@@ -1,0 +1,9 @@
+{
+  "name": "csharpcornerauthor",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "e08cbaa7"
+}

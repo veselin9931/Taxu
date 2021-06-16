@@ -1,0 +1,28 @@
+.active-item{
+    border-left: 8px solid var(--ion-color-primary);
+}
+
+ion-toolbar{
+    --ion-background-color:#eeeeee;
+}
+
+ion-menu{
+    //--background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+    --ion-background-color:#e9e9e9;
+
+}
+
+ion-content ion-toolbar {
+    margin: 10px 0;
+  }
+  #toolbarIcon{
+    font-size: 1.7em;
+}
+  ion-title{
+      text-align: center;
+  }
+
+.my-label{
+    font-family: Open Sans Light;
+    font-size: 1.2em;
+}
