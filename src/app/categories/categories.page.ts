@@ -109,7 +109,7 @@ export class CategoriesPage implements OnInit {
     }
 
     getSubOrderCount() {
-        this.subscriptions.push(this.subOrderService.getAllSubOrders()
+        this.subscriptions.push(this.subOrderService.getAllSubOrders('Waiting')
             .subscribe(x => this.subOrderCount = x.length))
     }
 

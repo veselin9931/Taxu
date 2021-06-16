@@ -13,4 +13,6 @@ export class SubOrder {
     createdOn: Date;
     location: string;
     destination: string;
+    isAccepted: boolean;
+    IsInProgress: boolean;
 }

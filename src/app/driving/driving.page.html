@@ -51,10 +51,17 @@
                         <a class="text list-group-item list-group-item-action flex-column align-items-start">
                             <div class="d-flex w-100 justify-content-between">
                                 <small>{{subOrder.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
-                                <small><i class="far fa-calendar"></i> {{subOrder.date}}</small>
+                                <small><i class="fa fa-calendar"></i> {{subOrder.date}}</small>
                             </div>
-                            
+
                             <h4 class="mt-1 text-center ">{{subOrder.location}} <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon> {{subOrder.destination}}</h4>
+                            <hr />
+                            <div class="row pl-3">
+                                <p>{{subOrder.info}}</p><br />
+                            </div>
+                            <div class="row pl-3">
+                               <p><ion-icon name="person"></ion-icon>  {{subOrder.applicationUser.firstName}}  {{subOrder.applicationUser.lastName}} </p>
+                            </div>
                             <div class="d-flex w-100 justify-content-between">
                                 <button class="fonted btn btn-info" (click)="acceptSubOrder(subOrder)" type="button">{{'Accept' | translate}}</button>
                             </div>

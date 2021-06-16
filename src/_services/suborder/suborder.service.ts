@@ -15,9 +15,9 @@ export class SuborderService {
 
     constructor(private http: HttpClient, private sharedService: SharedService) { }
 
-    getAllSubOrders() {
+    getAllSubOrders(status: string) {
         const headers = this.sharedService.headerGerneration();
-        return this.http.get<SubOrder[]>(`${environment.apiUrl}/api/suborder`, { headers })
+        return this.http.get<SubOrder[]>(`${environment.apiUrl}/api/suborder/status/${status}`, { headers })
             .pipe(
                 catchError(this.handleError)
             );

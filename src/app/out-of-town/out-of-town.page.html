@@ -45,8 +45,13 @@
         </ion-item>
     </form>
 
+ 
+        <div *ngIf="!isAccepted" class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            A guide has been found. Please wait for a call for details.
+        </div>
 
-    <div *ngIf="isSubmitted" id="order" class="col-md-10 pt-2">
+    <div *ngIf="isSubmitted" id="order" class="col-md-10 ">
         <div class="list-group mt-2">
             <a class="text list-group-item list-group-item-action flex-column align-items-start">
                 <p id="warningicn"> <ion-icon name="alert-circle"></ion-icon>  Date: {{subOrder.date}}</p>
@@ -59,7 +64,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p *ngIf="subOrder.info">{{'Additional requirements' | translate}}:</p>
+                        <p *ngIf="subOrder.info">Info: {{'Additional requirements' | translate}}:</p>
                         <p>
                             {{subOrder.info}}
                         </p>
@@ -70,10 +75,8 @@
                         <p *ngIf="subOrder.info">{{'Price' | translate}}: {{subOrder.price}} BNG</p>
 
                     </div>
+                    <button *ngIf="isAccepted" class="mr-2 btn btn-danger fonted" (click)="cancelOrder()"> {{'Cancel'| translate}} </button>
 
-                    <button *ngIf="subOrder" class="mr-2 btn btn-danger fonted" (click)="cancelOrder()"> {{'Cancel'| translate}} </button>
-
-                   
                 </div>
 
             </a>
