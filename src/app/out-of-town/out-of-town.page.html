@@ -1,68 +1,68 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
 
-        <ion-title>
-            <ion-label>{{'Out of town' | translate}}</ion-label>
-        </ion-title>
+    <ion-title>
+      <ion-label>{{'Out of town' | translate}}</ion-label>
+    </ion-title>
 
-        <ion-buttons slot="end">
-            <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
-        </ion-buttons>
-    </ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
     <form *ngIf="!isSubmitted" [formGroup]="form" novalidate class="col pt-4">
         <ion-item>
-            <ion-label>{{'Trip' | translate}}</ion-label>
+            <ion-label>Trip</ion-label>
             <ion-select formControlName="optionsId">
-                <ion-select-option *ngFor="let option of options" value="{{option.id}}">{{option.location}} -->
-                    {{option.destination}} | {{option.totalPrice}} BGN</ion-select-option>
+                <ion-select-option *ngFor="let option of options" value="{{option.id}}">{{option.location}} --> {{option.destination}} | {{option.totalPrice}} BGN</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item>
-            <ion-label>{{'Date' | translate}}</ion-label>
-            <ion-datetime displayFormat="MM-DD" [placeholder]='"Select date" | translate' formControlName="date" #myt
-                [pickerOptions]="customPickerOptions"></ion-datetime>
+            <ion-label>Data</ion-label>
+            <ion-datetime displayFormat="MM-DD"
+                          placeholder="Select date"
+                          formControlName="date"
+                          #myt
+                          [pickerOptions]="customPickerOptions"></ion-datetime>
         </ion-item>
         <ion-item>
-            <ion-label>{{'Time' | translate}}</ion-label>
-            <ion-datetime displayFormat="HH:mm" [placeholder]='"Select time" | translate' formControlName="time" #myd
-                [pickerOptions]="customPickerOptions"></ion-datetime>
+            <ion-label>Time</ion-label>
+            <ion-datetime displayFormat="HH:mm"
+                          placeholder="time"
+                          formControlName="time"
+                          #myd
+                          [pickerOptions]="customPickerOptions"></ion-datetime>
         </ion-item>
         <ion-item>
-            <ion-label position="floating">{{'Additional information' | translate}}</ion-label>
+            <ion-label position="floating">Info</ion-label>
             <ion-input formControlName="info"></ion-input>
         </ion-item>
     </form>
 
-<<<<<<< HEAD
-
-    <div *ngIf="!isAccepted" class="alert">
-        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        {{'A driver has been found. Please wait for a call for details.' | translate}}
-    </div>
-=======
  
+<<<<<<< HEAD
         <div *ngIf="isAccepted" class="alert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             A guide has been found. Please wait a call for details.
+=======
+        <div *ngIf="!isAccepted" class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            A guide has been found. Please wait for a call for details.
+>>>>>>> parent of b5f0f33 (фгд)
         </div>
->>>>>>> ddd42d48d15711b0719fc14745438b3740f4f5ea
 
     <div *ngIf="isSubmitted" id="order" class="col-md-10 ">
         <div class="list-group mt-2">
             <a class="text list-group-item list-group-item-action flex-column align-items-start">
-                <p id="warningicn">
-                    <ion-icon name="alert-circle"></ion-icon> {{'Date' | translate}}: {{subOrder.date}}
-                </p>
+                <p id="warningicn"> <ion-icon name="alert-circle"></ion-icon>  Date: {{subOrder.date}}</p>
                 <div class="text-center">
-                    <h4> {{subOrder.location}} <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>
-                        {{subOrder.destination}}</h4>
+                    <h4> {{subOrder.location}} <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{subOrder.destination}}</h4>
                 </div>
                 <hr />
                 <div class="d-flex w-100 justify-content-between">
@@ -70,7 +70,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p *ngIf="subOrder.info">{{'Additional information' | translate}}: {{'Additional requirements' | translate}}:</p>
+                        <p *ngIf="subOrder.info">Info: {{'Additional requirements' | translate}}:</p>
                         <p>
                             {{subOrder.info}}
                         </p>
@@ -82,9 +82,7 @@
                         <p *ngIf="subOrder.info">{{'Price' | translate}}: {{subOrder.price}} BNG</p>
 
                     </div>
-
-
-                    <button *ngIf="!isAccepted" class="mr-2 btn btn-danger fonted" (click)="cancelOrder()"> {{'Cancel'| translate}} </button>
+                    <button *ngIf="isAccepted" class="mr-2 btn btn-danger fonted" (click)="cancelOrder()"> {{'Cancel'| translate}} </button>
 
                 </div>
 
@@ -94,14 +92,14 @@
 
     <div *ngIf="!isSubmitted" class="row text-center pt-4 pb-3">
         <div class="col-md-12">
-            <button [disabled]="isSubmitted" type="button" (click)="onSubmit()" class="mt-1 btn btn-warning fonted">
+            <button [disabled]="isSubmitted" type="button"
+                    (click)="onSubmit()" class="mt-1 btn btn-warning fonted">
                 {{'Make a order'| translate}}
                 <span *ngIf="isSubmitted" class="spinner-border spinner-border-sm mr-1"></span>
             </button>
         </div>
     </div>
 
-<<<<<<< HEAD
 </ion-content>
 
 
@@ -113,10 +111,11 @@
             <div class="col">
                 <div class="d-flex w-100 justify-content-between">
                     <button *ngIf="isCompleted == true" class="ml-3 btn btn-info fonted">
-                        {{'Cost'| translate'}} : {{orderTotalPrice | number : '1.2-2'}} лв.
+                        {{'Cost'| translate'}} : {{orderTotalPrice |  number : '1.2-2'}} ��.
                     </button>
 
-                    <button *ngIf="isCompleted == true" class="mr-3 btn btn-danger fonted">
+                    <button *ngIf="isCompleted == true" class="mr-3 btn btn-danger fonted"
+                            >
                         {{'Cancel'| translate}}
                     </button>
                 </div>
@@ -127,6 +126,3 @@
 
     </ion-toolbar>
 </ion-footer>
-=======
-</ion-content>
->>>>>>> ddd42d48d15711b0719fc14745438b3740f4f5ea

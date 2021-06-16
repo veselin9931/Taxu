@@ -161,11 +161,5 @@
   "Choose": "Choose",
   "Choose time for your travel" : "Choose time for your travel",
   "Time":"Time",
-  "Pickup time": "Pickup time",
-  "Trip":"Trip",
-  "Date": "Date",
-  "Select date" : "Select date",
-  "Select time": "Select time",
-  "Additional information": "Additional information",
-  "A driver has been found. Please wait for a call for details.": "A driver has been found. Please wait for a call for details."
+  "Pickup time": "Pickup time"
 }
