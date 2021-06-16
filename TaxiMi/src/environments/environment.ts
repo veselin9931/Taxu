@@ -6,12 +6,12 @@ export const environment = {
    production: false,
    //  apiUrl: 'https://taksito.azurewebsites.net',
    //  signalRUrl: 'https://taksito.azurewebsites.net',
-   //apiUrl: 'https://localhost:44377',
-   //signalRUrl: 'https://localhost:44377',
+   apiUrl: 'https://localhost:44377',
+   signalRUrl: 'https://localhost:44377',
       
 
-   apiUrl: 'https://cyber.api.mycybercab.com',
-   signalRUrl: 'https://cyber.api.mycybercab.com',
+   //apiUrl: 'https://cyber.api.mycybercab.com',
+   //signalRUrl: 'https://cyber.api.mycybercab.com',
    // apiUrl: 'http://192.168.0.4:3000',
    // signalRUrl: 'http://192.168.0.4:3000',
 

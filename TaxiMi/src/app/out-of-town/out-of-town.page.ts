@@ -36,6 +36,7 @@ export class OutOfTownPage implements OnInit {
     status = '';
     isSubmitted = false;
     isCompleted = false;
+    isAccepted = false;
 
     constructor(private popoverController: PopoverController,
         private optionService: OptionsService,
@@ -51,27 +52,7 @@ export class OutOfTownPage implements OnInit {
             this.isLoggedIn = true;
         }
 
-        this.subscriptions.push(this.subOrderService.getSubOrderByUserId(this.user.id)
-            .subscribe(x => {
-                if (x) {
-                    console.log(x);
-                    this.subOrder = x;
-                    this.subOrder.isAccepted = x.acceptedBy != '';
-                    this.isSubmitted = true;
-
-                    if (this.subOrder.isAccepted) {
-
-                        this.accountService.getById(this.subOrder.acceptedBy).subscribe(
-                            d => {
-                                let dr = d;
-                                this.driver = dr;
-                            }
-                        );
-                    }
-                }
-                
-            }));
-
+       
         this.form = this.formBuilder.group({
             applicationUserId: this.user.id,
             status: 'Waiting',
@@ -81,6 +62,30 @@ export class OutOfTownPage implements OnInit {
             optionsId: '',
             acceptedBy: ''
         })
+
+        this.subscriptions.push(this.subOrderService.getSubOrderByUserId(this.user.id)
+            .subscribe(x => {
+                if (x) {
+                    console.log(x);
+                    this.subOrder = x;
+                    this.subOrder.isAccepted = x.acceptedBy != '';
+                    this.isAccepted = x.acceptedBy != '';
+                    this.isSubmitted = true;
+
+                    if (this.subOrder.isAccepted) {
+
+                        this.accountService.getById(this.subOrder.acceptedBy).subscribe(
+                            d => {
+                                let dr = d;
+                                this.driver = dr;
+
+                                console.log(this.driver);
+                            }
+                        );
+                    }
+                }
+
+            }));
 
         const connection = new signalR.HubConnectionBuilder()
             .configureLogging(signalR.LogLevel.Information)

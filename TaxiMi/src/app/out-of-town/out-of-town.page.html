@@ -40,11 +40,19 @@
         </ion-item>
     </form>
 
+<<<<<<< HEAD
 
     <div *ngIf="!isAccepted" class="alert">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
         {{'A driver has been found. Please wait for a call for details.' | translate}}
     </div>
+=======
+ 
+        <div *ngIf="isAccepted" class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            A guide has been found. Please wait a call for details.
+        </div>
+>>>>>>> ddd42d48d15711b0719fc14745438b3740f4f5ea
 
     <div *ngIf="isSubmitted" id="order" class="col-md-10 ">
         <div class="list-group mt-2">
@@ -66,6 +74,7 @@
                         <p>
                             {{subOrder.info}}
                         </p>
+                        <p *ngIf="isAccepted"><ion-icon name="car"></ion-icon> Travel with: {{driver.firstName}} {{driver.lastName}}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -73,8 +82,9 @@
                         <p *ngIf="subOrder.info">{{'Price' | translate}}: {{subOrder.price}} BNG</p>
 
                     </div>
-                    <button *ngIf="isAccepted" class="mr-2 btn btn-danger fonted" (click)="cancelOrder()"> {{'Cancel'|
-                        translate}} </button>
+
+
+                    <button *ngIf="!isAccepted" class="mr-2 btn btn-danger fonted" (click)="cancelOrder()"> {{'Cancel'| translate}} </button>
 
                 </div>
 
@@ -91,6 +101,7 @@
         </div>
     </div>
 
+<<<<<<< HEAD
 </ion-content>
 
 
@@ -116,3 +127,6 @@
 
     </ion-toolbar>
 </ion-footer>
+=======
+</ion-content>
+>>>>>>> ddd42d48d15711b0719fc14745438b3740f4f5ea
