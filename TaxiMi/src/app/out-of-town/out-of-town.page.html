@@ -45,11 +45,19 @@
         </ion-item>
     </form>
 
+<<<<<<< .mine
  
         <div *ngIf="isAccepted" class="alert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             A guide has been found. Please wait a call for details.
         </div>
+=======
+ 
+        <div *ngIf="!isAccepted" class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            A guide has been found. Please wait for a call for details.
+        </div>
+>>>>>>> .theirs
 
     <div *ngIf="isSubmitted" id="order" class="col-md-10 ">
         <div class="list-group mt-2">
@@ -76,9 +84,7 @@
                         <p *ngIf="subOrder.info">{{'Price' | translate}}: {{subOrder.price}} BNG</p>
 
                     </div>
-
-
-                    <button *ngIf="!isAccepted" class="mr-2 btn btn-danger fonted" (click)="cancelOrder()"> {{'Cancel'| translate}} </button>
+                    <button *ngIf="isAccepted" class="mr-2 btn btn-danger fonted" (click)="cancelOrder()"> {{'Cancel'| translate}} </button>
 
                 </div>
 
@@ -97,3 +103,28 @@
     </div>
 
 </ion-content>
+
+
+
+<ion-footer *ngIf="isCompleted == true" class="ion-no-border">
+    <ion-toolbar>
+        <!-- <ion-title>Choosen location</ion-title> -->
+        <div class="row">
+            <div class="col">
+                <div class="d-flex w-100 justify-content-between">
+                    <button *ngIf="isCompleted == true" class="ml-3 btn btn-info fonted">
+                        {{'Cost'| translate'}} : {{orderTotalPrice |  number : '1.2-2'}} ��.
+                    </button>
+
+                    <button *ngIf="isCompleted == true" class="mr-3 btn btn-danger fonted"
+                            >
+                        {{'Cancel'| translate}}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+
+    </ion-toolbar>
+</ion-footer>
