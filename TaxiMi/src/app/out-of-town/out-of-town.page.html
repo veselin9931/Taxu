@@ -74,7 +74,7 @@
                         <p *ngIf="subOrder.info">{{'Price' | translate}}: {{subOrder.price}} BNG</p>
 
                     </div>
-                    <button *ngIf="isAccepted" class="mr-2 btn btn-danger fonted" (click)="cancelOrder()"> {{'Cancel'| translate}} </button>
+                    <button *ngIf="!isAccepted" class="mr-2 btn btn-danger fonted" (click)="cancelOrder()"> {{'Cancel'| translate}} </button>
 
                 </div>
 
