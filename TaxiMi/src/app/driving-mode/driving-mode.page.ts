@@ -226,8 +226,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
     let userLat = +userLatLng.lat;
     let userLng = +userLatLng.lng;
 
-    this.subscriptions.push(this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
-    .subscribe(() => { }));
+    
     
     if (Capacitor.platform === 'ios') {
       window.open(`maps://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
@@ -242,7 +241,10 @@ export class DrivingModePage implements OnInit, OnDestroy {
       window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
       this.isStarted = true;
     }
-    
+    this.subscriptions.push(this.tripService.startTrip(this.currentTrip.id)
+    .subscribe(() => {
+      this.startTrip();
+     }));
   }
 
   msgDto: Message = new Message();
