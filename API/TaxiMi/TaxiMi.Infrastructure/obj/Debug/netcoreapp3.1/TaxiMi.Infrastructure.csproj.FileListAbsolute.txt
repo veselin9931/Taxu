@@ -1,0 +1,16 @@
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\bin\Debug\netcoreapp3.1\TaxiMi.Infrastructure.deps.json
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\bin\Debug\netcoreapp3.1\TaxiMi.Infrastructure.dll
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\bin\Debug\netcoreapp3.1\TaxiMi.Infrastructure.pdb
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\bin\Debug\netcoreapp3.1\TaxiMi.Common.dll
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\bin\Debug\netcoreapp3.1\TaxiMi.Mappings.dll
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\bin\Debug\netcoreapp3.1\TaxiMi.Models.dll
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\bin\Debug\netcoreapp3.1\TaxiMi.Common.pdb
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\bin\Debug\netcoreapp3.1\TaxiMi.Mappings.pdb
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\bin\Debug\netcoreapp3.1\TaxiMi.Models.pdb
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\obj\Debug\netcoreapp3.1\TaxiMi.Infrastructure.csprojAssemblyReference.cache
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\obj\Debug\netcoreapp3.1\TaxiMi.Infrastructure.AssemblyInfoInputs.cache
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\obj\Debug\netcoreapp3.1\TaxiMi.Infrastructure.AssemblyInfo.cs
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\obj\Debug\netcoreapp3.1\TaxiMi.Infrastructure.csproj.CoreCompileInputs.cache
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\obj\Debug\netcoreapp3.1\TaxiMi.Infrastructure.csproj.CopyComplete
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\obj\Debug\netcoreapp3.1\TaxiMi.Infrastructure.dll
+C:\TaxiMi\API\TaxiMi\TaxiMi.Infrastructure\obj\Debug\netcoreapp3.1\TaxiMi.Infrastructure.pdb

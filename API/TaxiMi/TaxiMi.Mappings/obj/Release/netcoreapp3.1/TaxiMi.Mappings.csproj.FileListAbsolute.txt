@@ -1,0 +1,9 @@
+C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\bin\Release\netcoreapp3.1\TaxiMi.Mappings.deps.json
+C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\bin\Release\netcoreapp3.1\TaxiMi.Mappings.dll
+C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\bin\Release\netcoreapp3.1\TaxiMi.Mappings.pdb
+C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\obj\Release\netcoreapp3.1\TaxiMi.Mappings.csprojAssemblyReference.cache
+C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\obj\Release\netcoreapp3.1\TaxiMi.Mappings.AssemblyInfoInputs.cache
+C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\obj\Release\netcoreapp3.1\TaxiMi.Mappings.AssemblyInfo.cs
+C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\obj\Release\netcoreapp3.1\TaxiMi.Mappings.csproj.CoreCompileInputs.cache
+C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\obj\Release\netcoreapp3.1\TaxiMi.Mappings.dll
+C:\TaxiMi\API\TaxiMi\TaxiMi.Mappings\obj\Release\netcoreapp3.1\TaxiMi.Mappings.pdb

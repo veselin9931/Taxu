@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "36BaBIINCkoX5q7cK2PCim+N18OTQW+ObxEfyxFPJ14DaAXF9fM4zHlNSckFPV//PFkUJlbfF7cCiuw1FZAvKA==",
+  "success": true,
+  "projectFilePath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\malek\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
+    "C:\\Users\\malek\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\malek\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}
