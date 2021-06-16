@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  
+    <ItemGroup>
+    <PackageReference Include="CloudinaryDotNet" Version="1.14.0" />
+    <PackageReference Include="MailKit" Version="2.10.1" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.1" />
+    <PackageReference Include="MimeKit" Version="2.10.1" />
+  </ItemGroup>
+  
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaxiMi.Data\TaxiMi.Data.csproj" />
+    <ProjectReference Include="..\TaxiMi.Infrastructure\TaxiMi.Infrastructure.csproj" />
+    <ProjectReference Include="..\TaxiMi.Mappings\TaxiMi.Mappings.csproj" />
+    <ProjectReference Include="..\TaxiMi.Models\TaxiMi.Models.csproj" />
+  </ItemGroup>
+
+</Project>

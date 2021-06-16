@@ -1,0 +1,83 @@
+
+<div class="sidebar-wrapper">
+  <div class="logo">
+    <a href="#" class="simple-text logo-normal">
+      <div class="logo-image">
+        <img src="assets/img/logo_transparent.png">
+      </div>
+    </a>
+    <a href="#" class="simple-text logo-normal">
+     Меню
+    </a>
+  </div>
+  <div *ngIf='isLoggedIn'>
+    <ul class="nav" *ngIf='isLoggedIn && isAdmin'>
+      <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
+          <a *ngIf='isLoggedIn' [routerLink]="[menuItem.path]">
+              <i class="nc-icon {{menuItem.icon}}"></i>
+              <p>{{menuItem.title}}</p>
+          </a>
+
+          
+      </li>
+
+      <li *ngIf='!isLoggedIn' routerLinkActive="active">
+        <a routerLink="/login">
+          <i class="nc-icon nc-single-02"></i>
+          <p>Вход</p>
+      </a>
+      </li>
+
+      <li *ngIf='isLoggedIn' routerLinkActive="active">
+        <a (click)='logout()' routerLink="/login">
+            <i class="nc-icon nc-button-power"></i>
+            <p>Изход</p>
+        </a>
+    </li>
+  </ul>
+
+  <ul class="nav" *ngIf='!isAdmin'>
+    <li *ngFor="let menuItemUs of menuItemsForUsers" routerLinkActive="active">
+        <a *ngIf='isLoggedIn' [routerLink]="[menuItemUs.path]">
+            <i class="nc-icon {{menuItemUs.icon}}"></i>
+            <p>{{menuItemUs.title}}</p>
+        </a>
+
+        
+    </li>
+
+    <li *ngIf='!isLoggedIn' routerLinkActive="active">
+      <a routerLink="/login">
+        <i class="nc-icon nc-single-02"></i>
+        <p>Вход</p>
+    </a>
+    </li>
+
+    <li *ngIf='isLoggedIn' routerLinkActive="active">
+      <a (click)='logout()' routerLink="/login">
+          <i class="nc-icon nc-button-power"></i>
+          <p>Изход</p>
+      </a>
+  </li>
+</ul>
+  </div>
+ <div *ngIf='!isLoggedIn'> 
+   <ul class="nav">
+  <li *ngFor="let freeMenuItem of freeMenuItems" routerLinkActive="active">
+      <a [routerLink]="[freeMenuItem.path]">
+          <i class="nc-icon {{freeMenuItem.icon}}"></i>
+          <p>{{freeMenuItem.title}}</p>
+      </a>
+
+      
+  </li>
+
+  <li *ngIf='!isLoggedIn' routerLinkActive="active">
+    <a routerLink="/login">
+      <i class="nc-icon nc-single-02"></i>
+      <p>Вход</p>
+  </a>
+  </li>
+</ul>
+   </div>
+</div>

@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>
+        <ion-label>{{'Register' | translate}}</ion-label>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding class="background">
+  <div class="row">
+    <div class="col">
+      <div class="row">
+
+      </div>
+      <ion-text class="text-center" color="dark">
+        <!-- <div class="col-md-5 mt-3">
+          <h2 class="text">
+            {{'Register' | translate}}
+          </h2>
+        </div> -->
+
+        <div class="row text-center">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="col-md-6">
+
+                <ion-text *ngIf="err" color="danger">
+                    <div class="text-center">{{err}}</div>
+                </ion-text>
+
+                <div class="form-group col mt-5">
+                    <ion-input formControlName="firstName" type="text" class="form-control" [placeholder]='"First Name" | translate' [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+                    </ion-input>
+                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                        <div *ngIf="f.firstName.errors.required">{{'The field is required' | translate}}!</div>
+                    </div>
+                </div>
+                <div class="form-group col mt-3">
+                    <ion-input formControlName="lastName" type="text" class="form-control" [placeholder]='"Last Name" | translate' [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+                    </ion-input>
+
+                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                        <div *ngIf="f.lastName.errors.required">{{'The field is required' | translate}}!</div>
+                    </div>
+                </div>
+                <div class="form-group col mt-3">
+                    <ion-input formControlName="username" type="text" class="form-control" [placeholder]='"Email" | translate' [ngClass]="{ 'is-invalid': submitted && f.username.errors }"></ion-input>
+
+                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                        <div *ngIf="f.username.errors.required">{{'The field is required' | translate}}!</div>
+                    </div>
+                </div>
+
+                <div class="form-group col mt-3">
+                    <ion-input formControlName="phone" type="text" class="form-control" [placeholder]='"Phone Number" | translate' [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+                    </ion-input>
+                    <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                        <div *ngIf="f.phone.errors.required">{{'The field is required' | translate}}!</div>
+                    </div>
+                </div>
+
+                <div class="form-group col mt-3">
+                    <ion-input formControlName="password" type="password" class="form-control" [placeholder]='"Password" | translate' [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                    </ion-input>
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">{{'The field is required' | translate}}!</div>
+                    </div>
+                </div>
+
+                <div class="form-group col mt-3">
+                    <ion-input formControlName="confirmPassword" type="password" class="form-control" [placeholder]='"Confirm Password" | translate' [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }">
+                    </ion-input>
+                    <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                        <div *ngIf="f.confirmPassword.errors.required">{{'The field is required' | translate}}!</div>
+                        <div *ngIf="f.confirmPassword.errors.confirmedValidator">{{'Password should match' | translate}}!</div>
+
+                    </div>
+                </div>
+
+                <!-- <div class="form-group col mt-3">
+                    <ion-input formControlName="referral" type="text" class="form-control" [placeholder]='"Referral" | translate'></ion-input>
+                </div> -->
+
+                <div class="col-md-12 mt-3">
+                    <button type="submit" class="btn btn-info"> {{'Confirm' | translate}}</button>
+                </div>
+            </form>
+
+
+            <div class="col-md-6 mt-3">
+                <p class="fonted">{{'Already have an account' | translate}}?</p>
+                <button (click)="signIn()" type="submit" class="btn btn-warning">{{'Sign in' | translate}}</button>
+
+            </div>
+        </div>
+
+      </ion-text>
+    </div>
+  </div>
+
+
+</ion-content>
