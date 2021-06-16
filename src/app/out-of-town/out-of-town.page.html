@@ -101,4 +101,32 @@
         </div>
     </div>
 
+<<<<<<< HEAD
 </ion-content>
+
+
+
+<ion-footer *ngIf="isCompleted == true" class="ion-no-border">
+    <ion-toolbar>
+        <!-- <ion-title>Choosen location</ion-title> -->
+        <div class="row">
+            <div class="col">
+                <div class="d-flex w-100 justify-content-between">
+                    <button *ngIf="isCompleted == true" class="ml-3 btn btn-info fonted">
+                        {{'Cost'| translate'}} : {{orderTotalPrice | number : '1.2-2'}} лв.
+                    </button>
+
+                    <button *ngIf="isCompleted == true" class="mr-3 btn btn-danger fonted">
+                        {{'Cancel'| translate}}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+
+    </ion-toolbar>
+</ion-footer>
+=======
+</ion-content>
+>>>>>>> ddd42d48d15711b0719fc14745438b3740f4f5ea
