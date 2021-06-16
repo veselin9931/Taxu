@@ -21,6 +21,6 @@ namespace TaxiMi.Services.OrderService.SubOrderService
 
         public Task<bool> AcceptSubOrderAsync(string id, string driverId);
 
-        public Task<IList<SuburbanOrder>> GetAllSubOrdersAsync();
+        public Task<IList<SuburbanOrder>> GetAllSubOrdersAsync(string status);
     }
 }
