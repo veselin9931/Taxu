@@ -200,23 +200,24 @@ export class DrivingModePage implements OnInit, OnDestroy {
     const userLatLng = { lat: this.order.locationLat, lng: this.order.locationLong };
     let userLat = +userLatLng.lat;
     let userLng = +userLatLng.lng;
-    
+
     this.subscriptions.push(this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
-      .subscribe(() => {
-        if (Capacitor.getPlatform() === 'ios') {
-          window.open(`maps://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
-          console.log('ios platform')
-          this.isStarted = true;
-        }
-        if (Capacitor.platform == 'android') {
-          window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-          this.isStarted = true;
-        }
-        else {
-          window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-          this.isStarted = true;
-        }
-      }));
+    .subscribe(() => {}));
+
+    if (Capacitor.platform === 'ios') {
+      window.open(`maps://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
+      this.isStarted = true;
+    }
+
+    if (Capacitor.platform == 'android') {
+      window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+      this.isStarted = true;
+    }
+    else {
+      window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+      this.isStarted = true;
+    }
+   
   }
 
   //Set directions to user's destination
@@ -226,21 +227,22 @@ export class DrivingModePage implements OnInit, OnDestroy {
     let userLng = +userLatLng.lng;
 
     this.subscriptions.push(this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
-      .subscribe(() => {
-        if (Capacitor.getPlatform() === 'ios') {
-          window.open(`maps://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
-          console.log('ios platform')
-          this.isStarted = true;
-        }
-        if (Capacitor.platform == 'android') {
-          window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-          this.isStarted = true;
-        }
-        else {
-          window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
-          this.isStarted = true;
-        }
-      }));
+    .subscribe(() => { }));
+    
+    if (Capacitor.platform === 'ios') {
+      window.open(`maps://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
+      this.isStarted = true;
+    }
+
+    if (Capacitor.platform == 'android') {
+      window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+      this.isStarted = true;
+    }
+    else {
+      window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
+      this.isStarted = true;
+    }
+    
   }
 
   msgDto: Message = new Message();
