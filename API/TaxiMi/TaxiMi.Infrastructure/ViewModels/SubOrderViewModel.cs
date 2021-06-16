@@ -23,6 +23,8 @@ namespace TaxiMi.Infrastructure.ViewModels
 
         public string CreatedOn { get; set; }
 
+        public string AcceptedBy { get; set; }
+
 
     }
 }

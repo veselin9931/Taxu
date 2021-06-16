@@ -136,10 +136,10 @@ namespace TaxiMi.Services.OrderService.SubOrderService
             return result > 0;
         }
 
-        public async Task<IList<SuburbanOrder>> GetAllSubOrdersAsync()
+        public async Task<IList<SuburbanOrder>> GetAllSubOrdersAsync(string status)
             => await this.repository
                .All()
-               .Where(x => x.Status == "Waiting" && x.IsDeleted == false)
+               .Where(x => x.Status == status && x.IsDeleted == false)
                .Include(x => x.ApplicationUser)
                .OrderBy(x => x.CreatedOn)
                .ToListAsync();

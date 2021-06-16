@@ -11,6 +11,8 @@ import { OptionsService } from '../../_services/suborder/options.service';
 import { SuborderService } from '../../_services/suborder/suborder.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { format } from "date-fns";
+import { DriverService } from '../../_services/driver/driver.service';
+import { Driver, User } from '../../_models';
 
 @Component({
     selector: 'app-out-of-town',
@@ -28,13 +30,20 @@ export class OutOfTownPage implements OnInit {
     private user = this.accountService.userValue;
     isLoggedIn: boolean = false;
     subOrder: SubOrder;
+    driver: User;
     subOrderId: string;
     form: FormGroup;
     status = '';
     isSubmitted = false;
     isCompleted = false;
 
-    constructor(private popoverController: PopoverController, private optionService: OptionsService, private formBuilder: FormBuilder, private subOrderService: SuborderService, private accountService: AccountService) { }
+    constructor(private popoverController: PopoverController,
+        private optionService: OptionsService,
+        private formBuilder: FormBuilder,
+        private subOrderService: SuborderService,
+        private accountService: AccountService,
+        private driverService: DriverService
+    ) { }
 
 
     ngOnInit() {
@@ -45,9 +54,20 @@ export class OutOfTownPage implements OnInit {
         this.subscriptions.push(this.subOrderService.getSubOrderByUserId(this.user.id)
             .subscribe(x => {
                 if (x) {
-                    this.subOrder = x;
-                    this.isSubmitted = true;
                     console.log(x);
+                    this.subOrder = x;
+                    this.subOrder.isAccepted = x.acceptedBy != '';
+                    this.isSubmitted = true;
+
+                    if (this.subOrder.isAccepted) {
+
+                        this.accountService.getById(this.subOrder.acceptedBy).subscribe(
+                            d => {
+                                let dr = d;
+                                this.driver = dr;
+                            }
+                        );
+                    }
                 }
                 
             }));
@@ -59,6 +79,7 @@ export class OutOfTownPage implements OnInit {
             date: '',
             time: '',
             optionsId: '',
+            acceptedBy: ''
         })
 
         const connection = new signalR.HubConnectionBuilder()

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { CallNumber } from '@ionic-native/call-number/ngx';
 import { IonicModule } from '@ionic/angular';
 
 import { ReservationsPageRoutingModule } from './reservations-routing.module';
@@ -26,13 +26,16 @@ export function HttpLoaderFactory(http: HttpClient) {
         ReservationsPageRoutingModule,
         TranslateModule.forChild({
             loader: {
-                provide: TranslateLoader,
+                provide: TranslateLoader, 
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
             }
         }),
         LanguagePopoverPageModule
-  ],
+    ],
+    providers: [
+        CallNumber,
+    ],
   declarations: [ReservationsPage]
 })
 export class ReservationsPageModule {}

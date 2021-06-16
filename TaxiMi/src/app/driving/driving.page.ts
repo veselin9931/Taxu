@@ -140,15 +140,15 @@ export class DrivingPage implements OnInit {
   }
 
     getOutOfTown() {
-        this.subscriptions.push(this.subOrderService.getAllSubOrders()
+        this.subscriptions.push(this.subOrderService.getAllSubOrders('Waiting')
             .subscribe(data => {
                 if (data == null) {
                     return;
                 }
 
                 this.isSubOreder = true;
-                this.subOrders = data.filter(a => a.status == 'Waiting');
-                console.log(this.subOrders);
+
+                this.subOrders = data
 
                 this.subOrders.forEach(o => {
                     let id = o.optionsId;
@@ -166,7 +166,7 @@ export class DrivingPage implements OnInit {
     }
 
     acceptSubOrder(subOrder: SubOrder) {
-        this.subscriptions.push(this.subOrderService.editStatus(subOrder.id, { aceptedBy: this.accountService.userValue.id, status: 'Accepted' })
+        this.subscriptions.push(this.subOrderService.editStatus(subOrder.id, { acceptedBy: this.accountService.userValue.id, status: 'Accepted' })
             .subscribe(data => {
                 if (data) {
                     this.route.navigate(['menu/reservations'])  

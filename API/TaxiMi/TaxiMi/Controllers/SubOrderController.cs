@@ -35,9 +35,9 @@ namespace TaxiMi.Controllers
         }
 
         // GET: api/<SubOrderController>
-        [HttpGet]
-        public async Task<IEnumerable<SuburbanOrder>> GetAll() => 
-            await this.subOrderService.GetAllSubOrdersAsync();
+        [HttpGet("status/{status}")]
+        public async Task<IEnumerable<SuburbanOrder>> GetAll(string status) => 
+            await this.subOrderService.GetAllSubOrdersAsync(status);
 
 
         // GET api/<SubOrderController>/5
@@ -110,12 +110,14 @@ namespace TaxiMi.Controllers
                 viewModel = new SubOrderViewModel()
                 {
                     Id = order.Id,
+
                     ApplicationUserId = order.ApplicationUserId,
                     Date = order.Date,
                     Destination = this.orderOptionService.GetDestinationById(order.OptionsId),
                     Location = this.orderOptionService.GeLocation(order.OptionsId),
                     Info = order.Info,
-                    Price = this.orderOptionService.GetOrderOptionPriceById(order.OptionsId)
+                    Price = this.orderOptionService.GetOrderOptionPriceById(order.OptionsId),
+                    AcceptedBy = order.AcceptedBy,
                 };
             }
 
