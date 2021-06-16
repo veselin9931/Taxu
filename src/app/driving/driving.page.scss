@@ -1,0 +1,81 @@
+ion-content{
+    //--background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+    --ion-background-color:#e9e9e9;
+}
+
+ion-toolbar{
+    --ion-background-color:#eeeeee;
+}
+
+    #map {
+    height: 100%;
+    width: 100%;
+    }
+    
+
+ion-title {
+    text-align: center;
+}
+
+h5{
+    font-size: 0.9em;
+}
+#toolbarIcon{
+    font-size: 1.7em;
+}
+
+.fonted{
+    font-family: Open Sans Light;
+}
+
+.centered{
+    text-align: center;
+}
+
+.text{  
+    //font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: Open Sans Light;
+}
+
+hr{
+    background:#eeeeee;
+    width: 70% !important;
+}
+
+//chat
+
+.blink_me {
+    animation: blinker 1s linear infinite;
+  }
+  
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+
+
+.msg-box {
+    width: 100%;
+    height: 140px;
+    padding: 10px 30px;
+    font-size: 14px;
+    font-family: Open Sans Light;
+    overflow: auto;
+
+    ul {
+        margin: -5px;
+
+        list-style: none;
+        .ex-msg {
+            text-align: right;
+        }
+
+        .in-msg {
+            text-align: left;
+            margin-left: -60px;
+        }
+    }
+    
+}
+

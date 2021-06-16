@@ -1,0 +1,37 @@
+ion-content{
+    //--background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+    // --ion-background-color:#353535;
+    --ion-background-color:#eeeeee;
+}
+
+ion-toolbar{
+    --ion-background-color:#eeeeee;
+}
+    
+
+ion-title {
+    text-align: center;
+}
+
+#toolbarIcon{
+    font-size: 1.7em;
+}
+
+.fonted{
+    font-family: Open Sans Light;
+}
+
+.centered{
+    text-align: center;
+}
+
+.text{  
+    //font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: Open Sans Light;
+}
+
+hr{
+    background:#eeeeee;
+    width: 70% !important;
+}
+
