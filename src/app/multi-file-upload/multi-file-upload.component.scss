@@ -1,0 +1,17 @@
+.file-input-container {
+    text-align: right;
+
+    
+}
+input[type="file"] {
+    display: none;
+}
+
+label {
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+.nv-file-over {
+    border: dotted 3px red;
+}

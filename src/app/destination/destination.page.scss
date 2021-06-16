@@ -1,0 +1,95 @@
+.noScroll {
+    overflow: hidden;
+    }
+
+    #marker{
+        position:absolute;
+        /*url of the marker*/
+        background:url(../../assets/location.png) no-repeat;
+        /*center the marker*/
+        top:50%;left:50%;
+      
+        z-index:1;
+        /*fix offset when needed*/
+        margin-left:-10px;
+        margin-top:-34px;
+        /*size of the image*/
+        height:34px;
+        width:20px;
+      
+        cursor:pointer;
+      }
+    
+    #map {
+    height: 100%;
+    width: 100%;
+    }
+    
+    ion-content{
+        //--background: url(../../assets/wp4792780-dark-phone-wallpapers.jpg) 0 0/100% 100% no-repeat;
+        --ion-background-color:#353535;
+    }
+    
+    ion-toolbar{
+        --ion-background-color:#eeeeee;
+    }
+    
+    ion-title {
+        text-align: center;
+    }
+    
+    #toolbarIcon{
+        font-size: 1.7em;
+    }
+    
+    
+    .centered{
+        text-align: center;
+    }
+    
+    .text{  
+        font-size: 2.4em;
+        font-family: Open Sans Light;
+    }
+    
+    i{
+        color:#eeeeee;
+    }
+    
+    // ion-input{
+    //     border-radius: 10px;
+    //     border: 3px solid rgb(255, 174, 0);
+    // }
+    
+    .my-custom-class {
+        --background: #e5e5e5;
+      }
+    
+    ion-select{
+        color: rgb(56, 56, 56);
+        background-color: white;
+        border-radius: 10px;
+        border: 3px solid #eeeeee;
+    }
+    
+    .blink_me {
+        animation: blinker 1s linear infinite;
+      }
+      
+      @keyframes blinker {
+        50% {
+          opacity: 0;
+        }
+      }
+    
+    .backIcon {
+        color: rgb(255, 174, 0);
+        font-size: 150%;
+    }
+    
+    .back {
+        color: rgb(255, 174, 0);
+    }
+    
+    
+   

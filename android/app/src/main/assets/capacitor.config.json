@@ -1,0 +1,16 @@
+{
+  "appId": "com.taxibeta.app",
+  "appName": "TaxiMi",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "android": {
+    "allowMixedContent": true
+  },
+  "cordova": {}
+}

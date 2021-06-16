@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>
+      <ion-label>{{'Orders' | translate}}</ion-label>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding class="background">
+    <div class="row mt-2">
+        <div class="col">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <ion-text class="centered" color="dark">
+                        <h2 class="fonted blink_me">{{'Waiting for orders' | translate}}</h2>
+                        <hr>
+                    </ion-text>
+                </div>
+
+                <!-- style="display: none;" -- for distributing orders -->
+
+                <div class="col-md-10" *ngIf="!isSubOreder">
+                    <div *ngFor="let oldOrder of orders" id="orderDiv" class="list-group mt-2">
+
+                        <a class="text list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1 fonted"></h5>
+                                <small>{{oldOrder.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
+                            </div>
+                            <p><ion-icon class="mr-2" name="analytics-outline"></ion-icon>{{oldOrder.location}}</p>
+                            <hr />
+                            <p><ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{oldOrder.destination}}</p>
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1 fonted"></h5>
+                                <button class="btn btn-info" [routerLink]='["/menu/order-details",oldOrder.id]'>{{'Order details' | translate}}</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-10" *ngIf="isSubOreder">
+                    <div *ngFor="let subOrder of subOrders" id="orderDiv" class="list-group mt-2">
+
+                        <a class="text list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <small>{{subOrder.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
+                                <small><i class="far fa-calendar"></i> {{subOrder.date}}</small>
+                            </div>
+                            
+                            <h4 class="mt-1 text-center ">{{subOrder.location}} <ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon> {{subOrder.destination}}</h4>
+                            <div class="d-flex w-100 justify-content-between">
+                                <button class="fonted btn btn-info" (click)="acceptSubOrder(subOrder)" type="button">{{'Accept' | translate}}</button>
+                            </div>
+                        </a>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mt-2" *ngIf="subOrders">
+       
+                <!-- style="display: none;" -- for distributing orders -->
+
+    </div>
+
+
+</ion-content>

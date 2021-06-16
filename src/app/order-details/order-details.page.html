@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>
+      <ion-label>{{'Details' | translate}}</ion-label>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-icon (click)='openLanguagePopover($event)' id="toolbarIcon" name="language-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <button *ngIf="mapVisible == false" class="fonted btn btn-info col-md-12" (click)="showMap()">{{'Show map' | translate}}</button>
+  <button *ngIf="mapVisible == true" class="fonted btn btn-info col-md-12" (click)="hideMap()">{{'Show details' | translate}}</button>
+  <div id="order"  class="col-md-10">
+    <div  class="list-group mt-2">
+      <a class="text list-group-item list-group-item-action flex-column align-items-start">
+        <ion-icon *ngIf="order.pickUpTime" name="alert-circle"></ion-icon>
+        <small  *ngIf="order.pickUpTime" id="warningicn">{{'Pickup time' | translate}} {{order.pickUpTime}}</small>
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1 fonted"></h5>
+          <small>{{order.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
+
+        </div>
+        <p><ion-icon class="mr-2" name="analytics-outline"></ion-icon>{{order.location}}</p>
+        <hr />
+        <p><ion-icon class="mr-2" name="arrow-forward-outline"></ion-icon>{{order.destination}}</p>
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1 fonted"></h5>
+        </div>
+        <div class="row">
+          <div class="col">
+            <small
+              *ngIf="order.withPets == true || order.withStroller == true || order.special == true">{{'Additional
+              options' | translate}}:</small>
+            <ul>
+              <li *ngIf="order.withPets == true">{{'Pets' | translate}}</li>
+              <li *ngIf="order.withStroller == true">{{'Baggage' | translate}}</li>
+              <li *ngIf="order.special == true">{{'Special needs' | translate}}</li>
+            </ul>
+
+            <small *ngIf="order.carType">{{'Desired car type' | translate}}:</small>
+            <ul *ngIf="order.carType">
+              <li>{{order.carType}}</li>
+            </ul>
+
+            <small *ngIf="order.description">{{'Additional requirements' | translate}}:</small>
+            <ul *ngIf="order.description">
+              <li>{{order.description}}</li>
+             
+            </ul>
+
+            <div class="w-100">
+              <h5>{{'Trip distance' | translate}}: {{order.tripDistance}} km</h5>
+              <br>
+              <!-- <h5 class="fonted">Distance to user: 
+                <small class="fonted">{{distance}} km</small>
+              </h5> -->
+            </div>
+
+            <div class="d-flex w-100 justify-content-between">
+
+              <small class="fonted">{{'Total cost' | translate}}: {{order.totalPrice}} лв.</small>
+              <button class="fonted btn btn-info" (click)="acceptOrder(order)" type="button">{{'Accept' |translate}}</button>
+            </div>
+            <hr />
+            <p *ngIf="canIncrease == true" class="text-center">{{'Offer more price to order' | translate}}</p>
+            <div *ngIf="canIncrease == true" class="d-flex w-100 justify-content-between">
+              <button type="button" (click)="offer(1)" class="btn btn-info btn-sm">+1лв</button>
+              <button type="button" (click)="offer(2)" class="btn btn-info btn-sm">+2лв</button>
+              <button type="button" (click)="offer(3)" class="btn btn-info btn-sm">+3лв</button>
+              <button type="button" (click)="offer(4)" class="btn btn-info btn-sm">+4лв</button>
+              <button type="button" (click)="offer(5)" class="btn btn-info btn-sm">+5лв</button>
+            </div>
+          </div>
+        </div>
+        
+      </a>
+    </div>
+  </div>
+  <ion-content padding class="noScroll"> 
+    <div #map id="map" >
+    </div>
+  </ion-content>
+</ion-content>
