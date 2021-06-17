@@ -1,3 +1,5 @@
-.main-content{
-    background-color: aqua;
+.logo {
+  background-color: rgb(0, 0, 0, 0.28);
+  border: 2px double rgb(0, 0, 0);
+  border-radius: 50%;
 }

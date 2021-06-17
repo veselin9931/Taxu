@@ -3,14 +3,13 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\driving-mode",
-    "\\src\\app\\out-of-town",
-    "\\src\\app\\reservations",
-    "\\src\\app\\travelling",
+    "\\src\\app\\categories",
+    "\\src\\app\\driving",
     "\\src\\environments",
     "\\src\\_models",
-    "\\src\\_services"
+    "\\src\\_services",
+    "\\src\\_services\\suborder"
   ],
-  "SelectedNode": "\\src\\app\\out-of-town\\out-of-town.page.ts",
+  "SelectedNode": "\\src\\app\\categories\\categories.page.ts",
   "PreviewInSolutionExplorer": false
 }

@@ -1,4 +1,7 @@
-button,
+button {
+  font-family: $sans-serif-family;
+  color: #000000;
+}
 input,
 optgroup,
 select,
@@ -9,12 +12,13 @@ h1,h2,h3,h4,h5,h6{
     font-weight: $font-weight-normal;
 }
 
-a{
+a {
+  color: #808080;
+
+  &:hover,
+  &:focus {
     color: $primary-color;
-    &:hover,
-    &:focus{
-        color: $primary-color;
-    }
+  }
 }
 h1, .h1 {
     font-size: $font-size-h1;
@@ -60,6 +64,7 @@ h6, .h6{
 p{
     &.description{
         font-size: 1.14em;
+        color: #000000;
     }
 }
 
@@ -84,13 +89,21 @@ p{
         margin-top: -10px;
     }
 }
+.stats {
+  color: #000000;
+  font-weight: $font-weight-light;
+}
+.p {
+  color: #000000;
+  font-weight: $font-weight-light;
+}
 
 .description,
 .card-description,
-.footer-big p,
-.card .footer .stats{
-    color: $dark-gray;
-    font-weight: $font-weight-light;
+.footer-big,
+.card .footer {
+  color: $dark-gray;
+  font-weight: $font-weight-light;
 }
 .category,
 .card-category{
@@ -106,7 +119,7 @@ p{
 
 .text-primary,
 a.text-primary:focus, a.text-primary:hover {
-  color: $brand-primary !important;
+  color: #000000 !important;
 }
 .text-info,
 a.text-info:focus, a.text-info:hover {
