@@ -127,7 +127,7 @@ export class OrderDetailsPage implements OnInit {
       this.subscriptions.push(this.orderService.getOrderById(orderId)
         .subscribe(order => {
           if (this.order.id == order.id) {
-           this.OrderTaken();
+            this.OrderTaken();
           }
         }))
     });
@@ -391,78 +391,97 @@ export class OrderDetailsPage implements OnInit {
   }
 
   async NotEnoughCashAlert() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Balance',
-      message: 'Your wallet balance is not enough for this order!',
-      buttons: ['OK']
-    });
+    this.translate.get(['Balance', 'Your wallet balance is not enough for this order!']).subscribe(async text => {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: text['Balance'],
+        message: text['Your wallet balance is not enough for this order!'],
+        buttons: ['OK']
+      });
 
-    await alert.present();
+      await alert.present();
+    })
+
   }
 
   async OrderTaken() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Sorry',
-      message: 'This order is no longer active',
-      buttons: [{
-        text: 'OK',
-        handler: () => {
-          this.router.navigate(['menu/driving']);
-        }
-      },
-      ],
-    });
+    this.translate.get(['Sorry', 'This order is no longer active'])
+      .subscribe(async text => {
+        const alert = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: text['Sorry'],
+          message: text['This order is no longer active'],
+          buttons: [{
+            text: 'OK',
+            handler: () => {
+              this.router.navigate(['menu/driving']);
+            }
+          },
+          ],
+        });
 
-    await alert.present();
+        await alert.present();
+      })
+
   }
 
   async IncreaseRefused() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Order increasing refused.',
-      buttons: [{
-        text: 'Ok',
-        role: 'cancel'
-      },
-      ],
-    });
-
-    await alert.present();
+    this.translate.get(['Order increasing refused.'])
+      .subscribe(async text => {
+        const alert = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: text['Order increasing refused.'],
+          buttons: [{
+            text: 'Ok',
+            role: 'cancel'
+          },
+          ],
+        });
+    
+        await alert.present();
+      })
+   
   }
 
   async IncreaseAccepted(order) {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Order increasing accepted.',
-      message: 'You can accept the order now',
-      buttons: [
-        {
-          text: 'Accept',
-          handler: () => {
-            this.acceptOrder(order);
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        },
-      ],
-    });
-
-    await alert.present();
+    this.translate.get(['Order increasing accepted.', 'You can accept the order now', 'Accept', 'Cancel'])
+    .subscribe(async text => {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: text['Order increasing accepted.'],
+        message: text['You can accept the order now'],
+        buttons: [
+          {
+            text: text['Accept'],
+            handler: () => {
+              this.acceptOrder(order);
+            }
+          },
+          {
+            text: text['Cancel'],
+            role: 'cancel'
+          },
+        ],
+      });
+  
+      await alert.present();
+    })
+    
   }
 
   async WrongCarAlert() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Order information',
-      message: 'Your car is of type "Normal" but the order desired car type is "Comfort"! ',
-      buttons: ['OK'],
-
-    });
-
-    await alert.present();
+    this.translate.get(['Order information', "Your car is of type 'Normal' but the order desired car type is 'Comfort'!"])
+    .subscribe(async text => {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: text['Order information'],
+        message: text['Your car is of type "Normal" but the order desired car type is "Comfort"!'],
+        buttons: ['OK'],
+  
+      });
+  
+      await alert.present();
+    })
+    
   }
 }

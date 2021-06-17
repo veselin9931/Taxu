@@ -33,7 +33,7 @@ export class TravellingPage implements OnInit {
   orderTotalPrice: any;
   orderTotalDestination: any;
   estimatedDuration: any;
-
+  choosedLocDest = false;
 
   //Car html properties;
   carModel = "";
@@ -94,6 +94,7 @@ export class TravellingPage implements OnInit {
   }
 
   ngOnInit() {
+    
     this.loading = true;
     this.form = this.formBuilder.group({
       applicationUserId: [''],
@@ -136,7 +137,7 @@ export class TravellingPage implements OnInit {
       this.subscriptions.push(this.orderService.getOrderById(orderId)
         .subscribe((data) => {
           (Math.round(this.orderTotalPrice * 100) / 100);
-          this.orderTotalPrice = data.totalPrice;
+          this.order.totalPrice = data.totalPrice;
         }));
     });
 
@@ -168,19 +169,27 @@ export class TravellingPage implements OnInit {
     });
   }
   async presentOrderAcceptedNotification() {
-    await LocalNotifications.schedule({
-      notifications: [
-        {
-          title: "Order alert",
-          body: "Your order is accepted",
-          id: 1,
-        }
-      ]
+    this.translate.get(['Order', 'Your order is accepted'])
+    .subscribe(async text => {
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            title: text["Order"],
+            body: text["Your order is accepted"],
+            id: 1,
+          }
+        ]
+      })
     })
+    
   }
 
 
   ionViewDidEnter() {
+    if(this.orderService.chosenDestination && this.orderService.chosenLocation){
+      this.choosedLocDest = true;
+    }
+    console.log(this.choosedLocDest)
     this.checkorder();
     if (this.orderService.selectedFavourite) {
       this.orderService.chosenLocation = this.orderService.selectedFavourite.location
@@ -258,17 +267,16 @@ export class TravellingPage implements OnInit {
       },
       (response, status) => {
         if (status === "OK") {
-          // this.estimatedDuration = response.routes[0].legs[0].duration.text;
+          this.estimatedDuration = response.routes[0].legs[0].duration.text;
           this.orderTotalDestination = response.routes[0].legs[0].distance.value / 1000;
           this.orderTotalPrice = this.orderTotalDestination * 0.90;
           //Additional option with additional price
           if (this.form.value.withPets == true) {
             this.orderTotalPrice += 2.20;
           }
-          if (this.form.value.carType == "Comfort") {
+          if (this.form.value.carType == "comfort") {
             this.orderTotalPrice += 1;
           }
-          //this.orderTotalPrice = this.orderTotalPrice.toFixed(2);
 
           this.form.value.totalPrice = this.orderTotalPrice;
           this.form.value.tripDistance = this.orderTotalDestination;
@@ -285,6 +293,7 @@ export class TravellingPage implements OnInit {
                 this.form.value.locationLat = this.form.value.locationLat.toString();
                 this.form.value.locationLong = this.form.value.locationLong.toString();
                 this.orderStatus = this.form.value.status;
+                this.order.totalPrice = this.orderTotalPrice;
                 this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
                   .subscribe());
               }))
@@ -292,7 +301,7 @@ export class TravellingPage implements OnInit {
           console.log(this.order)
         } else {
           this.isSubmitted = false;
-          window.alert("Directions request failed due to " + status);
+          //window.alert("Directions request failed due to " + status);
         }
       }
     );
@@ -374,8 +383,6 @@ export class TravellingPage implements OnInit {
           }
         }
       );
-
-
     }
 
 
@@ -393,9 +400,6 @@ export class TravellingPage implements OnInit {
           if (data.status == "Waiting" && data != null) {
             this.orderStatus = data.status;
             this.isCompleted = true;
-
-            // User can increase order price.
-            //this.selector(0);
           }
 
           if (data.status == "Accepted" && data != null) {
@@ -417,6 +421,7 @@ export class TravellingPage implements OnInit {
       .subscribe(data => {
         this.subscriptions.push(this.orderService.deleteOrder(data.id)
           .subscribe(() => {
+            this.choosedLocDest = false;
             this.isCompleted = false;
             this.orderStatus = null;
             this.orderTotalPrice = 0;
@@ -437,76 +442,96 @@ export class TravellingPage implements OnInit {
   }
 
   async locationError() {
-    const popup = await this.alertController.create({
-      header: 'Location field is required !',
-      buttons: [
-        {
-          text: 'Ok',
-          role: 'Ok',
-        }
-      ]
-    });
-
-    await popup.present();
+    this.translate.get(['Location field is required!'])
+    .subscribe(async text => {
+      const popup = await this.alertController.create({
+        header: text['Location field is required!'],
+        buttons: [
+          {
+            text: 'Ok',
+            role: 'Ok',
+          }
+        ]
+      });
+  
+      await popup.present();
+    })
+    
   }
 
   async destinationError() {
-    const popup = await this.alertController.create({
-      header: 'Destination field is required !',
-      buttons: [
-        {
-          text: 'Ok',
-          role: 'Ok',
-
-        }
-      ]
-    });
-
-    await popup.present();
+    this.translate.get(['Destination field is required !'])
+    .subscribe(async text => {
+      const popup = await this.alertController.create({
+        header: text['Destination field is required !'],
+        buttons: [
+          {
+            text: 'Ok',
+            role: 'Ok',
+          }
+        ]
+      });
+  
+      await popup.present();
+    })
   }
 
   async increasedOrder() {
-    const popup = await this.alertController.create({
-      header: `Driver offers you ${this.driverIncreased.toFixed(2)}$ for the order`,
-      buttons: [
-        {
-          text: 'Accept',
-          handler: () => {
-            this.subscriptions.push(this.orderService.getMyOrder(this.user.id).subscribe(order => {
-              this.subscriptions.push(this.orderService.increasedOrderAccept(order.id, true)
-                .subscribe(() => {
-                  this.subscriptions.push(this.orderService.increaseOrderPrice(order.id, this.driverPrice)
-                    .subscribe(() => {
-                    }))
-                }))
-            }))
+    let textf: any = {};
+    textf.first = this.translate.instant('Driver offers you');
+    textf.second = this.translate.instant('лв. for the order');
 
-          }
-        },
-        {
-          text: 'Cancel',
-          handler: () => {
-            this.subscriptions.push(this.orderService.getMyOrder(this.user.id).subscribe(order => {
-              this.subscriptions.push(this.orderService.increasedOrderAccept(order.id, false)
-                .subscribe(() => {
-
-                }))
-              this.subscriptions.push(this.orderService.resetIncreasing(this.order.id)
-                .subscribe(() => {
-                }))
-            }))
-          }
-        },
-      ]
-    });
-
-    await popup.present();
+    this.translate.get(['Accept', 'Cancel'])
+    .subscribe(async text => {
+      const popup = await this.alertController.create({
+        header: `${textf.first} ${this.driverIncreased.toFixed(2)} ${textf.second}`,
+        buttons: [
+          {
+            text: text['Accept'],
+            handler: () => {
+              this.subscriptions.push(this.orderService.getMyOrder(this.user.id).subscribe(order => {
+                this.subscriptions.push(this.orderService.increasedOrderAccept(order.id, true)
+                  .subscribe(() => {
+                    this.subscriptions.push(this.orderService.increaseOrderPrice(order.id, this.driverPrice)
+                      .subscribe(() => {
+                      }))
+                  }))
+              }))
+  
+            }
+          },
+          {
+            text: text['Cancel'],
+            handler: () => {
+              this.subscriptions.push(this.orderService.getMyOrder(this.user.id).subscribe(order => {
+                this.subscriptions.push(this.orderService.increasedOrderAccept(order.id, false)
+                  .subscribe(() => {
+  
+                  }))
+                this.subscriptions.push(this.orderService.resetIncreasing(this.order.id)
+                  .subscribe(() => {
+                  }))
+              }))
+            }
+          },
+        ]
+      });
+  
+      await popup.present();
+    })
+   
   }
 
   clearForm() {
+    this.translate.get(['Take me from here', 'Choose destination'])
+    .subscribe(text => {
+      this.orderService.chosenLocation = text['Take me from here'];
+      this.orderService.chosenDestination = text['Choose destination'];
+    })
+   
     this.form.reset({
-      'location': '',
-      'destination': '',
+      'location': undefined,
+      'destination': undefined,
       'increaseAmount': '',
       'applicationUserId': '',
       'locationLat': 0,
@@ -521,7 +546,8 @@ export class TravellingPage implements OnInit {
       'eta': '',
       'withPets': false,
       'withStroller': false,
-      'special': false
+      'special': false,
+      'carType': 'normal'
     })
   }
   //END JUNK

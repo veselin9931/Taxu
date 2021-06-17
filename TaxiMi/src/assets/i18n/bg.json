@@ -163,5 +163,23 @@
   "Select date": "Избери дата",
   "Select time": "Избери час",
   "Additional information": "Допълнителна информация",
-  "A driver has been found. Please wait for a call for details.": "Намерен е водач. Моля, изчакайте обаждане за подробности."
+  "A driver has been found. Please wait for a call for details.": "Намерен е водач. Моля, изчакайте обаждане за подробности.",
+  "Please connect to internet and try again!" :"Моля, свържете се с интернет и пробвайте отново!",
+  "No internet access!": "Нямате достъп до интернет!",
+  "Your wallet balance is not enough for this order!": "Балансът по сметката Ви не е достатъчен за тази поръчка!",
+  "Sorry": "Съжаляваме",
+  "This order is no longer active" : "Тази поръчка вече не е активна",
+  "Order increasing refused.": "Увеличаването на цената е отказано.",
+  "Order increasing accepted.": "Увеличаването на цената е прието.",
+  "You can accept the order now": "Можете да приемете поръчката сега.",
+  "Order information" : "Информация за поръчката",
+  "Your car is of type 'Normal' but the order desired car type is 'Comfort'!" : "Колата Ви е от тип 'Нормална', но за тази поръчка желания тип е 'Комфортна'!",
+  "Location field is required!" : "Полето за локация е задължително!",
+  "Destination field is required!" : "Полето за дестинация е задължително!",
+  "Driver offers you": "Шофьорът Ви предлага",
+  "лв. for the order":"лв. за поръчката",
+  "Your order is accepted": "Поръчката Ви е приета",
+  "Your driver is on the address, free waiting time 5min": "Шофьорът е на адреса, безплатно изчакване 5мин"
+
+
 }

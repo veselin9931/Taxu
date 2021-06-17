@@ -53,13 +53,13 @@
                             </p>
                         </div>
 
-                        <div *ngIf="isCompleted == false" class="text-center mb-2">
+                        <div *ngIf="isCompleted == false && this.choosedLocDest == true" class="text-center mb-2">
                             <hr>
 
                             <ion-label>{{'Additional options' | translate}}</ion-label>
                             <br>
                         </div>
-                        <div *ngIf="isCompleted == false" class="col-md-12 text-left">
+                        <div *ngIf="isCompleted == false && this.choosedLocDest == true" class="col-md-12 text-left">
                             
                             <ion-checkbox color="dark"  value="With pets" formControlName="withPets">
                             </ion-checkbox>
@@ -94,7 +94,7 @@
                             </ion-select>
                         </div> -->
 
-                        <div *ngIf="isCompleted == false" class="row text-center">
+                        <div *ngIf="isCompleted == false && this.choosedLocDest == true" class="row text-center">
                             <div class="col-md-12 mb-2">
                                 <ion-label>{{'Car type (optional)' | translate}}</ion-label>
                             </div>
@@ -115,7 +115,7 @@
                         </div>
 
                        
-                        <div *ngIf="isCompleted == false" class="col mt-2">
+                        <div *ngIf="isCompleted == false && this.choosedLocDest == true" class="col mt-2">
                             <div class="row">
                                 <button class="btn btn-light btn-sm timebtn">
                                     <div class="d-flex w-100 justify-content-between">
@@ -150,7 +150,7 @@
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="fonted">{{'Increase amount' | translate}}</h5>
                                 <a class="mr-1">
-                                    <button class="btn btn-light btn-sm">{{orderTotalPrice |  number : '1.2-2'}} лв.</button>
+                                    <button class="btn btn-light btn-sm">{{order.totalPrice |  number : '1.2-2'}} лв.</button>
                                     <!-- <button class="btn btn-light btn-sm ml-1" (click)="decrement()">-</button> -->
                                     <button class="btn btn-light btn-sm ml-1" (click)="increment()">+</button>
                                 </a>
@@ -187,7 +187,7 @@
             <div class="col">
                 <div class="d-flex w-100 justify-content-between">
                     <button *ngIf="isCompleted == true" class="ml-3 btn btn-info fonted">{{'Cost'|
-                        translate}} : {{orderTotalPrice |  number : '1.2-2'}} лв.</button>
+                        translate}} : {{order.totalPrice |  number : '1.2-2'}} лв.</button>
 
                     <button *ngIf="isCompleted == true" class="mr-3 btn btn-danger fonted"
                         (click)="cancelOrder()">{{'Cancel'| translate}}</button>
