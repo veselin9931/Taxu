@@ -8,24 +8,28 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Veselin Georgiew\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\malek\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj",
+      "projectUniqueName": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj",
       "projectName": "TaxiMi.Common",
-      "projectPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj",
-      "packagesPath": "C:\\Users\\Veselin Georgiew\\.nuget\\packages\\",
-      "outputPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Common\\obj\\",
+      "projectPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj",
+      "packagesPath": "C:\\Users\\malek\\.nuget\\packages\\",
+      "outputPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Common\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\Veselin Georgiew\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\malek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -64,7 +68,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

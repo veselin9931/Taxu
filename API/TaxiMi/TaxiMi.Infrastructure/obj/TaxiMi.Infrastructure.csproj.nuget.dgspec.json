@@ -1,24 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Infrastructure\\TaxiMi.Infrastructure.csproj": {}
+    "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Infrastructure\\TaxiMi.Infrastructure.csproj": {}
   },
   "projects": {
-    "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj": {
+    "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj",
+        "projectUniqueName": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj",
         "projectName": "TaxiMi.Common",
-        "projectPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj",
-        "packagesPath": "C:\\Users\\Veselin Georgiew\\.nuget\\packages\\",
-        "outputPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Common\\obj\\",
+        "projectPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj",
+        "packagesPath": "C:\\Users\\malek\\.nuget\\packages\\",
+        "outputPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Common\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Veselin Georgiew\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\malek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -57,25 +60,28 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Infrastructure\\TaxiMi.Infrastructure.csproj": {
+    "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Infrastructure\\TaxiMi.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Infrastructure\\TaxiMi.Infrastructure.csproj",
+        "projectUniqueName": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Infrastructure\\TaxiMi.Infrastructure.csproj",
         "projectName": "TaxiMi.Infrastructure",
-        "projectPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Infrastructure\\TaxiMi.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Veselin Georgiew\\.nuget\\packages\\",
-        "outputPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Infrastructure\\obj\\",
+        "projectPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Infrastructure\\TaxiMi.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\malek\\.nuget\\packages\\",
+        "outputPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Veselin Georgiew\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\malek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -88,14 +94,14 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj": {
-                "projectPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj"
+              "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj": {
+                "projectPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj"
               },
-              "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj": {
-                "projectPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj"
+              "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj": {
+                "projectPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj"
               },
-              "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Models\\TaxiMi.Models.csproj": {
-                "projectPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Models\\TaxiMi.Models.csproj"
+              "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Models\\TaxiMi.Models.csproj": {
+                "projectPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Models\\TaxiMi.Models.csproj"
               }
             }
           }
@@ -150,25 +156,28 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj": {
+    "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj",
+        "projectUniqueName": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj",
         "projectName": "TaxiMi.Mappings",
-        "projectPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj",
-        "packagesPath": "C:\\Users\\Veselin Georgiew\\.nuget\\packages\\",
-        "outputPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Mappings\\obj\\",
+        "projectPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj",
+        "packagesPath": "C:\\Users\\malek\\.nuget\\packages\\",
+        "outputPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Mappings\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Veselin Georgiew\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\malek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -213,25 +222,28 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Models\\TaxiMi.Models.csproj": {
+    "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Models\\TaxiMi.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Models\\TaxiMi.Models.csproj",
+        "projectUniqueName": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Models\\TaxiMi.Models.csproj",
         "projectName": "TaxiMi.Models",
-        "projectPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Models\\TaxiMi.Models.csproj",
-        "packagesPath": "C:\\Users\\Veselin Georgiew\\.nuget\\packages\\",
-        "outputPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Models\\obj\\",
+        "projectPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Models\\TaxiMi.Models.csproj",
+        "packagesPath": "C:\\Users\\malek\\.nuget\\packages\\",
+        "outputPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Models\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Veselin Georgiew\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\malek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -244,8 +256,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj": {
-                "projectPath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj"
+              "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj": {
+                "projectPath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj"
               }
             }
           }
@@ -284,7 +296,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

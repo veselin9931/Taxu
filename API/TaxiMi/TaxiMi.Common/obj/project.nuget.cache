@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AU9HFI/9IO6BEpJmqUbgtGJy3oHktPkOcS462Y/Ik4V9phAVeU893xuVNcSaqoGE2ecPBl5qpyyhLkj65JklIw==",
+  "dgSpecHash": "xSlo0bxOa+9P4fu2EyiUcEC/wpumO1M3C+nwbGYc9Yp6sBK1lAEmtkSIMJEPejqqEOjrvn33k+sZ6L2G6r2kpg==",
   "success": true,
-  "projectFilePath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj",
+  "projectFilePath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Common\\TaxiMi.Common.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

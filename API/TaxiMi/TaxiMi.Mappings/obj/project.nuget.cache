@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "UoID4j7QEX8uzP5fTysytmDjwvVsD8SkWK86UCQsd3RN1/05ClGwKtI6l/QMAAemm4+uDN56I3ezi9XWJfOmPA==",
+  "dgSpecHash": "36BaBIINCkoX5q7cK2PCim+N18OTQW+ObxEfyxFPJ14DaAXF9fM4zHlNSckFPV//PFkUJlbfF7cCiuw1FZAvKA==",
   "success": true,
-  "projectFilePath": "C:\\Taxu\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj",
+  "projectFilePath": "C:\\TaxiMi\\API\\TaxiMi\\TaxiMi.Mappings\\TaxiMi.Mappings.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Veselin Georgiew\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
-    "C:\\Users\\Veselin Georgiew\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
-    "C:\\Users\\Veselin Georgiew\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512"
+    "C:\\Users\\malek\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
+    "C:\\Users\\malek\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\malek\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }
