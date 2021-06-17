@@ -11,9 +11,12 @@ import * as signalR from '@aspnet/signalr';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  submitted = false;
-  form: FormGroup;
+  loginForm: FormGroup;
   loading = false;
+  submitted = false;
+  returnUrl: string;
+  error: string;
+  success: string
 
   constructor(private route: Router,
     private formBuilder: FormBuilder,
@@ -21,7 +24,7 @@ export class LoginComponent implements OnInit {
     private accountService: AccountService) { }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
+    this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     })
@@ -41,7 +44,7 @@ export class LoginComponent implements OnInit {
       this.onSubmit();
     });
   }
-  get f() { return this.form.controls; }
+  get f() { return this.loginForm.controls; }
 
   onSubmit() {
     this.submitted = true;
@@ -50,7 +53,7 @@ export class LoginComponent implements OnInit {
     this.alertService.clear();
 
     // stop here if form is invalid
-    if (this.form.invalid) {
+    if (this.loginForm.invalid) {
       return;
     }
 
@@ -60,7 +63,7 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.clearForm();
+         
           console.log(data);
           this.route.navigate(['home']);
 
@@ -84,7 +87,7 @@ export class LoginComponent implements OnInit {
   }
 
   clearForm() {
-    this.form.reset({
+    this.loginForm.reset({
       'username': '',
       'password': ''
     })
