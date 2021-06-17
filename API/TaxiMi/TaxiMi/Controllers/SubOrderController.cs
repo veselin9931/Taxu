@@ -39,7 +39,7 @@ namespace TaxiMi.Controllers
         public async Task<IEnumerable<SuburbanOrder>> GetAll(string status)
         {
             var r = await this.subOrderService.GetAllSubOrdersAsync(status);
-            await this.hub.Clients.All.BroadcastMessage();
+            //await this.hub.Clients.All.BroadcastMessage();
 
             return r;
         }
