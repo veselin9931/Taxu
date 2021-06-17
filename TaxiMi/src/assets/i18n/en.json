@@ -167,5 +167,21 @@
   "Select date" : "Select date",
   "Select time": "Select time",
   "Additional information": "Additional information",
-  "A driver has been found. Please wait for a call for details.": "A driver has been found. Please wait for a call for details."
+  "A driver has been found. Please wait for a call for details.": "A driver has been found. Please wait for a call for details.",
+  "Please connect to internet and try again!" :"Please connect to internet and try again!",
+  "No internet access!": "No internet access!",
+  "Your wallet balance is not enough for this order!": "Your wallet balance is not enough for this order!",
+  "Sorry": "Sorry",
+  "This order is no longer active" : "This order is no longer active",
+  "Order increasing refused.": "Order increasing refused.",
+  "Order increasing accepted.": "Order increasing accepted.",
+  "You can accept the order now": "You can accept the order now",
+  "Order information" : "Order information",
+  "Your car is of type 'Normal' but the order desired car type is 'Comfort'!" : "Your car is of type 'Normal' but the order desired car type is 'Comfort'!",
+  "Location field is required!" : "Location field is required!",
+  "Destination field is required!" : "Destination field is required!",
+  "Driver offers you": "Driver offers you",
+  "лв. for the order":"лв. for the order",
+  "Your order is accepted": "Your order is accepted",
+  "Your driver is on the address, free waiting time 5min": "Your driver is on the address, free waiting time 5min"
 }

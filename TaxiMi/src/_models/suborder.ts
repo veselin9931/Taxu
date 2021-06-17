@@ -6,7 +6,7 @@ export class SubOrder {
     status: string;
     applicationUser: User;
     applicationUserId: string;
-    totalPrice: number;
+    price: number;
     acceptedBy: string;
     info: string;
     date: string;

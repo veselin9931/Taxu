@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 
 import { LoginPageRoutingModule } from './login-routing.module';
-
 import { LoginPage } from './login.page';
 
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';

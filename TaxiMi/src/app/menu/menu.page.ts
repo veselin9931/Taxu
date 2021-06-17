@@ -3,7 +3,7 @@ import { Router, RouterEvent } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
-import { PopoverController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/_services';
@@ -11,7 +11,8 @@ import { DriverService } from 'src/_services/driver/driver.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { Subscription } from 'rxjs';
-import { HttpTransportType } from '@aspnet/signalr';
+import { ConnectivityProvider } from 'src/_services/connectivity.provider';
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.page.html',
@@ -56,7 +57,9 @@ export class MenuPage implements OnInit {
     private driverService: DriverService,
     private translate: TranslateService,
     private popoverController: PopoverController,
-    private backgroundMode: BackgroundMode) {
+    private backgroundMode: BackgroundMode,
+    private alertController: AlertController,
+    private connectivityProvider: ConnectivityProvider) {
     this.isLoggedIn = localStorage.getItem("user");
     if (this.isLoggedIn) {
       this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
@@ -76,7 +79,9 @@ export class MenuPage implements OnInit {
     }));
   }
 
+
   ngOnInit() {
+    this.checkInternetConnection();
     this.checkValues();
 
     const connection = new signalR.HubConnectionBuilder()
@@ -128,7 +133,22 @@ export class MenuPage implements OnInit {
   //   }
   // }
 
+  checkInternetConnection(){
+    this.connectivityProvider.appIsOnline$.subscribe(online => {
+      if (online) {
+        console.log('im online')
+          // call functions or methods that need to execute when app goes online (such as sync() etc)
+  
+      } else {
+        this.noInternetAccess();
+      }
+  
+  })
+  }
+
   checkValues() {
+   
+
     this.isLoggedIn = localStorage.getItem("user");
 
     if (this.isLoggedIn) {
@@ -152,6 +172,28 @@ export class MenuPage implements OnInit {
     } else if (this.isLoggedIn == null) {
       this.router.navigate(['menu/home']);
     }
+  }
+
+  async noInternetAccess() {
+    this.translate.get(['No internet access!', 'Cancel', 'Please connect to internet and try again!'])
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          header: text['No internet access!'],
+          message: text['Please connect to internet and try again!'],
+          buttons: [
+            {
+              text: 'Ok',
+              role: 'Ok',
+            },
+            {
+              text: text['Cancel'],
+              role: 'cancel',
+            }
+
+          ],
+        });
+        await popup.present();
+      })
   }
 
   logout() {

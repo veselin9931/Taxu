@@ -159,13 +159,6 @@ export class TravelModePage implements OnInit {
     });
   }
 
-  // ionViewDidLeave() {
-  //   for (const subscription of this.subscriptions) {
-  //     console.log(subscription)
-  //     subscription.unsubscribe();
-  //   }
-  // }
-
   ionViewDidEnter() {
     this.checkorder();
     if (this.accountService.userValue.alertTriggered == true) {
@@ -209,10 +202,11 @@ export class TravelModePage implements OnInit {
   }
 
   startTimer() {
+    let sec = 0;
     this.startTime = new Date(this.accountService.userValue.timer);
     setInterval(() => {
       if (this.secsDiff == 300) {
-        this.subscriptions.push(this.orderService.increaseOrderPrice(this.order.id, 1)
+        this.subscriptions.push(this.orderService.increaseOrderPrice(this.order.id, 0.50)
           .subscribe(() => { }));
         return;
       }
@@ -223,29 +217,34 @@ export class TravelModePage implements OnInit {
   }
 
   async presentOrderAcceptedNotification() {
-    await LocalNotifications.schedule({
-      notifications: [
-        {
-          title: "Order alert",
-          body: "Your order is accepted",
-          id: 1,
-        }
-      ]
+    this.translate.get(['Order', 'Your order is accepted'])
+    .subscribe(async text => {
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            title: text["Order"],
+            body: text["Your order is accepted"],
+            id: 1,
+          }
+        ]
+      })
     })
-
-
   }
 
   async presentDriverArrivedNotification() {
-    await LocalNotifications.schedule({
-      notifications: [
-        {
-          title: "Order alert",
-          body: "Your driver is on the address",
-          id: 2,
-        }
-      ]
+    this.translate.get(['Order', 'Your driver is on the address, free waiting time 5min'])
+    .subscribe(async text => {
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            title: text["Order"],
+            body: text["Your driver is on the address, free waiting time 5min"],
+            id: 2,
+          }
+        ]
+      })
     })
+    
   }
 
   //CHAT FUNCTIONALLITY
