@@ -24,6 +24,7 @@ import { FaqComponent } from './pages/faq/faq/faq.component';
 import { AboutComponent } from './pages/about/about/about.component';
 import { DownloadComponent } from './pages/download/download.component';
 import { SuccesfullPaymentComponent } from './pages/succesfull-payment/succesfull-payment.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { SuccesfullPaymentComponent } from './pages/succesfull-payment/succesful
     FaqComponent,
     AboutComponent,
     DownloadComponent,
-    SuccesfullPaymentComponent
+    SuccesfullPaymentComponent,
+    RegisterComponent
   ],
   imports: [ 
     BrowserModule /* or CommonModule */, 

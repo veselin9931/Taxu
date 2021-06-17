@@ -17,6 +17,7 @@ import { FaqComponent } from 'app/pages/faq/faq/faq.component';
 import { AboutComponent } from 'app/pages/about/about/about.component';
 import { DownloadComponent } from 'app/pages/download/download.component';
 import { SuccesfullPaymentComponent } from 'app/pages/succesfull-payment/succesfull-payment.component';
+import { RegisterComponent } from '../../pages/register/register.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -35,7 +36,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'faq',        component: FaqComponent },
     { path: 'about',        component: AboutComponent },
     { path: 'download',        component: DownloadComponent },
-    { path: 'success',        component: SuccesfullPaymentComponent }
+    { path: 'success',        component: SuccesfullPaymentComponent },
+    { path: 'register', component: RegisterComponent }
 
 
 
