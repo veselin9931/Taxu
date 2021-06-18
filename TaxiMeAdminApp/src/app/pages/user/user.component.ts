@@ -6,7 +6,8 @@ import { DriverService } from '_services/drver.services';
 @Component({
     selector: 'user-cmp',
     moduleId: module.id,
-    templateUrl: 'user.component.html'
+    templateUrl: 'user.component.html',
+    styleUrls: ['user.component.css']
 })
 
 

@@ -4,11 +4,11 @@ import Chart from 'chart.js';
 import { AccountService } from '_services';
 import { SharedService } from '_services/shared-service/shared.service';
 
-
 @Component({
   selector: 'dashboard-cmp',
   moduleId: module.id,
-  templateUrl: 'dashboard.component.html'
+  templateUrl: 'dashboard.component.html',
+  styleUrls:['dashboard.component.css']
 })
 
 export class DashboardComponent implements OnInit {
