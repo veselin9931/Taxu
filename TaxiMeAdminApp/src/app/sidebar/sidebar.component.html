@@ -13,71 +13,95 @@
   <div *ngIf='isLoggedIn'>
     <ul class="nav" *ngIf='isLoggedIn && isAdmin'>
       <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
-          <a *ngIf='isLoggedIn' [routerLink]="[menuItem.path]">
-              <i class="nc-icon {{menuItem.icon}}"></i>
-              <p>{{menuItem.title}}</p>
-          </a>
+        <a *ngIf='isLoggedIn' [routerLink]="[menuItem.path]">
+          <i class="nc-icon {{menuItem.icon}}"></i>
+          <p>{{menuItem.title}}</p>
+        </a>
 
-          
+
       </li>
-
+      <li *ngIf='!isLoggedIn' routerLinkActive="active">
+        <a routerLink="/register">
+          <i class="nc-icon nc-single-02"></i>
+          <p>Регистрация</p>
+        </a>
+      </li>
       <li *ngIf='!isLoggedIn' routerLinkActive="active">
         <a routerLink="/login">
           <i class="nc-icon nc-single-02"></i>
           <p>Вход</p>
-      </a>
+        </a>
       </li>
+
+
 
       <li *ngIf='isLoggedIn' routerLinkActive="active">
         <a (click)='logout()' routerLink="/login">
-            <i class="nc-icon nc-button-power"></i>
-            <p>Изход</p>
-        </a>
-    </li>
-  </ul>
-
-  <ul class="nav" *ngIf='!isAdmin'>
-    <li *ngFor="let menuItemUs of menuItemsForUsers" routerLinkActive="active">
-        <a *ngIf='isLoggedIn' [routerLink]="[menuItemUs.path]">
-            <i class="nc-icon {{menuItemUs.icon}}"></i>
-            <p>{{menuItemUs.title}}</p>
-        </a>
-
-        
-    </li>
-
-    <li *ngIf='!isLoggedIn' routerLinkActive="active">
-      <a routerLink="/login">
-        <i class="nc-icon nc-single-02"></i>
-        <p>Вход</p>
-    </a>
-    </li>
-
-    <li *ngIf='isLoggedIn' routerLinkActive="active">
-      <a (click)='logout()' routerLink="/login">
           <i class="nc-icon nc-button-power"></i>
           <p>Изход</p>
-      </a>
-  </li>
-</ul>
+        </a>
+      </li>
+    </ul>
+
+    <ul class="nav" *ngIf='!isAdmin'>
+      <li *ngFor="let menuItemUs of menuItemsForUsers" routerLinkActive="active">
+        <a *ngIf='isLoggedIn' [routerLink]="[menuItemUs.path]">
+          <i class="nc-icon {{menuItemUs.icon}}"></i>
+          <p>{{menuItemUs.title}}</p>
+        </a>
+
+
+      </li>
+      <li *ngIf='!isLoggedIn' routerLinkActive="active">
+        <a routerLink="/register">
+          <i class="nc-icon nc-single-02"></i>
+          <p>Регистрация</p>
+        </a>
+      </li>
+      <li *ngIf='!isLoggedIn' routerLinkActive="active">
+        <a routerLink="/login">
+          <i class="nc-icon nc-single-02"></i>
+          <p>Вход</p>
+        </a>
+      </li>
+
+
+
+
+      <li *ngIf='isLoggedIn' routerLinkActive="active">
+        <a (click)='logout()' routerLink="/login">
+          <i class="nc-icon nc-button-power"></i>
+          <p>Изход</p>
+        </a>
+      </li>
+    </ul>
   </div>
  <div *ngIf='!isLoggedIn'> 
    <ul class="nav">
-  <li *ngFor="let freeMenuItem of freeMenuItems" routerLinkActive="active">
-      <a [routerLink]="[freeMenuItem.path]">
-          <i class="nc-icon {{freeMenuItem.icon}}"></i>
-          <p>{{freeMenuItem.title}}</p>
-      </a>
+     <li *ngFor="let freeMenuItem of freeMenuItems" routerLinkActive="active">
+       <a [routerLink]="[freeMenuItem.path]">
+         <i class="nc-icon {{freeMenuItem.icon}}"></i>
+         <p>{{freeMenuItem.title}}</p>
+       </a>
 
-      
-  </li>
 
-  <li *ngIf='!isLoggedIn' routerLinkActive="active">
-    <a routerLink="/login">
-      <i class="nc-icon nc-single-02"></i>
-      <p>Вход</p>
-  </a>
-  </li>
-</ul>
+     </li>
+     <li *ngIf='!isLoggedIn' routerLinkActive="active">
+       <a routerLink="/register">
+         <i class="nc-icon nc-single-02"></i>
+         <p>Регистрация</p>
+       </a>
+     </li>
+     <li *ngIf='!isLoggedIn' routerLinkActive="active">
+       <a routerLink="/login">
+         <i class="nc-icon nc-single-02"></i>
+         <p>Вход</p>
+       </a>
+
+     </li>
+
+
+
+   </ul>
    </div>
 </div>

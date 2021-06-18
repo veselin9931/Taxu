@@ -20,10 +20,8 @@ export const ROUTES: RouteInfo[] = [
     { path: '/user', title: 'Потребители', icon: 'nc-single-02', class: '', isAdmin: true, free: false},
     { path: '/reports', title: 'Проблеми', icon: 'nc-paper', class: '', isAdmin: true, free: false },
     { path: '/payments', title: 'Плащания', icon: 'nc-money-coins', class: '' , isAdmin: false, free: false},
-    { path: '/download', title: 'Изтегли', icon: 'nc-cloud-download-93', class: '' , isAdmin: false, free: true}, 
     { path: '/faq', title: 'Често задавани въпроси', icon: 'nc-chat-33', class: '' , isAdmin: false, free: true},
     { path: '/about', title: 'За компанията', icon: 'nc-badge', class: '', isAdmin: false, free: true },
-  { path: '/register', title: 'Регистрация', icon: 'nc-credit-card', class: '', isAdmin: false, free: true },
 
 ];
 
@@ -77,7 +75,6 @@ export class SidebarComponent implements OnInit {
 
     checkValues() {
       this.isLoggedIn = localStorage.getItem("user");
-      console.log(localStorage.getItem("user"));
     }
 
     logout() {

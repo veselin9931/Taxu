@@ -3,3 +3,12 @@
   border: 2px double rgb(0, 0, 0);
   border-radius: 50%;
 }
+.text {
+  font-size: 60px;
+}
+
+.mdi-36px {
+  font-size: 39px;
+  margin-right: 10px;
+  margin: 7px;
+}
