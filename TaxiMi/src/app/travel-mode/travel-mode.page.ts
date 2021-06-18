@@ -4,7 +4,6 @@ import * as signalR from '@aspnet/signalr';
 import { Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { title } from 'process';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Message, Order, Trip } from 'src/_models';
@@ -15,7 +14,7 @@ import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-const { Geolocation, LocalNotifications } = Plugins;
+const { LocalNotifications } = Plugins;
 declare var google: any;
 
 @Component({

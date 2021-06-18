@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { IonicModule } from '@ionic/angular';
-import { BrowserModule } from '@angular/platform-browser';
 
 import { DrivingPageRoutingModule } from './driving-routing.module';
 

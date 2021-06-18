@@ -5,14 +5,12 @@ import { IonDatetime, PopoverController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SubOrder } from '../../_models/suborder';
-import { SubOrderOpt } from '../../_models/suporder-opt';
 import { AccountService } from '../../_services';
 import { OptionsService } from '../../_services/suborder/options.service';
 import { SuborderService } from '../../_services/suborder/suborder.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { format } from "date-fns";
-import { DriverService } from '../../_services/driver/driver.service';
-import { Driver, User } from '../../_models';
+import { User } from '../../_models';
 
 @Component({
     selector: 'app-out-of-town',
@@ -42,8 +40,7 @@ export class OutOfTownPage implements OnInit {
         private optionService: OptionsService,
         private formBuilder: FormBuilder,
         private subOrderService: SuborderService,
-        private accountService: AccountService,
-        private driverService: DriverService
+        private accountService: AccountService
     ) { }
 
 

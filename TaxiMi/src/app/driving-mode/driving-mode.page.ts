@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { Capacitor, Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { AnyTxtRecord } from 'dns';
-import { interval, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Message, Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { ChatService } from 'src/_services/chat/chat.service';
@@ -94,12 +93,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
 
   }
-  // ionViewDidLeave() {
-  //   for (const subscription of this.subscriptions) {
-  //     console.log(subscription)
-  //     subscription.unsubscribe();
-  //   }
-  // }
+
   ngOnInit() {
 
     this.id = setInterval(() => {

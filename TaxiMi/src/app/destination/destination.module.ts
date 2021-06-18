@@ -8,7 +8,7 @@ import { DestinationPageRoutingModule } from './destination-routing.module';
 
 import { DestinationPage } from './destination.page';
 
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguagePopoverPageModule } from '../language-popover/language-popover.module';

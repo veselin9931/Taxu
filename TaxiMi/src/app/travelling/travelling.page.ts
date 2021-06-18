@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
@@ -94,7 +94,7 @@ export class TravellingPage implements OnInit {
   }
 
   ngOnInit() {
-    
+
     this.loading = true;
     this.form = this.formBuilder.group({
       applicationUserId: [''],
@@ -113,7 +113,7 @@ export class TravellingPage implements OnInit {
       withPets: false,
       withStroller: false,
       special: false,
-      carType: '',
+      carType: this.carValue,
       description: '',
       pickUpTime: ''
     })
@@ -170,26 +170,27 @@ export class TravellingPage implements OnInit {
   }
   async presentOrderAcceptedNotification() {
     this.translate.get(['Order', 'Your order is accepted'])
-    .subscribe(async text => {
-      await LocalNotifications.schedule({
-        notifications: [
-          {
-            title: text["Order"],
-            body: text["Your order is accepted"],
-            id: 1,
-          }
-        ]
+      .subscribe(async text => {
+        await LocalNotifications.schedule({
+          notifications: [
+            {
+              title: text["Order"],
+              body: text["Your order is accepted"],
+              id: 1,
+            }
+          ]
+        })
       })
-    })
-    
+
   }
 
-
   ionViewDidEnter() {
-    if(this.orderService.chosenDestination && this.orderService.chosenLocation){
+    this.form.value.carType = 'normal';
+    this.carValue = 'normal';
+    if (this.orderService.chosenDestination && this.orderService.chosenLocation) {
       this.choosedLocDest = true;
     }
-    console.log(this.choosedLocDest)
+
     this.checkorder();
     if (this.orderService.selectedFavourite) {
       this.orderService.chosenLocation = this.orderService.selectedFavourite.location
@@ -215,7 +216,6 @@ export class TravellingPage implements OnInit {
       this.form.get('location').setValue(this.order.location);
       this.form.get('destination').setValue(this.order.destination);
     }
-
   }
 
 
@@ -293,7 +293,6 @@ export class TravellingPage implements OnInit {
                 this.form.value.locationLat = this.form.value.locationLat.toString();
                 this.form.value.locationLong = this.form.value.locationLong.toString();
                 this.orderStatus = this.form.value.status;
-                this.order.totalPrice = this.orderTotalPrice;
                 this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
                   .subscribe());
               }))
@@ -301,7 +300,6 @@ export class TravellingPage implements OnInit {
           console.log(this.order)
         } else {
           this.isSubmitted = false;
-          //window.alert("Directions request failed due to " + status);
         }
       }
     );
@@ -333,27 +331,32 @@ export class TravellingPage implements OnInit {
 
   }
 
-  // priceUpdate() {
-  //   if (this.form.value.withPets == false) {
-  //     this.orderTotalPrice = this.orderTotalPrice + 2.20;
-  //   }
+  priceUpdate() {
+    if (this.form.value.withPets == false) {
+      this.orderTotalPrice = this.orderTotalPrice + 2.20;
+      console.log(this.form.value)
 
-  //   if (this.form.value.withPets == true) {
-  //     this.orderTotalPrice = this.orderTotalPrice - 2.20;
-  //   }
-  // }
+    }
+
+    if (this.form.value.withPets == true) {
+      this.orderTotalPrice = this.orderTotalPrice - 2.20;
+    }
+  }
 
   onSelectCar(value) {
+    this.form.value.carType = this.carValue;
     this.carValue = value;
-    // if(this.form.value.carType === 'comfort' && this.carValue === 'normal'){
-    //   this.form.value.carType = value;
-    //   this.orderTotalPrice -=1;
-    // }
 
-    // if((this.form.value.carType === 'normal' || this.form.value.carType === '') && this.carValue === 'comfort'){
-    //   this.form.value.carType = value;
-    //   this.orderTotalPrice += 1;
-    // }
+    if (value == 'normal') {
+      if (this.form.value.carType == 'comfort') {
+        this.orderTotalPrice = this.orderTotalPrice - 1;
+      }
+    }
+    if (value == 'comfort') {
+      if (this.form.value.carType == 'normal') {
+        this.orderTotalPrice = this.orderTotalPrice + 1;
+      }
+    }
 
     this.form.value.carType = value;
   }
@@ -443,37 +446,37 @@ export class TravellingPage implements OnInit {
 
   async locationError() {
     this.translate.get(['Location field is required!'])
-    .subscribe(async text => {
-      const popup = await this.alertController.create({
-        header: text['Location field is required!'],
-        buttons: [
-          {
-            text: 'Ok',
-            role: 'Ok',
-          }
-        ]
-      });
-  
-      await popup.present();
-    })
-    
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          header: text['Location field is required!'],
+          buttons: [
+            {
+              text: 'Ok',
+              role: 'Ok',
+            }
+          ]
+        });
+
+        await popup.present();
+      })
+
   }
 
   async destinationError() {
     this.translate.get(['Destination field is required !'])
-    .subscribe(async text => {
-      const popup = await this.alertController.create({
-        header: text['Destination field is required !'],
-        buttons: [
-          {
-            text: 'Ok',
-            role: 'Ok',
-          }
-        ]
-      });
-  
-      await popup.present();
-    })
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          header: text['Destination field is required !'],
+          buttons: [
+            {
+              text: 'Ok',
+              role: 'Ok',
+            }
+          ]
+        });
+
+        await popup.present();
+      })
   }
 
   async increasedOrder() {
@@ -482,53 +485,53 @@ export class TravellingPage implements OnInit {
     textf.second = this.translate.instant('лв. for the order');
 
     this.translate.get(['Accept', 'Cancel'])
-    .subscribe(async text => {
-      const popup = await this.alertController.create({
-        header: `${textf.first} ${this.driverIncreased.toFixed(2)} ${textf.second}`,
-        buttons: [
-          {
-            text: text['Accept'],
-            handler: () => {
-              this.subscriptions.push(this.orderService.getMyOrder(this.user.id).subscribe(order => {
-                this.subscriptions.push(this.orderService.increasedOrderAccept(order.id, true)
-                  .subscribe(() => {
-                    this.subscriptions.push(this.orderService.increaseOrderPrice(order.id, this.driverPrice)
-                      .subscribe(() => {
-                      }))
-                  }))
-              }))
-  
-            }
-          },
-          {
-            text: text['Cancel'],
-            handler: () => {
-              this.subscriptions.push(this.orderService.getMyOrder(this.user.id).subscribe(order => {
-                this.subscriptions.push(this.orderService.increasedOrderAccept(order.id, false)
-                  .subscribe(() => {
-  
-                  }))
-                this.subscriptions.push(this.orderService.resetIncreasing(this.order.id)
-                  .subscribe(() => {
-                  }))
-              }))
-            }
-          },
-        ]
-      });
-  
-      await popup.present();
-    })
-   
+      .subscribe(async text => {
+        const popup = await this.alertController.create({
+          header: `${textf.first} ${this.driverIncreased.toFixed(2)} ${textf.second}`,
+          buttons: [
+            {
+              text: text['Accept'],
+              handler: () => {
+                this.subscriptions.push(this.orderService.getMyOrder(this.user.id).subscribe(order => {
+                  this.subscriptions.push(this.orderService.increasedOrderAccept(order.id, true)
+                    .subscribe(() => {
+                      this.subscriptions.push(this.orderService.increaseOrderPrice(order.id, this.driverPrice)
+                        .subscribe(() => {
+                        }))
+                    }))
+                }))
+
+              }
+            },
+            {
+              text: text['Cancel'],
+              handler: () => {
+                this.subscriptions.push(this.orderService.getMyOrder(this.user.id).subscribe(order => {
+                  this.subscriptions.push(this.orderService.increasedOrderAccept(order.id, false)
+                    .subscribe(() => {
+
+                    }))
+                  this.subscriptions.push(this.orderService.resetIncreasing(this.order.id)
+                    .subscribe(() => {
+                    }))
+                }))
+              }
+            },
+          ]
+        });
+
+        await popup.present();
+      })
+
   }
 
   clearForm() {
     this.translate.get(['Take me from here', 'Choose destination'])
-    .subscribe(text => {
-      this.orderService.chosenLocation = text['Take me from here'];
-      this.orderService.chosenDestination = text['Choose destination'];
-    })
-   
+      .subscribe(text => {
+        this.orderService.chosenLocation = text['Take me from here'];
+        this.orderService.chosenDestination = text['Choose destination'];
+      })
+
     this.form.reset({
       'location': undefined,
       'destination': undefined,

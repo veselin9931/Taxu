@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Order, User } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
-import { Location } from '@angular/common';
 import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
 import { Subscription } from 'rxjs';
-import { AlertController, PopoverController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 @Component({
@@ -24,7 +23,6 @@ export class DriverHistoryPage implements OnInit {
   currentDate = new Date();
   constructor(private driverService: DriverService,
     private accountService: AccountService,
-    private alertController: AlertController,
     private popoverController: PopoverController,
     private translate: TranslateService) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);

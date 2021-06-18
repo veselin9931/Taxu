@@ -12,7 +12,7 @@ import { MultiFileUploadComponent } from '../multi-file-upload/multi-file-upload
 import { AccountService } from '../../_services';
 import { ImageService } from '../../_services/image/image.service';
 import { DriverService } from '../../_services/driver/driver.service';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguagePopoverPageModule } from '../language-popover/language-popover.module';

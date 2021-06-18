@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
@@ -126,12 +124,6 @@ export class MenuPage implements OnInit {
     });
   }
 
-  // ionViewDidLeave() {
-  //   for (const subscription of this.subscriptions) {
-  //     console.log(subscription)
-  //     subscription.unsubscribe();
-  //   }
-  // }
 
   checkInternetConnection(){
     this.connectivityProvider.appIsOnline$.subscribe(online => {
@@ -175,7 +167,7 @@ export class MenuPage implements OnInit {
   }
 
   async noInternetAccess() {
-    this.translate.get(['No internet access!', 'Cancel', 'Please connect to internet and try again!'])
+    this.translate.get(['No internet access!', 'Please connect to internet and try again!'])
       .subscribe(async text => {
         const popup = await this.alertController.create({
           header: text['No internet access!'],
@@ -184,12 +176,7 @@ export class MenuPage implements OnInit {
             {
               text: 'Ok',
               role: 'Ok',
-            },
-            {
-              text: text['Cancel'],
-              role: 'cancel',
             }
-
           ],
         });
         await popup.present();
