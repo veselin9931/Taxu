@@ -88,7 +88,7 @@ namespace TaxiMi.Services.DriverService
             var driver = new Driver()
             {
                 ApplicationUserId = driverInputModel.ApplicationUserId,
-                Comission = 20,
+                Comission = 6,
                 DocumentConfirmation = false,
                 CurrentLocation = driverInputModel.CurrentLocation,
                 Referal = Guid.NewGuid().ToString(),
