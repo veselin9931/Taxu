@@ -17,16 +17,12 @@
   }
 
   #subheader{
-    font-family: 'Exo Bold';
-
-      font-size: 40px;
+      font-size: 35px;
     color: rgb(37, 70, 121);
   }
 
   #subheaderunder{
-    font-family: 'Exo Bold';
-      text-decoration: underline;
-    font-size: 30px;
+    font-size: 35px;
     color: rgb(37, 70, 121);
   }
 
