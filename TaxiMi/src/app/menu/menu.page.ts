@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { AlertController, PopoverController } from '@ionic/angular';
+import { AlertController, Platform, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 import { AccountService } from 'src/_services';
@@ -57,11 +57,11 @@ export class MenuPage implements OnInit {
     private popoverController: PopoverController,
     private backgroundMode: BackgroundMode,
     private alertController: AlertController,
-    private connectivityProvider: ConnectivityProvider) {
+    private connectivityProvider: ConnectivityProvider,
+    private platform: Platform) {
     this.isLoggedIn = localStorage.getItem("user");
     if (this.isLoggedIn) {
       this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
-      this.backgroundMode.enable();
     } else {
       this.translate.setDefaultLang('bg');
     }
@@ -75,10 +75,35 @@ export class MenuPage implements OnInit {
         //this.selectedPath = event.url;
       }
     }));
+
+
+    platform.ready().then(() => {
+      this.backgroundMode.enable();
+      
+      if (platform.is('cordova')) {
+        
+        //Subscribe on pause i.e. background
+        this.platform.pause.subscribe(() => {
+          console.log('paused')
+          console.log('IS BACKGR ENABLED?')
+          console.log(this.backgroundMode.isEnabled())
+        });
+
+        //Subscribe on resume i.e. foreground 
+        this.platform.resume.subscribe(() => {
+          console.log('resume')
+          console.log('IS BACKGR ENABLED?')
+          console.log(this.backgroundMode.isEnabled())
+        });
+      }
+    });
   }
 
 
   ngOnInit() {
+    this.backgroundMode.enable();
+    console.log(this.backgroundMode.enable())
+    console.log(this.backgroundMode.isEnabled())
     this.checkInternetConnection();
     this.checkValues();
 
@@ -125,21 +150,21 @@ export class MenuPage implements OnInit {
   }
 
 
-  checkInternetConnection(){
+  checkInternetConnection() {
     this.connectivityProvider.appIsOnline$.subscribe(online => {
       if (online) {
         console.log('im online')
-          // call functions or methods that need to execute when app goes online (such as sync() etc)
-  
+        // call functions or methods that need to execute when app goes online (such as sync() etc)
+
       } else {
         this.noInternetAccess();
       }
-  
-  })
+
+    })
   }
 
   checkValues() {
-   
+
 
     this.isLoggedIn = localStorage.getItem("user");
 

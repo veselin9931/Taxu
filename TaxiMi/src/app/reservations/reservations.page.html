@@ -35,8 +35,8 @@
                     <p><ion-icon name="person"></ion-icon>  {{subOrder.applicationUser.firstName}}  {{subOrder.applicationUser.lastName}} </p>
                 </div>
                 <div class="d-flex w-100 justify-content-between">
-                    <button class="fonted btn btn-danger" (click)="cancelOrder(subOrder)" type="button">{{'Refuse' | translate}}</button>
-                    <button class="fonted btn btn-info" (click)="acceptByUser(subOrder.id)" type="button">{{'Accepted by user' | translate}}</button>
+                    <button class="fonted btn btn-danger" (click)="cancelOrder(subOrder)" type="button">{{'Cancel' | translate}}</button>
+                    <button class="fonted btn btn-info" (click)="acceptByUser(subOrder.id)" type="button">{{'Accept' | translate}}</button>
                     <button class="fonted btn btn-warning" (click)="callToUser(subOrder.applicationUser.phone)" type="button">{{'Call passenger' | translate}}</button>
                 </div>
             </a>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="d-flex w-100 justify-content-between">
                     <button class="fonted btn btn-warning" (click)="callToUser(progressOrder.applicationUser.phone)" type="button">{{'Call passenger' | translate}}</button>
-                    <button class="fonted btn btn-info" (click)="closeOrder(progressOrder)" type="button">{{'Succesfull trip' | translate}}</button>
+                    <button class="fonted btn btn-info" (click)="closeOrder(progressOrder)" type="button">{{'Finish trip' | translate}}</button>
                 </div>
 
             </a>

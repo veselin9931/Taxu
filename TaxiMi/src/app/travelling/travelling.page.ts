@@ -232,7 +232,7 @@ export class TravellingPage implements OnInit {
 
   onSubmit() {
     this.isSubmitted = true;
-
+    this.form.value.carType = this.carValue;
     //Gets the loc and lng if we come from "Favourites" page
     if (this.form.value.location == undefined) {
       this.locationError();
