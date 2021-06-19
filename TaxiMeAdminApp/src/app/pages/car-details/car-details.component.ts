@@ -48,6 +48,13 @@ export class CarDetailsComponent implements OnInit {
       })
   }
 
+  // zoom(id){
+  //   let img = document.getElementById(id);
+  //   img.style.transform = "scale(1.5)";
+  //   img.style.transition =
+  //     "transform 0.25s ease";
+
+  // }
 
   confirm(id) {
     this.carService.confirm(id).subscribe(data => {

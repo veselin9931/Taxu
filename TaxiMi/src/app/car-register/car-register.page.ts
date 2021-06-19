@@ -72,7 +72,7 @@ export class CarRegisterPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    this.clearCarImages();
+    // this.clearCarImages();
 
   }
 
@@ -91,21 +91,21 @@ export class CarRegisterPage implements OnInit {
 
   }
 
-  clearCarImages() {
-    this.imageService.getUserCarPictures(this.userId)
-    .subscribe(x => {
-      this.pics = x;
-      if(this.pics.length > 0){
-        this.pics.forEach(pic => {
-          this.imageService.removeDocument(pic.id)
-            .subscribe(x => {
-              console.log('Image removed sucessfully')
-            })
-        });
-      }
-    })
+  // clearCarImages() {
+  //   this.imageService.getUserCarPictures(this.userId)
+  //   .subscribe(x => {
+  //     this.pics = x;
+  //     if(this.pics.length > 0){
+  //       this.pics.forEach(pic => {
+  //         this.imageService.removeDocument(pic.id)
+  //           .subscribe(x => {
+  //             console.log('Image removed sucessfully')
+  //           })
+  //       });
+  //     }
+  //   })
     
-  }
+  // }
 
   onSubmit() {
     this.submitted = true;
