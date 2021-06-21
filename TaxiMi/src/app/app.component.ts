@@ -4,7 +4,6 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TranslateService } from '@ngx-translate/core';
-import { FCMOriginal } from '@ionic-native/fcm/index';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -17,7 +16,6 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private translate: TranslateService,
-    private fcm: FCMOriginal
   ) {
     this.initializeApp();
   }

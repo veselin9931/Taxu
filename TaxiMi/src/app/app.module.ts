@@ -19,7 +19,6 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
-import { FCM, FCMOriginal } from '@ionic-native/fcm/index';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -48,7 +47,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     Geolocation,
     DatePicker,
     LocationAccuracy,
-    FCMOriginal,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
   ],
   bootstrap: [AppComponent]
