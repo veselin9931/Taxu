@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { AlertController, IonDatetime, PopoverController } from '@ionic/angular';
+import { AlertController, IonDatetime, Platform, PopoverController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
@@ -10,7 +10,10 @@ import { OrderService } from 'src/_services/order/order.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Subscription } from 'rxjs';
-import { LocalNotifications } from '@capacitor/core';
+import { LocalNotifications, Plugins } from '@capacitor/core';
+import { FCMOriginal } from '@ionic-native/fcm';
+
+const { PushNotifications } = Plugins;
 
 @Component({
   selector: 'app-travelling',
@@ -53,14 +56,33 @@ export class TravellingPage implements OnInit {
   isCompleted = false;
 
   private subscriptions: Subscription[] = [];
-
+  pushes: any = [];
   constructor(private formBuilder: FormBuilder,
     private route: Router,
     public orderService: OrderService,
     private accountService: AccountService,
     private translate: TranslateService,
     private popoverController: PopoverController,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private fcm: FCMOriginal,
+    public plt: Platform) {
+
+    this.plt.ready()
+      .then(() => {
+        this.fcm.onNotification().subscribe(data => {
+          if (data.wasTapped) {
+            console.log("Received in background");
+          } else {
+            console.log("Received in foreground");
+          };
+        });
+
+        this.fcm.onTokenRefresh().subscribe(token => {
+          // Register your new token in your back-end if you want
+          // backend.registerToken(token);
+        });
+      })
+
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
     this.translate.get(['Now', 'Cancel', 'Choose'])
       .subscribe(text => {
@@ -168,6 +190,20 @@ export class TravellingPage implements OnInit {
 
     });
   }
+
+  subscribeToTopic() {
+    this.fcm.subscribeToTopic('enappd');
+  }
+  getToken() {
+    this.fcm.getToken().then(token => {
+      // Register your new token in your back-end if you want
+      // backend.registerToken(token);
+    });
+  }
+  unsubscribeFromTopic() {
+    this.fcm.unsubscribeFromTopic('enappd');
+  }
+
   async presentOrderAcceptedNotification() {
     this.translate.get(['Order', 'Your order is accepted'])
       .subscribe(async text => {
@@ -523,6 +559,11 @@ export class TravellingPage implements OnInit {
         await popup.present();
       })
 
+  }
+
+
+  resetBadgeCount() {
+    PushNotifications.removeAllDeliveredNotifications();
   }
 
   clearForm() {

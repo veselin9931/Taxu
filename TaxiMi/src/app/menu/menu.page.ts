@@ -79,9 +79,9 @@ export class MenuPage implements OnInit {
 
     platform.ready().then(() => {
       this.backgroundMode.enable();
-      
+
       if (platform.is('cordova')) {
-        
+
         //Subscribe on pause i.e. background
         this.platform.pause.subscribe(() => {
           console.log('paused')
@@ -148,7 +148,6 @@ export class MenuPage implements OnInit {
 
     });
   }
-
 
   checkInternetConnection() {
     this.connectivityProvider.appIsOnline$.subscribe(online => {

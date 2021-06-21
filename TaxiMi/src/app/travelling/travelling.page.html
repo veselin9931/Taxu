@@ -161,11 +161,16 @@
 
                         <div class="row text-center">
                             <div class="col-md-12">
-
+                                
                                 <button [disabled]="isSubmitted" *ngIf="isCompleted == false" type="button"
                                     (click)="onSubmit()" class="mt-1 btn btn-warning fonted">
                                     {{orderTotalPrice |  number : '1.2-2'}} лв. | {{'Make a order'| translate}}
                                     <span *ngIf="isSubmitted" class="spinner-border spinner-border-sm mr-1"></span>
+                                </button>
+
+                                <button type="button"
+                                    (click)="resetBadgeCount()" class="mt-1 btn btn-warning fonted">
+                                    clear
                                 </button>
                             </div>
                         </div>
