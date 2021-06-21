@@ -23,7 +23,7 @@ export class WalletService {
 
 
   public chargeWallet(userId: string, amount: number): Observable<Wallet> {
-    const headers = this.sharedService.headerGerneration();
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` });
     return this.http.put<Wallet>(`${environment.apiUrl}/api/wallet/increase/${userId}/${amount}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)

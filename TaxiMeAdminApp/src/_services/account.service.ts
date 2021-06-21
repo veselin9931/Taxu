@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'environments/environment';
-import { User } from '_models';
+import { User, Wallet } from '_models';
 @Injectable({ providedIn: 'root' })
 export class AccountService {
   private userSubject: BehaviorSubject<User>;
@@ -104,6 +104,15 @@ export class AccountService {
       }));
   }
 
+  charge(id, ammount) {
+    const headers = this.headerGerneration()
+    return this.http.put<Wallet>(`${environment.apiUrl}/api/wallet/increase/${id}/${ammount}`, { headers, responseType: 'json' },)
+      .pipe(
+        catchError(this.handleError)
+      );
+
+  }
+
   delete(id: string) {
     return this.http.delete(`${environment.apiUrl}/api/${id}`)
       .pipe(map(x => {
@@ -113,5 +122,20 @@ export class AccountService {
         }
         return x;
       }));
+  }
+
+  handleError(error) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      console.log('Client side error.')
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // server-side error
+      console.log('Server side error.')
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(errorMessage);
   }
 }
