@@ -39,3 +39,4 @@ npm-debug.log*
 /API/TaxiMi/TaxiMi.Services/obj
 /API/TaxiMi/TaxiMi/bin
 /API/TaxiMi/.vs
+/TaxiMeAdminApp/.vs
