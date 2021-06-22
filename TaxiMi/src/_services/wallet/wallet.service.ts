@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Wallet } from 'src/_models';
+import { AccountService } from '../account.service';
 import { SharedService } from '../shared/shared.service';
 
 @Injectable({
@@ -11,7 +12,7 @@ import { SharedService } from '../shared/shared.service';
 })
 export class WalletService {
 
-  constructor(private http: HttpClient, private sharedService: SharedService) { }
+  constructor(private http: HttpClient, private sharedService: SharedService, private accountService: AccountService) { }
 
   public getMyWallet(userId: string): Observable<Wallet> {
     const headers = this.sharedService.headerGerneration();
@@ -23,7 +24,7 @@ export class WalletService {
 
 
   public chargeWallet(userId: string, amount: number): Observable<Wallet> {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` });
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.accountService.userValue.token}` });
     return this.http.put<Wallet>(`${environment.apiUrl}/api/wallet/increase/${userId}/${amount}`, { headers, responseType: 'json' },)
       .pipe(
         catchError(this.handleError)
