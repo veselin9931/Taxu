@@ -14,7 +14,8 @@ import { OrderService } from 'src/_services/order/order.service';
 import { TripService } from 'src/_services/trip/trip.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-const { LocalNotifications } = Plugins;
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+
 declare var google: any;
 
 @Component({
@@ -64,6 +65,7 @@ export class TravelModePage implements OnInit {
     public accountService: AccountService,
     private tripService: TripService,
     private driverService: DriverService,
+    private localNotifications: LocalNotifications,
     private alertController: AlertController,
     private chatService: ChatService,
     private translate: TranslateService,
@@ -215,35 +217,33 @@ export class TravelModePage implements OnInit {
     }, 1000);
   }
 
-  async presentOrderAcceptedNotification() {
+  presentOrderAcceptedNotification() {
     this.translate.get(['Order', 'Your order is accepted'])
-    .subscribe(async text => {
-      await LocalNotifications.schedule({
-        notifications: [
-          {
-            title: text["Order"],
-            body: text["Your order is accepted"],
-            id: 1,
-          }
-        ]
+      .subscribe(text => {
+        this.localNotifications.schedule({
+          id: 1,
+          title: text["Order"],
+          text: text["Your order is accepted"],
+          data: { secret: 'secret' }
+        })
       })
-    })
   }
 
-  async presentDriverArrivedNotification() {
+  presentNotification() {
+
+  }
+
+  presentDriverArrivedNotification() {
     this.translate.get(['Order', 'Your driver is on the address, free waiting time 5min'])
-    .subscribe(async text => {
-      await LocalNotifications.schedule({
-        notifications: [
-          {
-            title: text["Order"],
-            body: text["Your driver is on the address, free waiting time 5min"],
-            id: 2,
-          }
-        ]
+      .subscribe(async text => {
+        this.localNotifications.schedule({
+          id: 2,
+          title: text["Order"],
+          text: text["Your driver is on the address, free waiting time 5min"],
+          data: { secret: 'secret' }
+        })
       })
-    })
-    
+
   }
 
   //CHAT FUNCTIONALLITY

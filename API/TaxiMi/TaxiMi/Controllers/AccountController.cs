@@ -174,7 +174,21 @@ namespace TaxiMi.Controllers
                 Timer = DateTime.UtcNow,
                 AlertTriggered = user.AlertTriggered,
                 IsAdmin = user.IsAdmin,
+                DeviceToken = user.DeviceToken
             });
+        }
+
+        [HttpPut("token/{id}/{value}")]
+        public async Task<IActionResult> DeviceTokenSet(string id, string value)
+        {
+            var result = await this.userService.UpdateUserTokenAsync(id, value);
+
+            if (result)
+            {
+                return this.Ok();
+            }
+
+            return this.BadRequest();
         }
 
         [HttpPut("{id}/{value}")]

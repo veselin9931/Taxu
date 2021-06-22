@@ -19,7 +19,7 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
-
+import { LocalNotifications} from '@ionic-native/local-notifications/ngx'
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -45,6 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SplashScreen,
     AndroidPermissions,
     Geolocation,
+    LocalNotifications,
     DatePicker,
     LocationAccuracy,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy},

@@ -14,6 +14,8 @@ namespace TaxiMi.Models
 
         public DateTime? DeletedOn { get; set; }
 
+        public string DeviceToken { get; set; }
+
         [Required]
         public string FirstName { get; set; }
 

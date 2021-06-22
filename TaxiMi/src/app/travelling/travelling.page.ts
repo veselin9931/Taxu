@@ -10,10 +10,7 @@ import { OrderService } from 'src/_services/order/order.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Subscription } from 'rxjs';
-import { LocalNotifications, Plugins } from '@capacitor/core';
-
-const { PushNotifications } = Plugins;
-
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 @Component({
   selector: 'app-travelling',
   templateUrl: './travelling.page.html',
@@ -23,7 +20,6 @@ export class TravellingPage implements OnInit {
   customPickerOptions: any;
 
   @ViewChild('mydt') mydt: IonDatetime;
-
   public currentTrip: Trip;
   private user = this.accountService.userValue;
   public loading: boolean;
@@ -63,9 +59,8 @@ export class TravellingPage implements OnInit {
     private translate: TranslateService,
     private popoverController: PopoverController,
     private alertController: AlertController,
+    private localNotifications: LocalNotifications,
     public plt: Platform) {
-
-
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
     this.translate.get(['Now', 'Cancel', 'Choose'])
       .subscribe(text => {
@@ -174,17 +169,14 @@ export class TravellingPage implements OnInit {
     });
   }
 
-  async presentOrderAcceptedNotification() {
+  presentOrderAcceptedNotification() {
     this.translate.get(['Order', 'Your order is accepted'])
-      .subscribe(async text => {
-        await LocalNotifications.schedule({
-          notifications: [
-            {
-              title: text["Order"],
-              body: text["Your order is accepted"],
-              id: 1,
-            }
-          ]
+      .subscribe(text => {
+        this.localNotifications.schedule({
+          id: 1,
+          title: text["Order"],
+          text: text["Your order is accepted"],
+          data: { secret: 'secret' }
         })
       })
 
@@ -531,10 +523,6 @@ export class TravellingPage implements OnInit {
 
   }
 
-
-  resetBadgeCount() {
-    PushNotifications.removeAllDeliveredNotifications();
-  }
 
   clearForm() {
     this.translate.get(['Take me from here', 'Choose destination'])

@@ -14,4 +14,5 @@
     choosenLanguage: string;
     timer: any;
     alertTriggered: any;
+    deviceToken: string;
 }

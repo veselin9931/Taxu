@@ -199,5 +199,19 @@ namespace TaxiMi.Services.Account
 
             return false;
         }
+
+        public async Task<bool> UpdateUserTokenAsync(string id, string value)
+        {
+            var currentUser = this.GetById(id);
+
+            if (currentUser != null)
+            {
+                currentUser.DeviceToken = value;
+                this.repository.Update(currentUser);
+                await this.repository.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
     }
 }

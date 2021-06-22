@@ -21,6 +21,9 @@ namespace TaxiMi.Services.Account
         
         public Task<bool> UpdateUserAsync(string id, bool driving);
 
+        public Task<bool> UpdateUserTokenAsync(string id, string value);
+
+
         public Task<bool> UpdateAlertAsync(string id, bool driving);
 
 

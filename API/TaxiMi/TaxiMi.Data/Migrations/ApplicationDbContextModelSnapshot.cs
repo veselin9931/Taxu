@@ -256,6 +256,9 @@ namespace TaxiMi.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DeviceToken")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DriverId")
                         .HasColumnType("nvarchar(max)");
 
