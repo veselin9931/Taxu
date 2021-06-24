@@ -23,11 +23,6 @@ const routes: Routes = [
     path: 'language-popover',
     loadChildren: () => import('./language-popover/language-popover.module').then( m => m.LanguagePopoverPageModule)
   }
- 
-
-
-  
-
 ];
 
 @NgModule({

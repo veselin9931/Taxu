@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-
+import { Plugins, StatusBarStyle } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-root',
@@ -13,19 +11,22 @@ export class AppComponent {
 
   constructor(
     private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
     private translate: TranslateService,
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+    const { SplashScreen, StatusBar } = Plugins;
+    this.platform.ready().then(async () => {
+      await StatusBar.setStyle({ style: StatusBarStyle.Light });
+      setTimeout(() => {
+        SplashScreen.hide({
+          fadeOutDuration: 5000
+        });
+      }, 2000)
       this.translate.setDefaultLang('en');
-      
+
     });
   }
 }
