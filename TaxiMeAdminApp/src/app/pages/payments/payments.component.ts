@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '_services';
 import { SharedService } from '_services/shared-service/shared.service';
 import { v4 as uuidv4 } from 'uuid';
-
+import { Router, RoutesRecognized } from '@angular/router';
+import { filter, pairwise } from 'rxjs/operators';
 if (!("TextEncoder" in window))
   alert("Sorry, this browser does not support TextEncoder...");
 
@@ -14,16 +15,25 @@ if (!("TextEncoder" in window))
 })
 export class PaymentsComponent implements OnInit {
   walletAmount;
-
-
-
   constructor(private sharedSerice: SharedService,
-    private accountService: AccountService) {
-
+    private accountService: AccountService,
+    private route: Router) {
+      
+      this.route.events
+      .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
+      .subscribe((events: RoutesRecognized[]) => {
+        console.log('previous url', events[0].urlAfterRedirects);
+        
+      });
   }
 
   ngOnInit(): void {
-    this.getWalletAmount();
+    if(this.accountService.userValue){
+      this.getWalletAmount();
+        
+    }else{
+      this.route.navigate(['/login'])
+    }
   }
 
   getWalletAmount() {

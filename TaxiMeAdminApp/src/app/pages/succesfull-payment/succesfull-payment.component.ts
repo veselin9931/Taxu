@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, RoutesRecognized } from '@angular/router';
+import { filter, pairwise } from 'rxjs/operators';
 import { AccountService } from '../../../_services';
 
 @Component({
@@ -10,9 +12,18 @@ export class SuccesfullPaymentComponent implements OnInit {
 
   public price = '0';
 
-  constructor(private account: AccountService) { }
+  constructor(private account: AccountService,
+    private route: Router) { 
+
+  }
 
   ngOnInit(): void {
+    this.route.events
+    .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
+    .subscribe((events: RoutesRecognized[]) => {
+      console.log('previous url', events[0].urlAfterRedirects);
+      
+    });
     let pr = localStorage.getItem("crypto");
     var toAtt = [...pr]
     this.price = `${toAtt[toAtt.length - 2]}${toAtt[toAtt.length - 1]}`

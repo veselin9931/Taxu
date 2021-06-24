@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RoutesRecognized } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
 import { AlertController, IonDatetime, Platform, PopoverController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
@@ -11,6 +11,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { Subscription } from 'rxjs';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { filter, pairwise } from 'rxjs/operators';
+
 @Component({
   selector: 'app-travelling',
   templateUrl: './travelling.page.html',
@@ -62,39 +64,20 @@ export class TravellingPage implements OnInit {
     private localNotifications: LocalNotifications,
     public plt: Platform) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
-    this.translate.get(['Now', 'Cancel', 'Choose'])
-      .subscribe(text => {
-        this.customPickerOptions = {
-          buttons: [
-            {
-              text: text['Now'],
-              handler: () => {
-                let date = new Date();
-                this.mydt.value = `${date.getHours()}:${date.getMinutes()}`;
-                console.log(this.mydt.value)
-              }
-            },
-            {
-              text: text['Cancel']
-            },
-            {
-              text: text['Choose'],
-              handler: (res) => {
-                this.mydt.value = `${res.hour.text}:${res.minute.text}`;
-                // this.form.value.pickUpTime = this.mydt.value;
-                console.log(res.hour.text)
-                console.log(res.minute.text)
+    this.dateAndTimePicker();
 
-                //set form value to chosen time
-              }
-            }
-          ]
+    this.route.events
+      .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
+      .subscribe((events: RoutesRecognized[]) => {
+        console.log('previous url', events[0].urlAfterRedirects);
+        if (events[0].urlAfterRedirects == '/menu/travel-mode' || events[0].urlAfterRedirects == '/menu/travelling') {
+          this.backFromTravel();
+          console.log('gay')
         }
-      })
+      });
   }
 
   ngOnInit() {
-
     this.loading = true;
     this.form = this.formBuilder.group({
       applicationUserId: [''],
@@ -303,6 +286,38 @@ export class TravellingPage implements OnInit {
     );
   }
 
+  dateAndTimePicker() {
+    this.translate.get(['Now', 'Cancel', 'Choose'])
+      .subscribe(text => {
+        this.customPickerOptions = {
+          buttons: [
+            {
+              text: text['Now'],
+              handler: () => {
+                let date = new Date();
+                this.mydt.value = `${date.getHours()}:${date.getMinutes()}`;
+                console.log(this.mydt.value)
+              }
+            },
+            {
+              text: text['Cancel']
+            },
+            {
+              text: text['Choose'],
+              handler: (res) => {
+                this.mydt.value = `${res.hour.text}:${res.minute.text}`;
+                // this.form.value.pickUpTime = this.mydt.value;
+                console.log(res.hour.text)
+                console.log(res.minute.text)
+
+                //set form value to chosen time
+              }
+            }
+          ]
+        }
+      })
+  }
+
   offer(value) {
     this.form.value.increasePrice = value;
   }
@@ -461,10 +476,10 @@ export class TravellingPage implements OnInit {
   }
 
   async destinationError() {
-    this.translate.get(['Destination field is required !'])
+    this.translate.get(['Destination field is required!'])
       .subscribe(async text => {
         const popup = await this.alertController.create({
-          header: text['Destination field is required !'],
+          header: text['Destination field is required!'],
           buttons: [
             {
               text: 'Ok',
@@ -523,6 +538,15 @@ export class TravellingPage implements OnInit {
 
   }
 
+  backFromTravel(){
+    this.choosedLocDest = false;
+    this.isCompleted = false;
+    this.orderStatus = null;
+    this.orderTotalPrice = 0;
+    this.clearForm();
+    this.isSubmitted = false;
+  }
+
 
   clearForm() {
     this.translate.get(['Take me from here', 'Choose destination'])
@@ -530,7 +554,6 @@ export class TravellingPage implements OnInit {
         this.orderService.chosenLocation = text['Take me from here'];
         this.orderService.chosenDestination = text['Choose destination'];
       })
-
     this.form.reset({
       'location': undefined,
       'destination': undefined,

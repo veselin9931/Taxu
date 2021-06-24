@@ -89,13 +89,6 @@ export class DrivingPage implements OnInit {
     this.getData();
   }
 
-  // ionViewDidLeave() {
-  //   for (const subscription of this.subscriptions) {
-  //     console.log(subscription)
-  //     subscription.unsubscribe();
-  //   }
-  // }
-
   async getMyLocation() {
     const coordinates = await Geolocation.getCurrentPosition();
     const myLatLng = { lat: coordinates.coords.latitude, lng: coordinates.coords.longitude };

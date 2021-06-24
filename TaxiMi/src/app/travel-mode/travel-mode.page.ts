@@ -76,6 +76,8 @@ export class TravelModePage implements OnInit {
 
 
   ngOnInit() {
+    this.chatService.stop();
+    this.chatService.start();
     this.checkorder();
     this.chatService.retrieveMappedObject()
       .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
@@ -93,7 +95,8 @@ export class TravelModePage implements OnInit {
     });
 
     connection.on('BroadcastMessage', () => {
-      console.log('broadcasted from travel-mode')
+      this.checkorder();
+
     });
 
     connection.on('StartTrip', () => {
@@ -155,6 +158,9 @@ export class TravelModePage implements OnInit {
 
     connection.on('CompleteOrder', (orderId: string) => {
       if (this.order.id == orderId) {
+        this.accountService.userValue.alertTriggered = false;
+        this.subscriptions.push(this.accountService.updateAlert(this.user.id, false)
+          .subscribe(() => { }));
         this.completedOrderAlert();
       }
     });
@@ -171,8 +177,6 @@ export class TravelModePage implements OnInit {
     this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
       .subscribe(data => {
         if (data) {
-          this.chatService.stop();
-          this.chatService.start();
           this.totalPrice = data.totalPrice;
           this.orderStatus = data.status;
           this.orderAcceptedBy = data.acceptedBy;
@@ -209,12 +213,19 @@ export class TravelModePage implements OnInit {
       if (this.secsDiff == 300) {
         this.subscriptions.push(this.orderService.increaseOrderPrice(this.order.id, 0.50)
           .subscribe(() => { }));
-        return;
+      }
+      if (this.secsDiff >= 300) {
+        if (this.secsDiff % 60 == 59) {
+          console.log('time to up')
+          this.subscriptions.push(this.orderService.increaseOrderPrice(this.order.id, 0.50)
+            .subscribe(() => { }));
+        }
       }
       this.secsDiff = new Date().getTime() - this.startTime.getTime();
 
       this.secsDiff = Math.floor(this.secsDiff / 1000);
     }, 1000);
+
   }
 
   presentOrderAcceptedNotification() {
@@ -227,10 +238,6 @@ export class TravelModePage implements OnInit {
           data: { secret: 'secret' }
         })
       })
-  }
-
-  presentNotification() {
-
   }
 
   presentDriverArrivedNotification() {
@@ -396,6 +403,9 @@ export class TravelModePage implements OnInit {
           message: text['Your rating will decrease!'],
           buttons: [
             {
+              text: text['Cancel']
+            },
+            {
               text: text['Confirm'],
               handler: () => {
                 this.subscriptions.push(this.tripService.getTrip(this.orderAcceptedBy)
@@ -412,11 +422,8 @@ export class TravelModePage implements OnInit {
                       }));
                   }))
               }
-            },
-            {
-              text: text['Cancel'],
-              role: 'cancel'
             }
+           
           ]
         });
         await popup.present();
@@ -449,7 +456,7 @@ export class TravelModePage implements OnInit {
                 this.subscriptions.push(this.driverService.voteUp(this.driverId)
                   .subscribe(x => { }));
                 this.route.navigate(['menu/travelling']);
-                window.location.reload();
+                // window.location.reload();
               }
             },
             {
@@ -459,7 +466,7 @@ export class TravelModePage implements OnInit {
                 this.subscriptions.push(this.driverService.voteDown(this.driverId)
                   .subscribe(x => { }));
                 this.route.navigate(['menu/travelling']);
-                window.location.reload();
+                // window.location.reload();
               }
             },
             {
@@ -467,7 +474,7 @@ export class TravelModePage implements OnInit {
               role: 'cancel',
               handler: () => {
                 this.route.navigate(['menu/travelling']);
-                window.location.reload();
+                // window.location.reload();
               }
             },
             {

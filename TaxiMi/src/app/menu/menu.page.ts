@@ -10,6 +10,7 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { Subscription } from 'rxjs';
 import { ConnectivityProvider } from 'src/_services/connectivity.provider';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-menu',
@@ -58,6 +59,7 @@ export class MenuPage implements OnInit {
     private backgroundMode: BackgroundMode,
     private alertController: AlertController,
     private connectivityProvider: ConnectivityProvider,
+    private localNotifications: LocalNotifications,
     private platform: Platform) {
     this.isLoggedIn = localStorage.getItem("user");
     if (this.isLoggedIn) {
@@ -78,32 +80,14 @@ export class MenuPage implements OnInit {
 
 
     platform.ready().then(() => {
+      this.localNotifications.requestPermission();
       this.backgroundMode.enable();
-
-      if (platform.is('cordova')) {
-
-        //Subscribe on pause i.e. background
-        this.platform.pause.subscribe(() => {
-          console.log('paused')
-          console.log('IS BACKGR ENABLED?')
-          console.log(this.backgroundMode.isEnabled())
-        });
-
-        //Subscribe on resume i.e. foreground 
-        this.platform.resume.subscribe(() => {
-          console.log('resume')
-          console.log('IS BACKGR ENABLED?')
-          console.log(this.backgroundMode.isEnabled())
-        });
-      }
     });
   }
 
 
   ngOnInit() {
     this.backgroundMode.enable();
-    console.log(this.backgroundMode.enable())
-    console.log(this.backgroundMode.isEnabled())
     this.checkInternetConnection();
     this.checkValues();
 
@@ -163,8 +147,6 @@ export class MenuPage implements OnInit {
   }
 
   checkValues() {
-
-
     this.isLoggedIn = localStorage.getItem("user");
 
     if (this.isLoggedIn) {

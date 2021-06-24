@@ -196,7 +196,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
     let userLng = +userLatLng.lng;
 
     this.subscriptions.push(this.tripService.navigateToUser(this.currentTrip.id, this.order.id)
-    .subscribe(() => {}));
+      .subscribe(() => { }));
 
     if (Capacitor.platform === 'ios') {
       window.open(`maps://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
@@ -211,7 +211,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
       window.open(`https://www.google.com/maps/dir/?api=1&destination=${userLat},${userLng}&travelmode=driving`);
       this.isStarted = true;
     }
-   
+
   }
 
   //Set directions to user's destination
@@ -220,8 +220,8 @@ export class DrivingModePage implements OnInit, OnDestroy {
     let userLat = +userLatLng.lat;
     let userLng = +userLatLng.lng;
 
-    
-    
+
+
     if (Capacitor.platform === 'ios') {
       window.open(`maps://maps.apple.com/maps?q=${userLat},${userLng}&t=m&dirflg=d`);
       this.isStarted = true;
@@ -236,9 +236,9 @@ export class DrivingModePage implements OnInit, OnDestroy {
       this.isStarted = true;
     }
     this.subscriptions.push(this.tripService.startTrip(this.currentTrip.id)
-    .subscribe(() => {
-      this.startTrip();
-     }));
+      .subscribe(() => {
+        this.startTrip();
+      }));
   }
 
   msgDto: Message = new Message();
@@ -273,11 +273,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
       .subscribe(trip => {
         if (trip) {
           this.tripStatus = trip.status;
-          this.subscriptions.push(this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
-            .subscribe(x => {
-              this.subscriptions.push(this.profitService.addToProfit(this.tripPriceForDriver)
-                .subscribe(() => { }));
-            }))
+
         }
       }))
   }
@@ -379,6 +375,10 @@ export class DrivingModePage implements OnInit, OnDestroy {
           message: text['Your rating will decrease!'],
           buttons: [
             {
+              text: text['Cancel'],
+              role: 'cancel'
+            },
+            {
               text: text['Confirm'],
               handler: () => {
                 this.subscriptions.push(this.driverService.cancelOrderFromDriver(this.order.id)
@@ -396,10 +396,6 @@ export class DrivingModePage implements OnInit, OnDestroy {
                       }))
                   }));
               }
-            },
-            {
-              text: text['Cancel'],
-              role: 'cancel'
             }
           ]
         });
@@ -444,11 +440,18 @@ export class DrivingModePage implements OnInit, OnDestroy {
 
           buttons: [
             {
+              text: text['No']
+            },
+            {
               text: text['Yes'],
-              role: 'cancel',
               handler: () => {
                 this.subscriptions.push(this.tripService.completeTrip(this.currentTrip.id)
                   .subscribe(trip => {
+                    this.subscriptions.push(this.walletService.dischargeWallet(this.applicationUserId, this.tripPriceForDriver)
+                      .subscribe(x => {
+                        this.subscriptions.push(this.profitService.addToProfit(this.tripPriceForDriver)
+                          .subscribe(() => { }));
+                      }))
                     if (trip) {
                       this.tripStatus = trip.status;
                     }
@@ -464,12 +467,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
                     this.isDrivingNow = this.accountService.userValue.isDrivingNow;
                     this.route.navigate(['menu/driving']);
                   }))
-
-
               }
-            },
-            {
-              text: text['No']
             }
           ]
         });
