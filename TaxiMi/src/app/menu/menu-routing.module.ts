@@ -95,10 +95,6 @@ const routes: Routes = [
         path: 'out-of-town',
         loadChildren: () => import('../out-of-town/out-of-town.module').then( m => m.OutOfTownPageModule)
       },
-      {
-        path: 'booked-travels',
-        loadChildren: () => import('../booked-travels/booked-travels.module').then( m => m.BookedTravelsPageModule)
-        },
         {
             path: 'reservations',
             loadChildren: () => import('../reservations/reservations.module').then(m => m.ReservationsPageModule)

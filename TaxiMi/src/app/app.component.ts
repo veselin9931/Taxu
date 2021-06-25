@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Plugins, StatusBarStyle } from '@capacitor/core';
+import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
@@ -18,13 +18,11 @@ export class AppComponent {
 
   initializeApp() {
     const { SplashScreen, StatusBar } = Plugins;
-    this.platform.ready().then(async () => {
-      await StatusBar.setStyle({ style: StatusBarStyle.Light });
-      setTimeout(() => {
-        SplashScreen.hide({
-          fadeOutDuration: 5000
-        });
-      }, 2000)
+    this.platform.ready().then(() => {
+      if (Capacitor.isPluginAvailable('StatusBar')) { 
+        StatusBar.setStyle({ style: StatusBarStyle.Light });
+      };
+      SplashScreen.hide();
       this.translate.setDefaultLang('en');
 
     });

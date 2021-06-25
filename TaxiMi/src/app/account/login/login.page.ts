@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { first } from 'rxjs/operators';
 import { LanguagePopoverPage } from 'src/app/language-popover/language-popover.page';
 import { environment } from 'src/environments/environment';
-import { AccountService, AlertService } from 'src/_services';
+import { AccountService } from 'src/_services';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +23,6 @@ export class LoginPage implements OnInit {
   logo = '../../../../resources/IMG_6400.JPG';
   constructor(private route: Router,
     private formBuilder: FormBuilder,
-    private alertService: AlertService,
     private accountService: AccountService,
     private translate: TranslateService,
     private popoverController: PopoverController) {
@@ -59,7 +58,6 @@ export class LoginPage implements OnInit {
     this.submitted = true;
 
     // reset alerts on submit
-    this.alertService.clear();
 
     // stop here if form is invalid
     if (this.form.invalid) {

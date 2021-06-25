@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { first } from 'rxjs/operators';
 import { LanguagePopoverPage } from 'src/app/language-popover/language-popover.page';
 import { environment } from 'src/environments/environment';
-import { AccountService, AlertService } from 'src/_services';
+import { AccountService } from 'src/_services';
 import { DriverService } from 'src/_services/driver/driver.service';
 
 @Component({
@@ -24,7 +24,6 @@ export class RegisterPage implements OnInit {
   constructor(private route: Router,
     private formBuilder: FormBuilder,
     private accountService: AccountService,
-    private alertService: AlertService,
     private driverService: DriverService,
     private translate: TranslateService,
     private popoverController: PopoverController,
