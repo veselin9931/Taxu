@@ -18,12 +18,13 @@ export class AppComponent {
 
   initializeApp() {
     const { SplashScreen, StatusBar } = Plugins;
+    SplashScreen.show();
     this.platform.ready().then(() => {
-      if (Capacitor.isPluginAvailable('StatusBar')) { 
+      if (Capacitor.isPluginAvailable('StatusBar')) {
         StatusBar.setStyle({ style: StatusBarStyle.Light });
       };
+      this.translate.setDefaultLang('bg');
       SplashScreen.hide();
-      this.translate.setDefaultLang('en');
 
     });
   }
