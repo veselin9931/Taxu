@@ -25,7 +25,6 @@ export class ReportComponent {
         }
         this.repotService.getAll().subscribe(data => {
             this.reports = data
-            console.log(data)
         });
     }
 }

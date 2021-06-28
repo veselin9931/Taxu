@@ -10,7 +10,6 @@ export class AccountService {
   private userSubject: BehaviorSubject<User>;
   public user: Observable<User>;
 
-
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -29,6 +28,12 @@ export class AccountService {
     return new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` });
   }
 
+  trigger(){
+    return this.http.post<User>(`${environment.apiUrl}/api/account/trigger`, {})
+      .pipe(map(x => {
+      }));
+  }
+
   login(username, password) {
     return this.http.post<User>(`${environment.apiUrl}/api/account/authenticate`, { username, password })
       .pipe(map(user => {
@@ -43,7 +48,6 @@ export class AccountService {
     // remove user from local storage and set current user to null
     localStorage.removeItem('user');
     this.userSubject.next(null);
-    this.router.navigate(['products']);
   }
 
   register(user: User) {
@@ -59,7 +63,6 @@ export class AccountService {
   //Users
   getAllUsers() {
     let headers = this.headerGerneration();
-    console.log(headers)
     return this.http.get<User[]>(`${environment.apiUrl}/api/account/user/`, { headers, responseType: 'json' });
   }
 

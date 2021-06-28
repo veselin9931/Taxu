@@ -58,7 +58,6 @@ export class CarDetailsComponent implements OnInit {
 
   confirm(id) {
     this.carService.confirm(id).subscribe(data => {
-      console.log(data);
     });
   }
 

@@ -43,13 +43,9 @@ export class UserDetailsComponent implements OnInit {
   getDriver() {
     this.driverService.getById(this.driverId)
       .subscribe(driver => {
-        console.log('Driver data')
-        console.log(driver);
         this.driver = driver;
         this.accountService.getById(driver.applicationUserId)
           .subscribe(user => {
-            console.log('User data')
-            console.log(user);
             this.user = user;
           })
       })
@@ -58,8 +54,6 @@ export class UserDetailsComponent implements OnInit {
   getDriverCars() {
     this.carService.getDriverCars(this.driverId)
       .subscribe(cars => {
-        console.log('Driver cars')
-        console.log(cars);
         this.cars = cars;
       })
   }
@@ -82,20 +76,16 @@ export class UserDetailsComponent implements OnInit {
         this.sharedService.getDriverDocuments(driver.applicationUserId)
           .subscribe(docs => {
             this.images = docs;
-            console.log('Docs here');
-            console.log(docs)
           })
       })
   }
 
   confirmDriver(id) {
     this.driverService.confirmDriver(id).subscribe(data => {
-      console.log(data);
     });
   }
   confirm(id) {
     this.carService.confirm(id).subscribe(data => {
-      console.log(data);
     });
   }
 }

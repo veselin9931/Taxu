@@ -15,14 +15,13 @@ export interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
-    { path: '/home', title: 'Начало', icon: 'nc-bank', class: '' , isAdmin: false, free: true},
-    { path: '/dashboard', title: 'Админ панел', icon: 'nc-badge', class: '', isAdmin: true, free: false},
-    { path: '/user', title: 'Потребители', icon: 'nc-single-02', class: '', isAdmin: true, free: false},
+    { path: '/home', title: 'Начало', icon: 'nc-bank', class: '', isAdmin: false, free: true },
+    { path: '/dashboard', title: 'Админ панел', icon: 'nc-badge', class: '', isAdmin: true, free: false },
+    { path: '/user', title: 'Потребители', icon: 'nc-single-02', class: '', isAdmin: true, free: false },
     { path: '/reports', title: 'Проблеми', icon: 'nc-paper', class: '', isAdmin: true, free: false },
-    { path: '/payments', title: 'Плащания', icon: 'nc-money-coins', class: '' , isAdmin: false, free: false},
-    { path: '/faq', title: 'Често задавани въпроси', icon: 'nc-chat-33', class: '' , isAdmin: false, free: true},
+    { path: '/payments', title: 'Плащания', icon: 'nc-money-coins', class: '', isAdmin: false, free: false },
+    { path: '/faq', title: 'Често задавани въпроси', icon: 'nc-chat-33', class: '', isAdmin: false, free: true },
     { path: '/about', title: 'За компанията', icon: 'nc-badge', class: '', isAdmin: false, free: true },
-
 ];
 
 
@@ -39,24 +38,12 @@ export class SidebarComponent implements OnInit {
     isLoggedIn;
     isAdmin;
 
-    constructor(private route: Router, private account: AccountService){}
+    constructor(private route: Router, private account: AccountService) {
+        this.isLoggedIn = localStorage.getItem("user");
+    }
     ngOnInit() {
-        if(localStorage.getItem("user"))
-        {
-            this.isLoggedIn = localStorage.getItem("user");
-            this.isAdmin = this.account.userValue.isAdmin;
-        }
-        else   {
-            this.isAdmin = false;
-            this.isLoggedIn = false;
-        } 
-       
-        this.menuItems = ROUTES.filter(menuItem => menuItem);
-        this.menuItemsForUsers = ROUTES.filter(menuItemsForUser => menuItemsForUser.isAdmin === false);
-        this.freeMenuItems = ROUTES.filter(x => x.free === true && x.isAdmin === false);
+        this.checkValues();
 
-        console.log(this.freeMenuItems);
-        console.log(this.menuItemsForUsers);
         const connection = new signalR.HubConnectionBuilder()
             .configureLogging(signalR.LogLevel.Information)
             .withUrl(`${environment.signalRUrl}/orderHub`)
@@ -68,13 +55,26 @@ export class SidebarComponent implements OnInit {
             return console.log(err.toString());
         });
 
-        connection.on('LoggedIn', () => {
+        connection.on('AfterLog', () => {
             this.checkValues();
         });
     }
 
+
     checkValues() {
-      this.isLoggedIn = localStorage.getItem("user");
+        this.isLoggedIn = localStorage.getItem("user");
+
+        if (this.isLoggedIn) {
+            this.isLoggedIn = localStorage.getItem("user");
+            this.isAdmin = this.account.userValue.isAdmin;
+        } else {
+            this.isAdmin = false;
+            this.isLoggedIn = false;
+        }
+
+        this.menuItems = ROUTES.filter(menuItem => menuItem);
+        this.menuItemsForUsers = ROUTES.filter(menuItemsForUser => menuItemsForUser.isAdmin === false);
+        this.freeMenuItems = ROUTES.filter(x => x.free === true && x.isAdmin === false);
     }
 
     logout() {

@@ -27,7 +27,7 @@ export class LoginPage implements OnInit {
     private translate: TranslateService,
     private popoverController: PopoverController) {
     this.isLoggedIn = localStorage.getItem("user");
-    this.translate.setDefaultLang('en');
+    this.translate.setDefaultLang('bg');
   }
 
   ngOnInit() {

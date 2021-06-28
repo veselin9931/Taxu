@@ -52,7 +52,6 @@ export class UserComponent implements OnInit {
                 })
             });
             this.driverData = data;
-            console.log(data)
 
         });
 

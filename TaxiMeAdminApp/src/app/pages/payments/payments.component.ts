@@ -22,7 +22,6 @@ export class PaymentsComponent implements OnInit {
       this.route.events
       .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
       .subscribe((events: RoutesRecognized[]) => {
-        console.log('previous url', events[0].urlAfterRedirects);
         
       });
   }
@@ -39,7 +38,6 @@ export class PaymentsComponent implements OnInit {
   getWalletAmount() {
     this.sharedSerice.getMyWallet(this.accountService.userValue.id)
       .subscribe(x => {
-        console.log(x)
         if (x.ammount) {
           this.walletAmount = x.ammount;
         } else {
@@ -52,7 +50,6 @@ export class PaymentsComponent implements OnInit {
     let myuuid = uuidv4();
     let a = [...myuuid];
     a.push(str);
-    console.log(a);
     localStorage.setItem("crypto", a.join(""));
   }
 }

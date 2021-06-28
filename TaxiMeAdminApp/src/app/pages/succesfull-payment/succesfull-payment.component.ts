@@ -21,7 +21,6 @@ export class SuccesfullPaymentComponent implements OnInit {
     this.route.events
     .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
     .subscribe((events: RoutesRecognized[]) => {
-      console.log('previous url', events[0].urlAfterRedirects);
       
     });
     let pr = localStorage.getItem("crypto");

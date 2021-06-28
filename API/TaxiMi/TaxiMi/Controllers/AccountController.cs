@@ -159,8 +159,9 @@ namespace TaxiMi.Controllers
             var tokenString = tokenHandler.WriteToken(token);
 
             // return basic user info (without password) and token to store client side
-            await this.hub.Clients.All.LoggedIn();
-            return Ok(new
+            
+           
+            var localUser = new 
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -175,7 +176,32 @@ namespace TaxiMi.Controllers
                 AlertTriggered = user.AlertTriggered,
                 IsAdmin = user.IsAdmin,
                 DeviceToken = user.DeviceToken
-            });
+            };
+
+            if(localUser != null)
+            {
+                return this.Ok(localUser);
+            }
+
+            if (localUser != null)
+            {
+                await this.hub.Clients.All.LoggedIn();
+                return this.Ok(localUser);
+
+            }
+
+            else
+            {
+                return this.NoContent();
+            }
+        }
+
+        [HttpPost("trigger")]
+        public async Task<IActionResult> TriggerLog()
+        {
+            await this.hub.Clients.All.AfterLog();
+            return this.Ok();
+
         }
 
         [HttpPut("token/{id}/{value}")]
