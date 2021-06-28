@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "resources": "capacitor-resources -p android,ios" 
+    "resources": "capacitor-resources -p android,ios"
   },
   "private": true,
   "dependencies": {
@@ -27,7 +27,6 @@
     "@capacitor/android": "3.0.0-rc.0",
     "@capacitor/core": "^2.4.6",
     "@capacitor/ios": "^2.4.6",
-    "@capacitor/splash-screen": "^1.0.2",
     "@ionic-native/android-permissions": "^5.33.0",
     "@ionic-native/background-mode": "^5.33.0",
     "@ionic-native/call-number": "^5.33.0",
@@ -97,8 +96,7 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "cordova-plugin-device": {},
-      "cordova-plugin-splashscreen": {}
+      "cordova-plugin-device": {}
     },
     "platforms": [
       "ios",
