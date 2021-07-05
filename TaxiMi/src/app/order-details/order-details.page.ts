@@ -322,6 +322,16 @@ export class OrderDetailsPage implements OnInit {
   acceptOrder(order) {
     this.subscriptions.push(this.orderService.getOrderById(order.id)
       .subscribe(x => {
+        let date = new Date();
+
+        if (x.pickUpTime != `${date.getHours()}:${date.getMinutes()}`) {
+          console.log(x.pickUpTime)
+          console.log(`${date.getHours()}:${date.getMinutes()}`)
+          return this.AcceptConfirmation(x);
+        }
+        if (x.applicationUserId == this.applicationUserId) {
+          return this.OwnOrderError();
+        }
         if (x.status == 'Canceled') {
           this.OrderTaken();
           this.router.navigate(['menu/driving']);
@@ -332,54 +342,57 @@ export class OrderDetailsPage implements OnInit {
               if (car.typeId == 1 && order.carType == 'Comfort') {
                 return this.WrongCarAlert();
               } else {
-                //Get user's id to get drivers data
-
-                //Get driver's data
-                this.subscriptions.push(this.driverService.getDriver(this.accountService.userValue.driverId)
-                  .subscribe(driver => {
-                    this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
-
-                    //Get drivers wallet
-                    this.subscriptions.push(this.walletService.getMyWallet(this.applicationUserId)
-                      .subscribe(wallet => {
-                        if (wallet.ammount < this.tripPriceForDriver) {
-                          this.NotEnoughCashAlert();
-                          return;
-                        } else {
-
-
-                          let applicationUserId = this.accountService.userValue.id;
-                          this.accountService.userValue.isDrivingNow = true;
-                          this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, true)
-                            .subscribe(() => {
-                            }));
-
-                          this.isDrivingNow = this.accountService.userValue.isDrivingNow;
-                          order.acceptedBy = applicationUserId;
-
-                          //Accepting order
-                          this.subscriptions.push(this.orderService.acceptOrder(order.id, applicationUserId)
-                            .subscribe(() => {
-
-                              this.subscriptions.push(this.orderService.updateOrderEta(orderId, order.eta)
-                                .subscribe());
-                            }));
-
-                          let orderId = order.id;
-                          let data = { orderId, applicationUserId, order };
-
-                          //Creating trip to manage data
-                          this.subscriptions.push(this.tripService.createTrip(data)
-                            .subscribe(() => {
-                            }));
-                          this.router.navigate(['menu/driving-mode'])
-                        }
-                      }));
-                  }));
+                this.acceptConfirm(x);
               }
             }));
         }
       }))
+  }
+
+  acceptConfirm(order) {
+    //Get user's id to get drivers data
+
+    //Get driver's data
+    this.subscriptions.push(this.driverService.getDriver(this.accountService.userValue.driverId)
+      .subscribe(driver => {
+        this.tripPriceForDriver = (order.totalPrice * (driver.comission / 100));
+
+        //Get drivers wallet
+        this.subscriptions.push(this.walletService.getMyWallet(this.applicationUserId)
+          .subscribe(wallet => {
+            if (wallet.ammount < this.tripPriceForDriver) {
+              this.NotEnoughCashAlert();
+              return;
+            } else {
+              let applicationUserId = this.accountService.userValue.id;
+              this.accountService.userValue.isDrivingNow = true;
+              this.subscriptions.push(this.accountService.updateDriving(this.applicationUserId, true)
+                .subscribe(() => {
+                }));
+
+              this.isDrivingNow = this.accountService.userValue.isDrivingNow;
+              order.acceptedBy = applicationUserId;
+
+              //Accepting order
+              this.subscriptions.push(this.orderService.acceptOrder(order.id, applicationUserId)
+                .subscribe(() => {
+
+                  this.subscriptions.push(this.orderService.updateOrderEta(orderId, order.eta)
+                    .subscribe());
+                }));
+
+              let orderId = order.id;
+              let data = { orderId, applicationUserId, order };
+
+              //Creating trip to manage data
+              this.subscriptions.push(this.tripService.createTrip(data)
+                .subscribe(() => {
+                }));
+              this.router.navigate(['menu/driving-mode'])
+            }
+          }));
+      }));
+
   }
 
   async openLanguagePopover(ev) {
@@ -388,6 +401,35 @@ export class OrderDetailsPage implements OnInit {
       event: ev
     });
     await popover.present();
+  }
+
+  async AcceptConfirmation(order) {
+    let textf: any = {};
+    textf.first = this.translate.instant('The customer wants to pick him up at ');
+
+    this.translate.get(['Order information', 'Accept', 'Cancel'])
+      .subscribe(async text => {
+        const alert = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: text['Order information'],
+          message: `${textf.first} ${order.pickUpTime}`,
+          buttons: [
+            {
+              text: text['Accept'],
+              handler: () => {
+                this.acceptConfirm(order);
+              }
+            },
+            {
+              text: text['Cancel'],
+              role: 'cancel'
+            },
+          ],
+        });
+
+        await alert.present();
+      })
+
   }
 
   async NotEnoughCashAlert() {
@@ -437,51 +479,66 @@ export class OrderDetailsPage implements OnInit {
           },
           ],
         });
-    
+
         await alert.present();
       })
-   
+
   }
 
   async IncreaseAccepted(order) {
     this.translate.get(['Order increasing accepted.', 'You can accept the order now', 'Accept', 'Cancel'])
-    .subscribe(async text => {
-      const alert = await this.alertController.create({
-        cssClass: 'my-custom-class',
-        header: text['Order increasing accepted.'],
-        message: text['You can accept the order now'],
-        buttons: [
-          {
-            text: text['Accept'],
-            handler: () => {
-              this.acceptOrder(order);
-            }
-          },
-          {
-            text: text['Cancel'],
-            role: 'cancel'
-          },
-        ],
-      });
-  
-      await alert.present();
-    })
-    
+      .subscribe(async text => {
+        const alert = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: text['Order increasing accepted.'],
+          message: text['You can accept the order now'],
+          buttons: [
+            {
+              text: text['Accept'],
+              handler: () => {
+                this.acceptOrder(order);
+              }
+            },
+            {
+              text: text['Cancel'],
+              role: 'cancel'
+            },
+          ],
+        });
+
+        await alert.present();
+      })
+
   }
 
   async WrongCarAlert() {
     this.translate.get(['Order information', "Your car is of type 'Normal' but the order desired car type is 'Comfort'!"])
-    .subscribe(async text => {
-      const alert = await this.alertController.create({
-        cssClass: 'my-custom-class',
-        header: text['Order information'],
-        message: text['Your car is of type "Normal" but the order desired car type is "Comfort"!'],
-        buttons: ['OK'],
-  
-      });
-  
-      await alert.present();
-    })
-    
+      .subscribe(async text => {
+        const alert = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: text['Order information'],
+          message: text['Your car is of type "Normal" but the order desired car type is "Comfort"!'],
+          buttons: ['OK'],
+
+        });
+
+        await alert.present();
+      })
+
+  }
+
+  async OwnOrderError() {
+    this.translate.get(['You cant take your order.'])
+      .subscribe(async text => {
+        const alert = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: text['You cant take your order.'],
+          buttons: ['OK'],
+
+        });
+
+        await alert.present();
+      })
+
   }
 }

@@ -286,6 +286,10 @@ export class TravellingPage implements OnInit {
     );
   }
 
+  openPicker(){
+    this.mydt.open();
+  }
+
   dateAndTimePicker() {
     this.translate.get(['Now', 'Cancel', 'Choose'])
       .subscribe(text => {

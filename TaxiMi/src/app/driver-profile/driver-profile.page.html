@@ -19,7 +19,7 @@
       <div class="card-transparent">
         <div class="header-transparent">
           <div class="avatar">
-            <img src={{imgPath}} onerror="this.onerror=null; this.src='../assets/default.png'" alt="">
+            <img (click)="file.click()" src={{imgPath}} onerror="this.onerror=null; this.src='../assets/default.png'" alt="">
           </div>
         </div>
       </div>
@@ -37,20 +37,22 @@
                       <ion-label>{{walletAmount}} лв.</ion-label>
                   </ion-chip>
               </h6>
-              <ion-chip (click)="chargeCash()">
+              <h6 class="ranking my-label text">
+                {{'My rating' | translate}}: <ion-chip>
+                    <ion-label>{{rating}}</ion-label>
+                </ion-chip>
+            </h6>
+              <!-- <ion-chip (click)="chargeCash()">
                   <ion-label class="my-label text">
                       <a href="https://www.mycybercab.com/#/payments">{{'Click to charge your account' | translate}}</a>
                   </ion-label>
-              </ion-chip>
-              <h6 class="ranking my-label text">
-                  {{'My rating' | translate}}: <ion-chip>
-                      <ion-label>{{rating}}</ion-label>
-                  </ion-chip>
-              </h6>
+              </ion-chip> -->
+              
           </div>
 
+          <button class="my-label text btn btn-success btn-block mb-1" (click)="chargeCash()">{{'Click to charge your account' | translate}}</button>
           <input type="file" #file placeholder="Choose file" (change)="upload(file.files)" style="display:none;">
-          <button class="my-label btn btn-info btn-block mb-1" (click)="file.click()">{{'Upload picture' | translate}}</button>
+          <!-- <button class="my-label btn btn-info btn-block mb-1" (click)="file.click()">{{'Upload picture' | translate}}</button> -->
 
           <div class="col-md-4">
               <span class="upload" *ngIf="progress > 0">
@@ -64,7 +66,7 @@
           <button class="my-label mt-1 text btn btn-info btn-block" (click)="addNewCar()">{{'Add new car' | translate}}</button>
           <button class="my-label mt-1 text btn btn-info btn-block" (click)="reservation()">{{'Suburban reservations' | translate}}</button>
 
-          <h6 *ngIf="carsCount > 0" class="ranking ion-text-center">
+          <h6 *ngIf="carsCount > 0" class="ranking ion-text-center mt-1">
               <ion-chip>
                   <ion-label class="my-label text">{{'Choose your car for today' | translate}}:</ion-label>
               </ion-chip>
@@ -88,12 +90,12 @@
                           - Normal
                       </button>
 
-                      <button class="my-label text btn btn-success btn-block mt-1" *ngIf="car.isActive == true && car.typeId == 2" (click)="active(car)">
+                      <button class="my-label text btn btn-info btn-block mt-1" *ngIf="car.isActive == true && car.typeId == 2" (click)="active(car)">
                           {{car.model}}
                           - Comfort
                       </button>
 
-                      <button class="my-label text btn-success btn-block mt-1" *ngIf="car.isActive == true && car.typeId == 1" (click)="active(car)">
+                      <button class="my-label text btn-info btn-block mt-1" *ngIf="car.isActive == true && car.typeId == 1" (click)="active(car)">
                           {{car.model}}
                           - Normal
                       </button>

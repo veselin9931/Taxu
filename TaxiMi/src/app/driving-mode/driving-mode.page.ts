@@ -50,6 +50,8 @@ export class DrivingModePage implements OnInit, OnDestroy {
   //Map
   map: any;
 
+  pickUpTime: any;
+
   address: string;
 
   userLatitude: any;
@@ -345,7 +347,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
 
             this.userDestinationLat = order.destinationLat;
             this.userDestinationLng = order.destinationLong;
-
+            this.pickUpTime = order.pickUpTime;
             this.tripDistance = order.tripDistance;
             this.calculateEta(order);
 

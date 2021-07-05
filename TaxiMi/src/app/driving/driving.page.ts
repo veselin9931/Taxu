@@ -26,12 +26,12 @@ declare var google: any;
   styleUrls: ['./driving.page.scss'],
 })
 export class DrivingPage implements OnInit {
-    categoryType;
-    isSubOreder;
+  categoryType;
+  isSubOreder;
 
-    orders: Order[] = [];
-    subOrders: SubOrder[] = [];
-    closeOrders: Order[] = [];
+  orders: Order[] = [];
+  subOrders: SubOrder[] = [];
+  closeOrders: Order[] = [];
   //Map
   distance: any;
 
@@ -44,16 +44,16 @@ export class DrivingPage implements OnInit {
     private accountService: AccountService,
     private driverService: DriverService,
     private translate: TranslateService,
-      private popoverController: PopoverController,
-      private subOrderService: SuborderService,
-      private optionService: OptionsService
+    private popoverController: PopoverController,
+    private subOrderService: SuborderService,
+    private optionService: OptionsService
 
   ) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
     this.getMyLocation();
   }
 
-    ngOnInit(): void {
+  ngOnInit(): void {
 
     this.isSubOreder = false;
 
@@ -105,22 +105,22 @@ export class DrivingPage implements OnInit {
     }
     this.driverService.getDriver(this.accountService.userValue.driverId)
       .subscribe(x => {
-          if (this.driverService.categoryType == 'Normal') {
-              this.isSubOreder = false;
+        if (this.driverService.categoryType == 'Normal') {
+          this.isSubOreder = false;
           this.getNormalOrders(x.rating);
-          } else if (this.driverService.categoryType == 'Comfort') {
-              this.isSubOreder = false;
-            this.getComfortOrders(x.rating);
+        } else if (this.driverService.categoryType == 'Comfort') {
+          this.isSubOreder = false;
+          this.getComfortOrders(x.rating);
         } else if (this.driverService.categoryType == 'Out of town') {
-            this.getOutOfTown();
-          } else if (this.driverService.categoryType == 'Closest') {
-              this.isSubOreder = false;
+          this.getOutOfTown();
+        } else if (this.driverService.categoryType == 'Closest') {
+          this.isSubOreder = false;
           this.getClosestOrders(x.rating);
-          } else if (this.driverService.categoryType == 'All') {
-              this.isSubOreder = false;
+        } else if (this.driverService.categoryType == 'All') {
+          this.isSubOreder = false;
           this.getAllOrders(x.rating);
-          } else if (this.driverService.categoryType == undefined) {
-              this.isSubOreder = false;
+        } else if (this.driverService.categoryType == undefined) {
+          this.isSubOreder = false;
           this.driverService.categoryType == 'All';
           this.getAllOrders(x.rating);
         }
@@ -128,42 +128,42 @@ export class DrivingPage implements OnInit {
 
   }
 
-    getOutOfTown() {
-        this.subscriptions.push(this.subOrderService.getAllSubOrders('Waiting')
-            .subscribe(data => {
-                if (data == null) {
-                    return;
-                }
+  getOutOfTown() {
+    this.subscriptions.push(this.subOrderService.getAllSubOrders('Waiting')
+      .subscribe(data => {
+        if (data == null) {
+          return;
+        }
 
-                this.isSubOreder = true;
+        this.isSubOreder = true;
 
-                this.subOrders = data
+        this.subOrders = data
 
-                this.subOrders.forEach(o => {
-                    let id = o.optionsId;
-                    this.optionService.getOptionById(id).subscribe(data => {
-                        let opt: SubOrderOpt = data;
+        this.subOrders.forEach(o => {
+          let id = o.optionsId;
+          this.optionService.getOptionById(id).subscribe(data => {
+            let opt: SubOrderOpt = data;
 
-                        o.location = opt.location
-                        o.destination = opt.destination
+            o.location = opt.location
+            o.destination = opt.destination
 
-                    });
-                })
+          });
+        })
 
-                console.log(this.subOrders);
-            } ));
-    }
+        console.log(this.subOrders);
+      }));
+  }
 
-    acceptSubOrder(subOrder: SubOrder) {
-        this.subscriptions.push(this.subOrderService.editStatus(subOrder.id, { acceptedBy: this.accountService.userValue.id, status: 'Accepted' })
-            .subscribe(data => {
-                if (data) {
-                    this.route.navigate(['menu/reservations'])  
-                }
+  acceptSubOrder(subOrder: SubOrder) {
+    this.subscriptions.push(this.subOrderService.editStatus(subOrder.id, { acceptedBy: this.accountService.userValue.id, status: 'Accepted' })
+      .subscribe(data => {
+        if (data) {
+          this.route.navigate(['menu/reservations'])
+        }
 
-                
-            }))
-    }
+
+      }))
+  }
 
   getAllOrders(rating) {
     this.subscriptions.push(this.orderService.getAllOrders()

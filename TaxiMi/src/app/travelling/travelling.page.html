@@ -53,13 +53,13 @@
                             </p>
                         </div>
 
-                        <div *ngIf="isCompleted == false && this.choosedLocDest == true" class="text-center mb-2">
+                        <div *ngIf="isCompleted == false" class="text-center mb-2">
                             <hr>
 
                             <ion-label>{{'Additional options' | translate}}</ion-label>
                             <br>
                         </div>
-                        <div *ngIf="isCompleted == false && this.choosedLocDest == true" class="col-md-12 text-left">
+                        <div *ngIf="isCompleted == false" class="col-md-12 text-left">
 
                             <ion-checkbox color="dark" (click)="priceUpdate()" value="With pets"
                                 formControlName="withPets">
@@ -101,7 +101,7 @@
                             </ion-select>
                         </div> -->
 
-                        <div *ngIf="isCompleted == false && this.choosedLocDest == true" class="row text-center">
+                        <div *ngIf="isCompleted == false" class="row text-center">
                             <div class="col-md-12 mb-2">
                                 <ion-label>{{'Car type (optional)' | translate}}</ion-label>
                             </div>
@@ -119,20 +119,24 @@
                             </div>
                         </div>
 
-
-                        <div *ngIf="isCompleted == false && this.choosedLocDest == true" class="col mt-2">
+                        <ion-item *ngIf="isCompleted == false" class="mt-2">
+                            <ion-label>{{'Select pickup time' | translate}}</ion-label>
+                            <ion-datetime displayFormat="HH:mm" [placeholder]='"Select time" | translate' formControlName="pickUpTime" #mydt
+                                [pickerOptions]="customPickerOptions"></ion-datetime>
+                        </ion-item>
+                        <ion-item *ngIf="isCompleted == false">
+                            <ion-label position="floating">{{'Additional information' | translate}}</ion-label>
+                            <ion-input formControlName="description"></ion-input>
+                        </ion-item>
+                        <!-- <div  class="col mt-2">
                             <div class="row">
                                 <button class="btn btn-light btn-sm timebtn">
-                                    <div class="d-flex w-100 justify-content-between">
 
-                                        <ion-datetime class="date" placeholder="{{'Time' | translate}}"
-                                            formControlName="pickUpTime" #mydt [pickerOptions]="customPickerOptions"
-                                            displayFormat="HH:mm"></ion-datetime>
-                                        <ion-label>
-                                            <ion-icon class="icn" name="time-outline"></ion-icon>
-                                        </ion-label>
-                                    </div>
-                                </button>
+                                        <ion-datetime class="date" placeholder="&#xf017;"
+                                        formControlName="pickUpTime" #mydt [pickerOptions]="customPickerOptions"
+                                        displayFormat="HH:mm">
+                                    </ion-datetime>
+                                </button> 
 
                                 <div class="form-group col mt-2">
                                     <ion-input formControlName="description" type="text" class="form-control"
@@ -141,11 +145,14 @@
                                 </div>
 
                             </div>
-                        </div>
+                        </div> -->
 
 
 
-
+                        <!-- <button ion-button icon-right>
+                            <ion-datetime  pickerFormat="DD MMMM YYYY" ></ion-datetime>
+                            <ion-icon name="calendar"></ion-icon>
+                          </button> -->
 
 
                         <div *ngIf="orderStatus == 'Waiting'" class="form-group col mt-3">
@@ -166,7 +173,7 @@
                             <div class="col-md-12">
 
                                 <button [disabled]="isSubmitted" *ngIf="isCompleted == false" type="button"
-                                    (click)="onSubmit()" class="mt-1 btn btn-warning fonted">
+                                    (click)="onSubmit()" class="mt-3 btn btn-warning fonted">
                                     {{orderTotalPrice | number : '1.2-2'}} лв. | {{'Make a order'| translate}}
                                     <span *ngIf="isSubmitted" class="spinner-border spinner-border-sm mr-1"></span>
                                 </button>

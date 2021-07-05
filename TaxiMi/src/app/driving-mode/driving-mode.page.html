@@ -20,6 +20,8 @@
     <div id="orderDiv" class="list-group mt-2">
 
       <a class="text list-group-item list-group-item-action flex-column align-items-start">
+        <ion-icon *ngIf="pickUpTime" name="alert-circle"></ion-icon>
+        <small *ngIf="pickUpTime" id="warningicn">{{'Pickup time' | translate}} {{pickUpTime}}</small>
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 fonted"></h5>
         </div>

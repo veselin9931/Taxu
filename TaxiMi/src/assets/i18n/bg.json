@@ -181,5 +181,10 @@
   "Your order is accepted": "Поръчката Ви е приета",
   "Your driver is on the address, free waiting time 5min": "Шофьорът е на адреса, безплатно изчакване 5мин",
   "Suburban reservations": "Извънградски резервации",
-  "Reservations": "Резервации"
+  "Reservations": "Резервации",
+  "Select pickup time": "Избери час за взимане",
+  "You cant take your order.": "Не можете да приемате собствената си поръчка.",
+  "Pickup time": "Час за взимане",
+  "The customer wants to pick him up at ": "Клиентът иска да го вземете в "
+
 }
