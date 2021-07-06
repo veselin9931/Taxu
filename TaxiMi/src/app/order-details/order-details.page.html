@@ -24,7 +24,7 @@
         <small  *ngIf="order.pickUpTime" id="warningicn">{{'Pickup time' | translate}} {{order.pickUpTime}}</small>
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 fonted"></h5>
-          <small>{{order.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
+          <small>{{order.createdOn | date:'dd/MM/yyyy HH:mm'}}</small>
 
         </div>
         <p><ion-icon class="mr-2" name="analytics-outline"></ion-icon>{{order.location}}</p>

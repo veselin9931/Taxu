@@ -152,7 +152,7 @@ namespace TaxiMi.Controllers
                     new Claim(ClaimTypes.Name, user.Id.ToString())
                     //new Claim(ClaimTypes.Role, user.Token)
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -172,7 +172,7 @@ namespace TaxiMi.Controllers
                 IsDrivingNow = user.IsDrivingNow,
                 DriverId = user.DriverId,
                 ChoosenLanguage = user.ChoosenLanguage,
-                Timer = DateTime.UtcNow,
+                Timer = DateTime.Now,
                 AlertTriggered = user.AlertTriggered,
                 IsAdmin = user.IsAdmin,
                 DeviceToken = user.DeviceToken

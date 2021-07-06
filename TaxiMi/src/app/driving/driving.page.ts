@@ -35,6 +35,7 @@ export class DrivingPage implements OnInit {
   //Map
   distance: any;
 
+  message: any;
   myLat: string;
   myLng: string;
   private subscriptions: Subscription[] = [];
@@ -180,32 +181,52 @@ export class DrivingPage implements OnInit {
         data.sort((a, b) => {
           return <any>new Date(b.createdOn) - <any>new Date(a.createdOn);
         });
-
+        let seconds = 0;
         if (rating >= 0 && rating <= 2) {
+          seconds = 9;
+          this.message = `Your rating is ${rating} / 10. If there are any orders they will appear after approx 9 seconds.`;
           setTimeout(() => {
             this.orders = data;
-          }, 10000);
+          }, 9000);
         }
         if (rating >= 2 && rating <= 4) {
+          seconds = 7;
+          this.message = `Your rating is ${rating} / 10. If there are any orders they will appear after approx 7 seconds.`
           setTimeout(() => {
             this.orders = data;
-          }, 8000);
+          }, 7000);
         }
         if (rating >= 4 && rating <= 6) {
+          seconds = 5;
+          this.message = `Your rating is ${rating} / 10. If there are any orders they will appear after approx 5 seconds.`
           setTimeout(() => {
             this.orders = data;
           }, 5000);
         }
         if (rating >= 6 && rating <= 8) {
+          seconds = 3;
+          this.message = `Your rating is ${rating} / 10. If there are any orders they will appear after approx 3 seconds.`
           setTimeout(() => {
             this.orders = data;
           }, 3000);
         }
+        
+        let textf: any = {};
+        textf.first = this.translate.instant('Your rating is ');
+        textf.second = this.translate.instant('If there are any orders they will appear after approx');
+        textf.third = this.translate.instant('seconds');
+
+        this.message = `${textf.first} ${rating}/10 ${textf.second} ${seconds} ${textf.third}`;
+
         if (rating >= 8 && rating <= 10) {
+          seconds = 1;
+          this.message = "";
           setTimeout(() => {
             this.orders = data;
           }, 1000);
         }
+       
+        
         this.calculateClosest();
       }))
   }

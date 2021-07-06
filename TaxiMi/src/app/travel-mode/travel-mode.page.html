@@ -39,13 +39,14 @@
             <p *ngIf="this.accountService.userValue.alertTriggered == false">
               {{'Price' | translate}}: {{totalPrice}} лв.
             </p>
-            <button (click)="callDriver()" class="fonted btn btn-warning mb-1" (click)="clearMessages()" type="button"><ion-icon name="call" class="mr-2"></ion-icon>{{'Call driver' | translate}}
+            <button (click)="callDriver()" class="fonted btn btn-warning mb-1" type="button">
+              <ion-icon name="call" class="mr-2"></ion-icon>{{'Call driver' | translate}}
             </button>
-            
+
           </div>
-          
+
           <div class="d-flex w-100 justify-content-between">
-            <button (click)="chat()" class="fonted btn btn-secondary mr-1" (click)="clearMessages()" type="button">
+            <button (click)="chat()" (click)="clearMessages()" [ngClass]="this.messages == 1 ? 'fonted btn btn-secondary mr-1 blink_me' : 'fonted btn btn-secondary mr-1'" type="button">
               {{'Chat' | translate}}
             </button>
 
@@ -53,48 +54,45 @@
               {{'Add to favourites' | translate}}
             </button>
 
-            <button *ngIf="this.tripStatus == 'Processing'" (click)="cancelTrip()" class="fonted btn btn-warning ml-1" type="button">
+            <button *ngIf="this.tripStatus == 'Processing'" (click)="cancelTrip()" class="fonted btn btn-warning ml-1"
+              type="button">
               {{'Cancel' | translate}}
             </button>
           </div>
           <br />
-          <ion-label class="blink_me fonted" *ngIf="messages.length != 0  && chatStyle == 'none'">
-            {{
-            'You have new message' |
-            translate
-            }}.
-          </ion-label>
-          <div id="chat" style="display: none;" class="row chat">
+         
+          <form [formGroup]="form" novalidate class="col-md-6">
+            <div id="chat" style="display: none;" class="row chat">
 
-            <div class="col">
-              <ion-card>
-        
-                <div class="msg-box">
-                  <ul *ngIf="this.msgInboxArray.length == 0" class="text-center mr-5">
-                    <li class="fonted">{{'No messages for now' | translate}}</li>
-                  </ul>
-                  <ul *ngFor="let mObj of msgInboxArray">
-                    <li class="fonted" [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
-                      {{mObj.user}}:
-                      {{mObj.text}}
-                    </li>
-        
-                  </ul>
-                </div>
-              </ion-card>
-        
-              <ion-card class="type">
-                <ion-item>
-                  <ion-input [(ngModel)]="msgDto.text" [placeholder]='"Type your message..." | translate'>
-        
-                  </ion-input>
-                  <ion-icon (click)="send()" name="send-outline"></ion-icon>
-        
-                </ion-item>
-              </ion-card>
+              <div class="col">
+                <ion-card>
+
+                  <div class="msg-box">
+                    <ul *ngIf="this.msgInboxArray.length == 0" class="text-center mr-5">
+                      <li class="fonted">{{'No messages for now' | translate}}</li>
+                    </ul>
+                    <ul *ngFor="let mObj of msgInboxArray">
+                      <li [ngClass]="mObj.user !== user.id ? 'ex-msg' : 'in-msg'">
+                        {{mObj.sender}}:
+                        {{mObj.text}}
+                      </li>
+                    </ul>
+                  </div>
+                </ion-card>
+
+                <ion-card class="type">
+                  <ion-item>
+                    <ion-input formControlName="text" [placeholder]='"Type your message..." | translate'>
+
+                    </ion-input>
+                    <ion-icon (click)="sendMessage()" name="send-outline"></ion-icon>
+
+                  </ion-item>
+                </ion-card>
+              </div>
+
             </div>
-        
-          </div>
+          </form>
         </a>
       </div>
     </div>

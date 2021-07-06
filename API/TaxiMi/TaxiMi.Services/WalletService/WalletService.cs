@@ -25,7 +25,7 @@ namespace TaxiMi.Services.WalletService
               ApplicationUserId = applicationUserId,
               Ammount = 0, 
               Confirmation = false, 
-              CreatedOn = DateTime.UtcNow
+              CreatedOn = DateTime.Now
             };
 
             this.repository.Add(wallet);

@@ -185,6 +185,8 @@
   "Select pickup time": "Избери час за взимане",
   "You cant take your order.": "Не можете да приемате собствената си поръчка.",
   "Pickup time": "Час за взимане",
-  "The customer wants to pick him up at ": "Клиентът иска да го вземете в "
-
+  "The customer wants to pick him up at ": "Клиентът иска да го вземете в ",
+  "Your rating is ": "Вашия рейтинг е ",
+  "If there are any orders they will appear after approx": "Ако има направени поръчки ще се появят след около",
+  "seconds": "секунди"
 }

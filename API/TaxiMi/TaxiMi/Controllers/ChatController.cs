@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using TaxiMi.Infrastructure.HubConfig;
 using TaxiMi.Models;
 using TaxiMi.Services.OrderService;
+using TaxiMi.Services.MessageService;
+using TaxiMi.Infrastructure.InputModels.MessageInput;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,23 +20,34 @@ namespace TaxiMi.Controllers
     public class ChatController : ControllerBase
     {
         private readonly IHubContext<OrderHub, IHubClient> hubContext;
+        private readonly IMessageService messageService;
 
-        public ChatController(IHubContext<OrderHub, IHubClient> hubContext)
+        public ChatController(IHubContext<OrderHub, IHubClient> hubContext, IMessageService messageService)
         {
             this.hubContext = hubContext;
+            this.messageService = messageService;
         }
         // GET: api/<ChatController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("{orderId}")]
+        public async Task<IActionResult> Get(string orderId)
         {
-            return new string[] { "value1", "value2" };
+            var message = this.messageService.GetMessageForMyOrder(orderId);
+            return this.Ok(message);
+            
         }
 
-        // GET api/<ChatController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpPost("{orderId}")]
+        public async Task<IActionResult> Send(SendMessageInputModel model)
         {
-            return "value";
+            if (this.ModelState.IsValid)
+            {
+                var message = await this.messageService.SendAsync(model.Sender, model.User, model.OrderId, model.Text);
+                await this.hubContext.Clients.All.MessageGet(model.OrderId);
+
+                return this.Ok(message);
+            }
+
+            return this.NoContent();
         }
 
         // POST api/<ChatController>

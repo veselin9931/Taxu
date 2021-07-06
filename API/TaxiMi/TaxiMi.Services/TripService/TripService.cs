@@ -27,7 +27,7 @@ namespace TaxiMi.Services.TripService
                 {
                     ApplicationUserId = model.ApplicationUserId,
                     OrderId = model.OrderId,
-                    CreatedOn = DateTime.UtcNow,
+                    CreatedOn = DateTime.Now,
                     Status = "Processing"
                 };
 

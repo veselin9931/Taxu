@@ -34,7 +34,8 @@ namespace TaxiMi.Services.ReportService
                 ReporterId = model.ReporterId,
                 SuspectedUserId = model.SuspectedUserId,
                 ImgUrl = model.ImgUrl,
-                TypeId = model.TypeId
+                TypeId = model.TypeId,
+                CreatedOn = DateTime.Now
             };
 
             this.repository.Add(repot);

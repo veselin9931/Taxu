@@ -12,6 +12,7 @@ namespace TaxiMi.Infrastructure.HubConfig
 
         Task CreatedAccount();
 
+        Task MessageGet(string orderId);
         Task OnUpload(string userId);
         
         Task LoggedIn();

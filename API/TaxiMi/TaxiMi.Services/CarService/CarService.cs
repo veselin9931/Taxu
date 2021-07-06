@@ -33,7 +33,7 @@ namespace TaxiMi.Services.CarService
                 RegistrationNumber = carInputModel.RegistrationNumber,
                 TypeId = carInputModel.Type,
                 IsActive = false,
-                CreatedOn = DateTime.UtcNow
+                CreatedOn = DateTime.Now
             };
 
             this.repository.Add(car);

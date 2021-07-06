@@ -1,7 +1,6 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as signalR from '@aspnet/signalr';
-import { Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -15,6 +14,7 @@ import { TripService } from 'src/_services/trip/trip.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 declare var google: any;
 
@@ -25,7 +25,7 @@ declare var google: any;
 })
 export class TravelModePage implements OnInit {
   public currentTrip: Trip;
-  private user = this.accountService.userValue;
+  public user = this.accountService.userValue;
   private driverId = this.accountService.userValue.driverId;
   private orderAcceptedBy: any;
   isLoggedIn;
@@ -38,6 +38,7 @@ export class TravelModePage implements OnInit {
   carModel = "";
   carColor = "";
 
+  form: FormGroup;
   //User html properties
   firstName = "";
   lastName = "";
@@ -46,7 +47,9 @@ export class TravelModePage implements OnInit {
   location: string;
   destination: string;
   totalPrice: any;
-  messages = this.chatService.messages;
+  msgInboxArray: Message[] = [];
+
+  messages: any;
   chatStyle = "";
   isDriverArrived: any;
   private subscriptions: Subscription[] = [];
@@ -66,6 +69,7 @@ export class TravelModePage implements OnInit {
     private tripService: TripService,
     private driverService: DriverService,
     private localNotifications: LocalNotifications,
+    private formBuilder: FormBuilder,
     private alertController: AlertController,
     private chatService: ChatService,
     private translate: TranslateService,
@@ -76,11 +80,13 @@ export class TravelModePage implements OnInit {
 
 
   ngOnInit() {
-    this.chatService.stop();
-    this.chatService.start();
+    this.form = this.formBuilder.group({
+      orderId: [''],
+      sender: [''],
+      user: [''],
+      text: ['']
+    })
     this.checkorder();
-    this.chatService.retrieveMappedObject()
-      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); });
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
@@ -98,6 +104,7 @@ export class TravelModePage implements OnInit {
       this.checkorder();
 
     });
+
 
     connection.on('StartTrip', () => {
       this.checkorder();
@@ -164,6 +171,12 @@ export class TravelModePage implements OnInit {
         this.completedOrderAlert();
       }
     });
+
+    connection.on('MessageGet', (orderId: string) => {
+      if (this.order.id == orderId) {
+        this.getMessages(orderId);
+      }
+    });
   }
 
   ionViewDidEnter() {
@@ -171,6 +184,40 @@ export class TravelModePage implements OnInit {
     if (this.accountService.userValue.alertTriggered == true) {
       this.startTimer();
     }
+  }
+
+  sendMessage() {
+    this.form.value.sender = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
+    this.form.value.user = this.user.id;
+    this.form.value.orderId = this.order.id;
+    if (!this.form.valid) {
+      console.log(this.form.value);
+
+      console.log('Please provide all the required values!')
+    } else {
+
+      this.chatService.sendMessage(this.form.value)
+        .subscribe(x => {
+          console.log("SENT");
+          console.log(this.form.value);
+        })
+    }
+    this.form.reset({
+      "text": ""
+    })
+  }
+
+  getMessages(orderId) {
+    this.chatService.getMessages(orderId)
+      .subscribe(x => {
+        console.log("RECEIVED");
+        this.msgInboxArray.push(x);
+        console.log(x)
+        if (this.user.id !== x.user) {
+          console.log("deffrent");
+          this.messages = 1;
+        }
+      })
   }
 
   checkorder() {
@@ -265,33 +312,10 @@ export class TravelModePage implements OnInit {
       this.chatStyle = 'none';
     }
   }
-  msgDto: Message = new Message();
-  msgInboxArray: Message[] = [];
-
-  send(): void {
-    if (this.msgDto) {
-      if (this.msgDto.text.length == 0) {
-        window.alert("Text field is required.");
-        return;
-      } else {
-        this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
-        this.chatService.broadcastMessage(this.msgDto);                   // Send the message via a service
-      }
-    }
-  }
 
   clearMessages() {
-    this.messages.length = 0;
+    this.messages = 0;
   }
-
-  addToInbox(obj: Message) {
-    let newObj = new Message();
-    newObj.user = obj.user;
-    newObj.text = obj.text;
-    this.msgInboxArray.push(newObj);
-    this.msgDto.text = '';
-  }
-
 
 
   getUserById(driverId: string) {
@@ -423,7 +447,7 @@ export class TravelModePage implements OnInit {
                   }))
               }
             }
-           
+
           ]
         });
         await popup.present();

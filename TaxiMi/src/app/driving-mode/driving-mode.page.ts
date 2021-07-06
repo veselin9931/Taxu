@@ -4,6 +4,7 @@ import { Capacitor, Plugins } from '@capacitor/core';
 import { AlertController, PopoverController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Message, Order, Trip } from 'src/_models';
 import { AccountService } from 'src/_services';
 import { ChatService } from 'src/_services/chat/chat.service';
@@ -27,6 +28,7 @@ declare var google: any;
 export class DrivingModePage implements OnInit, OnDestroy {
   public currentTrip: Trip;
   categoryType;
+  form: FormGroup;
 
   tripStatus: string;
 
@@ -59,6 +61,7 @@ export class DrivingModePage implements OnInit, OnDestroy {
 
   userDestinationLat: any;
   userDestinationLng: any;
+  msgInboxArray: Message[] = [];
 
   myLat: string;
   myLng: string;
@@ -66,19 +69,17 @@ export class DrivingModePage implements OnInit, OnDestroy {
   distance: string;
   eta: string;
 
-  messages = this.chatService.messages;
+  // messages = this.chatService.messages;
   chatStyle = "";
 
   orderDiv = document.getElementById("orderDiv");
   @ViewChild('map', { read: ElementRef, static: false }) mapRef: ElementRef;
-
 
   id: any;
   target: any;
   options: any;
 
   private subscriptions: Subscription[] = [];
-
 
   constructor(private route: Router,
     private orderService: OrderService,
@@ -91,12 +92,18 @@ export class DrivingModePage implements OnInit, OnDestroy {
     private translate: TranslateService,
     private popoverController: PopoverController,
     private alertController: AlertController,
-    private callNumber: CallNumber) {
+    private callNumber: CallNumber,
+    private formBuilder: FormBuilder) {
     this.translate.setDefaultLang(this.accountService.userValue.choosenLanguage);
-
   }
 
   ngOnInit() {
+    this.form = this.formBuilder.group({
+      orderId: [''],
+      sender: [''],
+      user: [''],
+      text: ['']
+    })
 
     this.id = setInterval(() => {
       this.watchPos();
@@ -104,9 +111,6 @@ export class DrivingModePage implements OnInit, OnDestroy {
 
     this.getAcceptedTrip();
     this.isStarted = false;
-    this.subscriptions.push(this.chatService.retrieveMappedObject()
-      .subscribe((receivedObj: Message) => { this.addToInbox(receivedObj); }));  // calls the service method to get the new messages sent
-
 
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
@@ -150,6 +154,12 @@ export class DrivingModePage implements OnInit, OnDestroy {
         }))
     });
 
+    connection.on('MessageGet', (orderId: string) => {
+      if (this.order.id == orderId) {
+        this.getMessages(orderId);
+      }
+    });
+
     connection.on('LocateDriver', (driverId: string) => {
 
     });
@@ -161,8 +171,39 @@ export class DrivingModePage implements OnInit, OnDestroy {
     connection.on('CompleteOrder', () => {
 
     });
+  }
 
+  get f() { return this.form.controls; }
 
+  sendMessage() {
+    this.form.value.sender = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
+    this.form.value.user = this.accountService.userValue.id;
+    this.form.value.orderId = this.order.id;
+    if (!this.form.valid) {
+      console.log(this.form.value);
+
+      console.log('Please provide all the required values!')
+    } else {
+
+      this.chatService.sendMessage(this.form.value)
+        .subscribe(x => {
+          console.log("SENT");
+          console.log(this.form.value);
+        })
+    }
+    this.form.reset({
+      "text": ""
+    })
+  }
+
+  getMessages(orderId) {
+    this.chatService.getMessages(orderId)
+      .subscribe(x => {
+        console.log("RECEIVED");
+        this.msgInboxArray.push(x);
+        console.log(x)
+
+      })
   }
 
   ngOnDestroy() {
@@ -243,32 +284,6 @@ export class DrivingModePage implements OnInit, OnDestroy {
       }));
   }
 
-  msgDto: Message = new Message();
-  msgInboxArray: Message[] = [];
-
-  send(): void {
-    if (this.msgDto) {
-      if (this.msgDto.text.length == 0) {
-        window.alert("Text field is required.");
-        return;
-      } else {
-        this.msgDto.user = `${this.accountService.userValue.firstName} ${this.accountService.userValue.lastName}`;
-        var c = this.chatService.broadcastMessage(this.msgDto);
-      }
-    }
-  }
-
-  clearMessages() {
-    this.messages.length = 0;
-  }
-
-  addToInbox(obj: Message) {
-    let newObj = new Message();
-    newObj.user = obj.user;
-    newObj.text = obj.text;
-    this.msgInboxArray.push(newObj);
-    this.msgDto.text = '';
-  }
 
   startTrip() {
     this.subscriptions.push(this.tripService.startTrip(this.currentTrip.id)
@@ -326,8 +341,8 @@ export class DrivingModePage implements OnInit, OnDestroy {
         if (x == null) {
           return;
         }
-        this.chatService.stop();
-        this.chatService.start();
+        // this.chatService.stop();
+        // this.chatService.start();
         this.tripStatus = x.status;
         this.currentTrip = x;
 

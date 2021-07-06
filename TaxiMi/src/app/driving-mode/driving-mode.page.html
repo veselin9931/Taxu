@@ -53,7 +53,7 @@
           </p>
 
           <p>
-            <button (click)="callDriver()" class="fonted btn btn-warning btn-sm btn-block" (click)="clearMessages()"
+            <button (click)="callDriver()" class="fonted btn btn-warning btn-sm btn-block"
               type="button">
               <ion-icon name="call" class="mr-2"></ion-icon>{{'Call passenger' | translate}}
             </button>
@@ -77,37 +77,40 @@
 
 
 <ion-footer class="ion-no-border page-wrap">
-  <div id="chat" class="row chat">
+  <form [formGroup]="form" novalidate class="col-md-6">
 
-    <div class="col">
-      <ion-card>
+    <div id="chat" class="row chat">
 
-        <div class="msg-box">
-          <ul *ngIf="this.msgInboxArray.length == 0" class="text-center mr-5">
-            <li>{{'No messages for now' | translate}}</li>
-          </ul>
-          <ul *ngFor="let mObj of msgInboxArray">
-            <li [ngClass]="mObj.user === msgDto.user ? 'in-msg' : 'ex-msg'">
-              {{mObj.user}}:
+      <div class="col">
+        <ion-card>
+
+          <div class="msg-box">
+            <ul *ngIf="this.msgInboxArray.length == 0" class="text-center mr-5">
+              <li>{{'No messages for now' | translate}}</li>
+            </ul>
+            <ul *ngFor="let mObj of msgInboxArray">
+              <li  [ngClass]="mObj.user !== applicationUserId ? 'ex-msg' : 'in-msg'">
+              {{mObj.sender}}:
               {{mObj.text}}
             </li>
+            </ul>
+          </div>
+        </ion-card>
 
-          </ul>
-        </div>
-      </ion-card>
+        <ion-card class="type">
+          <ion-item>
+            <ion-input formControlName="text" [placeholder]='"Type your message..." | translate'>
 
-      <ion-card class="type">
-        <ion-item>
-          <ion-input [(ngModel)]="msgDto.text" [placeholder]='"Type your message..." | translate'>
+            </ion-input>
+            <ion-icon (click)="sendMessage()" name="send-outline"></ion-icon>
 
-          </ion-input>
-          <ion-icon (click)="send()" name="send-outline"></ion-icon>
+          </ion-item>
+        </ion-card>
+      </div>
 
-        </ion-item>
-      </ion-card>
     </div>
+  </form>
 
-  </div>
 </ion-footer>
 
 

@@ -83,7 +83,7 @@ namespace TaxiMi.Services.OrderService
                     DestinationLong = input.DestinationLong,
                     IncreasePrice = input.IncreasePrice,
                     TotalPrice = input.TotalPrice,
-                    CreatedOn = DateTime.UtcNow,
+                    CreatedOn = DateTime.Now,
                     Status = "Waiting",
                     ETA = input.ETA,
                     CarType = input.CarType,
@@ -120,7 +120,7 @@ namespace TaxiMi.Services.OrderService
         public async Task<IList<Order>> GetAllAcceptedOrdersAsync(string userId)
          => await this.orderRepository
             .All()
-            .Where(x => x.AcceptedBy == userId && x.Status == "Completed" && x.CreatedOn.Day == DateTime.UtcNow.Day)
+            .Where(x => x.AcceptedBy == userId && x.Status == "Completed" && x.CreatedOn.Day == DateTime.Now.Day)
             .Include(x => x.ApplicationUser)
             .OrderByDescending(x => x.CreatedOn)
             .ToListAsync();
@@ -179,7 +179,7 @@ namespace TaxiMi.Services.OrderService
                     DestinationLong = input.DestinationLong,
                     IncreasePrice = input.IncreasePrice,
                     TotalPrice = input.TotalPrice,
-                    CreatedOn = DateTime.UtcNow
+                    CreatedOn = DateTime.Now
                 };
 
                 this.favOrderRepository.Add(order);

@@ -36,8 +36,11 @@ namespace TaxiMi.Data
         public DbSet<Report> Reports { get; set; }
 
         public DbSet<ReportType> ReportTypes { get; set; }
-
+         
         public DbSet<SuburbanOrder> SuburbanOrders { get; set; }
+
+        public DbSet<Message> Messages { get; set; }
+
 
         public DbSet<SubOrderOptions> Options { get; set; }
 

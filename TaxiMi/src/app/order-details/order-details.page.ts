@@ -324,7 +324,7 @@ export class OrderDetailsPage implements OnInit {
       .subscribe(x => {
         let date = new Date();
 
-        if (x.pickUpTime != `${date.getHours()}:${date.getMinutes()}`) {
+        if (x.pickUpTime) {
           console.log(x.pickUpTime)
           console.log(`${date.getHours()}:${date.getMinutes()}`)
           return this.AcceptConfirmation(x);

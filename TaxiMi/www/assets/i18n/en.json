@@ -185,5 +185,12 @@
   "Your order is accepted": "Your order is accepted",
   "Your driver is on the address, free waiting time 5min": "Your driver is on the address, free waiting time 5min",
   "Suburban reservations": "Suburban reservations",
-  "Reservations": "Reservations"
+  "Reservations": "Reservations",
+  "Select pickup time": "Select pickup time",
+  "You cant take your order.": "You cant take your order.",
+  "The customer wants to pick him up at ": "The customer wants to pick him up at ",
+  "Your rating is ": "Your rating is ",
+  "If there are any orders they will appear after approx": "If there are any orders they will appear after approx",
+  "seconds": "seconds"
+
 }

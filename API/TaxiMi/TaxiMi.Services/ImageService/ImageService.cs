@@ -41,7 +41,7 @@ namespace TaxiMi.Services.ImageService
 
                 var img = new Image()
                 {
-                    CreatedOn = DateTime.UtcNow,
+                    CreatedOn = DateTime.Now,
                     userId = userId,
                     Path = fileUrl,
                     Type = type,

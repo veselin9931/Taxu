@@ -94,7 +94,7 @@ namespace TaxiMi.Services.DriverService
                 Referal = Guid.NewGuid().ToString(),
                 ReferalUsedTimes = 0,
                 WalletId = walletId,
-                CreatedOn = DateTime.UtcNow
+                CreatedOn = DateTime.Now
             };
 
             //TODO: rEF

@@ -100,7 +100,7 @@ namespace TaxiMi.Services.OrderService.SubOrderService
                     ApplicationUserId = input.ApplicationUserId,
                     Info = input.Info,
                     Status = input.Status,
-                    CreatedOn = DateTime.UtcNow,
+                    CreatedOn = DateTime.Now,
                     OptionsId = input.OptionsId,
                     TotalPrice = this.orderOptionService.GetOrderOptionPriceById(input.OptionsId),
                     Date = input.Date + " | " + input.Time
@@ -127,7 +127,7 @@ namespace TaxiMi.Services.OrderService.SubOrderService
 
             order.Status = "Canceled";
             order.IsDeleted = true;
-            order.DeletedOn = DateTime.UtcNow;
+            order.DeletedOn = DateTime.Now;
 
             this.repository.Update(order);
 

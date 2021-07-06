@@ -19,11 +19,17 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <ion-text class="centered" color="dark">
-                        <h2 class="fonted blink_me">{{'Waiting for orders' | translate}}</h2>
-                        <hr>
+                        <a class="text list-group-item list-group-item-action flex-column align-items-start">
+                            <h2 class="fonted blink_me">{{'Waiting for orders' | translate}}</h2>
+                            <hr>
+                            <div class="d-flex w-100 justify-content-between">
+                                <small>{{message}}</small>
+                            </div>
+                            
+                        </a>
+                        
                     </ion-text>
                 </div>
-
                 <!-- style="display: none;" -- for distributing orders -->
 
                 <div class="col-md-10" *ngIf="!isSubOreder">
@@ -32,7 +38,7 @@
                         <a class="text list-group-item list-group-item-action flex-column align-items-start">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1 fonted"></h5>
-                                <small>{{oldOrder.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
+                                <small>{{oldOrder.createdOn | date:'dd/MM/yyyy HH:mm'}}</small>
                             </div>
                             <p><ion-icon class="mr-2" name="analytics-outline"></ion-icon>{{oldOrder.location}}</p>
                             <hr />
@@ -50,7 +56,7 @@
 
                         <a class="text list-group-item list-group-item-action flex-column align-items-start">
                             <div class="d-flex w-100 justify-content-between">
-                                <small>{{subOrder.createdOn | date:'MM/dd/yyyy h:mm'}}</small>
+                                <small>{{subOrder.createdOn | date:'dd/MM/yyyy HH:mm'}}</small>
                                 <small><i class="fa fa-calendar"></i> {{subOrder.date}}</small>
                             </div>
 

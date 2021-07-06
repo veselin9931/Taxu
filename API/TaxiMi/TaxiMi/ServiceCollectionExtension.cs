@@ -18,6 +18,7 @@ using TaxiMi.Services.CarType;
 using TaxiMi.Services.DriverService;
 using TaxiMi.Services.EmailSender;
 using TaxiMi.Services.ImageService;
+using TaxiMi.Services.MessageService;
 using TaxiMi.Services.OrderService;
 using TaxiMi.Services.OrderService.OrderOptionService;
 using TaxiMi.Services.OrderService.SubOrderService;
@@ -46,6 +47,7 @@ namespace TaxiMi
             services.AddTransient<IMailService, MailService>();
             services.AddTransient<ISubOrderService, SubOrderSevice>();
             services.AddTransient<IOrderOptionService, OrderOptionsService>();
+            services.AddTransient<IMessageService, MessageService>();
 
             services.AddSingleton<IHttpContextAccessor,
             HttpContextAccessor>();

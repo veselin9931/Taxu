@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --dev",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -96,7 +96,8 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "cordova-plugin-device": {}
+      "cordova-plugin-device": {},
+      "cordova-plugin-ionic-webview": {}
     },
     "platforms": [
       "ios",
