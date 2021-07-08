@@ -32,6 +32,9 @@ MIT
 @angular/forms
 MIT
 
+@angular/platform-browser
+MIT
+
 @angular/router
 MIT
 
@@ -68,10 +71,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 @ionic-native/android-permissions
 MIT
 
+@ionic-native/background-mode
+MIT
+
 @ionic-native/call-number
 MIT
 
 @ionic-native/core
+MIT
+
+@ionic-native/date-picker
 MIT
 
 @ionic-native/geolocation
@@ -167,6 +176,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
+
+date-fns
+MIT
+Copyright (C) 2020 Sasha Koss and Lesha Koss
+
+# License
+
+date-fns is licensed under the [MIT license](http://kossnocorp.mit-license.org).
+Read more about MIT at [TLDRLegal](https://tldrlegal.com/license/mit-license).
+
+
+ionic-loader
+
+ng2-file-upload
 
 regenerator-runtime
 MIT
@@ -418,7 +441,7 @@ zone.js
 MIT
 The MIT License
 
-Copyright (c) 2010-2020 Google LLC. https://angular.io/license
+Copyright (c) 2010-2020 Google LLC. http://angular.io/license
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

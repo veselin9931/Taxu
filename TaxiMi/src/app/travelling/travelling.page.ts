@@ -274,8 +274,11 @@ export class TravellingPage implements OnInit {
                 this.form.value.locationLat = this.form.value.locationLat.toString();
                 this.form.value.locationLong = this.form.value.locationLong.toString();
                 this.orderStatus = this.form.value.status;
-                this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
+                if(x){
+                  this.subscriptions.push(this.orderService.getMyOrder(this.user.id)
                   .subscribe());
+                }
+                
               }))
           }
           console.log(this.order)
@@ -297,11 +300,11 @@ export class TravellingPage implements OnInit {
           buttons: [
             {
               text: text['Now'],
-              handler: () => {
-                let date = new Date();
-                this.mydt.value = `${date.getHours()}:${date.getMinutes()}`;
-                console.log(this.mydt.value)
-              }
+              // handler: () => {
+              //   let date = new Date();
+              //   this.mydt.value = `${date.getHours()}:${date.getMinutes()}`;
+              //   console.log(this.mydt.value)
+              // }
             },
             {
               text: text['Cancel']

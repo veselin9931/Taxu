@@ -121,7 +121,7 @@
 
                         <ion-item *ngIf="isCompleted == false" class="mt-2">
                             <ion-label>{{'Select pickup time' | translate}}</ion-label>
-                            <ion-datetime displayFormat="HH:mm" [placeholder]='"Select time" | translate' formControlName="pickUpTime" #mydt
+                            <ion-datetime displayFormat="HH:mm" [placeholder]='"Now" | translate' formControlName="pickUpTime" #mydt
                                 [pickerOptions]="customPickerOptions"></ion-datetime>
                         </ion-item>
                         <ion-item *ngIf="isCompleted == false">
