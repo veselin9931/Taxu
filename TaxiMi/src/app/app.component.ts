@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+
+const { IOSAppTracking } = Plugins
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -25,7 +27,8 @@ export class AppComponent {
       };
       this.translate.setDefaultLang('bg');
       SplashScreen.hide();
-
+      IOSAppTracking.getTrackingStatus().then((res: Response) => console.log(res))
+      IOSAppTracking.requestPermission().then((res: Response) => console.log(res))
     });
   }
 }

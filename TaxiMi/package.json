@@ -45,6 +45,7 @@
     "android": "0.0.8",
     "bootstrap": "^4.5.3",
     "call-number": "^1.0.1",
+    "capacitor-ios-app-tracking": "^1.0.3",
     "capacitor-resources": "^2.0.5",
     "chart.js": "^2.9.4",
     "cordova-browser": "6.0.0",
