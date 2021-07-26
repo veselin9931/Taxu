@@ -53,8 +53,8 @@
 	<string>Always allow Geolocation?</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To show map and places.</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>We use tracking to show the passenger where exactly the driver is at the map.</string>
+	<!-- <key>NSUserTrackingUsageDescription</key>
+	<string>We use tracking to show the passenger where exactly the driver is at the map.</string> -->
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To Record Audio With Video</string>
 	<key>NSPhotoLibraryUsageDescription</key>
